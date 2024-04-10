@@ -1,4 +1,4 @@
-package club.anifox.feature.search
+package club.anifox.android.core.designsystem
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("club.anifox.android.feature.search.test", appContext.packageName)
+        assertEquals("club.anifox.android.core.designsystem.test", appContext.packageName)
     }
 }

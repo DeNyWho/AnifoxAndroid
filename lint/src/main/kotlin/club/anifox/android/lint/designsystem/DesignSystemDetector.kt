@@ -1,4 +1,4 @@
-package club.anifox.lint.designsystem
+package club.anifox.android.lint.designsystem
 
 import com.android.tools.lint.client.api.UElementHandler
 import com.android.tools.lint.detector.api.Category

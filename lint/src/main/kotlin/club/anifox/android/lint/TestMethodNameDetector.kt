@@ -1,4 +1,4 @@
-package club.anifox.lint
+package club.anifox.android.lint
 
 import com.android.tools.lint.detector.api.AnnotationInfo
 import com.android.tools.lint.detector.api.AnnotationUsageInfo

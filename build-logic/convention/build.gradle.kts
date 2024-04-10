@@ -5,7 +5,7 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "club.anifox.buildlogic"
+group = "club.anifox.android.buildlogic"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17

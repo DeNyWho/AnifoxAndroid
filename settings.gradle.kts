@@ -21,6 +21,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "AnifoxAndroid"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
 
 include(":feature:detail")
@@ -30,3 +31,4 @@ include(":feature:schedule")
 include(":feature:search")
 
 include(":lint")
+include(":core:designsystem")

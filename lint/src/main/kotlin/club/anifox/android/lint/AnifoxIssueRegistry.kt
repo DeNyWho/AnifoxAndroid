@@ -1,6 +1,7 @@
-package club.anifox.lint
+package club.anifox.android.lint
 
-import club.anifox.lint.designsystem.DesignSystemDetector
+import club.anifox.android.lint.TestMethodNameDetector.Companion
+import club.anifox.android.lint.designsystem.DesignSystemDetector
 import com.android.tools.lint.client.api.IssueRegistry
 import com.android.tools.lint.client.api.Vendor
 import com.android.tools.lint.detector.api.CURRENT_API

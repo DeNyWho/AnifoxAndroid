@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("club.anifox.feature.schedule.test", appContext.packageName)
+        assertEquals("club.anifox.android.feature.schedule.test", appContext.packageName)
     }
 }
