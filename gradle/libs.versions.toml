@@ -117,4 +117,16 @@ room = { id = "androidx.room", version.ref = "room" }
 secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
 
 #Plugins defined by this project
-
+anifox-android-application = { id = "anifox.android.application", version = "unspecified" }
+anifox-android-application-compose = { id = "anifox.android.application.compose", version = "unspecified" }
+anifox-android-application-flavors = { id = "anifox.android.application.flavors", version = "unspecified" }
+anifox-android-application-jacoco = { id = "anifox.android.application.jacoco", version = "unspecified" }
+anifox-android-feature = { id = "anifox.android.feature", version = "unspecified" }
+anifox-android-hilt = { id = "anifox.android.hilt", version = "unspecified" }
+anifox-android-library = { id = "anifox.android.library", version = "unspecified" }
+anifox-android-library-compose = { id = "anifox.android.library.compose", version = "unspecified" }
+anifox-android-library-jacoco = { id = "anifox.android.library.jacoco", version = "unspecified" }
+anifox-android-lint = { id = "anifox.android.lint", version = "unspecified" }
+anifox-android-room = { id = "anifox.android.room", version = "unspecified" }
+anifox-android-test = { id = "anifox.android.test", version = "unspecified" }
+anifox-jvm-library = { id = "anifox.jvm.library", version = "unspecified" }

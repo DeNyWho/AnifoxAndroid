@@ -29,3 +29,4 @@ include(":feature:player")
 include(":feature:schedule")
 include(":feature:search")
 
+include(":lint")
