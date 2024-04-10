@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -21,8 +22,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "AnifoxAndroid"
 include(":app")
+
 include(":feature:detail")
 include(":feature:home")
 include(":feature:player")
 include(":feature:schedule")
 include(":feature:search")
+
