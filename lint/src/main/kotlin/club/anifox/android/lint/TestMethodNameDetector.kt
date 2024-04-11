@@ -8,12 +8,10 @@ import com.android.tools.lint.detector.api.Implementation
 import com.android.tools.lint.detector.api.Issue
 import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.LintFix
-import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Scope.JAVA_FILE
 import com.android.tools.lint.detector.api.Scope.TEST_SOURCES
 import com.android.tools.lint.detector.api.Severity.WARNING
 import com.android.tools.lint.detector.api.SourceCodeScanner
-import com.android.tools.lint.detector.api.TextFormat
 import com.android.tools.lint.detector.api.TextFormat.RAW
 import com.intellij.psi.PsiMethod
 import org.jetbrains.uast.UElement
