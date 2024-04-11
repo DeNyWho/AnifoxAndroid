@@ -20,4 +20,5 @@ plugins {
     alias(libs.plugins.secrets) apply false
     alias(libs.plugins.room) apply false
     alias(libs.plugins.module.graph) apply true
+    alias(libs.plugins.jetbrainsKotlinAndroid) apply false
 }

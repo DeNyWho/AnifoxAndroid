@@ -39,6 +39,7 @@ secrets = "2.0.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 material = "1.11.0"
+kotlinVersion = "1.9.0"
 
 
 
@@ -140,3 +141,4 @@ anifox-android-lint = { id = "anifox.android.lint", version = "unspecified" }
 anifox-android-room = { id = "anifox.android.room", version = "unspecified" }
 anifox-android-test = { id = "anifox.android.test", version = "unspecified" }
 anifox-jvm-library = { id = "anifox.jvm.library", version = "unspecified" }
+jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinVersion" }

@@ -6,11 +6,14 @@ import coil.ImageLoaderFactory
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
+//@HiltAndroidApp
+//class AnifoxApplication : Application(), ImageLoaderFactory {
+//
+//    @Inject
+//    lateinit var imageLoader: dagger.Lazy<ImageLoader>
+//
+//    override fun newImageLoader(): ImageLoader = imageLoader.get()
+//}
+
 @HiltAndroidApp
-class AnifoxApplication : Application(), ImageLoaderFactory {
-
-    @Inject
-    lateinit var imageLoader: dagger.Lazy<ImageLoader>
-
-    override fun newImageLoader(): ImageLoader = imageLoader.get()
-}
+class AnifoxApplication : Application()

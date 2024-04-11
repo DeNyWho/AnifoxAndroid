@@ -32,3 +32,4 @@ include(":feature:search")
 
 include(":lint")
 include(":core:designsystem")
+include(":core:data")
