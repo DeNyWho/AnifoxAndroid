@@ -30,6 +30,12 @@ include(":feature:player")
 include(":feature:schedule")
 include(":feature:search")
 
+include(":core:testing")
+
+include(":data:datastore")
+include(":data:network")
+include(":data:local")
+
 include(":lint")
 include(":domain")
 include(":common-ui")

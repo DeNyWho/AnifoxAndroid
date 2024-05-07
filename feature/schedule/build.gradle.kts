@@ -12,4 +12,8 @@ android {
 dependencies {
     testImplementation(libs.hilt.android.testing)
     testDemoImplementation(libs.roborazzi)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.test.espresso.core)
 }

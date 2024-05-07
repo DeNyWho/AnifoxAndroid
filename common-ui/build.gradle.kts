@@ -1,42 +1,31 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.anifox.android.library.compose)
+    alias(libs.plugins.anifox.android.library)
+    alias(libs.plugins.anifox.android.library.jacoco)
+    alias(libs.plugins.anifox.android.hilt)
+    id("kotlinx-serialization")
 }
 
 android {
-    namespace = "club.anifox.android.commonui"
-    compileSdk = 34
-
-    defaultConfig {
-        minSdk = 26
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+    namespace = "club.anifox.android.common"
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
 }
 
 dependencies {
+    lintPublish(projects.lint)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+    api(libs.androidx.compose.foundation)
+    api(libs.androidx.compose.foundation.layout)
+    api(libs.androidx.compose.material.iconsExtended)
+    api(libs.androidx.compose.material3)
+    api(libs.androidx.compose.runtime)
+    api(libs.androidx.compose.ui.util)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
