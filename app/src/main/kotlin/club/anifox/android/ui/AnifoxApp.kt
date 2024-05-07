@@ -26,14 +26,14 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import club.anifox.android.R
-import club.anifox.android.core.designsystem.component.AnifoxBackground
+import club.anifox.android.commonui.component.AnifoxBackground
 import club.anifox.android.navigation.AnifoxNavHost
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AnifoxApp(appState: AnifoxAppState) {
 
-    AnifoxBackground {
+    club.anifox.android.commonui.component.AnifoxBackground {
         val snackbarHostState = remember { SnackbarHostState() }
 
         val isOffline by appState.isOffline.collectAsStateWithLifecycle()
@@ -48,12 +48,12 @@ fun AnifoxApp(appState: AnifoxAppState) {
             }
         }
 
-        Scaffold (
+        Scaffold(
             modifier = Modifier.semantics {
                 testTagsAsResourceId = true
             },
             snackbarHost = { SnackbarHost(snackbarHostState) },
-            contentWindowInsets = WindowInsets(0,0,0,0),
+            contentWindowInsets = WindowInsets(0, 0, 0, 0),
             containerColor = Color.Black,
         ) { padding ->
             Row(

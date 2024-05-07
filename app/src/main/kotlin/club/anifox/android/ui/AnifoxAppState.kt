@@ -9,7 +9,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import club.anifox.android.core.data.util.NetworkMonitor
+import club.anifox.android.common.util.NetworkMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.stateIn
 @Composable
 fun rememberAnifoxAppState(
     windowSizeClass: WindowSizeClass,
-    networkMonitor: NetworkMonitor,
+    networkMonitor: club.anifox.android.common.util.NetworkMonitor,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = rememberNavController(),
 ): AnifoxAppState {
@@ -42,7 +42,7 @@ class AnifoxAppState(
     val navController: NavHostController,
     coroutineScope: CoroutineScope,
     val windowSizeClass: WindowSizeClass,
-    networkMonitor: NetworkMonitor,
+    networkMonitor: club.anifox.android.common.util.NetworkMonitor,
 ) {
     val currentDestination: NavDestination?
         @Composable get() = navController

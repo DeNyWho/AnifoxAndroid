@@ -5,8 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
-import club.anifox.android.core.data.util.NetworkMonitor
-import club.anifox.android.core.designsystem.theme.AnifoxTheme
+import club.anifox.android.common.util.NetworkMonitor
+import club.anifox.android.commonui.theme.AnifoxTheme
 import club.anifox.android.ui.AnifoxApp
 import club.anifox.android.ui.rememberAnifoxAppState
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
-    lateinit var networkMonitor: NetworkMonitor
+    lateinit var networkMonitor: club.anifox.android.common.util.NetworkMonitor
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
                 networkMonitor = networkMonitor,
             )
 
-            AnifoxTheme {
+            club.anifox.android.commonui.theme.AnifoxTheme {
                 AnifoxApp(appState)
             }
 

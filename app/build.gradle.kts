@@ -58,8 +58,8 @@ dependencies {
     implementation(projects.feature.search)
     implementation(projects.feature.schedule)
 
-    implementation(projects.core.designsystem)
-    implementation(projects.core.data)
+    implementation(projects.commonUi)
+    implementation(projects.common)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3.adaptive)

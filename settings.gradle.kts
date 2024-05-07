@@ -31,5 +31,6 @@ include(":feature:schedule")
 include(":feature:search")
 
 include(":lint")
-include(":core:designsystem")
-include(":core:data")
+include(":domain")
+include(":common-ui")
+include(":common")
