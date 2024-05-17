@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.AnifoxAndroid" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="NightAdjusted.Theme.Anifox" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.Anifox" parent="NightAdjusted.Theme.Anifox" />
+
+    <style name="NightAdjusted.Theme.Splash" parent="Theme.SplashScreen">
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+    </style>
+
+    <style name="Theme.Anifox.Splash" parent="NightAdjusted.Theme.Splash">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.Anifox</item>
+    </style>
+
 </resources>

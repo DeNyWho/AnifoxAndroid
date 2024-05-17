@@ -8,17 +8,15 @@
         android:name=".AnifoxApplication"
         android:allowBackup="true"
         android:enableOnBackInvokedCallback="true"
-        android:icon="@drawable/anifox_logo"
+        android:icon="@mipmap/anifox_logo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/anifox_logo"
+        android:roundIcon="@mipmap/anifox_logo"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AnifoxAndroid"
+        android:theme="@style/Theme.Anifox.Splash"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.AnifoxAndroid">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

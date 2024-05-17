@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="NightAdjusted.Theme.Anifox" parent="android:Theme.Material.NoActionBar" />
+
+    <style name="NightAdjusted.Theme.Splash" parent="Theme.SplashScreen">
+        <item name="android:windowSplashscreenContent">@drawable/splash_drawable</item>
+        <item name="postSplashScreenTheme">@style/Theme.Anifox</item>
+    </style>
+
+</resources>

@@ -20,7 +20,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
@@ -33,7 +32,7 @@ import club.anifox.android.navigation.AnifoxNavHost
 @Composable
 fun AnifoxApp(appState: AnifoxAppState) {
 
-    club.anifox.android.commonui.component.AnifoxBackground {
+    AnifoxBackground {
         val snackbarHostState = remember { SnackbarHostState() }
 
         val isOffline by appState.isOffline.collectAsStateWithLifecycle()
@@ -54,7 +53,6 @@ fun AnifoxApp(appState: AnifoxAppState) {
             },
             snackbarHost = { SnackbarHost(snackbarHostState) },
             contentWindowInsets = WindowInsets(0, 0, 0, 0),
-            containerColor = Color.Black,
         ) { padding ->
             Row(
                 Modifier

@@ -9,7 +9,6 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import club.anifox.android.common.util.NetworkMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
