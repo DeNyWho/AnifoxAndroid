@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.anifox.android.library)
     alias(libs.plugins.anifox.android.library.jacoco)
     alias(libs.plugins.anifox.android.hilt)
-    id("kotlinx-serialization")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -17,9 +17,8 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+    implementation(libs.kotlinx.serialization.json)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
