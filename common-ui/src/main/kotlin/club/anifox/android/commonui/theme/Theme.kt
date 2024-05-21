@@ -9,18 +9,18 @@ import org.jetbrains.annotations.VisibleForTesting
 
 @VisibleForTesting
 val DarkColorScheme = darkColorScheme(
-    background = club.anifox.android.commonui.theme.blue10,
-    onBackground = club.anifox.android.commonui.theme.grey90,
-    surfaceVariant = club.anifox.android.commonui.theme.blue10,
-    onSurfaceVariant = club.anifox.android.commonui.theme.grey60,
+    background = blue10,
+    onBackground = grey90,
+    surfaceVariant = blue10,
+    onSurfaceVariant = grey60,
 )
 
 @VisibleForTesting
 val LightColorScheme = lightColorScheme(
-    background = club.anifox.android.commonui.theme.grey90,
-    onBackground = club.anifox.android.commonui.theme.blue10,
-    surfaceVariant = club.anifox.android.commonui.theme.grey90,
-    onSurfaceVariant = club.anifox.android.commonui.theme.grey60,
+    background = grey90,
+    onBackground = blue10,
+    surfaceVariant = grey90,
+    onSurfaceVariant = grey60,
 )
 
 @Composable
