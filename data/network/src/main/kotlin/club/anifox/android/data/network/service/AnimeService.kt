@@ -1,19 +1,17 @@
 package club.anifox.android.data.network.service
 
-import club.anifox.android.data.network.BuildConfig
 import club.anifox.android.data.network.api.ApiEndpoints
 import club.anifox.android.data.network.models.dto.anime.light.AnimeLightDTO
-import club.anifox.android.domain.model.common.Resource
 import club.anifox.android.data.network.safeApiCall
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.enum.FilterEnum
+import club.anifox.android.domain.model.common.Resource
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.parameter
 import io.ktor.http.HttpMethod
-import io.ktor.http.URLProtocol
 import io.ktor.http.encodedPath
 import javax.inject.Inject
 
