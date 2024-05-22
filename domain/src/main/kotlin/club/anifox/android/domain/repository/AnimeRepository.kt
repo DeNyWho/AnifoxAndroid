@@ -9,7 +9,7 @@ import club.anifox.android.domain.state.StateListWrapper
 import kotlinx.coroutines.flow.Flow
 
 interface AnimeRepository {
-    suspend fun getAnime(
+    fun getAnime(
         page: Int,
         limit: Int,
         status: AnimeStatus?,

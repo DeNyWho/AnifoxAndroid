@@ -32,6 +32,7 @@ dependencies {
     implementation(libs.ktor.client.android)
     implementation(libs.ktor.client.apache)
     implementation(libs.ktor.client.okhttp)
+    implementation(libs.slf4j.simple)
 
     testImplementation(libs.junit)
 }

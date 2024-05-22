@@ -20,7 +20,7 @@ class AnimeRepositoryImpl @Inject constructor(
     private val animeService: AnimeService,
 ) : AnimeRepository {
 
-    override suspend fun getAnime(
+    override fun getAnime(
         page: Int,
         limit: Int,
         status: AnimeStatus?,

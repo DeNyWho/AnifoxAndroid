@@ -10,6 +10,10 @@ android {
 }
 
 dependencies {
+    api(projects.data.source)
+    api(projects.common)
+    api(projects.domain)
+
     testImplementation(libs.hilt.android.testing)
     testDemoImplementation(libs.roborazzi)
 

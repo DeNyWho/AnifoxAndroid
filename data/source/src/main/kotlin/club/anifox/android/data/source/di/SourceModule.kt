@@ -3,6 +3,7 @@ package club.anifox.android.data.source.di
 import club.anifox.android.data.network.service.AnimeService
 import club.anifox.android.data.source.repository.AnimeRepositoryImpl
 import club.anifox.android.domain.repository.AnimeRepository
+import club.anifox.android.domain.usecase.GetAnimeUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,5 +19,11 @@ object SourceModule {
         animeService: AnimeService
     ): AnimeRepository {
         return AnimeRepositoryImpl(animeService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAnimeUseCase(animeRepository: AnimeRepository): GetAnimeUseCase {
+        return GetAnimeUseCase(animeRepository)
     }
 }
