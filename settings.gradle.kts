@@ -35,6 +35,7 @@ include(":core:testing")
 include(":data:datastore")
 include(":data:network")
 include(":data:local")
+include(":data:source")
 
 include(":lint")
 include(":domain")
