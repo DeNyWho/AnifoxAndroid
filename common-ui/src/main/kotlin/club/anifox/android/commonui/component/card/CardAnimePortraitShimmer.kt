@@ -67,7 +67,7 @@ fun CardThumbnailPortraitShimmer(
     }
 }
 
-fun LazyListScope.showCardThumbnailPortraitShimmer(
+fun LazyListScope.showCardAnimePortraitShimmer(
     modifier: Modifier,
     shimmerInstance: Shimmer,
     count: Int = 11,
@@ -84,7 +84,7 @@ fun LazyListScope.showCardThumbnailPortraitShimmer(
 
 @PreviewLightDark
 @Composable
-private fun PreviewCardThumbnailPortraitShimmer() {
+private fun PreviewCardAnimePortraitShimmer() {
     AnifoxTheme {
         CardThumbnailPortraitShimmer(
             Modifier.width(CardAnimePortraitDefaults.Width.Default),
