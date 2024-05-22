@@ -15,6 +15,9 @@ android {
 dependencies {
     api(projects.domain)
     api(projects.common)
+    api(projects.data.network)
+    api(projects.data.datastore)
+    api(projects.data.local)
 
     implementation(libs.kotlinx.serialization.json)
 

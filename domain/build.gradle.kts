@@ -1,9 +1,17 @@
 plugins {
-    id("java-library")
-    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.anifox.android.library)
+    alias(libs.plugins.anifox.android.library.jacoco)
+    alias(libs.plugins.anifox.android.hilt)
+    alias(libs.plugins.kotlin.serialization)
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+android {
+    namespace = "club.anifox.android.domain"
+    buildFeatures {
+        buildConfig = true
+    }
+}
+
+dependencies {
+    implementation(libs.kotlinx.serialization.json)
 }

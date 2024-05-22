@@ -38,6 +38,6 @@ include(":data:local")
 include(":data:source")
 
 include(":lint")
-include(":domain")
 include(":common-ui")
 include(":common")
+include(":domain")
