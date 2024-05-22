@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import club.anifox.android.domain.model.anime.AnimeLight
+import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.usecase.GetAnimeUseCase
@@ -23,7 +24,7 @@ class HomeViewModel @Inject constructor(
     val onPopularOngoingAnime: MutableState<StateListWrapper<AnimeLight>> = _onPopularOngoingAnime
 
     fun getPopularOngoingAnime(page: Int, limit: Int) {
-        animeUseCase.invoke(page = page, limit = limit, filter = FilterEnum.ShikimoriRating).onEach {
+        animeUseCase.invoke(page = page, limit = limit, filter = FilterEnum.ShikimoriRating, status = AnimeStatus.Ongoing).onEach {
             _onPopularOngoingAnime.value = it
         }.launchIn(viewModelScope)
     }
