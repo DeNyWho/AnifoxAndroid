@@ -1,14 +1,16 @@
 package club.anifox.android.feature.detail.navigation
 
+import androidx.compose.runtime.remember
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import club.anifox.android.feature.detail.DetailRoute
+import androidx.navigation.navArgument
+import club.anifox.android.feature.detail.DetailScreen
 
 const val ANIME_URL = "animeUrl"
 const val DETAIL_ROUTE_BASE = "detail_route"
-const val DETAIL_ROUTE = "${DETAIL_ROUTE_BASE}/${ANIME_URL}={$ANIME_URL}"
 
 fun NavController.navigateToDetail(url: String? = null, navOptions: NavOptions? = null) {
     val route = if (url != null) {
@@ -21,8 +23,15 @@ fun NavController.navigateToDetail(url: String? = null, navOptions: NavOptions? 
 
 fun NavGraphBuilder.detailScreen() {
     composable(
-        route = DETAIL_ROUTE
+        "$DETAIL_ROUTE_BASE/${ANIME_URL}={url}",
+        arguments = listOf(
+            navArgument("url") { type = NavType.StringType },
+        )
     ) {
-        DetailRoute()
+        val url = remember { it.arguments?.getString("url") }
+
+        DetailScreen(
+            url = url ?: "",
+        )
     }
 }
