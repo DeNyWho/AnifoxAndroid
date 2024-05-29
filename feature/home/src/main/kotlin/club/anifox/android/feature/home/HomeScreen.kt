@@ -17,6 +17,7 @@ import club.anifox.android.domain.state.StateListWrapper
 @Composable
 internal fun HomeRoute(
     modifier: Modifier = Modifier,
+    onAnimeClick: (String) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     LaunchedEffect(viewModel) {
@@ -27,6 +28,7 @@ internal fun HomeRoute(
 
     HomeScreen(
         modifier = modifier,
+        onAnimeClick = onAnimeClick,
         onPopularOngoingAnime = viewModel.onPopularOngoingAnime.value,
         onPopularAnime = viewModel.onPopularAnime.value,
         filmsAnime = viewModel.filmsAnime.value,
@@ -37,6 +39,7 @@ internal fun HomeRoute(
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
     lazyColumnState: LazyListState = rememberLazyListState(),
+    onAnimeClick: (String) -> Unit,
     onPopularOngoingAnime: StateListWrapper<AnimeLight>,
     onPopularAnime: StateListWrapper<AnimeLight>,
     filmsAnime: StateListWrapper<AnimeLight>,
@@ -49,13 +52,13 @@ internal fun HomeScreen(
             state = lazyColumnState
         ) {
             item {
-                SliderContent(headerTitle = stringResource(R.string.feature_home_section_header_title_ongoing_popular), contentState = onPopularOngoingAnime, onItemClick = {})
+                SliderContent(headerTitle = stringResource(R.string.feature_home_section_header_title_ongoing_popular), contentState = onPopularOngoingAnime, onItemClick = onAnimeClick)
             }
             item {
-                SliderContent(headerTitle = stringResource(R.string.feature_home_section_header_title_popular), contentState = onPopularAnime, onItemClick = {})
+                SliderContent(headerTitle = stringResource(R.string.feature_home_section_header_title_popular), contentState = onPopularAnime, onItemClick = onAnimeClick)
             }
             item {
-                SliderContent(headerTitle = stringResource(R.string.feature_home_section_header_title_films), contentState = filmsAnime, onItemClick = {})
+                SliderContent(headerTitle = stringResource(R.string.feature_home_section_header_title_films), contentState = filmsAnime, onItemClick = onAnimeClick)
             }
         }
     }

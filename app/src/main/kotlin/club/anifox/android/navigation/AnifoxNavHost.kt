@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import club.anifox.android.feature.detail.navigation.detailScreen
+import club.anifox.android.feature.detail.navigation.navigateToDetail
 import club.anifox.android.feature.home.navigation.HOME_ROUTE
 import club.anifox.android.feature.home.navigation.homeScreen
 import club.anifox.android.feature.search.navigation.searchScreen
@@ -21,7 +22,7 @@ fun AnifoxNavHost(
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        homeScreen()
+        homeScreen(onAnimeClick = navController::navigateToDetail)
         detailScreen()
         searchScreen()
     }

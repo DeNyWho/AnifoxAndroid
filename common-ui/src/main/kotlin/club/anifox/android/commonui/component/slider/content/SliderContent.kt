@@ -42,7 +42,7 @@ fun SliderContent(
     contentPadding: PaddingValues = PaddingValues(horizontal = 12.dp),
     contentArrangement: Arrangement.Horizontal = CardAnimePortraitDefaults.HorizontalArrangement.Default,
     textAlign: TextAlign = TextAlign.Start,
-    onItemClick: () -> Unit,
+    onItemClick: (String) -> Unit,
 ) {
     // header
     if(contentState.isLoading) {
@@ -79,7 +79,7 @@ fun SliderContent(
                     data = data,
                     thumbnailHeight = thumbnailHeight,
                     textAlign = textAlign,
-                    onClick = onItemClick,
+                    onClick = { onItemClick.invoke(data.url) },
                 )
             }
         }

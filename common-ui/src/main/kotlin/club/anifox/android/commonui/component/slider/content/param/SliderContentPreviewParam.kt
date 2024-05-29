@@ -24,7 +24,7 @@ data class SliderContentPreviewParam(
     val contentArrangement: Arrangement.Horizontal,
     val textAlign: TextAlign = TextAlign.Start,
     val onHeaderClick: () -> Unit = { },
-    val onItemClick: () -> Unit = { },
+    val onItemClick: (String) -> Unit = { },
 )
 
 private val DataSet = List(10) {
