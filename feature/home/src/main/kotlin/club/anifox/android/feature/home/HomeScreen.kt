@@ -15,7 +15,7 @@ import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.state.StateListWrapper
 
 @Composable
-internal fun HomeRoute(
+internal fun HomeScreen(
     modifier: Modifier = Modifier,
     onAnimeClick: (String) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
@@ -26,7 +26,7 @@ internal fun HomeRoute(
         viewModel.getFilmsAnime(0, 12)
     }
 
-    HomeScreen(
+    HomeUI(
         modifier = modifier,
         onAnimeClick = onAnimeClick,
         onPopularOngoingAnime = viewModel.onPopularOngoingAnime.value,
@@ -36,7 +36,7 @@ internal fun HomeRoute(
 }
 
 @Composable
-internal fun HomeScreen(
+internal fun HomeUI(
     modifier: Modifier = Modifier,
     lazyColumnState: LazyListState = rememberLazyListState(),
     onAnimeClick: (String) -> Unit,

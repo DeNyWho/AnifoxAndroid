@@ -1,7 +1,9 @@
 package club.anifox.android.data.source.repository
 
+import club.anifox.android.data.network.mappers.anime.detail.toDetail
 import club.anifox.android.data.network.mappers.anime.light.toLight
 import club.anifox.android.data.network.service.AnimeService
+import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
@@ -10,6 +12,7 @@ import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.model.common.Resource
 import club.anifox.android.domain.repository.AnimeRepository
 import club.anifox.android.domain.state.StateListWrapper
+import club.anifox.android.domain.state.StateWrapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -62,6 +65,31 @@ class AnimeRepositoryImpl @Inject constructor(
                 }
                 is Resource.Loading -> {
                     StateListWrapper.loading()
+                }
+            }
+
+            emit(state)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun getAnimeDetail(url: String): Flow<StateWrapper<AnimeDetail>> {
+        return flow {
+            emit(StateWrapper.loading())
+
+            val animeResult = animeService.getAnimeDetail(
+                url = url
+            )
+
+            val state = when (animeResult) {
+                is Resource.Success -> {
+                    val data = animeResult.data.toDetail()
+                    StateWrapper(data)
+                }
+                is Resource.Error -> {
+                    StateWrapper(error = animeResult.error)
+                }
+                is Resource.Loading -> {
+                    StateWrapper.loading()
                 }
             }
 

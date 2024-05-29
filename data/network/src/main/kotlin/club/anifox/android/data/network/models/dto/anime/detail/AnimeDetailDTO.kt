@@ -7,6 +7,9 @@ import club.anifox.android.data.network.models.dto.anime.common.AnimeGenreDTO
 import club.anifox.android.data.network.models.dto.anime.common.AnimeImageDTO
 import club.anifox.android.data.network.models.dto.anime.common.AnimeStudioDTO
 import club.anifox.android.data.network.models.dto.anime.episodes.AnimeTranslationDTO
+import club.anifox.android.domain.model.anime.enum.AnimeSeason
+import club.anifox.android.domain.model.anime.enum.AnimeStatus
+import club.anifox.android.domain.model.anime.enum.AnimeType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
@@ -14,7 +17,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Serializable
-data class AnimeDetailsDTO(
+data class AnimeDetailDTO(
     @SerialName("title")
     val title: String = "",
     @SerialName("image")
@@ -24,17 +27,19 @@ data class AnimeDetailsDTO(
     @SerialName("url")
     val url: String = "",
     @SerialName("type")
-    val type: String = "",
+    val type: AnimeType = AnimeType.Tv,
     @SerialName("rating_mpa")
     val ratingMpa: String = "",
     @SerialName("minimal_age")
     val minimalAge: Int = 0,
+    @SerialName("rating")
+    val rating: Double? = null,
     @SerialName("year")
     val year: Int = 0,
     @SerialName("status")
-    val status: String = "",
+    val status: AnimeStatus = AnimeStatus.Ongoing,
     @SerialName("season")
-    val season: String = "",
+    val season: AnimeSeason = AnimeSeason.Fall,
     @SerialName("episodes")
     val episodes: Int? = null,
     @SerialName("episodes_aired")

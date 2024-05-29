@@ -1,11 +1,13 @@
 package club.anifox.android.domain.repository
 
+import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.state.StateListWrapper
+import club.anifox.android.domain.state.StateWrapper
 import kotlinx.coroutines.flow.Flow
 
 interface AnimeRepository {
@@ -23,4 +25,8 @@ interface AnimeRepository {
         studio: String?,
         filter: FilterEnum?,
     ): Flow<StateListWrapper<AnimeLight>>
+
+    fun getAnimeDetail(
+        url: String
+    ): Flow<StateWrapper<AnimeDetail>>
 }
