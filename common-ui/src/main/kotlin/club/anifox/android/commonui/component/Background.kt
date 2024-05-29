@@ -16,6 +16,5 @@ fun AnifoxBackground(
         modifier = modifier.fillMaxSize()
     ) {
         content()
-
     }
 }

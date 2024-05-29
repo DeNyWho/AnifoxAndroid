@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,6 +38,7 @@ fun CardAnimePortrait(
 ) {
     Column(
         modifier = modifier
+            .size(thumbnailHeight + 50.dp)
             .clip(MaterialTheme.shapes.small)
             .clickable { onClick.invoke() }
     ) {
