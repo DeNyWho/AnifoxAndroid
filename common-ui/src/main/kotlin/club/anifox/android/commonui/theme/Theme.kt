@@ -9,18 +9,20 @@ import org.jetbrains.annotations.VisibleForTesting
 
 @VisibleForTesting
 val DarkColorScheme = darkColorScheme(
-    background = blue10,
-    onBackground = grey90,
-    surfaceVariant = blue10,
-    onSurfaceVariant = grey60,
+    background = blue900,
+    onBackground = grey50,
+    surfaceVariant = blue900,
+    onSurfaceVariant = grey400,
+    scrim = grey900,
 )
 
 @VisibleForTesting
 val LightColorScheme = lightColorScheme(
-    background = grey90,
-    onBackground = blue10,
-    surfaceVariant = grey90,
-    onSurfaceVariant = grey60,
+    background = grey50,
+    onBackground = blue900,
+    surfaceVariant = grey50,
+    onSurfaceVariant = grey400,
+    scrim = grey900,
 )
 
 @Composable

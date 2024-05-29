@@ -5,13 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import club.anifox.android.domain.model.anime.AnimeDetail
-import club.anifox.android.domain.model.anime.AnimeLight
-import club.anifox.android.domain.model.anime.enum.AnimeStatus
-import club.anifox.android.domain.model.anime.enum.FilterEnum
-import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.state.StateWrapper
 import club.anifox.android.domain.usecase.GetAnimeDetailUseCase
-import club.anifox.android.domain.usecase.GetAnimeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
