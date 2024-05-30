@@ -31,3 +31,24 @@ internal fun PreviewAnifoxIcon() {
     AnifoxIcon(AutoMirrored.Filled.ArrowBack, contentDescription = "content description", modifier = Modifier.size(40.dp))
 
 }
+
+
+@Composable
+fun AnifoxIconPrimary(
+    imageVector: ImageVector,
+    contentDescription: String? = null,
+    modifier: Modifier = Modifier,
+) {
+    Icon(
+        imageVector,
+        modifier = modifier,
+        contentDescription = contentDescription,
+        tint = MaterialTheme.colorScheme.onPrimaryContainer,
+    )
+}
+
+@PreviewLightDark
+@Composable
+internal fun PreviewAnifoxIconPrimary() {
+    AnifoxIconPrimary(AutoMirrored.Filled.ArrowBack, contentDescription = "content description", modifier = Modifier.size(40.dp))
+}

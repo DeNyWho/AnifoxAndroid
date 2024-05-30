@@ -7,6 +7,9 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import org.jetbrains.annotations.VisibleForTesting
 
+/**
+ * Dark default theme color scheme
+ */
 @VisibleForTesting
 val DarkColorScheme = darkColorScheme(
     background = blue900,
@@ -15,8 +18,13 @@ val DarkColorScheme = darkColorScheme(
     onSurfaceVariant = grey400,
     scrim = grey900,
     onSurface = grey600,
+    primaryContainer = orange800,
+    onPrimaryContainer = grey50,
 )
 
+/**
+ * Light default theme color scheme
+ */
 @VisibleForTesting
 val LightColorScheme = lightColorScheme(
     background = grey50,
@@ -25,8 +33,15 @@ val LightColorScheme = lightColorScheme(
     onSurfaceVariant = grey400,
     scrim = grey900,
     onSurface = grey600,
+    primaryContainer = orange800,
+    onPrimaryContainer = grey50,
 )
 
+/**
+ * Anifox theme.
+ *
+ * @param darkTheme Whether the theme should use a dark color scheme (follows system by default).
+ */
 @Composable
 fun AnifoxTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -40,7 +55,7 @@ fun AnifoxTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-//        typography = Typography,
+        typography = AnifoxTypography,
         content = content,
     )
 }
