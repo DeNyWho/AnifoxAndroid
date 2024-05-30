@@ -2,11 +2,7 @@ package club.anifox.android.feature.detail.param
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import club.anifox.android.commonui.component.card.CardAnimePortraitDefaults
-import club.anifox.android.commonui.component.slider.content.SliderContentDefaults
 import club.anifox.android.domain.model.anime.AnimeDetail
-import club.anifox.android.domain.model.anime.AnimeLight
-import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.state.StateWrapper
 
 data class DetailContentPreviewParam(
@@ -15,9 +11,10 @@ data class DetailContentPreviewParam(
     val onBackPressed: () -> Boolean = { true },
 )
 
-private val Data = AnimeDetail(
+internal val Data = AnimeDetail(
     title = "Провожающая в последний путь Фрирен",
     url = "provozhaiushchaia-v-poslednii-put-friren",
+    titleEnglish = listOf("Frieren: Beyond Journey's End"),
 )
 
 class DetailContentProvider:
@@ -36,5 +33,3 @@ class DetailContentProvider:
             )
         ).asSequence()
 }
-
-

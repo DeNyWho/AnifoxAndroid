@@ -4,6 +4,7 @@ import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.image.AnimeImage
+import kotlinx.serialization.SerialName
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -21,8 +22,10 @@ data class AnimeDetail(
     val episodes: Int? = null,
     val episodesAired: Int = 0,
     val nextEpisode: LocalDateTime? = null,
-//    val genres: List<AnimeGenre>,
-//    val studios: List<AnimeStudio>,
+    val titleOther: List<String>? = null,
+    val titleEnglish: List<String>? = null,
+    val titleJapan: List<String>? = null,
+    val synonyms: List<String> = listOf(),
     val releasedOn: LocalDate? = null,
     val airedOn: LocalDate = LocalDate.now(),
     val description: String? = null,

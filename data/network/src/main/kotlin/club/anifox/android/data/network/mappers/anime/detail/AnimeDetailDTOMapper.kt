@@ -20,5 +20,9 @@ fun AnimeDetailDTO.toDetail(): AnimeDetail = AnimeDetail(
     nextEpisode = nextEpisode,
     releasedOn = releasedOn,
     airedOn = airedOn,
+    titleEnglish = titleEnglish,
+    titleJapan = titleJapan,
+    titleOther = titleOther,
+    synonyms = synonyms,
     description = description,
 )
