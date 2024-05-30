@@ -51,9 +51,6 @@ class DesignSystemDetector : Detector(), Detector.UastScanner {
             ),
         )
 
-        // Unfortunately :lint is a Java module and thus can't depend on the :core-designsystem
-        // Android module, so we can't use composable function references (eg. ::Button.name)
-        // instead of hardcoded names.
         val METHOD_NAMES = mapOf(
             "MaterialTheme" to "AnifoxTheme",
             "Button" to "AnifoxButton",

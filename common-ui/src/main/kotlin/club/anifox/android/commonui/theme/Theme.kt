@@ -14,6 +14,7 @@ val DarkColorScheme = darkColorScheme(
     surfaceVariant = blue900,
     onSurfaceVariant = grey400,
     scrim = grey900,
+    onSurface = grey600,
 )
 
 @VisibleForTesting
@@ -23,6 +24,7 @@ val LightColorScheme = lightColorScheme(
     surfaceVariant = grey50,
     onSurfaceVariant = grey400,
     scrim = grey900,
+    onSurface = grey600,
 )
 
 @Composable

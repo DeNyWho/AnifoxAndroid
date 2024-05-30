@@ -28,6 +28,15 @@ import club.anifox.android.commonui.theme.AnifoxTheme
 import club.anifox.android.domain.model.anime.AnimeLight
 import coil.compose.SubcomposeAsyncImage
 
+/**
+ * Anifox CardAnimePortrait (anime card with text) [CardAnimePortrait].
+ *
+ * @param modifier Modifier.
+ * @param data data in the form of AnimeLight.
+ * @param thumbnailHeight The height of the anime card.
+ * @param textAlign TextAlign.
+ * @param onClick Will be called when the user clicks the anime card.
+ */
 @Composable
 fun CardAnimePortrait(
     modifier: Modifier = Modifier,
