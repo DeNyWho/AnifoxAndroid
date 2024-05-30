@@ -14,10 +14,11 @@ import org.jetbrains.annotations.VisibleForTesting
 val DarkColorScheme = darkColorScheme(
     background = blue900,
     onBackground = grey50,
-    surfaceVariant = blue900,
+    surfaceVariant = grey200,
     onSurfaceVariant = grey400,
     scrim = grey900,
     onSurface = grey600,
+    surfaceContainer = blue900,
     primaryContainer = orange800,
     onPrimaryContainer = grey50,
 )
@@ -29,10 +30,11 @@ val DarkColorScheme = darkColorScheme(
 val LightColorScheme = lightColorScheme(
     background = grey50,
     onBackground = blue900,
-    surfaceVariant = grey50,
+    surfaceVariant = grey200,
     onSurfaceVariant = grey400,
     scrim = grey900,
     onSurface = grey600,
+    surfaceContainer = grey50,
     primaryContainer = orange800,
     onPrimaryContainer = grey50,
 )

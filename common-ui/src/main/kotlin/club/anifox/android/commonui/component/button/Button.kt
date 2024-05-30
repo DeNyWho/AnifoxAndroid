@@ -127,3 +127,30 @@ internal fun PreviewAnifoxButtonPrimaryWithIcon() {
         )
     }
 }
+
+@Composable
+fun AnifoxButtonSurface(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+    enabled: Boolean = true,
+    shape: Shape = ButtonDefaults.shape,
+    elevation: ButtonElevation? = null,
+    border: BorderStroke? = null,
+    paddingValues: PaddingValues,
+    content: @Composable() (RowScope.() -> Unit)
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier,
+        enabled = enabled,
+        shape = shape,
+        colors = ButtonDefaults.buttonColors(
+            contentColor = MaterialTheme.colorScheme.onSurface,
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+        ),
+        elevation = elevation,
+        content = content,
+        border = border,
+        contentPadding = paddingValues,
+    )
+}

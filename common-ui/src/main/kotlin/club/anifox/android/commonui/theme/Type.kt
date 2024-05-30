@@ -24,7 +24,7 @@ private val NunitoFontFamily = FontFamily(
 internal val AnifoxTypography = Typography(
     titleLarge = TextStyle(
         fontWeight = FontWeight.Bold,
-        fontSize = 22.sp,
+        fontSize = 20.sp,
         lineHeight = 28.sp,
         letterSpacing = 0.sp,
         lineHeightStyle = LineHeightStyle(
@@ -35,7 +35,7 @@ internal val AnifoxTypography = Typography(
     ),
     titleMedium = TextStyle(
         fontWeight = FontWeight.Bold,
-        fontSize = 18.sp,
+        fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.1.sp,
         fontFamily = NunitoFontFamily,
