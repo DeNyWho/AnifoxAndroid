@@ -1,4 +1,4 @@
-package club.anifox.android.common.util
+package club.anifox.android.common.util.network
 
 import kotlinx.coroutines.flow.Flow
 

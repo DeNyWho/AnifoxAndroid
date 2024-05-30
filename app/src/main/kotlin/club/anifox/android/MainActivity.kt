@@ -7,7 +7,7 @@ import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import club.anifox.android.common.util.NetworkMonitor
+import club.anifox.android.common.util.network.NetworkMonitor
 import club.anifox.android.commonui.theme.AnifoxTheme
 import club.anifox.android.ui.AnifoxApp
 import club.anifox.android.ui.rememberAnifoxAppState

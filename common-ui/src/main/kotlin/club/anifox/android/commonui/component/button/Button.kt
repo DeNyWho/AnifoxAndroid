@@ -8,9 +8,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons.AutoMirrored
 import androidx.compose.material.icons.Icons.Filled
+import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.PlaylistPlay
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ButtonElevation
@@ -24,6 +25,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import club.anifox.android.commonui.component.icon.AnifoxIcon
 import club.anifox.android.commonui.component.icon.AnifoxIconPrimary
+import club.anifox.android.commonui.theme.AnifoxTheme
 
 @Composable
 fun AnifoxButton(
@@ -55,29 +57,33 @@ fun AnifoxButton(
 @PreviewLightDark
 @Composable
 internal fun PreviewAnifoxButton() {
-    AnifoxButton(
-        shape = MaterialTheme.shapes.small,
-        elevation = ButtonDefaults.buttonElevation(
-            defaultElevation = 2.dp
-        ),
-        paddingValues = PaddingValues(4.dp)
-    ) {
-        Text("Hello world")
+    AnifoxTheme {
+        AnifoxButton(
+            shape = MaterialTheme.shapes.small,
+            elevation = ButtonDefaults.buttonElevation(
+                defaultElevation = 2.dp
+            ),
+            paddingValues = PaddingValues(4.dp)
+        ) {
+            Text("Hello world")
+        }
     }
 }
 
 @PreviewLightDark
 @Composable
 internal fun PreviewAnifoxButtonWithIcon() {
-    AnifoxButton(
-        modifier = Modifier.size(40.dp),
-        shape = MaterialTheme.shapes.small,
-        elevation = ButtonDefaults.buttonElevation(
-            defaultElevation = 2.dp
-        ),
-        paddingValues = PaddingValues(8.dp)
-    ) {
-        AnifoxIcon(AutoMirrored.Filled.ArrowBack, contentDescription = "content description")
+    AnifoxTheme {
+        AnifoxButton(
+            modifier = Modifier.size(40.dp),
+            shape = MaterialTheme.shapes.small,
+            elevation = ButtonDefaults.buttonElevation(
+                defaultElevation = 2.dp
+            ),
+            paddingValues = PaddingValues(8.dp)
+        ) {
+            AnifoxIcon(AutoMirrored.Filled.ArrowBack, contentDescription = "content description")
+        }
     }
 }
 
@@ -111,20 +117,66 @@ fun AnifoxButtonPrimary(
 @PreviewLightDark
 @Composable
 internal fun PreviewAnifoxButtonPrimaryWithIcon() {
-    AnifoxButtonPrimary (
-        modifier = Modifier.fillMaxWidth(),
-        shape = MaterialTheme.shapes.small,
-        elevation = ButtonDefaults.buttonElevation(
-            defaultElevation = 2.dp
+    AnifoxTheme {
+        AnifoxButtonPrimary(
+            modifier = Modifier.fillMaxWidth(),
+            shape = MaterialTheme.shapes.small,
+            elevation = ButtonDefaults.buttonElevation(
+                defaultElevation = 2.dp
+            ),
+            paddingValues = PaddingValues(0.dp)
+        ) {
+            AnifoxIconPrimary(Filled.PlayArrow, contentDescription = "content description")
+            Text(
+                modifier = Modifier.padding(start = 16.dp),
+                text = "Watch",
+                style = MaterialTheme.typography.labelLarge,
+            )
+        }
+    }
+}
+
+
+@Composable
+fun AnifoxButtonIconTransparent(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+    enabled: Boolean = true,
+    shape: Shape = ButtonDefaults.shape,
+    elevation: ButtonElevation? = null,
+    contentColor: Color,
+    border: BorderStroke? = null,
+    paddingValues: PaddingValues,
+    content: @Composable() (RowScope.() -> Unit)
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier,
+        enabled = enabled,
+        shape = shape,
+        colors = ButtonDefaults.buttonColors(
+            contentColor = contentColor,
+            containerColor = Color.Transparent,
         ),
-        paddingValues = PaddingValues(0.dp)
-    ) {
-        AnifoxIconPrimary(Filled.PlayArrow, contentDescription = "content description")
-        Text(
-            modifier = Modifier.padding(start = 16.dp),
-            text = "Watch",
-            style = MaterialTheme.typography.labelLarge,
-        )
+        elevation = elevation,
+        content = content,
+        border = border,
+        contentPadding = paddingValues,
+    )
+}
+
+@PreviewLightDark
+@Composable
+internal fun PreviewAnifoxButtonIconTransparent() {
+    AnifoxTheme {
+        AnifoxButtonIconTransparent(
+            modifier = Modifier.size(20.dp),
+            shape = MaterialTheme.shapes.small,
+            paddingValues = PaddingValues(4.dp),
+            contentColor = MaterialTheme.colorScheme.surfaceVariant,
+        ) {
+            AnifoxIcon(Outlined.ContentCopy, contentDescription = "content description")
+        }
     }
 }
 
@@ -153,4 +205,24 @@ fun AnifoxButtonSurface(
         border = border,
         contentPadding = paddingValues,
     )
+}
+
+@PreviewLightDark
+@Composable
+internal fun PreviewAnifoxButtonSurface() {
+    AnifoxTheme {
+        AnifoxButtonSurface(
+            modifier = Modifier.fillMaxWidth(),
+            paddingValues = PaddingValues(0.dp),
+            shape = MaterialTheme.shapes.small,
+            onClick = {
+
+            },
+        ) {
+            Text(
+                text = "Hello world",
+                style = MaterialTheme.typography.labelLarge,
+            )
+        }
+    }
 }

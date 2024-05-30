@@ -1,7 +1,7 @@
 package club.anifox.android.common.di
 
-import club.anifox.android.common.util.ConnectivityManagerNetworkMonitor
-import club.anifox.android.common.util.NetworkMonitor
+import club.anifox.android.common.util.network.ConnectivityManagerNetworkMonitor
+import club.anifox.android.common.util.network.NetworkMonitor
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

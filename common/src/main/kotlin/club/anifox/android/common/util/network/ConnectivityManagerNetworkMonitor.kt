@@ -1,4 +1,4 @@
-package club.anifox.android.common.util
+package club.anifox.android.common.util.network
 
 import android.content.Context
 import android.net.ConnectivityManager
