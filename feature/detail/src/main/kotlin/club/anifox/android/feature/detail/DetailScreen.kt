@@ -3,14 +3,27 @@ package club.anifox.android.feature.detail
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons.Filled
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import club.anifox.android.commonui.component.button.AnifoxButtonPrimary
+import club.anifox.android.commonui.component.icon.AnifoxIcon
+import club.anifox.android.commonui.component.icon.AnifoxIconPrimary
 import club.anifox.android.commonui.theme.AnifoxTheme
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.state.StateWrapper
@@ -59,9 +72,36 @@ internal fun DetailUI(
             )
         },
         body = {
-            Box(modifier = Modifier.fillMaxSize())
+            DetailContentUI(detailAnime)
         }
     )
+}
+
+@Composable
+internal fun DetailContentUI(
+    detailAnime: StateWrapper<AnimeDetail>
+) {
+    Column (
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .fillMaxSize(),
+    ) {
+        AnifoxButtonPrimary (
+            modifier = Modifier.fillMaxWidth(),
+            shape = MaterialTheme.shapes.small,
+            elevation = ButtonDefaults.buttonElevation(
+                defaultElevation = 2.dp
+            ),
+            paddingValues = PaddingValues(0.dp)
+        ) {
+            AnifoxIconPrimary(Filled.PlayArrow, contentDescription = "Watch button", modifier = Modifier.size(40.dp))
+            Text(
+                modifier = Modifier.padding(start = 8.dp),
+                text = "Watch",
+                style = MaterialTheme.typography.labelLarge,
+            )
+        }
+    }
 }
 
 @PreviewScreenSizes

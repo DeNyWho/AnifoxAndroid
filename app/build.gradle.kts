@@ -1,4 +1,5 @@
 import club.anifox.buildlogic.convention.AnifoxBuildType
+import com.android.build.gradle.internal.crash.afterEvaluate
 
 plugins {
     alias(libs.plugins.anifox.android.application)
@@ -38,12 +39,6 @@ android {
         }
     }
 
-    packaging {
-        resources {
-            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
-            excludes.add("/META-INF/DEPENDENCIES")
-        }
-    }
     testOptions {
         unitTests {
             isIncludeAndroidResources = true

@@ -9,21 +9,22 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons.AutoMirrored
 import androidx.compose.material.icons.Icons.AutoMirrored.Filled
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,8 +41,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import club.anifox.android.commonui.component.card.CardAnimePortrait
-import club.anifox.android.commonui.component.card.showCardAnimePortraitShimmer
+import club.anifox.android.commonui.component.button.AnifoxButton
+import club.anifox.android.commonui.component.icon.AnifoxIcon
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.state.StateWrapper
 import coil.ImageLoader
@@ -148,15 +149,21 @@ fun CollapsingToolbarScope.ContentDetailsScreenToolbar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(start = 16.dp, top = 16.dp)
                 .statusBarsPadding(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            IconButton(onClick = { navigateBack.invoke() }) {
-                Icon(
-                    imageVector = Filled.ArrowBack,
-                    contentDescription = "Back",
-                    tint = MaterialTheme.colorScheme.onBackground,
-                )
+            AnifoxButton(
+                onClick = { navigateBack.invoke() },
+                modifier = Modifier
+                    .size(40.dp),
+                shape = MaterialTheme.shapes.small,
+                elevation = ButtonDefaults.buttonElevation(
+                    defaultElevation = 2.dp
+                ),
+                paddingValues = PaddingValues(8.dp),
+            ) {
+                AnifoxIcon(Filled.ArrowBack, contentDescription = "back")
             }
 
             val density = LocalDensity.current
@@ -190,11 +197,7 @@ fun CollapsingToolbarScope.ContentDetailsScreenToolbar(
                     text = data.title,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
-                    style = TextStyle(
-                        color = MaterialTheme.colorScheme.onBackground,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp,
-                    ),
+                    style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .weight(1f)
                         .padding(start = 8.dp, end = 12.dp),

@@ -28,6 +28,13 @@ internal fun Project.configureKotlinAndroid(
             targetCompatibility = JavaVersion.VERSION_17
             isCoreLibraryDesugaringEnabled = true
         }
+
+        packaging {
+            resources {
+                excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+                excludes.add("/META-INF/DEPENDENCIES")
+            }
+        }
     }
 
     configureKotlin()
