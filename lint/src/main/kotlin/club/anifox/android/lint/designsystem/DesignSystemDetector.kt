@@ -58,6 +58,7 @@ class DesignSystemDetector : Detector(), Detector.UastScanner {
             "TextButton" to "AnifoxTextButton",
             "FilterChip" to "AnifoxFilterChip",
             "ElevatedFilterChip" to "AnifoxFilterChip",
+            "Icon" to "AnifoxIcon",
             "NavigationBar" to "AnifoxNavigationBar",
             "NavigationBarItem" to "AnifoxNavigationBarItem",
             "NavigationRail" to "AnifoxNavigationRail",
