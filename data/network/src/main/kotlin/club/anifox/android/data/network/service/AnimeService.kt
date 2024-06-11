@@ -3,6 +3,7 @@ package club.anifox.android.data.network.service
 import club.anifox.android.data.network.api.ApiEndpoints
 import club.anifox.android.data.network.models.dto.anime.detail.AnimeDetailDTO
 import club.anifox.android.data.network.models.dto.anime.light.AnimeLightDTO
+import club.anifox.android.data.network.models.dto.anime.related.AnimeRelatedDTO
 import club.anifox.android.data.network.safeApiCall
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
@@ -62,5 +63,38 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
         }
 
         return safeApiCall<AnimeDetailDTO>(client, request)
+    }
+
+    suspend fun getAnimeSimilar(url: String): Resource<List<AnimeLightDTO>> {
+        val request = HttpRequestBuilder().apply {
+            method = HttpMethod.Get
+            url {
+                encodedPath = "${ApiEndpoints.ANIME}/$url/${ApiEndpoints.ANIME_SIMILAR}"
+            }
+        }
+
+        return safeApiCall<List<AnimeLightDTO>>(client, request)
+    }
+
+    suspend fun getAnimeRelated(url: String): Resource<List<AnimeRelatedDTO>> {
+        val request = HttpRequestBuilder().apply {
+            method = HttpMethod.Get
+            url {
+                encodedPath = "${ApiEndpoints.ANIME}/$url/${ApiEndpoints.ANIME_RELATED}"
+            }
+        }
+
+        return safeApiCall<List<AnimeRelatedDTO>>(client, request)
+    }
+
+    suspend fun getAnimeScreenshots(url: String): Resource<List<String>> {
+        val request = HttpRequestBuilder().apply {
+            method = HttpMethod.Get
+            url {
+                encodedPath = "${ApiEndpoints.ANIME}/$url/${ApiEndpoints.ANIME_SCREENSHOTS}"
+            }
+        }
+
+        return safeApiCall<List<String>>(client, request)
     }
 }

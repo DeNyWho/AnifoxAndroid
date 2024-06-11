@@ -9,9 +9,8 @@ import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType.Movie
 import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.state.StateListWrapper
-import club.anifox.android.domain.usecase.GetAnimeUseCase
+import club.anifox.android.domain.usecase.anime.GetAnimeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject

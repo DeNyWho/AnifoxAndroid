@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.state.StateWrapper
-import club.anifox.android.domain.usecase.GetAnimeDetailUseCase
+import club.anifox.android.domain.usecase.anime.GetAnimeDetailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
