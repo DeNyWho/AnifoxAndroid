@@ -3,10 +3,8 @@ package club.anifox.android.feature.detail.components.title
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -17,8 +15,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import club.anifox.android.commonui.component.button.AnifoxButtonSurface
-import club.anifox.android.domain.model.anime.AnimeDetail
-import club.anifox.android.domain.state.StateWrapper
 import club.anifox.android.feature.detail.R
 
 @Composable
@@ -45,12 +41,10 @@ internal fun TitleDialog(
 
                 titleItems.add {
                     Column {
-                        Row {
-                            Text(
-                                text = stringResource(R.string.feature_detail_dialog_title),
-                                style = MaterialTheme.typography.titleMedium,
-                            )
-                        }
+                        Text(
+                            text = stringResource(R.string.feature_detail_dialog_title),
+                            style = MaterialTheme.typography.titleMedium,
+                        )
                         Text(
                             text = title,
                             style = MaterialTheme.typography.titleSmall,

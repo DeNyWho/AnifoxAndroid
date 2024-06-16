@@ -4,7 +4,6 @@ import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.image.AnimeImage
-import kotlinx.serialization.SerialName
 import java.time.LocalDate
 import java.time.LocalDateTime
 

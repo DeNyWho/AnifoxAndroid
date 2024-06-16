@@ -3,8 +3,11 @@ package club.anifox.android.data.source.di
 import club.anifox.android.data.network.service.AnimeService
 import club.anifox.android.data.source.repository.AnimeRepositoryImpl
 import club.anifox.android.domain.repository.AnimeRepository
-import club.anifox.android.domain.usecase.GetAnimeDetailUseCase
-import club.anifox.android.domain.usecase.GetAnimeUseCase
+import club.anifox.android.domain.usecase.anime.GetAnimeDetailUseCase
+import club.anifox.android.domain.usecase.anime.GetAnimeRelatedUseCase
+import club.anifox.android.domain.usecase.anime.GetAnimeScreenshotUseCase
+import club.anifox.android.domain.usecase.anime.GetAnimeSimilarUseCase
+import club.anifox.android.domain.usecase.anime.GetAnimeUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,5 +35,23 @@ object SourceModule {
     @Singleton
     fun provideGetAnimeDetailUseCase(animeRepository: AnimeRepository): GetAnimeDetailUseCase {
         return GetAnimeDetailUseCase(animeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAnimeSimilarUseCase(animeRepository: AnimeRepository): GetAnimeSimilarUseCase {
+        return GetAnimeSimilarUseCase(animeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAnimeRelatedUseCase(animeRepository: AnimeRepository): GetAnimeRelatedUseCase {
+        return GetAnimeRelatedUseCase(animeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAnimeScreenshotUseCase(animeRepository: AnimeRepository): GetAnimeScreenshotUseCase {
+        return GetAnimeScreenshotUseCase(animeRepository)
     }
 }

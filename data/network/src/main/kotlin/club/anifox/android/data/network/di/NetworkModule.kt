@@ -39,12 +39,6 @@ internal object NetworkModule {
     @Provides
     @Singleton
     fun providesHttpClient(json: Json): HttpClient = HttpClient (OkHttp) {
-        engine {
-            config {
-                // TODO MAKE SSL SETTINGS FOR HTTPS CONNECT
-//                sslSocketFactory(SslSettings.getSslContext(applicationContext)!!.socketFactory, SslSettings.getTrustManager(applicationContext))
-            }
-        }
         install(ContentNegotiation) {
             json(json)
         }

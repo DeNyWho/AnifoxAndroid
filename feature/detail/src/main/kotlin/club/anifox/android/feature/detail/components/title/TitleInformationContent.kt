@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -28,17 +29,17 @@ import club.anifox.android.feature.detail.components.title.param.TitleInformatio
 
 @Composable
 internal fun TitleInformationContent(
-    detailAnime: StateWrapper<AnimeDetail>,
+    detailAnimeState: StateWrapper<AnimeDetail>,
 ) {
     val showDialog = remember { mutableStateOf(false) }
 
-    if(!detailAnime.isLoading) {
+    if(!detailAnimeState.isLoading) {
         if(showDialog.value)
             TitleDialog(
-                title = detailAnime.data?.title ?: "",
-                engTitle = detailAnime.data?.titleEnglish?.get(0) ?: "",
-                japaneseTitle = detailAnime.data?.titleJapan?.joinToString(", ") ?: "",
-                synonymsTitle = detailAnime.data?.synonyms?.joinToString(", ") ?: "",
+                title = detailAnimeState.data?.title ?: "",
+                engTitle = detailAnimeState.data?.titleEnglish?.get(0) ?: "",
+                japaneseTitle = detailAnimeState.data?.titleJapan?.joinToString(", ") ?: "",
+                synonymsTitle = detailAnimeState.data?.synonyms?.joinToString(", ") ?: "",
             ) {
                 showDialog.value = it
             }
@@ -51,7 +52,7 @@ internal fun TitleInformationContent(
                 .fillMaxWidth()
         ) {
             AnifoxIcon(
-                Outlined.Info,
+                imageVector = Outlined.Info,
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .size(20.dp),
@@ -63,11 +64,13 @@ internal fun TitleInformationContent(
                     .fillMaxWidth(),
             ) {
                 Text(
-                    text = detailAnime.data?.title ?: "",
+                    text = detailAnimeState.data?.title ?: "",
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Text(
-                    text = detailAnime.data?.titleEnglish?.get(0) ?: "",
+                    text = detailAnimeState.data?.titleEnglish?.get(0) ?: "",
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.titleSmall,
                 )
             }
