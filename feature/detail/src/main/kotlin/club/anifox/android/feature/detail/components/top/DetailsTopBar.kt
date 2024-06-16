@@ -8,6 +8,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -26,6 +27,9 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,6 +40,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import club.anifox.android.commonui.component.button.AnifoxButton
 import club.anifox.android.commonui.component.icon.AnifoxIcon
 import club.anifox.android.domain.model.anime.AnimeDetail
@@ -55,7 +60,7 @@ fun CollapsingToolbarScope.ContentDetailsScreenToolbar(
     toolbarScaffoldState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
     navigateBack: () -> Boolean,
 ) {
-    val isTitleVisible = toolbarScaffoldState.toolbarState.progress <= 0.2 && toolbarScaffoldState.toolbarState.progress != 0.0F
+    println("WAFL + ${toolbarScaffoldState.toolbarState.progress}")
 
     val blockerColorGradients = listOf(
         MaterialTheme.colorScheme.background.copy(alpha = 0.9F),
@@ -144,39 +149,33 @@ fun CollapsingToolbarScope.ContentDetailsScreenToolbar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, top = 16.dp)
+                .padding(start = 16.dp, top = 16.dp, bottom = 8.dp)
                 .statusBarsPadding(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            AnifoxButton(
-                onClick = { navigateBack.invoke() },
+            AnifoxIcon(
                 modifier = Modifier
-                    .size(40.dp),
-                shape = MaterialTheme.shapes.small,
-                elevation = ButtonDefaults.buttonElevation(
-                    defaultElevation = 2.dp
-                ),
-                paddingValues = PaddingValues(8.dp),
-            ) {
-                AnifoxIcon(Filled.ArrowBack, contentDescription = "back")
-            }
+                    .clickable {
+                        navigateBack.invoke()
+                    }
+                    .size(24.dp),
+                imageVector = Filled.ArrowBack,
+                contentDescription = "back",
+            )
 
             val density = LocalDensity.current
-            val initialOffset = with(density) {
-                40.dp.toPx().roundToInt()
-            }
             val targetOffset = with(density) {
                 -40.dp.toPx().roundToInt()
             }
 
             AnimatedVisibility(
-                visible = isTitleVisible,
+                visible = toolbarScaffoldState.toolbarState.progress < 0.25,
                 enter = slideInVertically(
-                    initialOffsetY = { initialOffset },
+                    initialOffsetY = { targetOffset },
                     animationSpec = tween(
                         durationMillis = 800,
                         delayMillis = 50,
-                        easing = FastOutSlowInEasing,
+                        easing = LinearOutSlowInEasing,
                     ),
                 ),
                 exit = slideOutVertically(
@@ -195,7 +194,7 @@ fun CollapsingToolbarScope.ContentDetailsScreenToolbar(
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .weight(1f)
-                        .padding(start = 8.dp, end = 12.dp),
+                        .padding(start = 16.dp, end = 12.dp),
                 )
             }
         }

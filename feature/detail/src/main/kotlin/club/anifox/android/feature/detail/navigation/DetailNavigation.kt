@@ -21,7 +21,10 @@ fun NavController.navigateToDetail(url: String? = null, navOptions: NavOptions? 
     navigate(route, navOptions)
 }
 
-fun NavGraphBuilder.detailScreen(onBackPressed: () -> Boolean) {
+fun NavGraphBuilder.detailScreen(
+    onBackPressed: () -> Boolean,
+    onAnimeClick: (String) -> Unit,
+) {
     composable(
         "$DETAIL_ROUTE_BASE/${ANIME_URL}={url}",
         arguments = listOf(
@@ -33,6 +36,7 @@ fun NavGraphBuilder.detailScreen(onBackPressed: () -> Boolean) {
         DetailScreen(
             url = url ?: "",
             onBackPressed = onBackPressed,
+            onAnimeClick = onAnimeClick,
         )
     }
 }
