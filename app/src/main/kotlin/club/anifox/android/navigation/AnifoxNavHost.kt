@@ -23,7 +23,10 @@ fun AnifoxNavHost(
         modifier = modifier,
     ) {
         homeScreen(onAnimeClick = navController::navigateToDetail)
-        detailScreen(onBackPressed = navController::popBackStack)
+        detailScreen(
+            onBackPressed = navController::popBackStack,
+            onAnimeClick = navController::navigateToDetail,
+        )
         searchScreen()
     }
 }

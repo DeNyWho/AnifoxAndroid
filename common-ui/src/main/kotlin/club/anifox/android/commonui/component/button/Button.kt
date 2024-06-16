@@ -82,7 +82,7 @@ internal fun PreviewAnifoxButtonWithIcon() {
             ),
             paddingValues = PaddingValues(8.dp)
         ) {
-            AnifoxIcon(AutoMirrored.Filled.ArrowBack, contentDescription = "content description")
+            AnifoxIcon(imageVector = AutoMirrored.Filled.ArrowBack, contentDescription = "content description")
         }
     }
 }
@@ -126,7 +126,7 @@ internal fun PreviewAnifoxButtonPrimaryWithIcon() {
             ),
             paddingValues = PaddingValues(0.dp)
         ) {
-            AnifoxIconPrimary(Filled.PlayArrow, contentDescription = "content description")
+            AnifoxIconPrimary(imageVector = Filled.PlayArrow, contentDescription = "content description")
             Text(
                 modifier = Modifier.padding(start = 16.dp),
                 text = "Watch",
@@ -175,7 +175,7 @@ internal fun PreviewAnifoxButtonIconTransparent() {
             paddingValues = PaddingValues(4.dp),
             contentColor = MaterialTheme.colorScheme.surfaceVariant,
         ) {
-            AnifoxIcon(Outlined.ContentCopy, contentDescription = "content description")
+            AnifoxIcon(imageVector = Outlined.ContentCopy, contentDescription = "content description")
         }
     }
 }

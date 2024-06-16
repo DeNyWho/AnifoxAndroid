@@ -13,9 +13,9 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun AnifoxIcon(
+    modifier: Modifier = Modifier,
     imageVector: ImageVector,
     contentDescription: String? = null,
-    modifier: Modifier = Modifier,
 ) {
     Icon(
         imageVector,
@@ -28,20 +28,19 @@ fun AnifoxIcon(
 @PreviewLightDark
 @Composable
 internal fun PreviewAnifoxIcon() {
-    AnifoxIcon(AutoMirrored.Filled.ArrowBack, contentDescription = "content description", modifier = Modifier.size(40.dp))
+    AnifoxIcon(modifier = Modifier.size(40.dp), AutoMirrored.Filled.ArrowBack, contentDescription = "content description")
 
 }
 
-
 @Composable
 fun AnifoxIconPrimary(
+    modifier: Modifier = Modifier,
     imageVector: ImageVector,
     contentDescription: String? = null,
-    modifier: Modifier = Modifier,
 ) {
     Icon(
-        imageVector,
         modifier = modifier,
+        imageVector = imageVector,
         contentDescription = contentDescription,
         tint = MaterialTheme.colorScheme.onPrimaryContainer,
     )
@@ -50,5 +49,25 @@ fun AnifoxIconPrimary(
 @PreviewLightDark
 @Composable
 internal fun PreviewAnifoxIconPrimary() {
-    AnifoxIconPrimary(AutoMirrored.Filled.ArrowBack, contentDescription = "content description", modifier = Modifier.size(40.dp))
+    AnifoxIconPrimary(modifier = Modifier.size(40.dp), AutoMirrored.Filled.ArrowBack, contentDescription = "content description")
+}
+
+@Composable
+fun AnifoxIconOnBackground(
+    modifier: Modifier = Modifier,
+    imageVector: ImageVector,
+    contentDescription: String? = null,
+) {
+    Icon(
+        modifier = modifier,
+        imageVector = imageVector,
+        contentDescription = contentDescription,
+        tint = MaterialTheme.colorScheme.onBackground,
+    )
+}
+
+@PreviewLightDark
+@Composable
+internal fun PreviewAnifoxIconOnBackground() {
+    AnifoxIconOnBackground(modifier = Modifier.size(40.dp), AutoMirrored.Filled.ArrowBack, contentDescription = "content description")
 }
