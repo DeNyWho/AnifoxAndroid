@@ -1,6 +1,5 @@
 package club.anifox.android.ui
 
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
@@ -17,7 +16,6 @@ import kotlinx.coroutines.flow.stateIn
 
 @Composable
 fun rememberAnifoxAppState(
-    windowSizeClass: WindowSizeClass,
     networkMonitor: NetworkMonitor,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = rememberNavController(),
@@ -25,13 +23,11 @@ fun rememberAnifoxAppState(
     return remember (
         navController,
         coroutineScope,
-        windowSizeClass,
         networkMonitor,
     ) {
         AnifoxAppState(
             navController = navController,
             coroutineScope = coroutineScope,
-            windowSizeClass = windowSizeClass,
             networkMonitor = networkMonitor,
         )
     }
@@ -41,7 +37,6 @@ fun rememberAnifoxAppState(
 class AnifoxAppState(
     val navController: NavHostController,
     coroutineScope: CoroutineScope,
-    val windowSizeClass: WindowSizeClass,
     networkMonitor: NetworkMonitor,
 ) {
     val currentDestination: NavDestination?

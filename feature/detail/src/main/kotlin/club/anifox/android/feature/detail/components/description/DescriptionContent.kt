@@ -23,14 +23,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import club.anifox.android.commonui.component.icon.AnifoxIconOnBackground
 import club.anifox.android.commonui.component.icon.AnifoxIconPrimary
+import club.anifox.android.commonui.component.slider.header.SliderHeader
+import club.anifox.android.commonui.component.slider.header.SliderHeaderShimmer
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.state.StateWrapper
+import club.anifox.android.feature.detail.R
 
 @Composable
 internal fun DescriptionContent(
@@ -45,6 +49,13 @@ internal fun DescriptionContent(
                 MaterialTheme.colorScheme.background.copy(alpha = 0.9F),
                 MaterialTheme.colorScheme.background,
             )
+        )
+
+        Text(
+            text = stringResource(R.string.feature_detail_section_header_title_description),
+            maxLines = 1,
+            color = MaterialTheme.colorScheme.onBackground,
+            style = MaterialTheme.typography.titleLarge,
         )
 
         val visible = if(detailAnimeState.data?.description?.isNotEmpty() == true) detailAnimeState.data?.description?.length!! > 300 else false

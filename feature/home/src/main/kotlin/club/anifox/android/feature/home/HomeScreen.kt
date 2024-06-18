@@ -44,22 +44,19 @@ internal fun HomeUI(
     onPopularAnime: StateListWrapper<AnimeLight>,
     filmsAnime: StateListWrapper<AnimeLight>,
 ) {
-    Column(
+    LazyColumn(
         modifier = modifier
             .fillMaxSize(),
+        state = lazyColumnState
     ) {
-        LazyColumn(
-            state = lazyColumnState
-        ) {
-            item {
-                SliderContent(headerTitle = stringResource(R.string.feature_home_section_header_title_ongoing_popular), contentState = onPopularOngoingAnime, onItemClick = onAnimeClick)
-            }
-            item {
-                SliderContent(headerTitle = stringResource(R.string.feature_home_section_header_title_popular), contentState = onPopularAnime, onItemClick = onAnimeClick)
-            }
-            item {
-                SliderContent(headerTitle = stringResource(R.string.feature_home_section_header_title_films), contentState = filmsAnime, onItemClick = onAnimeClick)
-            }
+        item {
+            SliderContent(headerTitle = stringResource(R.string.feature_home_section_header_title_ongoing_popular), contentState = onPopularOngoingAnime, onItemClick = onAnimeClick)
+        }
+        item {
+            SliderContent(headerTitle = stringResource(R.string.feature_home_section_header_title_popular), contentState = onPopularAnime, onItemClick = onAnimeClick)
+        }
+        item {
+            SliderContent(headerTitle = stringResource(R.string.feature_home_section_header_title_films), contentState = filmsAnime, onItemClick = onAnimeClick)
         }
     }
 }

@@ -9,4 +9,5 @@
     <string name="feature_detail_dialog_synonyms_title">Альтернативные названия</string>
     <string name="feature_detail_dialog_button_close_title">Закрыть</string>
     <string name="feature_detail_section_header_title_similar">Похожие</string>
+    <string name="feature_detail_section_header_title_description">Описание</string>
 </resources>

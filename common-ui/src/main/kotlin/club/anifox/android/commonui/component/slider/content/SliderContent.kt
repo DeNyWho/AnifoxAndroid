@@ -83,7 +83,6 @@ fun SliderContent(
                 )
             }
         }
-
     }
 
 }

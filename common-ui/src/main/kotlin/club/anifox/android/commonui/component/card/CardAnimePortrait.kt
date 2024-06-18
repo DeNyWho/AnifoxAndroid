@@ -1,8 +1,6 @@
 package club.anifox.android.commonui.component.card
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,9 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -26,7 +23,9 @@ import club.anifox.android.commonui.component.card.param.CardAnimePreviewParam
 import club.anifox.android.commonui.component.card.param.CardAnimeProvider
 import club.anifox.android.commonui.theme.AnifoxTheme
 import club.anifox.android.domain.model.anime.AnimeLight
-import coil.compose.SubcomposeAsyncImage
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import coil.size.Size
 
 /**
  * Anifox CardAnimePortrait (anime card with text) [CardAnimePortrait].
@@ -51,28 +50,22 @@ fun CardAnimePortrait(
             .clip(MaterialTheme.shapes.small)
             .clickable { onClick.invoke() }
     ) {
-        if (LocalInspectionMode.current) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White)
-                    .height(thumbnailHeight)
-                    .clip(MaterialTheme.shapes.small)
-            )
-        } else {
-            SubcomposeAsyncImage(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(thumbnailHeight)
-                    .clip(MaterialTheme.shapes.small),
-                model = data.image,
-                contentDescription = "Content thumbnail",
-                contentScale = ContentScale.Crop,
-                onError = {
-                    println(it.result.throwable.message)
-                },
-            )
-        }
+        AsyncImage(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(thumbnailHeight)
+                .clip(MaterialTheme.shapes.small),
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(data.image)
+                .crossfade(true)
+                .size(Size.ORIGINAL)
+                .build(),
+            contentDescription = "Content thumbnail",
+            contentScale = ContentScale.Crop,
+            onError = {
+                println(it.result.throwable.message)
+            },
+        )
 
         Text(
             text = data.title,

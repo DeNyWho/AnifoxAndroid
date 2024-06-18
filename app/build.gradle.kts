@@ -1,5 +1,4 @@
 import club.anifox.buildlogic.convention.AnifoxBuildType
-import com.android.build.gradle.internal.crash.afterEvaluate
 
 plugins {
     alias(libs.plugins.anifox.android.application)
@@ -47,7 +46,6 @@ android {
 }
 
 dependencies {
-
     implementation(projects.feature.detail)
     implementation(projects.feature.home)
     implementation(projects.feature.player)
@@ -59,16 +57,12 @@ dependencies {
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3.adaptive)
-    implementation(libs.androidx.compose.material3.adaptive.layout)
-    implementation(libs.androidx.compose.material3.adaptive.navigation)
-    implementation(libs.androidx.compose.material3.windowSizeClass)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.coroutines.guava)
-    implementation(libs.coil.kt)
 
     ksp(libs.hilt.compiler)
 
