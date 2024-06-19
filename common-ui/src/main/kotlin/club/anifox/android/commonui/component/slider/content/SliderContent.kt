@@ -15,9 +15,9 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import club.anifox.android.commonui.component.card.CardAnimePortrait
-import club.anifox.android.commonui.component.card.CardAnimePortraitDefaults
-import club.anifox.android.commonui.component.card.showCardAnimePortraitShimmer
+import club.anifox.android.commonui.component.card.anime.CardAnimePortrait
+import club.anifox.android.commonui.component.card.anime.CardAnimePortraitDefaults
+import club.anifox.android.commonui.component.card.anime.showCardAnimePortraitShimmer
 import club.anifox.android.commonui.component.slider.content.param.SliderContentPreviewParam
 import club.anifox.android.commonui.component.slider.content.param.SliderContentProvider
 import club.anifox.android.commonui.component.slider.header.SliderHeader
@@ -37,6 +37,7 @@ fun SliderContent(
     itemModifier: Modifier = Modifier.width(CardAnimePortraitDefaults.Width.Default),
     shimmer: Shimmer = rememberShimmer(ShimmerBounds.Custom),
     thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.Default,
+    thumbnailWidth: Dp = CardAnimePortraitDefaults.Width.Default,
     headerTitle: String,
     contentState: StateListWrapper<AnimeLight>,
     contentPadding: PaddingValues = PaddingValues(horizontal = 12.dp),
@@ -68,6 +69,7 @@ fun SliderContent(
                 modifier = itemModifier,
                 shimmerInstance = shimmer,
                 thumbnailHeight = thumbnailHeight,
+                thumbnailWidth = thumbnailWidth,
             )
         } else if(contentState.data.isNotEmpty()) {
             items(
@@ -78,6 +80,7 @@ fun SliderContent(
                     modifier = itemModifier,
                     data = data,
                     thumbnailHeight = thumbnailHeight,
+                    thumbnailWidth = thumbnailWidth,
                     textAlign = textAlign,
                     onClick = { onItemClick.invoke(data.url) },
                 )
@@ -101,6 +104,7 @@ private fun PreviewScrollableHorizontalContentDefault(
                 headerModifier = param.headerModifier,
                 itemModifier = param.itemModifier,
                 thumbnailHeight = param.thumbnailHeight,
+                thumbnailWidth = param.thumbnailWidth,
                 headerTitle = param.headerTitle,
                 contentState = param.contentState,
                 contentPadding = param.contentPadding,

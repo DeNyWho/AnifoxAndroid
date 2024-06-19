@@ -1,11 +1,11 @@
-package club.anifox.android.commonui.component.card
+package club.anifox.android.commonui.component.card.anime
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,8 +19,8 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import club.anifox.android.commonui.component.card.param.CardAnimePreviewParam
-import club.anifox.android.commonui.component.card.param.CardAnimeProvider
+import club.anifox.android.commonui.component.card.anime.param.CardAnimePreviewParam
+import club.anifox.android.commonui.component.card.anime.param.CardAnimeProvider
 import club.anifox.android.commonui.theme.AnifoxTheme
 import club.anifox.android.domain.model.anime.AnimeLight
 import coil.compose.AsyncImage
@@ -33,28 +33,30 @@ import coil.size.Size
  * @param modifier Modifier.
  * @param data data in the form of AnimeLight.
  * @param thumbnailHeight The height of the anime card.
+ * @param thumbnailWidth The width of the anime card.
  * @param textAlign TextAlign.
- * @param onClick Will be called when the user clicks the anime card.
+ * @param onClick Will be called when the user clicks on the anime card.
  */
 @Composable
 fun CardAnimePortrait(
     modifier: Modifier = Modifier,
     data: AnimeLight,
     thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.Default,
+    thumbnailWidth: Dp = CardAnimePortraitDefaults.Width.Default,
     textAlign: TextAlign = TextAlign.Start,
     onClick: () -> Unit,
 ) {
     Column(
         modifier = modifier
-            .size(thumbnailHeight + 50.dp)
-            .clip(MaterialTheme.shapes.small)
+            .width(thumbnailWidth)
+            .height(thumbnailHeight + 50.dp)
             .clickable { onClick.invoke() }
     ) {
         AsyncImage(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(thumbnailHeight)
-                .clip(MaterialTheme.shapes.small),
+                .clip(MaterialTheme.shapes.medium),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(data.image)
                 .crossfade(true)

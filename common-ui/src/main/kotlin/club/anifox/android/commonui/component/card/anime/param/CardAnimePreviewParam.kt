@@ -1,10 +1,11 @@
-package club.anifox.android.commonui.component.card.param
+package club.anifox.android.commonui.component.card.anime.param
 
 import androidx.compose.foundation.layout.width
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
-import club.anifox.android.commonui.component.card.CardAnimePortraitDefaults
+import club.anifox.android.commonui.component.card.anime.CardAnimePortraitDefaults.Height
+import club.anifox.android.commonui.component.card.anime.CardAnimePortraitDefaults.Width
 import club.anifox.android.domain.model.anime.AnimeLight
 
 data class CardAnimePreviewParam(
@@ -22,16 +23,16 @@ class CardAnimeProvider: PreviewParameterProvider<CardAnimePreviewParam> {
     override val values: Sequence<CardAnimePreviewParam>
         get() = listOf(
             CardAnimePreviewParam(
-                modifier = Modifier.width(CardAnimePortraitDefaults.Width.Default),
-                thumbnailHeight = CardAnimePortraitDefaults.Height.Default
+                modifier = Modifier.width(Width.Default),
+                thumbnailHeight = Height.Default
             ),
             CardAnimePreviewParam(
-                modifier = Modifier.width(CardAnimePortraitDefaults.Width.Small),
-                thumbnailHeight = CardAnimePortraitDefaults.Height.Grid,
+                modifier = Modifier.width(Width.Small),
+                thumbnailHeight = Height.Grid,
             ),
             CardAnimePreviewParam(
-                modifier = Modifier.width(CardAnimePortraitDefaults.Width.Small),
-                thumbnailHeight = CardAnimePortraitDefaults.Height.Small,
+                modifier = Modifier.width(Width.Small),
+                thumbnailHeight = Height.Small,
             ),
         ).asSequence()
 }

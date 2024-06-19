@@ -1,4 +1,4 @@
-package club.anifox.android.commonui.component.card
+package club.anifox.android.commonui.component.card.anime
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.ui.unit.dp

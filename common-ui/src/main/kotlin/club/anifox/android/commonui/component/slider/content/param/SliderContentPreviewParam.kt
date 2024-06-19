@@ -8,7 +8,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import club.anifox.android.commonui.component.card.CardAnimePortraitDefaults
+import club.anifox.android.commonui.component.card.anime.CardAnimePortraitDefaults
 import club.anifox.android.commonui.component.slider.content.SliderContentDefaults
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.state.StateListWrapper
@@ -18,6 +18,7 @@ data class SliderContentPreviewParam(
     val headerModifier: Modifier = SliderContentDefaults.Default,
     val itemModifier: Modifier = Modifier.width(CardAnimePortraitDefaults.Width.Default),
     val thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.Default,
+    val thumbnailWidth: Dp = CardAnimePortraitDefaults.Width.Default,
     val headerTitle: String = "Title",
     val contentState: StateListWrapper<AnimeLight>,
     val contentPadding: PaddingValues = PaddingValues(horizontal = 12.dp),
