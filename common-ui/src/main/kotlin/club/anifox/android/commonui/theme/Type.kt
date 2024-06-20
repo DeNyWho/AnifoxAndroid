@@ -1,6 +1,5 @@
 package club.anifox.android.commonui.theme
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -11,7 +10,7 @@ import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.LineHeightStyle.Alignment
 import androidx.compose.ui.text.style.LineHeightStyle.Trim
 import androidx.compose.ui.unit.sp
-import club.anifox.android.common.R
+import club.anifox.android.commonui.R
 
 private val NunitoFontFamily = FontFamily(
     Font(R.font.nunito_regular, FontWeight.Normal, FontStyle.Normal),

@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "club.anifox.android.common"
+    namespace = "club.anifox.android.commonui"
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
