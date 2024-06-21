@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.Card
@@ -24,7 +25,7 @@ import com.valentinilk.shimmer.rememberShimmer
 import com.valentinilk.shimmer.shimmer
 
 @Composable
-fun CardThumbnailPortraitShimmer(
+fun CardScreenshotLandscapeShimmer(
     modifier: Modifier = Modifier,
     shimmerInstance: Shimmer,
     thumbnailHeight: Dp = CardScreenshotLandscapeDefaults.Height.Default,
@@ -32,6 +33,7 @@ fun CardThumbnailPortraitShimmer(
 ) {
     Column(
         modifier = modifier
+            .padding(bottom = 8.dp)
             .shimmer(shimmerInstance),
     ) {
         Card(
@@ -57,23 +59,25 @@ fun LazyListScope.showCardScreenshotLandscapeShimmer(
     modifier: Modifier,
     shimmerInstance: Shimmer,
     count: Int = 11,
-    thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.Default,
+    thumbnailHeight: Dp = CardScreenshotLandscapeDefaults.Height.Default,
+    thumbnailWidth: Dp = CardScreenshotLandscapeDefaults.Width.Default,
 ) {
     items(count) {
-        CardThumbnailPortraitShimmer(
+        CardScreenshotLandscapeShimmer(
             modifier = modifier,
             shimmerInstance = shimmerInstance,
             thumbnailHeight = thumbnailHeight,
+            thumbnailWidth = thumbnailWidth,
         )
     }
 }
 
 @PreviewLightDark
 @Composable
-private fun PreviewCardAnimePortraitShimmer() {
+private fun PreviewCardScreenshotLandscapeShimmer() {
     AnifoxTheme {
-        CardThumbnailPortraitShimmer(
-            Modifier.width(CardAnimePortraitDefaults.Width.Default),
+        CardScreenshotLandscapeShimmer(
+            Modifier.width(CardScreenshotLandscapeDefaults.Width.Default),
             rememberShimmer(shimmerBounds = ShimmerBounds.Custom),
         )
     }

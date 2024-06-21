@@ -1,4 +1,4 @@
-package club.anifox.android.commonui.component.slider.content
+package club.anifox.android.commonui.component.slider
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier

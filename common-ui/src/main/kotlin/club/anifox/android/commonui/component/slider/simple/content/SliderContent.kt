@@ -1,4 +1,4 @@
-package club.anifox.android.commonui.component.slider.content
+package club.anifox.android.commonui.component.slider.simple.content
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,8 +18,9 @@ import androidx.compose.ui.unit.dp
 import club.anifox.android.commonui.component.card.anime.CardAnimePortrait
 import club.anifox.android.commonui.component.card.anime.CardAnimePortraitDefaults
 import club.anifox.android.commonui.component.card.anime.showCardAnimePortraitShimmer
-import club.anifox.android.commonui.component.slider.content.param.SliderContentPreviewParam
-import club.anifox.android.commonui.component.slider.content.param.SliderContentProvider
+import club.anifox.android.commonui.component.slider.SliderContentDefaults
+import club.anifox.android.commonui.component.slider.simple.content.param.SliderContentPreviewParam
+import club.anifox.android.commonui.component.slider.simple.content.param.SliderContentProvider
 import club.anifox.android.commonui.component.slider.header.SliderHeader
 import club.anifox.android.commonui.component.slider.header.SliderHeaderShimmer
 import club.anifox.android.commonui.theme.AnifoxTheme

@@ -1,4 +1,4 @@
-package club.anifox.android.commonui.component.slider.content.param
+package club.anifox.android.commonui.component.slider.simple.content.param
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,7 +9,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import club.anifox.android.commonui.component.card.anime.CardAnimePortraitDefaults
-import club.anifox.android.commonui.component.slider.content.SliderContentDefaults
+import club.anifox.android.commonui.component.card.anime.CardAnimePortraitDefaults.HorizontalArrangement
+import club.anifox.android.commonui.component.slider.SliderContentDefaults
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.state.StateListWrapper
 
@@ -46,16 +47,16 @@ class SliderContentProvider:
                 modifier = Modifier,
                 headerModifier = SliderContentDefaults.Default,
                 headerTitle = "Scrollable Default",
-                contentArrangement = CardAnimePortraitDefaults.HorizontalArrangement.Default,
+                contentArrangement = HorizontalArrangement.Default,
                 contentState = StateListWrapper.loading()
             ),
             SliderContentPreviewParam(
                 modifier = Modifier,
                 headerModifier = SliderContentDefaults.Default,
                 headerTitle = "Scrollable Default",
-                contentArrangement = CardAnimePortraitDefaults.HorizontalArrangement.Default,
+                contentArrangement = HorizontalArrangement.Default,
                 contentState = StateListWrapper(data = DataSet, isLoading = false)
-            )
+            ),
         ).asSequence()
 }
 
