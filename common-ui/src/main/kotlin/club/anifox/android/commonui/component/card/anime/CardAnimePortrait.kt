@@ -2,10 +2,13 @@ package club.anifox.android.commonui.component.card.anime
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,22 +55,31 @@ fun CardAnimePortrait(
             .height(thumbnailHeight + 50.dp)
             .clickable { onClick.invoke() }
     ) {
-        AsyncImage(
+        Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(thumbnailHeight)
-                .clip(MaterialTheme.shapes.medium),
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(data.image)
-                .crossfade(true)
-                .size(Size.ORIGINAL)
-                .build(),
-            contentDescription = "Content thumbnail",
-            contentScale = ContentScale.Crop,
-            onError = {
-                println(it.result.throwable.message)
-            },
-        )
+                .height(thumbnailHeight),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 4.dp,
+            ),
+            shape = MaterialTheme.shapes.medium,
+        ) {
+            AsyncImage(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(MaterialTheme.shapes.medium),
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(data.image)
+                    .crossfade(true)
+                    .size(Size.ORIGINAL)
+                    .build(),
+                contentDescription = "Content thumbnail",
+                contentScale = ContentScale.Crop,
+                onError = {
+                    println(it.result.throwable.message)
+                },
+            )
+        }
 
         Text(
             text = data.title,

@@ -146,7 +146,7 @@ class AnimeRepositoryImpl @Inject constructor(
 
             val state = when (val animeRelatedResult = animeService.getAnimeScreenshots(url)) {
                 is Resource.Success -> {
-                    val data = animeRelatedResult.data
+                    val data = animeRelatedResult.data.take(10)
                     StateListWrapper(data)
                 }
                 is Resource.Error -> {

@@ -5,7 +5,7 @@ import androidx.compose.ui.unit.dp
 
 object CardScreenshotLandscapeDefaults {
     object Width {
-        val Default = 190.dp
+        val Default = 170.dp
     }
 
     object Height {
