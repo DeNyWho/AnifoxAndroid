@@ -47,7 +47,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import kotlin.math.roundToInt
 
 @Composable
-fun CollapsingToolbarScope.ContentDetailsScreenToolbar(
+internal fun CollapsingToolbarScope.ContentDetailsScreenToolbar(
     contentDetailState: StateWrapper<AnimeDetail>,
     toolbarScaffoldState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
     navigateBack: () -> Boolean,

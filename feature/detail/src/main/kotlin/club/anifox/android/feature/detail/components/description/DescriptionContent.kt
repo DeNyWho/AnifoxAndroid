@@ -6,13 +6,12 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -22,45 +21,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import club.anifox.android.commonui.component.icon.AnifoxIconOnBackground
-import club.anifox.android.commonui.component.icon.AnifoxIconPrimary
-import club.anifox.android.commonui.component.slider.header.SliderHeader
-import club.anifox.android.commonui.component.slider.header.SliderHeaderShimmer
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.state.StateWrapper
 import club.anifox.android.feature.detail.R
 
 @Composable
 internal fun DescriptionContent(
+    modifier: Modifier,
     detailAnimeState: StateWrapper<AnimeDetail>,
     isExpanded: Boolean,
     onExpandedChanged: (Boolean) -> Unit,
 ) {
     if(!detailAnimeState.isLoading) {
-        val descriptionGradient = Brush.verticalGradient(
-            colors = listOf(
-                MaterialTheme.colorScheme.background.copy(alpha = 0F),
-                MaterialTheme.colorScheme.background.copy(alpha = 0.9F),
-                MaterialTheme.colorScheme.background,
-            )
-        )
-
-        Text(
-            text = stringResource(R.string.feature_detail_section_header_title_description),
-            maxLines = 1,
-            color = MaterialTheme.colorScheme.onBackground,
-            style = MaterialTheme.typography.titleLarge,
-        )
-
         val visible = if(detailAnimeState.data?.description?.isNotEmpty() == true) detailAnimeState.data?.description?.length!! > 300 else false
 
         if (visible) {
+            Text(
+                text = stringResource(R.string.feature_detail_section_header_title_description),
+                maxLines = 1,
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.titleLarge,
+            )
+
             AnimatedContent(
                 targetState = isExpanded,
                 transitionSpec = {
@@ -70,14 +56,14 @@ internal fun DescriptionContent(
                 },
                 label = "",
             ) { targetExpanded ->
-                Box(
-                    modifier = Modifier
-                        .padding(top = 16.dp)
+                Column (
+                    modifier = modifier
+                        .padding(top = 8.dp)
                         .fillMaxWidth()
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = null,
-                            onClick = { onExpandedChanged(!isExpanded) }
+                            onClick = { onExpandedChanged(!isExpanded) },
                         ),
                 ) {
                     if (targetExpanded) {
@@ -88,45 +74,38 @@ internal fun DescriptionContent(
                             textAlign = TextAlign.Justify,
                         )
                         AnifoxIconOnBackground(
+                            modifier = Modifier
+                                .size(20.dp)
+                                .align(Alignment.CenterHorizontally),
                             imageVector = Filled.KeyboardArrowUp,
                             contentDescription = "Switch",
-                            modifier = Modifier.align(Alignment.BottomCenter),
                         )
                     } else {
                         Text(
                             text = detailAnimeState.data?.description ?: "",
                             maxLines = 5,
-                            overflow = TextOverflow.Ellipsis,
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                             textAlign = TextAlign.Justify,
                         )
-                        Box(
+                        AnifoxIconOnBackground(
+                            imageVector = Filled.KeyboardArrowDown,
+                            contentDescription = "Expand",
                             modifier = Modifier
-                                .zIndex(1F)
-                                .fillMaxSize()
-                                .align(Alignment.BottomCenter)
-                                .background(
-                                    brush = descriptionGradient
-                                ),
-                        ) {
-                            AnifoxIconOnBackground(
-                                imageVector = Filled.KeyboardArrowDown,
-                                contentDescription = "Expand",
-                                modifier = Modifier
-                                    .align(Alignment.BottomCenter)
-                                    .zIndex(2F),
-                            )
-                        }
+                                .size(20.dp)
+                                .align(Alignment.CenterHorizontally),
+                        )
                     }
                 }
             }
         } else {
-            Text(
-                text = detailAnimeState.data?.description ?: "",
-                style = MaterialTheme.typography.bodyLarge,
-                textAlign = TextAlign.Justify,
-            )
+            if(detailAnimeState.data?.description?.isNotEmpty() == true) {
+                Text(
+                    text = detailAnimeState.data?.description ?: "",
+                    style = MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.Justify,
+                )
+            }
         }
     }
 }

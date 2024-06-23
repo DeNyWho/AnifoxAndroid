@@ -5,11 +5,11 @@ import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.state.StateWrapper
 import club.anifox.android.feature.detail.param.Data
 
-data class TitleInformationContentPreviewParam(
+internal data class TitleInformationContentPreviewParam(
     val detailAnime: StateWrapper<AnimeDetail>,
 )
 
-class TitleInformationContentProvider:
+internal class TitleInformationContentProvider:
     PreviewParameterProvider<TitleInformationContentPreviewParam> {
     override val count: Int
         get() = super.count

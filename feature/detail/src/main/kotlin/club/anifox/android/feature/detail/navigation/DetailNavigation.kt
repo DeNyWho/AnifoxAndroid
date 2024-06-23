@@ -37,6 +37,7 @@ fun NavGraphBuilder.detailScreen(
             url = url ?: "",
             onBackPressed = onBackPressed,
             onAnimeClick = onAnimeClick,
+            onScreenshotClick = {}
         )
     }
 }

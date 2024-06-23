@@ -1,9 +1,12 @@
 package club.anifox.android.feature.detail.components.title
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons.Outlined
@@ -49,6 +52,7 @@ internal fun TitleInformationContent(
                 .clickable {
                     showDialog.value = true
                 }
+                .height(40.dp)
                 .fillMaxWidth()
         ) {
             AnifoxIcon(
@@ -61,18 +65,21 @@ internal fun TitleInformationContent(
             Column(
                 modifier = Modifier
                     .padding(start = 8.dp)
-                    .fillMaxWidth(),
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
             ) {
                 Text(
                     text = detailAnimeState.data?.title ?: "",
                     style = MaterialTheme.typography.titleMedium,
                 )
-                Text(
-                    text = detailAnimeState.data?.titleEnglish?.get(0) ?: "",
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.titleSmall,
-                )
+                if(detailAnimeState.data?.titleEnglish?.get(0) != null && detailAnimeState.data?.titleEnglish?.get(0) != "null") {
+                    Text(
+                        text = detailAnimeState.data?.titleEnglish?.get(0) ?: "",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.titleSmall,
+                    )
+                }
             }
         }
     }

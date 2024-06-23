@@ -12,9 +12,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import club.anifox.android.commonui.component.button.AnifoxButtonSurface
+import club.anifox.android.commonui.theme.AnifoxTheme
 import club.anifox.android.feature.detail.R
 
 @Composable
@@ -51,7 +53,7 @@ internal fun TitleDialog(
                         )
                     }
                 }
-                if(engTitle.isNotEmpty()) {
+                if(engTitle.isNotEmpty() && engTitle != "null") {
                     titleItems.add {
                         Column {
                             Text(
@@ -65,7 +67,7 @@ internal fun TitleDialog(
                         }
                     }
                 }
-                if(japaneseTitle.isNotEmpty()) {
+                if(japaneseTitle.isNotEmpty() && japaneseTitle != "null") {
                     titleItems.add {
                         Column {
                             Text(
@@ -79,7 +81,7 @@ internal fun TitleDialog(
                         }
                     }
                 }
-                if(synonymsTitle.isNotEmpty()) {
+                if(synonymsTitle.isNotEmpty() && synonymsTitle != "null") {
                     titleItems.add {
                         Column {
                             Text(
@@ -121,5 +123,19 @@ internal fun TitleDialog(
                 }
             }
         }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun PreviewTitleDialog() {
+    AnifoxTheme {
+        TitleDialog(
+            title = "Title",
+            japaneseTitle = "JapaneseTitle",
+            synonymsTitle = "SynonymsTitle",
+            engTitle = "EngTitle",
+            setShowDialog = {},
+        )
     }
 }
