@@ -6,7 +6,9 @@ import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.enum.FilterEnum
+import club.anifox.android.domain.model.anime.enum.VideoType
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
+import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.state.StateWrapper
 import kotlinx.coroutines.flow.Flow
@@ -34,4 +36,5 @@ interface AnimeRepository {
     fun getAnimeSimilar(url: String): Flow<StateListWrapper<AnimeLight>>
     fun getAnimeRelated(url: String): Flow<StateListWrapper<AnimeRelatedLight>>
     fun getAnimeScreenshots(url: String): Flow<StateListWrapper<String>>
+    fun getAnimeVideos(url: String, videoType: VideoType?): Flow<StateListWrapper<AnimeVideosLight>>
 }

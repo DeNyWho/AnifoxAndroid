@@ -2,6 +2,7 @@ package club.anifox.android.data.source.repository
 
 import club.anifox.android.data.network.mappers.anime.detail.toDetail
 import club.anifox.android.data.network.mappers.anime.light.toLight
+import club.anifox.android.data.network.mappers.anime.videos.toLight
 import club.anifox.android.data.network.service.AnimeService
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
@@ -9,7 +10,9 @@ import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.enum.FilterEnum
+import club.anifox.android.domain.model.anime.enum.VideoType
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
+import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.model.common.Resource
 import club.anifox.android.domain.repository.AnimeRepository
 import club.anifox.android.domain.state.StateListWrapper
@@ -144,13 +147,34 @@ class AnimeRepositoryImpl @Inject constructor(
         return flow {
             emit(StateListWrapper.loading())
 
-            val state = when (val animeRelatedResult = animeService.getAnimeScreenshots(url)) {
+            val state = when (val animeScreenshotsResult = animeService.getAnimeScreenshots(url)) {
                 is Resource.Success -> {
-                    val data = animeRelatedResult.data.take(10)
+                    val data = animeScreenshotsResult.data.take(10)
                     StateListWrapper(data)
                 }
                 is Resource.Error -> {
-                    StateListWrapper(error = animeRelatedResult.error)
+                    StateListWrapper(error = animeScreenshotsResult.error)
+                }
+                is Resource.Loading -> {
+                    StateListWrapper.loading()
+                }
+            }
+
+            emit(state)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun getAnimeVideos(url: String, videoType: VideoType?): Flow<StateListWrapper<AnimeVideosLight>> {
+        return flow {
+            emit(StateListWrapper.loading())
+
+            val state = when (val animeVideosResult = animeService.getAnimeVideos(url, videoType)) {
+                is Resource.Success -> {
+                    val data = animeVideosResult.data.map { it.toLight() }
+                    StateListWrapper(data)
+                }
+                is Resource.Error -> {
+                    StateListWrapper(error = animeVideosResult.error)
                 }
                 is Resource.Loading -> {
                     StateListWrapper.loading()

@@ -4,11 +4,13 @@ import club.anifox.android.data.network.api.ApiEndpoints
 import club.anifox.android.data.network.models.dto.anime.detail.AnimeDetailDTO
 import club.anifox.android.data.network.models.dto.anime.light.AnimeLightDTO
 import club.anifox.android.data.network.models.dto.anime.related.AnimeRelatedDTO
+import club.anifox.android.data.network.models.dto.anime.videos.AnimeVideosDTO
 import club.anifox.android.data.network.safeApiCall
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.enum.FilterEnum
+import club.anifox.android.domain.model.anime.enum.VideoType
 import club.anifox.android.domain.model.common.Resource
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
@@ -96,5 +98,17 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
         }
 
         return safeApiCall<List<String>>(client, request)
+    }
+
+    suspend fun getAnimeVideos(url: String, type: VideoType?): Resource<List<AnimeVideosDTO>> {
+        val request = HttpRequestBuilder().apply {
+            method = HttpMethod.Get
+            url {
+                encodedPath = "${ApiEndpoints.ANIME}/$url/${ApiEndpoints.ANIME_VIDEOS}"
+                if (type != null) parameter("type", type.name)
+            }
+        }
+
+        return safeApiCall<List<AnimeVideosDTO>>(client, request)
     }
 }
