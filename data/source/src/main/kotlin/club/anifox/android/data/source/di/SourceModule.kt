@@ -8,6 +8,7 @@ import club.anifox.android.domain.usecase.anime.GetAnimeRelatedUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeScreenshotUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeSimilarUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeUseCase
+import club.anifox.android.domain.usecase.anime.GetAnimeVideosUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,6 +18,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object SourceModule {
+
     @Provides
     @Singleton
     fun provideAnimeRepository(
@@ -53,5 +55,11 @@ object SourceModule {
     @Singleton
     fun provideGetAnimeScreenshotUseCase(animeRepository: AnimeRepository): GetAnimeScreenshotUseCase {
         return GetAnimeScreenshotUseCase(animeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAnimeVideosUseCase(animeRepository: AnimeRepository): GetAnimeVideosUseCase {
+        return GetAnimeVideosUseCase(animeRepository)
     }
 }

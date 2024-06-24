@@ -3,13 +3,14 @@
     <string name="feature_detail_content_description_info">Title information</string>
     <string name="feature_detail_content_description_button_watch">Watch button</string>
     <string name="feature_detail_button_watch_title">Смотреть</string>
+    <string name="feature_detail_next_episode">Следующий эпизод:</string>
     <string name="feature_detail_dialog_title">Название</string>
     <string name="feature_detail_dialog_original_title">Оригинальное название</string>
     <string name="feature_detail_dialog_japanese_title">Японское название</string>
     <string name="feature_detail_dialog_synonyms_title">Альтернативные названия</string>
     <string name="feature_detail_dialog_button_close_title">Закрыть</string>
     <string name="feature_detail_section_header_title_similar">Похожие</string>
-    <string name="feature_detail_section_header_title_relation">Связанные</string>
+    <string name="feature_detail_section_header_title_relation">Связанные релизы</string>
     <string name="feature_detail_section_header_title_description">Описание</string>
     <string name="feature_detail_section_screenshots_header_title">Кадры</string>
 </resources>
