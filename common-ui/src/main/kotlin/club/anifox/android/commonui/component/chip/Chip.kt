@@ -10,8 +10,11 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import club.anifox.android.commonui.theme.AnifoxTheme
 
+/**
+ * Anifox ChipSurface (chip with surface colors) [AnifoxChipSurface].
+ */
 @Composable
-fun AnifoxChip(
+fun AnifoxChipSurface(
     modifier: Modifier = Modifier,
     title: String = "",
 ) {
@@ -31,9 +34,41 @@ fun AnifoxChip(
 
 @PreviewLightDark
 @Composable
-private fun PreviewAnifoxChip() {
+private fun PreviewAnifoxChipSurface() {
     AnifoxTheme {
-        AnifoxChip(
+        AnifoxChipSurface(
+            title = "2024",
+        )
+    }
+}
+
+/**
+ * Anifox ChipSurface (chip with surface colors) [AnifoxChipSurface].
+ */
+@Composable
+fun AnifoxChipPrimary(
+    modifier: Modifier = Modifier,
+    title: String = "",
+) {
+    Surface(
+        modifier = modifier,
+        shape = MaterialTheme.shapes.large,
+        contentColor = MaterialTheme.colorScheme.surfaceVariant,
+        color = MaterialTheme.colorScheme.primaryContainer,
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.labelSmall,
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun PreviewAnifoxChipPrimary() {
+    AnifoxTheme {
+        AnifoxChipPrimary(
             title = "Жанр",
         )
     }
