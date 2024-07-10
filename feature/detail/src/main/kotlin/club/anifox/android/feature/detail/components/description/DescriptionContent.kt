@@ -18,13 +18,19 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import club.anifox.android.commonui.component.icon.AnifoxIconOnBackground
+import club.anifox.android.core.uikit.component.icon.AnifoxIconOnBackground
+import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
+import club.anifox.android.core.uikit.component.slider.header.SliderHeader
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.state.StateWrapper
 import club.anifox.android.feature.detail.R
@@ -33,20 +39,21 @@ import club.anifox.android.feature.detail.R
 internal fun DescriptionContent(
     modifier: Modifier,
     detailAnimeState: StateWrapper<AnimeDetail>,
+    headerModifier: Modifier = SliderContentDefaults.BottomOnly,
     isExpanded: Boolean,
     onExpandedChanged: (Boolean) -> Unit,
 ) {
-    if(!detailAnimeState.isLoading) {
-        val visible = if(detailAnimeState.data?.description?.isNotEmpty() == true) detailAnimeState.data?.description?.length!! > 300 else false
+    if (!detailAnimeState.isLoading) {
+        var isTextExceedingMaxLines by remember { mutableStateOf(false) }
 
-        if (visible) {
-            Text(
-                text = stringResource(R.string.feature_detail_section_header_title_description),
-                maxLines = 1,
-                color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.titleLarge,
+        if(detailAnimeState.data?.description?.isNotEmpty() == true) {
+            SliderHeader(
+                modifier = headerModifier,
+                title = stringResource(R.string.feature_detail_section_header_title_description),
             )
+        }
 
+        if (isTextExceedingMaxLines) {
             AnimatedContent(
                 targetState = isExpanded,
                 transitionSpec = {
@@ -56,7 +63,7 @@ internal fun DescriptionContent(
                 },
                 label = "",
             ) { targetExpanded ->
-                Column (
+                Column(
                     modifier = modifier
                         .padding(top = 8.dp)
                         .fillMaxWidth()
@@ -99,13 +106,17 @@ internal fun DescriptionContent(
                 }
             }
         } else {
-            if(detailAnimeState.data?.description?.isNotEmpty() == true) {
+            if (detailAnimeState.data?.description?.isNotEmpty() == true) {
                 Text(
                     text = detailAnimeState.data?.description ?: "",
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Justify,
+                    onTextLayout = { textLayoutResult: TextLayoutResult ->
+                        isTextExceedingMaxLines = textLayoutResult.lineCount > 5
+                    },
                 )
             }
         }
     }
+
 }

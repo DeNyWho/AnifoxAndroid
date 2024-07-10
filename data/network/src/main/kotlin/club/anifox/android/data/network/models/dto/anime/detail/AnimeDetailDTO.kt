@@ -1,8 +1,8 @@
 @file:UseSerializers(LocalDateTimeSerializer::class, LocalDateSerializer::class)
 package club.anifox.android.data.network.models.dto.anime.detail
 
-import club.anifox.android.common.serializer.LocalDateSerializer
-import club.anifox.android.common.serializer.LocalDateTimeSerializer
+import club.anifox.android.core.common.serializer.LocalDateSerializer
+import club.anifox.android.core.common.serializer.LocalDateTimeSerializer
 import club.anifox.android.data.network.models.dto.anime.common.AnimeGenreDTO
 import club.anifox.android.data.network.models.dto.anime.common.AnimeImageDTO
 import club.anifox.android.data.network.models.dto.anime.common.AnimeStudioDTO

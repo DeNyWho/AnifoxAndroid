@@ -5,10 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
-import club.anifox.android.commonui.component.slider.SliderContentDefaults
-import club.anifox.android.commonui.component.slider.header.SliderHeader
-import club.anifox.android.commonui.component.slider.header.SliderHeaderShimmer
-import club.anifox.android.commonui.util.onUpdateShimmerBounds
+import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
+import club.anifox.android.core.uikit.component.slider.header.SliderHeader
+import club.anifox.android.core.uikit.component.slider.header.SliderHeaderShimmer
+import club.anifox.android.core.uikit.util.onUpdateShimmerBounds
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.detail.components.related.item.CardRelationItem
@@ -23,7 +23,7 @@ import com.valentinilk.shimmer.rememberShimmer
 @Composable
 internal fun RelationContent(
     modifier: Modifier = Modifier,
-    headerModifier: Modifier = SliderContentDefaults.Default,
+    headerModifier: Modifier = SliderContentDefaults.BottomOnly,
     itemModifier: Modifier = Modifier,
     shimmer: Shimmer = rememberShimmer(Custom),
     thumbnailHeight: Dp = Height.Default,

@@ -2,7 +2,6 @@ package club.anifox.android.feature.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,25 +22,26 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import club.anifox.android.commonui.component.button.AnifoxButtonPrimary
-import club.anifox.android.commonui.component.icon.AnifoxIconPrimary
-import club.anifox.android.commonui.component.slider.SliderContentDefaults
-import club.anifox.android.commonui.component.slider.screenshots.content.SliderScreenshotsContent
-import club.anifox.android.commonui.component.slider.simple.content.SliderContent
-import club.anifox.android.commonui.theme.AnifoxTheme
+import club.anifox.android.core.uikit.component.button.AnifoxButtonPrimary
+import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
+import club.anifox.android.core.uikit.component.progress.CircularProgress
+import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
+import club.anifox.android.core.uikit.component.slider.screenshots.content.SliderScreenshotsContent
+import club.anifox.android.core.uikit.component.slider.simple.content.SliderContent
+import club.anifox.android.core.uikit.theme.AnifoxTheme
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.state.StateWrapper
 import club.anifox.android.feature.detail.components.description.DescriptionContent
+import club.anifox.android.feature.detail.components.genres.GenreContent
 import club.anifox.android.feature.detail.components.related.RelationContent
 import club.anifox.android.feature.detail.components.title.TitleInformationContent
 import club.anifox.android.feature.detail.components.top.ContentDetailsScreenToolbar
@@ -89,31 +89,34 @@ internal fun DetailUI(
     onAnimeClick: (String) -> Unit,
     onScreenshotClick: (String) -> Unit,
 ) {
-    val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
-
-    CollapsingToolbarScaffold(
-        modifier = Modifier
-            .fillMaxSize(),
-        state = toolbarScaffoldState,
-        scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
-        toolbar = {
-            ContentDetailsScreenToolbar(
-                contentDetailState = detailAnimeState,
-                toolbarScaffoldState = toolbarScaffoldState,
-                navigateBack = onBackPressed,
-            )
-        },
-        body = {
-            DetailContentUI(
-                detailAnimeState = detailAnimeState,
-                screenshotAnimeState = screenshotAnimeState,
-                relationAnimeState = relationAnimeState,
-                similarAnimeState = similarAnimeState,
-                onAnimeClick = onAnimeClick,
-                onScreenshotClick = onScreenshotClick,
-            )
-        }
-    )
+    if(detailAnimeState.isLoading) {
+        CircularProgress()
+    } else {
+        val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
+        CollapsingToolbarScaffold(
+            modifier = Modifier
+                .fillMaxSize(),
+            state = toolbarScaffoldState,
+            scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
+            toolbar = {
+                ContentDetailsScreenToolbar(
+                    contentDetailState = detailAnimeState,
+                    toolbarScaffoldState = toolbarScaffoldState,
+                    navigateBack = onBackPressed,
+                )
+            },
+            body = {
+                DetailContentUI(
+                    detailAnimeState = detailAnimeState,
+                    screenshotAnimeState = screenshotAnimeState,
+                    relationAnimeState = relationAnimeState,
+                    similarAnimeState = similarAnimeState,
+                    onAnimeClick = onAnimeClick,
+                    onScreenshotClick = onScreenshotClick,
+                )
+            }
+        )
+    }
 }
 
 @Composable
@@ -136,7 +139,10 @@ internal fun DetailContentUI(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         item {
-            TitleInformationContent(detailAnimeState)
+            TitleInformationContent(
+                modifier = Modifier.padding(end =  16.dp),
+                detailAnimeState = detailAnimeState
+            )
         }
         item {
             AnifoxButtonPrimary(
@@ -162,6 +168,12 @@ internal fun DetailContentUI(
             }
         }
         item {
+            GenreContent(
+                modifier = Modifier.padding(end =  16.dp),
+                detailAnimeState = detailAnimeState,
+            )
+        }
+        item {
             DescriptionContent(
                 modifier = Modifier.padding(end =  16.dp),
                 detailAnimeState = detailAnimeState,
@@ -170,7 +182,7 @@ internal fun DetailContentUI(
             )
         }
         item {
-            SliderScreenshotsContent (
+            SliderScreenshotsContent(
                 headerModifier = SliderContentDefaults.VerticalOnly,
                 contentState = screenshotAnimeState,
                 headerTitle = stringResource(R.string.feature_detail_section_screenshots_header_title),
@@ -201,7 +213,7 @@ internal fun DetailContentUI(
 
 @PreviewScreenSizes
 @Composable
-private fun PreviewScrollableHorizontalContentDefault(
+private fun PreviewDetailScreenUI(
     @PreviewParameter(DetailContentProvider::class) param: DetailContentPreviewParam,
 ) {
     AnifoxTheme {

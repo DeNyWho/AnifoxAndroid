@@ -19,7 +19,7 @@ secrets {
 
 dependencies {
     api(projects.domain)
-    api(projects.common)
+    api(projects.core.common)
 
     implementation(libs.kotlinx.serialization.json)
 

@@ -15,8 +15,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import club.anifox.android.commonui.component.button.AnifoxButtonSurface
-import club.anifox.android.commonui.theme.AnifoxTheme
+import club.anifox.android.core.uikit.component.button.AnifoxButtonSurface
+import club.anifox.android.core.uikit.theme.AnifoxTheme
 import club.anifox.android.feature.detail.R
 
 @Composable

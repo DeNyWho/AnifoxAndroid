@@ -1,6 +1,5 @@
 package club.anifox.android.ui
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -26,7 +25,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import club.anifox.android.R
-import club.anifox.android.commonui.component.AnifoxBackground
+import club.anifox.android.core.uikit.component.AnifoxBackground
 import club.anifox.android.navigation.AnifoxNavHost
 
 @OptIn(ExperimentalComposeUiApi::class)

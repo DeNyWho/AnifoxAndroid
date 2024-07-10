@@ -3,7 +3,9 @@ package club.anifox.android.domain.model.anime
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
+import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.anime.image.AnimeImage
+import club.anifox.android.domain.model.anime.studio.AnimeStudio
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -28,5 +30,7 @@ data class AnimeDetail(
     val releasedOn: LocalDate? = null,
     val airedOn: LocalDate = LocalDate.now(),
     val description: String? = null,
+    val genre: List<AnimeGenre> = listOf(),
+    val studio: List<AnimeStudio> = listOf(),
 //    val translations: List<AnimeTranslations>,
 )

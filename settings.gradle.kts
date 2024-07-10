@@ -31,6 +31,8 @@ include(":feature:schedule")
 include(":feature:search")
 
 include(":core:testing")
+include(":core:uikit")
+include(":core:common")
 
 include(":data:datastore")
 include(":data:network")
@@ -38,6 +40,4 @@ include(":data:local")
 include(":data:source")
 
 include(":lint")
-include(":common-ui")
-include(":common")
 include(":domain")

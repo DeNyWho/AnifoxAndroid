@@ -34,7 +34,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import club.anifox.android.commonui.component.icon.AnifoxIcon
+import club.anifox.android.core.uikit.component.icon.AnifoxIcon
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.state.StateWrapper
 import coil.ImageLoader
@@ -52,8 +52,6 @@ internal fun CollapsingToolbarScope.ContentDetailsScreenToolbar(
     toolbarScaffoldState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
     navigateBack: () -> Boolean,
 ) {
-    println("WAFL + ${toolbarScaffoldState.toolbarState.progress}")
-
     val blockerColorGradients = listOf(
         MaterialTheme.colorScheme.background.copy(alpha = 0.9F),
         MaterialTheme.colorScheme.background.copy(alpha = 0.8F),

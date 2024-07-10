@@ -10,7 +10,8 @@ android {
 dependencies {
     api(kotlin("test"))
     api(libs.androidx.compose.ui.test)
-
+    api(projects.core.common)
+    api(projects.core.uikit)
 
     debugApi(libs.androidx.compose.ui.testManifest)
 
@@ -18,8 +19,6 @@ dependencies {
     implementation(libs.hilt.android.testing)
     implementation(libs.kotlinx.coroutines.test)
     implementation(libs.kotlinx.datetime)
-    implementation(projects.common)
-    implementation(projects.commonUi)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)

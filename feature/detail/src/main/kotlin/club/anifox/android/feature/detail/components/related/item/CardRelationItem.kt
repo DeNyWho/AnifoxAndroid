@@ -26,8 +26,8 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import club.anifox.android.commonui.component.chip.AnifoxChip
-import club.anifox.android.commonui.theme.AnifoxTheme
+import club.anifox.android.core.uikit.component.chip.AnifoxChipPrimary
+import club.anifox.android.core.uikit.theme.AnifoxTheme
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.feature.detail.components.related.item.param.CardRelationItemPreviewParam
 import club.anifox.android.feature.detail.components.related.item.param.CardRelationItemProvider
@@ -105,14 +105,14 @@ internal fun CardRelationItem(
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                AnifoxChip(
+                AnifoxChipPrimary(
                     title = data.anime.year.toString(),
                 )
-                AnifoxChip(
+                AnifoxChipPrimary(
                     title = data.anime.type.toString(),
                 )
                 if(data.anime.rating != null) {
-                    AnifoxChip(
+                    AnifoxChipPrimary(
                         title = data.anime.rating.toString(),
                     )
                 }
@@ -120,8 +120,6 @@ internal fun CardRelationItem(
         }
     }
 }
-
-
 
 @PreviewLightDark
 @Composable
