@@ -8,9 +8,9 @@ import kotlinx.serialization.Serializable
 data class AnimeVideosDTO(
     @SerialName("url")
     val url: String,
-    @SerialName("imageUrl")
+    @SerialName("image")
     val imageUrl: String,
-    @SerialName("playerUrl")
+    @SerialName("player_url")
     val playerUrl: String,
     @SerialName("name")
     val name: String,

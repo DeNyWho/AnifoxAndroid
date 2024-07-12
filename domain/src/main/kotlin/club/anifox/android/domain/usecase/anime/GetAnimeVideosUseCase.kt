@@ -10,7 +10,8 @@ class GetAnimeVideosUseCase(private val animeRepository: AnimeRepository) {
     operator fun invoke(
         url: String,
         videoType: VideoType?,
+        limit: Int?,
     ): Flow<StateListWrapper<AnimeVideosLight>> {
-        return animeRepository.getAnimeVideos(url, videoType)
+        return animeRepository.getAnimeVideos(url, videoType, limit)
     }
 }

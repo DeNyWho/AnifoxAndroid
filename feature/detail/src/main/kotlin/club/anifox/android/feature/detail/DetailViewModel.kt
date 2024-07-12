@@ -73,7 +73,7 @@ class DetailViewModel @Inject constructor(
     }
 
     fun getVideosAnime(url: String) {
-        animeVideosUseCase.invoke(url = url, videoType = null).onEach {
+        animeVideosUseCase.invoke(url = url, videoType = null, 5).onEach {
             _videosAnime.value = it
         }.launchIn(viewModelScope)
     }

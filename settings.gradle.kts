@@ -12,6 +12,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -19,6 +20,8 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
+gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))
 
 rootProject.name = "AnifoxAndroid"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

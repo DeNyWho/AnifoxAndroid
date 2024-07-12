@@ -1,9 +1,9 @@
-package club.anifox.android.core.uikit.component.card.screenshot
+package club.anifox.android.core.uikit.component.card.video
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.ui.unit.dp
 
-object CardScreenshotLandscapeDefaults {
+object CardVideoLandscapeDefaults {
     object Width {
         val Default = 170.dp
     }
@@ -17,6 +17,6 @@ object CardScreenshotLandscapeDefaults {
     }
 
     object Limit {
-        const val LANDSCAPE_LIMIT = 5
+        const val LANDSCAPE_LIMIT = 1
     }
 }

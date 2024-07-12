@@ -1,4 +1,4 @@
-package club.anifox.android.core.uikit.component.slider.screenshots.content
+package club.anifox.android.core.uikit.component.slider.video.content
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,34 +14,35 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import club.anifox.android.core.uikit.component.card.screenshot.CardScreenshotLandscape
-import club.anifox.android.core.uikit.component.card.screenshot.CardScreenshotLandscapeDefaults
-import club.anifox.android.core.uikit.component.card.screenshot.showCardScreenshotLandscapeMoreWhenPastLimit
-import club.anifox.android.core.uikit.component.card.screenshot.showCardScreenshotLandscapeShimmer
+import club.anifox.android.core.uikit.component.card.video.CardVideoLandscape
+import club.anifox.android.core.uikit.component.card.video.CardVideoLandscapeDefaults
+import club.anifox.android.core.uikit.component.card.video.showCardVideoLandscapeMoreWhenPastLimit
+import club.anifox.android.core.uikit.component.card.video.showCardVideoLandscapeShimmer
 import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
 import club.anifox.android.core.uikit.component.slider.header.SliderHeader
 import club.anifox.android.core.uikit.component.slider.header.SliderHeaderShimmer
-import club.anifox.android.core.uikit.component.slider.screenshots.content.param.SliderScreenshotsContentPreviewParam
-import club.anifox.android.core.uikit.component.slider.screenshots.content.param.SliderScreenshotsContentProvider
+import club.anifox.android.core.uikit.component.slider.video.content.param.SliderVideoContentPreviewParam
+import club.anifox.android.core.uikit.component.slider.video.content.param.SliderVideoContentProvider
 import club.anifox.android.core.uikit.theme.AnifoxTheme
 import club.anifox.android.core.uikit.util.onUpdateShimmerBounds
+import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.state.StateListWrapper
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
 
 @Composable
-fun SliderScreenshotsContent(
+fun SliderVideoContent(
     modifier: Modifier = Modifier,
     headerModifier: Modifier = SliderContentDefaults.BottomOnly,
-    itemModifier: Modifier = Modifier.width(CardScreenshotLandscapeDefaults.Width.Default),
+    itemModifier: Modifier = Modifier.width(CardVideoLandscapeDefaults.Width.Default),
     shimmer: Shimmer = rememberShimmer(ShimmerBounds.Custom),
-    thumbnailHeight: Dp = CardScreenshotLandscapeDefaults.Height.Default,
-    thumbnailWidth: Dp = CardScreenshotLandscapeDefaults.Width.Default,
+    thumbnailHeight: Dp = CardVideoLandscapeDefaults.Height.Default,
+    thumbnailWidth: Dp = CardVideoLandscapeDefaults.Width.Default,
     headerTitle: String,
-    contentState: StateListWrapper<String>,
+    contentState: StateListWrapper<AnimeVideosLight>,
     contentPadding: PaddingValues = PaddingValues(horizontal = 12.dp),
-    contentArrangement: Arrangement.Horizontal = CardScreenshotLandscapeDefaults.HorizontalArrangement.Default,
+    contentArrangement: Arrangement.Horizontal = CardVideoLandscapeDefaults.HorizontalArrangement.Default,
     onItemClick: (String) -> Unit,
 ) {
     // header
@@ -64,7 +65,7 @@ fun SliderScreenshotsContent(
         horizontalArrangement = contentArrangement,
     ) {
         if(contentState.isLoading) {
-            showCardScreenshotLandscapeShimmer(
+            showCardVideoLandscapeShimmer(
                 modifier = itemModifier,
                 shimmerInstance = shimmer,
                 thumbnailHeight = thumbnailHeight,
@@ -73,34 +74,35 @@ fun SliderScreenshotsContent(
         } else if(contentState.data.isNotEmpty()) {
             items(
                 contentState.data,
-                key = { it },
-            ) { imageUrl ->
-                CardScreenshotLandscape(
+                key = { it.playerUrl },
+            ) { video ->
+                CardVideoLandscape(
                     modifier = itemModifier,
-                    image = imageUrl,
+                    data = video,
                     thumbnailHeight = thumbnailHeight,
                     thumbnailWidth = thumbnailWidth,
-                    onClick = { onItemClick.invoke(imageUrl) }
+                    onClick = { },
                 )
             }
-            showCardScreenshotLandscapeMoreWhenPastLimit(
+            showCardVideoLandscapeMoreWhenPastLimit(
                 size = contentState.data.size,
                 onClick = { },
             )
         }
     }
+
 }
 
 @PreviewLightDark
 @Composable
-private fun PreviewScrollableHorizontalContentScreenshots(
-    @PreviewParameter(SliderScreenshotsContentProvider::class) param: SliderScreenshotsContentPreviewParam,
+private fun PreviewScrollableHorizontalContentVideo(
+    @PreviewParameter(SliderVideoContentProvider::class) param: SliderVideoContentPreviewParam,
 ) {
     AnifoxTheme {
         Column (
             Modifier.background(MaterialTheme.colorScheme.background)
         ) {
-            SliderScreenshotsContent (
+            SliderVideoContent (
                 modifier = param.modifier,
                 headerModifier = param.headerModifier,
                 itemModifier = param.itemModifier,

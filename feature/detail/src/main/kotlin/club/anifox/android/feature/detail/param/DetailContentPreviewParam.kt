@@ -10,6 +10,7 @@ import club.anifox.android.domain.model.anime.enum.AnimeType.Tv
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.model.anime.studio.AnimeStudio
+import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.state.StateWrapper
 
@@ -17,6 +18,7 @@ internal data class DetailContentPreviewParam(
     val modifier: Modifier = Modifier,
     val detailAnime: StateWrapper<AnimeDetail>,
     val screenshotsAnime: StateListWrapper<String>,
+    val videosAnime: StateListWrapper<AnimeVideosLight>,
     val relationAnime: StateListWrapper<AnimeRelatedLight>,
     val similarAnime: StateListWrapper<AnimeLight>,
     val onBackPressed: () -> Boolean = { true },
@@ -76,6 +78,7 @@ internal class DetailContentProvider:
                 detailAnime = StateWrapper(data = Data, isLoading = false),
                 relationAnime = StateListWrapper(data = DataSetRelationLight, isLoading = false),
                 screenshotsAnime = StateListWrapper(isLoading = false),
+                videosAnime = StateListWrapper(isLoading = false),
                 similarAnime = StateListWrapper(data = DataSetAnimeLight, isLoading = false),
                 onAnimeClick = { },
                 onScreenshotClick = { },

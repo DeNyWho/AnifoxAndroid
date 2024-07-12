@@ -34,10 +34,12 @@ import club.anifox.android.core.uikit.component.progress.CircularProgress
 import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
 import club.anifox.android.core.uikit.component.slider.screenshots.content.SliderScreenshotsContent
 import club.anifox.android.core.uikit.component.slider.simple.content.SliderContent
+import club.anifox.android.core.uikit.component.slider.video.content.SliderVideoContent
 import club.anifox.android.core.uikit.theme.AnifoxTheme
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
+import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.state.StateWrapper
 import club.anifox.android.feature.detail.components.description.DescriptionContent
@@ -63,6 +65,7 @@ internal fun DetailScreen(
     LaunchedEffect(viewModel) {
         viewModel.getDetailAnime(url)
         viewModel.getScreenshotAnime(url)
+        viewModel.getVideosAnime(url)
         viewModel.getRelatedAnime(url)
         viewModel.getSimilarAnime(url)
     }
@@ -70,6 +73,7 @@ internal fun DetailScreen(
     DetailUI(
         detailAnimeState = viewModel.detailAnime.value,
         screenshotAnimeState = viewModel.screenshotsAnime.value,
+        videosAnimeState = viewModel.videosAnime.value,
         relationAnimeState = viewModel.relatedAnime.value,
         similarAnimeState = viewModel.similarAnime.value,
         onBackPressed = onBackPressed,
@@ -83,6 +87,7 @@ internal fun DetailUI(
     modifier: Modifier = Modifier,
     detailAnimeState: StateWrapper<AnimeDetail>,
     screenshotAnimeState: StateListWrapper<String>,
+    videosAnimeState: StateListWrapper<AnimeVideosLight>,
     relationAnimeState: StateListWrapper<AnimeRelatedLight>,
     similarAnimeState: StateListWrapper<AnimeLight>,
     onBackPressed: () -> Boolean,
@@ -109,10 +114,12 @@ internal fun DetailUI(
                 DetailContentUI(
                     detailAnimeState = detailAnimeState,
                     screenshotAnimeState = screenshotAnimeState,
+                    videosAnimeState = videosAnimeState,
                     relationAnimeState = relationAnimeState,
                     similarAnimeState = similarAnimeState,
                     onAnimeClick = onAnimeClick,
                     onScreenshotClick = onScreenshotClick,
+                    onVideoClick = { },
                 )
             }
         )
@@ -123,13 +130,16 @@ internal fun DetailUI(
 internal fun DetailContentUI(
     detailAnimeState: StateWrapper<AnimeDetail>,
     screenshotAnimeState: StateListWrapper<String>,
+    videosAnimeState: StateListWrapper<AnimeVideosLight>,
     relationAnimeState: StateListWrapper<AnimeRelatedLight>,
     similarAnimeState: StateListWrapper<AnimeLight>,
     onAnimeClick: (String) -> Unit,
     onScreenshotClick: (String) -> Unit,
+    onVideoClick: (String) -> Unit,
     lazyColumnState: LazyListState = rememberLazyListState(),
 ) {
     var isDescriptionExpanded by remember { mutableStateOf(false) }
+    println("WAFLYA = ${videosAnimeState.data}")
 
     LazyColumn(
         modifier = Modifier
@@ -191,6 +201,15 @@ internal fun DetailContentUI(
             )
         }
         item {
+            SliderVideoContent(
+                headerModifier = SliderContentDefaults.VerticalOnly,
+                contentState = videosAnimeState,
+                headerTitle = stringResource(R.string.feature_detail_section_video_header_title),
+                onItemClick = onVideoClick,
+                contentPadding = PaddingValues(),
+            )
+        }
+        item {
             RelationContent(
                 headerModifier = SliderContentDefaults.VerticalOnly,
                 headerTitle = stringResource(R.string.feature_detail_section_header_title_relation),
@@ -229,6 +248,7 @@ private fun PreviewDetailScreenUI(
                 onBackPressed = param.onBackPressed,
                 onAnimeClick = param.onAnimeClick,
                 onScreenshotClick = param.onScreenshotClick,
+                videosAnimeState = param.videosAnime,
             )
         }
     }
