@@ -7,6 +7,7 @@ import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.model.anime.enum.VideoType
+import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.state.StateListWrapper
@@ -28,6 +29,8 @@ interface AnimeRepository {
         studio: String?,
         filter: FilterEnum?,
     ): Flow<StateListWrapper<AnimeLight>>
+
+    fun getAnimeGenres(): Flow<StateListWrapper<AnimeGenre>>
 
     fun getAnimeDetail(
         url: String

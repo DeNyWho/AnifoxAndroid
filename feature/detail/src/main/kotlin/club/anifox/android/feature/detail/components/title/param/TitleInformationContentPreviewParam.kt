@@ -1,9 +1,9 @@
 package club.anifox.android.feature.detail.components.title.param
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import club.anifox.android.core.uikit.param.GlobalParams
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.state.StateWrapper
-import club.anifox.android.feature.detail.param.Data
 
 internal data class TitleInformationContentPreviewParam(
     val detailAnime: StateWrapper<AnimeDetail>,
@@ -20,7 +20,7 @@ internal class TitleInformationContentProvider:
 //                detailAnime = StateWrapper.loading(),
 //            ),
             TitleInformationContentPreviewParam(
-                detailAnime = StateWrapper(data = Data, isLoading = false),
+                detailAnime = StateWrapper(data = GlobalParams.Data, isLoading = false),
             )
         ).asSequence()
 }

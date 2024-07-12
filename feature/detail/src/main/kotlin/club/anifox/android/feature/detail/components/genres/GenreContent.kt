@@ -10,19 +10,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import club.anifox.android.core.uikit.R
 import club.anifox.android.core.uikit.component.chip.AnifoxChipPrimary
 import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
 import club.anifox.android.core.uikit.component.slider.header.SliderHeader
 import club.anifox.android.core.uikit.theme.AnifoxTheme
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.state.StateWrapper
-import club.anifox.android.feature.detail.R
 import club.anifox.android.feature.detail.components.genres.param.GenreContentPreviewParam
 import club.anifox.android.feature.detail.components.genres.param.GenreContentProvider
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-internal fun GenreContent(
+fun GenreContent(
     modifier: Modifier = Modifier,
     headerModifier: Modifier = SliderContentDefaults.BottomOnly,
     detailAnimeState: StateWrapper<AnimeDetail>,
@@ -33,7 +33,7 @@ internal fun GenreContent(
         ) {
             SliderHeader(
                 modifier = headerModifier,
-                title = stringResource(R.string.feature_detail_section_header_title_genres),
+                title = stringResource(R.string.core_uikit_header_title_genres),
             )
 
             FlowRow (

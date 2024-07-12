@@ -4,6 +4,7 @@ import club.anifox.android.data.network.service.AnimeService
 import club.anifox.android.data.source.repository.AnimeRepositoryImpl
 import club.anifox.android.domain.repository.AnimeRepository
 import club.anifox.android.domain.usecase.anime.GetAnimeDetailUseCase
+import club.anifox.android.domain.usecase.anime.GetAnimeGenresUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeRelatedUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeScreenshotUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeSimilarUseCase
@@ -31,6 +32,12 @@ object SourceModule {
     @Singleton
     fun provideGetAnimeUseCase(animeRepository: AnimeRepository): GetAnimeUseCase {
         return GetAnimeUseCase(animeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAnimeGenresUseCase(animeRepository: AnimeRepository): GetAnimeGenresUseCase {
+        return GetAnimeGenresUseCase(animeRepository)
     }
 
     @Provides

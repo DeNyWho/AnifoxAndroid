@@ -1,5 +1,6 @@
 package club.anifox.android.data.source.repository
 
+import club.anifox.android.data.network.mappers.anime.common.toGenre
 import club.anifox.android.data.network.mappers.anime.detail.toDetail
 import club.anifox.android.data.network.mappers.anime.light.toLight
 import club.anifox.android.data.network.mappers.anime.videos.toLight
@@ -11,6 +12,7 @@ import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.model.anime.enum.VideoType
+import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.model.common.Resource
@@ -66,6 +68,27 @@ class AnimeRepositoryImpl @Inject constructor(
                 }
                 is Resource.Error -> {
                     StateListWrapper(error = animeResult.error)
+                }
+                is Resource.Loading -> {
+                    StateListWrapper.loading()
+                }
+            }
+
+            emit(state)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun getAnimeGenres(): Flow<StateListWrapper<AnimeGenre>> {
+        return flow {
+            emit(StateListWrapper.loading())
+
+            val state = when(val genreResult = animeService.getAnimeGenres()) {
+                is Resource.Success -> {
+                    val data = genreResult.data.map { it.toGenre() }
+                    StateListWrapper(data)
+                }
+                is Resource.Error -> {
+                    StateListWrapper(error = genreResult.error)
                 }
                 is Resource.Loading -> {
                     StateListWrapper.loading()

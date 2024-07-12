@@ -12,7 +12,6 @@
     <string name="feature_detail_section_header_title_similar">Похожие</string>
     <string name="feature_detail_section_header_title_relation">Связанные релизы</string>
     <string name="feature_detail_section_header_title_description">Описание</string>
-    <string name="feature_detail_section_header_title_genres">Жанры</string>
     <string name="feature_detail_section_screenshots_header_title">Кадры</string>
     <string name="feature_detail_section_video_header_title">Видео</string>
 </resources>

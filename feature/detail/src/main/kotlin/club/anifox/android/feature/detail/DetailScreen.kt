@@ -139,7 +139,6 @@ internal fun DetailContentUI(
     lazyColumnState: LazyListState = rememberLazyListState(),
 ) {
     var isDescriptionExpanded by remember { mutableStateOf(false) }
-    println("WAFLYA = ${videosAnimeState.data}")
 
     LazyColumn(
         modifier = Modifier
