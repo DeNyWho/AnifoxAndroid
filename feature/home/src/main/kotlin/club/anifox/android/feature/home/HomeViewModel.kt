@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+internal class HomeViewModel @Inject constructor(
     private val animeUseCase: GetAnimeUseCase,
 ) : ViewModel() {
     private val _onPopularOngoingAnime: MutableState<StateListWrapper<AnimeLight>> =

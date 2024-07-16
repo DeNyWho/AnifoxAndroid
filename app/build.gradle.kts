@@ -51,6 +51,8 @@ dependencies {
     implementation(projects.feature.player)
     implementation(projects.feature.search)
     implementation(projects.feature.schedule)
+    implementation(projects.feature.video)
+    implementation(projects.feature.screenshots)
 
     implementation(projects.core.uikit)
     implementation(projects.core.common)

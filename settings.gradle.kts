@@ -32,6 +32,8 @@ include(":feature:home")
 include(":feature:player")
 include(":feature:schedule")
 include(":feature:search")
+include(":feature:video")
+include(":feature:screenshots")
 
 include(":core:testing")
 include(":core:uikit")

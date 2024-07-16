@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor(
+internal class DetailViewModel @Inject constructor(
     private val animeDetailUseCase: GetAnimeDetailUseCase,
     private val animeSimilarUseCase: GetAnimeSimilarUseCase,
     private val animeRelatedUseCase: GetAnimeRelatedUseCase,

@@ -31,7 +31,6 @@ fun SliderHeader(
             style = MaterialTheme.typography.titleLarge,
         )
     }
-
 }
 
 @PreviewLightDark

@@ -7,7 +7,10 @@ import club.anifox.android.feature.detail.navigation.detailScreen
 import club.anifox.android.feature.detail.navigation.navigateToDetail
 import club.anifox.android.feature.home.navigation.HOME_ROUTE
 import club.anifox.android.feature.home.navigation.homeScreen
+import club.anifox.android.feature.schedule.navigation.scheduleScreen
+import club.anifox.android.feature.screenshots.navigation.screenshotsScreen
 import club.anifox.android.feature.search.navigation.searchScreen
+import club.anifox.android.feature.video.navigation.videoScreen
 import club.anifox.android.ui.AnifoxAppState
 
 @Composable
@@ -28,5 +31,8 @@ fun AnifoxNavHost(
             onAnimeClick = navController::navigateToDetail,
         )
         searchScreen()
+        screenshotsScreen()
+        videoScreen()
+        scheduleScreen()
     }
 }

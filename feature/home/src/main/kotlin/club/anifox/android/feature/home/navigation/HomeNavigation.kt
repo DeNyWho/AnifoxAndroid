@@ -5,7 +5,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import club.anifox.android.feature.home.HomeScreen
-import club.anifox.android.feature.home.HomeUI
 
 const val HOME_ROUTE = "home_route"
 
