@@ -7,7 +7,8 @@ import kotlinx.coroutines.flow.Flow
 class GetAnimeScreenshotUseCase(private val animeRepository: AnimeRepository) {
     operator fun invoke(
         url: String,
+        limit: Int? = null,
     ): Flow<StateListWrapper<String>> {
-        return animeRepository.getAnimeScreenshots(url)
+        return animeRepository.getAnimeScreenshots(url, limit)
     }
 }

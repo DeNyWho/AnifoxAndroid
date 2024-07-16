@@ -166,13 +166,17 @@ class AnimeRepositoryImpl @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
-    override fun getAnimeScreenshots(url: String): Flow<StateListWrapper<String>> {
+    override fun getAnimeScreenshots(url: String, limit: Int?): Flow<StateListWrapper<String>> {
         return flow {
             emit(StateListWrapper.loading())
 
             val state = when (val animeScreenshotsResult = animeService.getAnimeScreenshots(url)) {
                 is Resource.Success -> {
-                    val data = animeScreenshotsResult.data.take(10)
+                    val data = if(limit != null) {
+                        animeScreenshotsResult.data.take(limit)
+                    } else {
+                        animeScreenshotsResult.data
+                    }
                     StateListWrapper(data)
                 }
                 is Resource.Error -> {

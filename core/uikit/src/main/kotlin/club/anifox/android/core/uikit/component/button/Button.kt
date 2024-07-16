@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.icon.AnifoxIcon
-import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
+import club.anifox.android.core.uikit.component.icon.AnifoxIconOnPrimary
 import club.anifox.android.core.uikit.theme.AnifoxTheme
 
 @Composable
@@ -126,7 +126,7 @@ internal fun PreviewAnifoxButtonPrimaryWithIcon() {
             ),
             paddingValues = PaddingValues(0.dp)
         ) {
-            AnifoxIconPrimary(imageVector = Filled.PlayArrow, contentDescription = "content description")
+            AnifoxIconOnPrimary(imageVector = Filled.PlayArrow, contentDescription = "content description")
             Text(
                 modifier = Modifier.padding(start = 16.dp),
                 text = "Watch",

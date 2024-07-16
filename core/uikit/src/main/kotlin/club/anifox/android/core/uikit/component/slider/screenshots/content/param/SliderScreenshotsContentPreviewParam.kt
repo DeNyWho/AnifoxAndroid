@@ -8,8 +8,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.card.anime.CardAnimePortraitDefaults.HorizontalArrangement
-import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
 import club.anifox.android.core.uikit.component.card.screenshot.CardScreenshotLandscapeDefaults
+import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
 import club.anifox.android.domain.state.StateListWrapper
 import java.util.UUID
 
@@ -25,6 +25,7 @@ data class SliderScreenshotsContentPreviewParam(
     val contentArrangement: Arrangement.Horizontal,
     val onHeaderClick: () -> Unit = { },
     val onItemClick: (String) -> Unit = { },
+    val onMoreClick: () -> Unit = { },
 )
 
 private val DataSet = List(10) { UUID.randomUUID().toString() }

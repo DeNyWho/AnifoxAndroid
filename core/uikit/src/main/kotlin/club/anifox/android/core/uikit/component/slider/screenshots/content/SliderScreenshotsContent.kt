@@ -43,6 +43,7 @@ fun SliderScreenshotsContent(
     contentPadding: PaddingValues = PaddingValues(horizontal = 12.dp),
     contentArrangement: Arrangement.Horizontal = CardScreenshotLandscapeDefaults.HorizontalArrangement.Default,
     onItemClick: (String) -> Unit,
+    onMoreClick: () -> Unit,
 ) {
     // header
     if(contentState.isLoading) {
@@ -85,7 +86,9 @@ fun SliderScreenshotsContent(
             }
             showCardScreenshotLandscapeMoreWhenPastLimit(
                 size = contentState.data.size,
-                onClick = { },
+                onClick = {
+                    onMoreClick.invoke()
+                },
             )
         }
     }
@@ -111,6 +114,7 @@ private fun PreviewScrollableHorizontalContentScreenshots(
                 contentPadding = param.contentPadding,
                 contentArrangement = param.contentArrangement,
                 onItemClick = param.onItemClick,
+                onMoreClick = param.onMoreClick,
             )
         }
     }

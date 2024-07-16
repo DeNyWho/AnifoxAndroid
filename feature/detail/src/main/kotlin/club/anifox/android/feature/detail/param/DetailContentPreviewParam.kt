@@ -12,6 +12,7 @@ import club.anifox.android.domain.state.StateWrapper
 
 internal data class DetailContentPreviewParam(
     val modifier: Modifier = Modifier,
+    val url: String = "",
     val detailAnime: StateWrapper<AnimeDetail>,
     val screenshotsAnime: StateListWrapper<String>,
     val videosAnime: StateListWrapper<AnimeVideosLight>,
@@ -20,6 +21,7 @@ internal data class DetailContentPreviewParam(
     val onBackPressed: () -> Boolean = { true },
     val onAnimeClick: (String) -> Unit,
     val onScreenshotClick: (String) -> Unit,
+    val onMoreScreenshotClick: (String) -> Unit,
 )
 
 internal class DetailContentProvider:
@@ -41,6 +43,7 @@ internal class DetailContentProvider:
                 similarAnime = StateListWrapper(data = GlobalParams.DataSetAnimeLight, isLoading = false),
                 onAnimeClick = { },
                 onScreenshotClick = { },
+                onMoreScreenshotClick = { },
             )
         ).asSequence()
 }

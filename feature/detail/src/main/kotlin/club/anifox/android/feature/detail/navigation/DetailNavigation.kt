@@ -9,7 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import club.anifox.android.feature.detail.DetailScreen
 
-const val ANIME_URL = "animeUrl"
+const val ANIME_URL = "anime_url"
 const val DETAIL_ROUTE_BASE = "detail_route"
 
 fun NavController.navigateToDetail(url: String? = null, navOptions: NavOptions? = null) {
@@ -24,12 +24,13 @@ fun NavController.navigateToDetail(url: String? = null, navOptions: NavOptions? 
 fun NavGraphBuilder.detailScreen(
     onBackPressed: () -> Boolean,
     onAnimeClick: (String) -> Unit,
+    onMoreScreenshotClick: (String, String) -> Unit, // Изменено здесь
 ) {
     composable(
         "$DETAIL_ROUTE_BASE/${ANIME_URL}={url}",
         arguments = listOf(
             navArgument("url") { type = NavType.StringType },
-        )
+        ),
     ) {
         val url = remember { it.arguments?.getString("url") }
 
@@ -37,7 +38,8 @@ fun NavGraphBuilder.detailScreen(
             url = url ?: "",
             onBackPressed = onBackPressed,
             onAnimeClick = onAnimeClick,
-            onScreenshotClick = {}
+            onScreenshotClick = { },
+            onMoreScreenshotClick = onMoreScreenshotClick,
         )
     }
 }

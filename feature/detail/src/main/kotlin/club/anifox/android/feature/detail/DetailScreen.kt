@@ -29,7 +29,7 @@ import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import club.anifox.android.core.uikit.component.button.AnifoxButtonPrimary
-import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
+import club.anifox.android.core.uikit.component.icon.AnifoxIconOnPrimary
 import club.anifox.android.core.uikit.component.progress.CircularProgress
 import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
 import club.anifox.android.core.uikit.component.slider.screenshots.content.SliderScreenshotsContent
@@ -61,6 +61,7 @@ internal fun DetailScreen(
     onBackPressed: () -> Boolean,
     onAnimeClick: (String) -> Unit,
     onScreenshotClick: (String) -> Unit,
+    onMoreScreenshotClick: (String, String) -> Unit,
 ) {
     LaunchedEffect(viewModel) {
         viewModel.getDetailAnime(url)
@@ -71,6 +72,7 @@ internal fun DetailScreen(
     }
 
     DetailUI(
+        url = url,
         detailAnimeState = viewModel.detailAnime.value,
         screenshotAnimeState = viewModel.screenshotsAnime.value,
         videosAnimeState = viewModel.videosAnime.value,
@@ -79,12 +81,16 @@ internal fun DetailScreen(
         onBackPressed = onBackPressed,
         onAnimeClick = onAnimeClick,
         onScreenshotClick = onScreenshotClick,
+        onMoreScreenshotClick = { title ->
+            onMoreScreenshotClick(url, title)
+        },
     )
 }
 
 @Composable
 internal fun DetailUI(
     modifier: Modifier = Modifier,
+    url: String = "",
     detailAnimeState: StateWrapper<AnimeDetail>,
     screenshotAnimeState: StateListWrapper<String>,
     videosAnimeState: StateListWrapper<AnimeVideosLight>,
@@ -93,6 +99,7 @@ internal fun DetailUI(
     onBackPressed: () -> Boolean,
     onAnimeClick: (String) -> Unit,
     onScreenshotClick: (String) -> Unit,
+    onMoreScreenshotClick: (String) -> Unit,
 ) {
     if(detailAnimeState.isLoading) {
         CircularProgress()
@@ -120,6 +127,7 @@ internal fun DetailUI(
                     onAnimeClick = onAnimeClick,
                     onScreenshotClick = onScreenshotClick,
                     onVideoClick = { },
+                    onMoreScreenshotClick = onMoreScreenshotClick,
                 )
             }
         )
@@ -136,6 +144,7 @@ internal fun DetailContentUI(
     onAnimeClick: (String) -> Unit,
     onScreenshotClick: (String) -> Unit,
     onVideoClick: (String) -> Unit,
+    onMoreScreenshotClick: (String) -> Unit,
     lazyColumnState: LazyListState = rememberLazyListState(),
 ) {
     var isDescriptionExpanded by remember { mutableStateOf(false) }
@@ -164,7 +173,7 @@ internal fun DetailContentUI(
                 ),
                 paddingValues = PaddingValues(0.dp),
             ) {
-                AnifoxIconPrimary(
+                AnifoxIconOnPrimary(
                     imageVector = Filled.PlayArrow,
                     contentDescription = stringResource(R.string.feature_detail_content_description_button_watch),
                     modifier = Modifier.size(40.dp),
@@ -197,6 +206,11 @@ internal fun DetailContentUI(
                 headerTitle = stringResource(R.string.feature_detail_section_screenshots_header_title),
                 onItemClick = onScreenshotClick,
                 contentPadding = PaddingValues(),
+                onMoreClick = {
+                    detailAnimeState.data?.title?.let { title ->
+                        onMoreScreenshotClick(title)
+                    }
+                },
             )
         }
         item {
@@ -247,6 +261,7 @@ private fun PreviewDetailScreenUI(
                 onBackPressed = param.onBackPressed,
                 onAnimeClick = param.onAnimeClick,
                 onScreenshotClick = param.onScreenshotClick,
+                onMoreScreenshotClick = param.onMoreScreenshotClick,
                 videosAnimeState = param.videosAnime,
             )
         }

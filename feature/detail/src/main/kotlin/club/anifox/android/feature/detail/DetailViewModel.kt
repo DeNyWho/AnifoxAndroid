@@ -67,7 +67,7 @@ internal class DetailViewModel @Inject constructor(
     }
 
     fun getScreenshotAnime(url: String) {
-        animeScreenshotUseCase.invoke(url = url).onEach {
+        animeScreenshotUseCase.invoke(url = url, limit = 10).onEach {
             _screenshotsAnime.value = it
         }.launchIn(viewModelScope)
     }
