@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_video_top_bar_title">Видео из</string>
+    <string name="feature_video_section_trailer">Трейлеры</string>
+    <string name="feature_video_section_opening">Опенинги</string>
+    <string name="feature_video_section_ending">Эндинги</string>
+    <string name="feature_video_section_other">Другие</string>
+</resources>

@@ -24,7 +24,8 @@ fun NavController.navigateToDetail(url: String? = null, navOptions: NavOptions? 
 fun NavGraphBuilder.detailScreen(
     onBackPressed: () -> Boolean,
     onAnimeClick: (String) -> Unit,
-    onMoreScreenshotClick: (String, String) -> Unit, // Изменено здесь
+    onMoreScreenshotClick: (String, String) -> Unit,
+    onMoreVideoClick: (String, String) -> Unit,
 ) {
     composable(
         "$DETAIL_ROUTE_BASE/${ANIME_URL}={url}",
@@ -40,6 +41,7 @@ fun NavGraphBuilder.detailScreen(
             onAnimeClick = onAnimeClick,
             onScreenshotClick = { },
             onMoreScreenshotClick = onMoreScreenshotClick,
+            onMoreVideoClick = onMoreVideoClick,
         )
     }
 }

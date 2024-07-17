@@ -55,13 +55,13 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
 internal fun DetailScreen(
-    modifier: Modifier = Modifier,
     viewModel: DetailViewModel = hiltViewModel(),
     url: String = "",
     onBackPressed: () -> Boolean,
     onAnimeClick: (String) -> Unit,
     onScreenshotClick: (String) -> Unit,
     onMoreScreenshotClick: (String, String) -> Unit,
+    onMoreVideoClick: (String, String) -> Unit,
 ) {
     LaunchedEffect(viewModel) {
         viewModel.getDetailAnime(url)
@@ -72,7 +72,6 @@ internal fun DetailScreen(
     }
 
     DetailUI(
-        url = url,
         detailAnimeState = viewModel.detailAnime.value,
         screenshotAnimeState = viewModel.screenshotsAnime.value,
         videosAnimeState = viewModel.videosAnime.value,
@@ -84,13 +83,15 @@ internal fun DetailScreen(
         onMoreScreenshotClick = { title ->
             onMoreScreenshotClick(url, title)
         },
+        onMoreVideoClick = { title ->
+            onMoreVideoClick(url, title)
+        }
     )
 }
 
 @Composable
 internal fun DetailUI(
     modifier: Modifier = Modifier,
-    url: String = "",
     detailAnimeState: StateWrapper<AnimeDetail>,
     screenshotAnimeState: StateListWrapper<String>,
     videosAnimeState: StateListWrapper<AnimeVideosLight>,
@@ -100,13 +101,14 @@ internal fun DetailUI(
     onAnimeClick: (String) -> Unit,
     onScreenshotClick: (String) -> Unit,
     onMoreScreenshotClick: (String) -> Unit,
+    onMoreVideoClick: (String) -> Unit,
 ) {
     if(detailAnimeState.isLoading) {
         CircularProgress()
     } else {
         val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
         CollapsingToolbarScaffold(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize(),
             state = toolbarScaffoldState,
             scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
@@ -128,6 +130,7 @@ internal fun DetailUI(
                     onScreenshotClick = onScreenshotClick,
                     onVideoClick = { },
                     onMoreScreenshotClick = onMoreScreenshotClick,
+                    onMoreVideoClick = onMoreVideoClick,
                 )
             }
         )
@@ -145,6 +148,7 @@ internal fun DetailContentUI(
     onScreenshotClick: (String) -> Unit,
     onVideoClick: (String) -> Unit,
     onMoreScreenshotClick: (String) -> Unit,
+    onMoreVideoClick: (String) -> Unit,
     lazyColumnState: LazyListState = rememberLazyListState(),
 ) {
     var isDescriptionExpanded by remember { mutableStateOf(false) }
@@ -220,6 +224,11 @@ internal fun DetailContentUI(
                 headerTitle = stringResource(R.string.feature_detail_section_video_header_title),
                 onItemClick = onVideoClick,
                 contentPadding = PaddingValues(),
+                onMoreClick = {
+                    detailAnimeState.data?.title?.let { title ->
+                        onMoreVideoClick(title)
+                    }
+                },
             )
         }
         item {
@@ -263,6 +272,7 @@ private fun PreviewDetailScreenUI(
                 onScreenshotClick = param.onScreenshotClick,
                 onMoreScreenshotClick = param.onMoreScreenshotClick,
                 videosAnimeState = param.videosAnime,
+                onMoreVideoClick = param.onMoreScreenshotClick,
             )
         }
     }

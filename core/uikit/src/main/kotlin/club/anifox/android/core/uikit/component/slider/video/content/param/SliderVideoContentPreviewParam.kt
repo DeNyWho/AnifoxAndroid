@@ -27,6 +27,7 @@ data class SliderVideoContentPreviewParam(
     val contentArrangement: Arrangement.Horizontal,
     val onHeaderClick: () -> Unit = { },
     val onItemClick: (String) -> Unit = { },
+    val onMoreClick: () -> Unit = { },
 )
 
 private val DataSet = List(10) {

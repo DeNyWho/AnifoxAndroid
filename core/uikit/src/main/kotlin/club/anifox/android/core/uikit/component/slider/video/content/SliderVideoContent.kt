@@ -44,6 +44,9 @@ fun SliderVideoContent(
     contentPadding: PaddingValues = PaddingValues(horizontal = 12.dp),
     contentArrangement: Arrangement.Horizontal = CardVideoLandscapeDefaults.HorizontalArrangement.Default,
     onItemClick: (String) -> Unit,
+    showCardMoreWhenPastLimit: Boolean = true,
+    isTypeVisible: Boolean = true,
+    onMoreClick: (() -> Unit)? = null,
 ) {
     // header
     if(contentState.isLoading) {
@@ -81,13 +84,20 @@ fun SliderVideoContent(
                     data = video,
                     thumbnailHeight = thumbnailHeight,
                     thumbnailWidth = thumbnailWidth,
-                    onClick = { },
+                    onClick = {
+                        onItemClick.invoke(video.playerUrl)
+                    },
+                    isTypeVisible = isTypeVisible,
                 )
             }
-            showCardVideoLandscapeMoreWhenPastLimit(
-                size = contentState.data.size,
-                onClick = { },
-            )
+            if(showCardMoreWhenPastLimit) {
+                showCardVideoLandscapeMoreWhenPastLimit(
+                    size = contentState.data.size,
+                    onClick = {
+                        onMoreClick?.invoke()
+                    },
+                )
+            }
         }
     }
 
@@ -113,6 +123,7 @@ private fun PreviewScrollableHorizontalContentVideo(
                 contentPadding = param.contentPadding,
                 contentArrangement = param.contentArrangement,
                 onItemClick = param.onItemClick,
+                onMoreClick = param.onMoreClick,
             )
         }
     }

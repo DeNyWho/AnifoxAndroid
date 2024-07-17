@@ -11,6 +11,7 @@ import club.anifox.android.feature.schedule.navigation.scheduleScreen
 import club.anifox.android.feature.screenshots.navigation.navigateToScreenshots
 import club.anifox.android.feature.screenshots.navigation.screenshotsScreen
 import club.anifox.android.feature.search.navigation.searchScreen
+import club.anifox.android.feature.video.navigation.navigateToVideo
 import club.anifox.android.feature.video.navigation.videoScreen
 import club.anifox.android.ui.AnifoxAppState
 
@@ -31,12 +32,15 @@ fun AnifoxNavHost(
             onBackPressed = navController::popBackStack,
             onAnimeClick = navController::navigateToDetail,
             onMoreScreenshotClick = navController::navigateToScreenshots,
+            onMoreVideoClick = navController::navigateToVideo,
         )
         searchScreen()
         screenshotsScreen(
             onBackPressed = navController::popBackStack,
         )
-        videoScreen()
+        videoScreen(
+            onBackPressed = navController::popBackStack,
+        )
         scheduleScreen()
     }
 }

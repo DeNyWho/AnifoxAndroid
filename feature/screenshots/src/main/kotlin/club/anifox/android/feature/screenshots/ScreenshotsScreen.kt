@@ -102,7 +102,7 @@ private fun ScreenshotsUI(
                 }
             },
         ) {
-            ScreenshotsUI(
+            ScreenshotsContent(
                 screenshotAnimeState = screenshotAnimeState,
                 onScreenshotClick = onScreenshotClick,
             )
@@ -111,7 +111,7 @@ private fun ScreenshotsUI(
 }
 
 @Composable
-internal fun ScreenshotsUI(
+internal fun ScreenshotsContent(
     modifier: Modifier = Modifier,
     screenshotAnimeState: StateListWrapper<String>,
     onScreenshotClick: (String) -> Unit,

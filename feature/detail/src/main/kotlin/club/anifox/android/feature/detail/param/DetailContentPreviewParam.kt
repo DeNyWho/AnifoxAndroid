@@ -19,9 +19,10 @@ internal data class DetailContentPreviewParam(
     val relationAnime: StateListWrapper<AnimeRelatedLight>,
     val similarAnime: StateListWrapper<AnimeLight>,
     val onBackPressed: () -> Boolean = { true },
-    val onAnimeClick: (String) -> Unit,
-    val onScreenshotClick: (String) -> Unit,
-    val onMoreScreenshotClick: (String) -> Unit,
+    val onAnimeClick: (String) -> Unit = { },
+    val onScreenshotClick: (String) -> Unit = { },
+    val onMoreScreenshotClick: (String) -> Unit = { },
+    val onMoreVideoClick: (String) -> Unit = { },
 )
 
 internal class DetailContentProvider:
@@ -30,10 +31,14 @@ internal class DetailContentProvider:
         get() = super.count
     override val values: Sequence<DetailContentPreviewParam>
         get() = listOf(
-//            DetailContentPreviewParam(
-//                modifier = Modifier,
-//                detailAnime = StateWrapper.loading(),
-//            ),
+            DetailContentPreviewParam(
+                modifier = Modifier,
+                detailAnime = StateWrapper.loading(),
+                relationAnime = StateListWrapper.loading(),
+                screenshotsAnime = StateListWrapper.loading(),
+                videosAnime = StateListWrapper.loading(),
+                similarAnime = StateListWrapper.loading(),
+            ),
             DetailContentPreviewParam(
                 modifier = Modifier,
                 detailAnime = StateWrapper(data = GlobalParams.Data, isLoading = false),
@@ -41,9 +46,6 @@ internal class DetailContentProvider:
                 screenshotsAnime = StateListWrapper(isLoading = false),
                 videosAnime = StateListWrapper(isLoading = false),
                 similarAnime = StateListWrapper(data = GlobalParams.DataSetAnimeLight, isLoading = false),
-                onAnimeClick = { },
-                onScreenshotClick = { },
-                onMoreScreenshotClick = { },
             )
         ).asSequence()
 }
