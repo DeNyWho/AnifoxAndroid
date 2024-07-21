@@ -19,6 +19,7 @@ dependencies {
     api(projects.data.datastore)
     api(projects.data.local)
 
+    implementation(libs.paging.runtime)
     implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.junit)

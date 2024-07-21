@@ -1,31 +1,55 @@
 package club.anifox.android.feature.search
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.hilt.navigation.compose.hiltViewModel
+import club.anifox.android.core.uikit.theme.AnifoxTheme
 
 @Composable
-internal fun SearchRoute(
-    modifier: Modifier = Modifier,
-    viewModel: SearchViewModel = hiltViewModel()
+internal fun SearchScreen(
+    viewModel: SearchViewModel = hiltViewModel(),
+    onBackPressed: () -> Boolean,
 ) {
-    SearchScreen()
+    val searchQuery = rememberSaveable { mutableStateOf("") }
+
+    SearchUI(
+    )
+
+    BackHandler {
+        onBackPressed.invoke()
+    }
 }
 
 
 @Composable
-internal fun SearchScreen(
+internal fun SearchUI(
     modifier: Modifier = Modifier,
 ) {
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-    ) {
-        Text(text = "Search", fontSize = 36.sp)
-    }
 
+}
+
+@Composable
+internal fun SearchContent(
+    modifier: Modifier,
+) {
+
+}
+
+@PreviewScreenSizes
+@Composable
+private fun PreviewSearchScreenUI() {
+    AnifoxTheme {
+        Column (
+            Modifier.background(MaterialTheme.colorScheme.background)
+        ) {
+            SearchUI()
+        }
+    }
 }

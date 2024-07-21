@@ -12,10 +12,14 @@ fun NavController.navigateToHome(navOptions: NavOptions) = navigate(HOME_ROUTE, 
 
 fun NavGraphBuilder.homeScreen(
     onAnimeClick: (String) -> Unit,
+    onSearchClick: () -> Unit,
 ) {
     composable(
         route = HOME_ROUTE
     ) {
-        HomeScreen(onAnimeClick = onAnimeClick)
+        HomeScreen(
+            onAnimeClick = onAnimeClick,
+            onSearchClick = onSearchClick,
+        )
     }
 }

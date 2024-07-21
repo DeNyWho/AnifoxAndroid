@@ -41,7 +41,7 @@ fun SliderContent(
     thumbnailWidth: Dp = CardAnimePortraitDefaults.Width.Default,
     headerTitle: String,
     contentState: StateListWrapper<AnimeLight>,
-    contentPadding: PaddingValues = PaddingValues(horizontal = 12.dp),
+    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
     contentArrangement: Arrangement.Horizontal = CardAnimePortraitDefaults.HorizontalArrangement.Default,
     textAlign: TextAlign = TextAlign.Start,
     onItemClick: (String) -> Unit,

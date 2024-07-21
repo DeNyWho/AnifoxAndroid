@@ -1,24 +1,34 @@
 package club.anifox.android.feature.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
 import club.anifox.android.core.uikit.component.slider.simple.content.SliderContent
+import club.anifox.android.core.uikit.component.textfield.SearchField
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.state.StateListWrapper
+import me.onebone.toolbar.CollapsingToolbarScaffold
+import me.onebone.toolbar.ScrollStrategy
+import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
     onAnimeClick: (String) -> Unit,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    onSearchClick: () -> Unit,
 ) {
     LaunchedEffect(viewModel) {
         viewModel.getPopularOngoingAnime(0,12)
@@ -32,11 +42,49 @@ internal fun HomeScreen(
         onPopularOngoingAnime = viewModel.onPopularOngoingAnime.value,
         onPopularAnime = viewModel.onPopularAnime.value,
         filmsAnime = viewModel.filmsAnime.value,
+        onSearchClick = onSearchClick,
     )
 }
 
 @Composable
-internal fun HomeUI(
+private fun HomeUI(
+    modifier: Modifier = Modifier,
+    onAnimeClick: (String) -> Unit,
+    onSearchClick: () -> Unit,
+    onPopularOngoingAnime: StateListWrapper<AnimeLight>,
+    onPopularAnime: StateListWrapper<AnimeLight>,
+    filmsAnime: StateListWrapper<AnimeLight>,
+) {
+    val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
+    CollapsingToolbarScaffold(
+        modifier = modifier
+            .fillMaxSize(),
+        state = toolbarScaffoldState,
+        scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
+        toolbar = {
+            SearchField(
+                modifier = Modifier
+                    .padding(vertical = 8.dp, horizontal = 16.dp)
+                    .clickable {
+                    onSearchClick.invoke()
+                },
+                placeHolder = stringResource(R.string.feature_home_search_placeholder),
+                isEnabled = false,
+            )
+        },
+    ) {
+        HomeContent(
+            modifier = modifier,
+            onAnimeClick = onAnimeClick,
+            onPopularOngoingAnime = onPopularOngoingAnime,
+            onPopularAnime = onPopularAnime,
+            filmsAnime = filmsAnime,
+        )
+    }
+}
+
+@Composable
+private fun HomeContent(
     modifier: Modifier = Modifier,
     lazyColumnState: LazyListState = rememberLazyListState(),
     onAnimeClick: (String) -> Unit,

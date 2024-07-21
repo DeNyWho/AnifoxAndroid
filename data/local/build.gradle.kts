@@ -12,6 +12,8 @@ android {
 
 dependencies {
 
+    implementation(projects.domain)
+    implementation(libs.paging.runtime)
     implementation(libs.kotlinx.datetime)
 
     testImplementation(libs.junit)

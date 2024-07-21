@@ -55,10 +55,9 @@ fun CustomTextField(
     }
 }
 
-
 @PreviewLightDark
 @Composable
-fun CustomTextFieldPreview () {
+private fun CustomTextFieldPreview () {
     AnifoxTheme {
         CustomTextField(
             content = {  },

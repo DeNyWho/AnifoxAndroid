@@ -10,6 +10,7 @@ import club.anifox.android.feature.home.navigation.homeScreen
 import club.anifox.android.feature.schedule.navigation.scheduleScreen
 import club.anifox.android.feature.screenshots.navigation.navigateToScreenshots
 import club.anifox.android.feature.screenshots.navigation.screenshotsScreen
+import club.anifox.android.feature.search.navigation.navigateToSearch
 import club.anifox.android.feature.search.navigation.searchScreen
 import club.anifox.android.feature.video.navigation.navigateToVideo
 import club.anifox.android.feature.video.navigation.videoScreen
@@ -27,14 +28,19 @@ fun AnifoxNavHost(
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        homeScreen(onAnimeClick = navController::navigateToDetail)
+        homeScreen(
+            onAnimeClick = navController::navigateToDetail,
+            onSearchClick = navController::navigateToSearch,
+        )
         detailScreen(
             onBackPressed = navController::popBackStack,
             onAnimeClick = navController::navigateToDetail,
             onMoreScreenshotClick = navController::navigateToScreenshots,
             onMoreVideoClick = navController::navigateToVideo,
         )
-        searchScreen()
+        searchScreen(
+            onBackPressed = navController::popBackStack,
+        )
         screenshotsScreen(
             onBackPressed = navController::popBackStack,
         )

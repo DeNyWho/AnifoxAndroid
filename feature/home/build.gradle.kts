@@ -10,6 +10,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.toolbar.compose)
     testImplementation(libs.hilt.android.testing)
     testDemoImplementation(libs.roborazzi)
 
