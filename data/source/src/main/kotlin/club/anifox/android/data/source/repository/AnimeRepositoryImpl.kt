@@ -1,10 +1,20 @@
 package club.anifox.android.data.source.repository
 
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
+import club.anifox.android.data.local.cache.dao.anime.search.AnimeSearchDao
+import club.anifox.android.data.local.dao.anime.AnimeDao
+import club.anifox.android.data.local.mappers.cache.anime.toLight
 import club.anifox.android.data.network.mappers.anime.common.toGenre
 import club.anifox.android.data.network.mappers.anime.detail.toDetail
 import club.anifox.android.data.network.mappers.anime.light.toLight
 import club.anifox.android.data.network.mappers.anime.videos.toLight
 import club.anifox.android.data.network.service.AnimeService
+import club.anifox.android.data.source.mapper.toLight
+import club.anifox.android.data.source.paging.anime.AnimeRemoteMediator
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
@@ -23,10 +33,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class AnimeRepositoryImpl @Inject constructor(
     private val animeService: AnimeService,
+    private val animeDao: AnimeDao,
+    private val animeSearchDao: AnimeSearchDao,
 ) : AnimeRepository {
 
     override fun getAnime(
@@ -41,7 +54,7 @@ class AnimeRepositoryImpl @Inject constructor(
         type: AnimeType?,
         year: Int?,
         studio: String?,
-        filter: FilterEnum?
+        filter: FilterEnum?,
     ): Flow<StateListWrapper<AnimeLight>> {
         return flow {
             emit(StateListWrapper.loading())
@@ -76,6 +89,42 @@ class AnimeRepositoryImpl @Inject constructor(
 
             emit(state)
         }.flowOn(Dispatchers.IO)
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getAnimePaged(
+        limit: Int,
+        status: AnimeStatus?,
+        genres: List<String>?,
+        searchQuery: String?,
+        season: AnimeSeason?,
+        ratingMpa: String?,
+        minimalAge: String?,
+        type: AnimeType?,
+        year: Int?,
+        studio: String?,
+        filter: FilterEnum?,
+    ): Flow<PagingData<AnimeLight>> {
+        return Pager(
+            config = PagingConfig(pageSize = limit),
+            remoteMediator = AnimeRemoteMediator(
+                animeService = animeService,
+                animeSearchDao = animeSearchDao,
+                status = status,
+                genres = genres,
+                searchQuery = searchQuery,
+                season = season,
+                ratingMpa = ratingMpa,
+                minimalAge = minimalAge,
+                type = type,
+                year = year,
+                studio = studio,
+                filter = filter,
+            ),
+            pagingSourceFactory = { animeSearchDao.pagingSource() }
+        ).flow.map { pagingData ->
+            pagingData.map { it.toLight() }
+        }
     }
 
     override fun getAnimeGenres(): Flow<StateListWrapper<AnimeGenre>> {

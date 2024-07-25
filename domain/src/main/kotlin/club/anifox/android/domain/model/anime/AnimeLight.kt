@@ -13,4 +13,5 @@ data class AnimeLight(
     val year: Int = 0,
     val status: AnimeStatus = AnimeStatus.Ongoing,
     val season: AnimeSeason = AnimeSeason.Fall,
+    val description: String = "",
 )

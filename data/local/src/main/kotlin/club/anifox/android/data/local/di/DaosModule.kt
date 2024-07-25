@@ -1,6 +1,7 @@
 package club.anifox.android.data.local.di
 
 import club.anifox.android.data.local.AnifoxDatabase
+import club.anifox.android.data.local.cache.dao.anime.search.AnimeSearchDao
 import club.anifox.android.data.local.dao.anime.AnimeDao
 import dagger.Module
 import dagger.Provides
@@ -14,4 +15,9 @@ internal object DaosModule {
     fun provideAnimeDao(
         database: AnifoxDatabase,
     ): AnimeDao = database.animeDao()
+
+    @Provides
+    fun provideAnimeSearchDao(
+        database: AnifoxDatabase,
+    ): AnimeSearchDao = database.animeSearchDao()
 }

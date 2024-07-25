@@ -25,4 +25,6 @@ data class AnimeLightDTO(
     val status: AnimeStatus = AnimeStatus.Ongoing,
     @SerialName("season")
     val season: AnimeSeason = AnimeSeason.Fall,
+    @SerialName("description")
+    val description: String = "",
 )

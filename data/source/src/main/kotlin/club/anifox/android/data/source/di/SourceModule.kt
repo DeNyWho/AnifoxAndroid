@@ -1,5 +1,7 @@
 package club.anifox.android.data.source.di
 
+import club.anifox.android.data.local.cache.dao.anime.search.AnimeSearchDao
+import club.anifox.android.data.local.dao.anime.AnimeDao
 import club.anifox.android.data.network.service.AnimeService
 import club.anifox.android.data.source.repository.AnimeRepositoryImpl
 import club.anifox.android.domain.repository.AnimeRepository
@@ -10,6 +12,7 @@ import club.anifox.android.domain.usecase.anime.GetAnimeScreenshotUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeSimilarUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeVideosUseCase
+import club.anifox.android.domain.usecase.anime.paging.GetAnimePagingUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,15 +26,27 @@ object SourceModule {
     @Provides
     @Singleton
     fun provideAnimeRepository(
-        animeService: AnimeService
+        animeService: AnimeService,
+        animeDao: AnimeDao,
+        animeSearchDao: AnimeSearchDao,
     ): AnimeRepository {
-        return AnimeRepositoryImpl(animeService)
+        return AnimeRepositoryImpl(
+            animeService = animeService,
+            animeDao = animeDao,
+            animeSearchDao = animeSearchDao,
+        )
     }
 
     @Provides
     @Singleton
     fun provideGetAnimeUseCase(animeRepository: AnimeRepository): GetAnimeUseCase {
         return GetAnimeUseCase(animeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAnimePagingUseCase(animeRepository: AnimeRepository): GetAnimePagingUseCase {
+        return GetAnimePagingUseCase(animeRepository)
     }
 
     @Provides

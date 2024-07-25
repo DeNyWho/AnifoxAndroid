@@ -13,5 +13,6 @@ android {
 }
 
 dependencies {
+    implementation(libs.paging.runtime)
     implementation(libs.kotlinx.serialization.json)
 }

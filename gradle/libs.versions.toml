@@ -38,7 +38,7 @@ ksp = "1.9.23-1.0.20"
 ktorClient = "2.3.5"
 material = "1.12.0"
 moduleGraph = "2.5.0"
-paging = "3.3.0"
+paging = "3.3.1"
 protobuf = "3.25.2"
 protobufPlugin = "0.9.4"
 roborazzi = "1.7.0"
@@ -114,6 +114,7 @@ roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", versi
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
 slf4j-simple = { group = "org.slf4j", name = "slf4j-simple", version.ref = "slf4j-simple" }
 shimmer-compose = { group = "com.valentinilk.shimmer", name = "compose-shimmer", version.ref = "shimmerCompose" }
 toolbar-compose = { group = "me.onebone", name = "toolbar-compose", version.ref = "toolbar" }

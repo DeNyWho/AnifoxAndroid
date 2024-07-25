@@ -24,16 +24,16 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
     suspend fun getAnime(
         page: Int,
         limit: Int,
-        status: AnimeStatus?,
-        genres: List<String>?,
-        searchQuery: String?,
-        season: AnimeSeason?,
-        ratingMpa: String?,
-        minimalAge: String?,
-        type: AnimeType?,
-        year: Int?,
-        studio: String?,
-        filter: FilterEnum?,
+        status: AnimeStatus? = null,
+        genres: List<String>? = null,
+        searchQuery: String? = null,
+        season: AnimeSeason? = null,
+        ratingMpa: String? = null,
+        minimalAge: String? = null,
+        type: AnimeType? = null,
+        year: Int? = null,
+        studio: String? = null,
+        filter: FilterEnum? = null,
     ): Resource<List<AnimeLightDTO>> {
         val request = HttpRequestBuilder().apply {
             method = HttpMethod.Get
@@ -49,7 +49,7 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
                 if (status != null) parameter("status", status.name)
                 if (genres != null) if (genres.isNotEmpty()) parameter("genres", genres)
                 if (studio != null) parameter("studio", studio)
-                if (searchQuery != null) parameter("searchQuery", searchQuery)
+                if (searchQuery != null) parameter("search", searchQuery)
                 if (filter != null) parameter("filter", filter.name)
             }
         }

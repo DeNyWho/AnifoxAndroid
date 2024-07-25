@@ -1,5 +1,6 @@
 package club.anifox.android.domain.repository
 
+import androidx.paging.PagingData
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
@@ -40,4 +41,18 @@ interface AnimeRepository {
     fun getAnimeRelated(url: String): Flow<StateListWrapper<AnimeRelatedLight>>
     fun getAnimeScreenshots(url: String, limit: Int?): Flow<StateListWrapper<String>>
     fun getAnimeVideos(url: String, videoType: VideoType?, limit: Int?): Flow<StateListWrapper<AnimeVideosLight>>
+
+    fun getAnimePaged(
+        limit: Int,
+        status: AnimeStatus?,
+        genres: List<String>?,
+        searchQuery: String?,
+        season: AnimeSeason?,
+        ratingMpa: String?,
+        minimalAge: String?,
+        type: AnimeType?,
+        year: Int?,
+        studio: String?,
+        filter: FilterEnum?
+    ): Flow<PagingData<AnimeLight>>
 }

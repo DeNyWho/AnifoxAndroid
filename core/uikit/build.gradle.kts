@@ -20,6 +20,8 @@ dependencies {
     lintPublish(projects.lint)
     api(projects.domain)
 
+    api(libs.paging.runtime)
+    api(libs.paging.compose)
     api(libs.androidx.compose.foundation)
     api(libs.androidx.compose.foundation.layout)
     api(libs.androidx.compose.material.iconsExtended)
