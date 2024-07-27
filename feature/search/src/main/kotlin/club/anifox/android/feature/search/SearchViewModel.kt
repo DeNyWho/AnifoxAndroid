@@ -33,9 +33,8 @@ class SearchViewModel @Inject constructor(
 
     fun search(query: String) {
         searchJob?.cancel()
-        _searchState.update { it.copy(searchResults = emptyFlow()) }
+        _searchState.update { it.copy(query = query, searchResults = emptyFlow()) }
         searchJob = viewModelScope.launch {
-            _searchState.update { it.copy(query = query) }
             delay(2000)
             getSearchResults()
         }

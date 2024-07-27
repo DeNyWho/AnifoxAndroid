@@ -40,6 +40,7 @@ fun AnifoxNavHost(
         )
         searchScreen(
             onBackPressed = navController::popBackStack,
+            onAnimeClick = navController::navigateToDetail
         )
         screenshotsScreen(
             onBackPressed = navController::popBackStack,

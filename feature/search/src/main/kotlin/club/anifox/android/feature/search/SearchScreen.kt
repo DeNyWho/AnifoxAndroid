@@ -42,6 +42,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 internal fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel(),
     onBackPressed: () -> Boolean,
+    onAnimeClick: (String) -> Unit,
 ) {
     val searchState by viewModel.searchState.collectAsState()
 
@@ -55,16 +56,17 @@ internal fun SearchScreen(
         onFilterChange = { status, type, year, season ->
             viewModel.updateFilter(status, type, year, season)
         },
+        onAnimeClick = onAnimeClick,
     )
 }
-
 
 @Composable
 internal fun SearchUI(
     searchState: SearchState,
     onQueryChange: (String) -> Unit,
     onFilterChange: (AnimeStatus?, AnimeType?, Int?, AnimeSeason?) -> Unit,
-    modifier: Modifier = Modifier
+    onAnimeClick: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val lazyColumnState = rememberLazyListState()
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
@@ -91,6 +93,7 @@ internal fun SearchUI(
             SearchContent(
                 searchResults = searchState.searchResults,
                 lazyColumnState = lazyColumnState,
+                onAnimeClick = onAnimeClick,
             )
         }
     )
@@ -100,7 +103,8 @@ internal fun SearchUI(
 private fun SearchContent(
     searchResults: Flow<PagingData<AnimeLight>>,
     modifier: Modifier = Modifier,
-    lazyColumnState: LazyListState
+    lazyColumnState: LazyListState,
+    onAnimeClick: (String) -> Unit,
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -121,7 +125,10 @@ private fun SearchContent(
             ) { index ->
                 val item = items[index]
                 if (item != null) {
-                    AnimeSearchItem(item)
+                    AnimeSearchItem(
+                        data = item,
+                        onClick = onAnimeClick,
+                    )
                 }
             }
 

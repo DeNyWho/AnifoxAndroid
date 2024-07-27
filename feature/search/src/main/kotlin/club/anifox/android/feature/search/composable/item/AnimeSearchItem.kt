@@ -1,5 +1,6 @@
 package club.anifox.android.feature.search.composable.item
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -29,8 +30,12 @@ import coil.size.Size
 @Composable
 internal fun AnimeSearchItem(
     data: AnimeLight,
+    onClick: (String) -> Unit
 ) {
     Row(
+        modifier = Modifier.clickable {
+            onClick.invoke(data.url)
+        },
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         AsyncImage(
