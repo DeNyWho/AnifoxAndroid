@@ -1,43 +1,61 @@
 package club.anifox.android.feature.search
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.paging.cachedIn
+import androidx.paging.CombinedLoadStates
+import androidx.paging.PagingData
+import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.usecase.anime.paging.GetAnimePagingUseCase
 import club.anifox.android.feature.search.data.SearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(
+internal class SearchViewModel @Inject constructor(
     private val getAnimePagingUseCase: GetAnimePagingUseCase,
 ) : ViewModel() {
-    private val _searchState = MutableStateFlow(SearchState(searchResults = emptyFlow()))
+    private val _searchState = MutableStateFlow(SearchState())
     val searchState = _searchState.asStateFlow()
 
-    private var searchJob: Job? = null
+    val loadState = MutableStateFlow<CombinedLoadStates?>(null)
 
-    init {
-        getSearchResults()
+    fun updateLoadingState(isLoading: Boolean) {
+        _searchState.update { it.copy(isLoading = isLoading) }
+    }
+
+    @OptIn(FlowPreview::class)
+    val searchResults: Flow<PagingData<AnimeLight>> = _searchState
+        .onStart { _searchState.update { it.copy(isLoading = true) } }  // Устанавливаем isLoading в true при старте
+        .debounce(0)
+        .distinctUntilChanged()
+        .flatMapLatest { state ->
+            getAnimePagingUseCase(
+                limit = 20,
+                searchQuery = state.query,
+                status = state.status,
+                type = state.type,
+                year = state.year,
+                season = state.season,
+            )
+        }
+
+    fun updateLoadState(loadState: CombinedLoadStates) {
+        this.loadState.value = loadState
     }
 
     fun search(query: String) {
-        searchJob?.cancel()
-        _searchState.update { it.copy(query = query, searchResults = emptyFlow()) }
-        searchJob = viewModelScope.launch {
-            delay(2000)
-            getSearchResults()
-        }
+        _searchState.update { it.copy(query = query, isLoading = true) }
     }
 
     fun updateFilter(
@@ -53,22 +71,6 @@ class SearchViewModel @Inject constructor(
                 year = year ?: it.year,
                 season = season ?: it.season
             )
-        }
-        getSearchResults()
-    }
-
-    private fun getSearchResults() {
-        val currentState = _searchState.value
-        viewModelScope.launch {
-            val pagingData = getAnimePagingUseCase(
-                limit = 20,
-                searchQuery = currentState.query,
-                status = currentState.status,
-                type = currentState.type,
-                year = currentState.year,
-                season = currentState.season
-            ).cachedIn(viewModelScope)
-            _searchState.update { it.copy(searchResults = pagingData) }
         }
     }
 }

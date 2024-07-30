@@ -12,12 +12,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.unit.dp
@@ -26,6 +26,7 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
+import club.anifox.android.core.uikit.component.error.NoSearchResultsError
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
@@ -45,13 +46,27 @@ internal fun SearchScreen(
     onAnimeClick: (String) -> Unit,
 ) {
     val searchState by viewModel.searchState.collectAsState()
+    val items = viewModel.searchResults.collectAsLazyPagingItems()
+    val loadState by viewModel.loadState.collectAsState()
 
     BackHandler {
         onBackPressed.invoke()
     }
 
+    LaunchedEffect(items.loadState) {
+        viewModel.updateLoadState(items.loadState)
+    }
+
+    LaunchedEffect(loadState) {
+        val currentLoadState = loadState
+        if (currentLoadState?.refresh is LoadState.NotLoading) {
+            viewModel.updateLoadingState(false)
+        }
+    }
+
     SearchUI(
         searchState = searchState,
+        searchResults = viewModel.searchResults,
         onQueryChange = { viewModel.search(it) },
         onFilterChange = { status, type, year, season ->
             viewModel.updateFilter(status, type, year, season)
@@ -61,12 +76,13 @@ internal fun SearchScreen(
 }
 
 @Composable
-internal fun SearchUI(
+private fun SearchUI(
     searchState: SearchState,
     onQueryChange: (String) -> Unit,
     onFilterChange: (AnimeStatus?, AnimeType?, Int?, AnimeSeason?) -> Unit,
     onAnimeClick: (String) -> Unit,
     modifier: Modifier = Modifier,
+    searchResults: Flow<PagingData<AnimeLight>>,
 ) {
     val lazyColumnState = rememberLazyListState()
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
@@ -91,7 +107,8 @@ internal fun SearchUI(
         },
         body = {
             SearchContent(
-                searchResults = searchState.searchResults,
+                searchState = searchState,
+                searchResults = searchResults,
                 lazyColumnState = lazyColumnState,
                 onAnimeClick = onAnimeClick,
             )
@@ -102,54 +119,53 @@ internal fun SearchUI(
 @Composable
 private fun SearchContent(
     searchResults: Flow<PagingData<AnimeLight>>,
+    searchState: SearchState,
     modifier: Modifier = Modifier,
     lazyColumnState: LazyListState,
     onAnimeClick: (String) -> Unit,
 ) {
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        val items = searchResults.collectAsLazyPagingItems()
+    val items = searchResults.collectAsLazyPagingItems()
 
-        LazyColumn(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .fillMaxSize(),
-            contentPadding = WindowInsets.navigationBars.asPaddingValues(),
-            state = lazyColumnState,
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            items(
-                count = items.itemCount,
-                key = items.itemKey { it.url }
-            ) { index ->
-                val item = items[index]
-                if (item != null) {
-                    AnimeSearchItem(
-                        data = item,
-                        onClick = onAnimeClick,
-                    )
-                }
+    LaunchedEffect(searchState) {
+        if (!searchState.isLoading) {
+            items.refresh()
+        }
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        when {
+            searchState.isLoading -> {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
+            items.itemCount == 0 && !searchState.isLoading -> {
+                NoSearchResultsError()
+            }
+            else -> {
+                LazyColumn(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxSize(),
+                    contentPadding = WindowInsets.navigationBars.asPaddingValues(),
+                    state = lazyColumnState,
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    items(
+                        count = items.itemCount,
+                        key = items.itemKey { it.url }
+                    ) { index ->
+                        val item = items[index]
+                        if (item != null) {
+                            AnimeSearchItem(
+                                data = item,
+                                onClick = onAnimeClick,
+                            )
+                        }
+                    }
 
-            when (items.loadState.refresh) {
-                is LoadState.Loading -> {
-                    item { CircularProgressIndicator() }
-                }
-                is LoadState.Error -> {
-                    item {
-                        Text("Error: ${(items.loadState.refresh as LoadState.Error).error.message}")
+                    if(items.loadState.append is LoadState.Loading) {
+                        item { CircularProgressIndicator() }
                     }
                 }
-                is LoadState.NotLoading -> {
-                    if (items.itemCount == 0) {
-                        item { Text("No results found") }
-                    }
-                }
-            }
-
-            if(items.loadState.append is LoadState.Loading) {
-                item { CircularProgressIndicator() }
             }
         }
     }

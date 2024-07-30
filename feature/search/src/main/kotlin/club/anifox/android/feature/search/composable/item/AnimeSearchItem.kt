@@ -95,5 +95,4 @@ internal fun AnimeSearchItem(
             )
         }
     }
-
 }

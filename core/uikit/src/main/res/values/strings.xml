@@ -2,4 +2,5 @@
 <resources>
     <string name="core_uikit_card_more">Показать еще</string>
     <string name="core_uikit_header_title_genres">Жанры</string>
+    <string name="core_uikit_error_no_search_result">По вашему запросу ничего не найдено</string>
 </resources>
