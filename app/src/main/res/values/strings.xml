@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Anifox</string>
     <string name="not_connected">Отсутствует интернет соединение</string>
+    <string name="navigation_bar_home_title">Главная</string>
+    <string name="navigation_bar_browse_title">Обзор</string>
+    <string name="navigation_bar_favourite_title">Закладки</string>
+    <string name="navigation_bar_profile_title">Профиль</string>
 </resources>

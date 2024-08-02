@@ -53,6 +53,9 @@ dependencies {
     implementation(projects.feature.schedule)
     implementation(projects.feature.video)
     implementation(projects.feature.screenshots)
+    implementation(projects.feature.favourite)
+    implementation(projects.feature.browse)
+    implementation(projects.feature.profile)
 
     implementation(projects.core.uikit)
     implementation(projects.core.common)
