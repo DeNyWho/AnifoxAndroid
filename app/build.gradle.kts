@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.tracing.ktx)
     implementation(libs.kotlinx.coroutines.guava)
 
     ksp(libs.hilt.compiler)

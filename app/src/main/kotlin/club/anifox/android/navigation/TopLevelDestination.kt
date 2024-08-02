@@ -11,10 +11,10 @@ enum class TopLevelDestination(
         icon = R.drawable.home,
         iconTextId = R.string.navigation_bar_home_title,
     ),
-    BROWSE(
-        icon = R.drawable.search,
-        iconTextId = R.string.navigation_bar_browse_title,
-    ),
+//    BROWSE(
+//        icon = R.drawable.search,
+//        iconTextId = R.string.navigation_bar_browse_title,
+//    ),
     FAVOURITE(
         icon = R.drawable.bookmark,
         iconTextId = R.string.navigation_bar_favourite_title,

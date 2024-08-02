@@ -34,7 +34,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import club.anifox.android.core.uikit.component.icon.AnifoxIcon
+import club.anifox.android.core.uikit.component.icon.AnifoxIconOnSurface
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.state.StateWrapper
 import coil.ImageLoader
@@ -143,7 +143,7 @@ internal fun CollapsingToolbarScope.ContentDetailsScreenToolbar(
                 .statusBarsPadding(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            AnifoxIcon(
+            AnifoxIconOnSurface(
                 modifier = Modifier
                     .clickable {
                         navigateBack.invoke()

@@ -7,6 +7,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -14,6 +15,15 @@ import club.anifox.android.core.uikit.theme.AnifoxTheme
 
 @Composable
 fun AnifoxIcon(
+    modifier: Modifier = Modifier,
+    painter: Painter,
+    contentDescription: String? = null,
+) {
+    Icon(modifier = modifier, painter = painter, contentDescription = contentDescription)
+}
+
+@Composable
+fun AnifoxIconOnSurface(
     modifier: Modifier = Modifier,
     imageVector: ImageVector,
     contentDescription: String? = null,
@@ -28,8 +38,8 @@ fun AnifoxIcon(
 
 @PreviewLightDark
 @Composable
-internal fun PreviewAnifoxIcon() {
-    AnifoxIcon(modifier = Modifier.size(40.dp), AutoMirrored.Filled.ArrowBack, contentDescription = "content description")
+internal fun PreviewAnifoxIconOnSurface() {
+    AnifoxIconOnSurface(modifier = Modifier.size(40.dp), AutoMirrored.Filled.ArrowBack, contentDescription = "content description")
 
 }
 

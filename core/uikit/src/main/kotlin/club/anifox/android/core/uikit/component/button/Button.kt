@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import club.anifox.android.core.uikit.component.icon.AnifoxIcon
+import club.anifox.android.core.uikit.component.icon.AnifoxIconOnSurface
 import club.anifox.android.core.uikit.component.icon.AnifoxIconOnPrimary
 import club.anifox.android.core.uikit.theme.AnifoxTheme
 
@@ -82,7 +82,7 @@ internal fun PreviewAnifoxButtonWithIcon() {
             ),
             paddingValues = PaddingValues(8.dp)
         ) {
-            AnifoxIcon(imageVector = AutoMirrored.Filled.ArrowBack, contentDescription = "content description")
+            AnifoxIconOnSurface(imageVector = AutoMirrored.Filled.ArrowBack, contentDescription = "content description")
         }
     }
 }
@@ -175,7 +175,7 @@ internal fun PreviewAnifoxButtonIconTransparent() {
             paddingValues = PaddingValues(4.dp),
             contentColor = MaterialTheme.colorScheme.surfaceVariant,
         ) {
-            AnifoxIcon(imageVector = Outlined.ContentCopy, contentDescription = "content description")
+            AnifoxIconOnSurface(imageVector = Outlined.ContentCopy, contentDescription = "content description")
         }
     }
 }

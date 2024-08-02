@@ -5,8 +5,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import club.anifox.android.feature.detail.navigation.detailScreen
 import club.anifox.android.feature.detail.navigation.navigateToDetail
+import club.anifox.android.feature.favourite.navigation.favouriteScreen
 import club.anifox.android.feature.home.navigation.HOME_ROUTE
 import club.anifox.android.feature.home.navigation.homeScreen
+import club.anifox.android.feature.profile.navigation.profileScreen
 import club.anifox.android.feature.schedule.navigation.scheduleScreen
 import club.anifox.android.feature.screenshots.navigation.navigateToScreenshots
 import club.anifox.android.feature.screenshots.navigation.screenshotsScreen
@@ -49,5 +51,8 @@ fun AnifoxNavHost(
             onBackPressed = navController::popBackStack,
         )
         scheduleScreen()
+        profileScreen()
+//        browseScreen()
+        favouriteScreen()
     }
 }

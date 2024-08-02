@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import club.anifox.android.core.uikit.component.icon.AnifoxIcon
+import club.anifox.android.core.uikit.component.icon.AnifoxIconOnSurface
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.state.StateWrapper
 import club.anifox.android.feature.detail.R
@@ -56,7 +56,7 @@ internal fun TitleInformationContent(
                 .height(40.dp)
                 .fillMaxWidth()
         ) {
-            AnifoxIcon(
+            AnifoxIconOnSurface(
                 imageVector = Outlined.Info,
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
