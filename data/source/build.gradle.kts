@@ -13,11 +13,11 @@ android {
 }
 
 dependencies {
-    api(projects.domain)
-    api(projects.core.common)
-    api(projects.data.network)
-    api(projects.data.datastore)
-    api(projects.data.local)
+    implementation(projects.domain)
+    implementation(projects.core.common)
+    implementation(projects.data.network)
+    implementation(projects.data.datastore)
+    implementation(projects.data.local)
 
     implementation(libs.paging.runtime)
     implementation(libs.kotlinx.serialization.json)

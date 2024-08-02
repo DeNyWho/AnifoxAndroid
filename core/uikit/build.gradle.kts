@@ -18,7 +18,7 @@ android {
 
 dependencies {
     lintPublish(projects.lint)
-    api(projects.domain)
+    implementation(projects.domain)
 
     api(libs.paging.runtime)
     api(libs.paging.compose)

@@ -7,6 +7,9 @@ import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
+import club.anifox.android.domain.usecase.anime.GetAnimeStudiosUseCase
+import club.anifox.android.domain.usecase.anime.GetAnimeTranslationsUseCase
+import club.anifox.android.domain.usecase.anime.GetAnimeYearsUseCase
 import club.anifox.android.domain.usecase.anime.paging.GetAnimePagingUseCase
 import club.anifox.android.feature.search.data.SearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +27,9 @@ import javax.inject.Inject
 @HiltViewModel
 internal class SearchViewModel @Inject constructor(
     private val getAnimePagingUseCase: GetAnimePagingUseCase,
+    private val getAnimeYearsUseCase: GetAnimeYearsUseCase,
+    private val getAnimeStudiosUseCase: GetAnimeStudiosUseCase,
+    private val getAnimeTranslationsUseCase: GetAnimeTranslationsUseCase,
 ) : ViewModel() {
     private val _searchState = MutableStateFlow(SearchState())
     val searchState = _searchState.asStateFlow()

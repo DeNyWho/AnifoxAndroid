@@ -10,6 +10,8 @@ import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.model.anime.enum.VideoType
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
+import club.anifox.android.domain.model.anime.studio.AnimeStudio
+import club.anifox.android.domain.model.anime.translations.AnimeTranslation
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.state.StateWrapper
@@ -55,4 +57,8 @@ interface AnimeRepository {
         studio: String?,
         filter: FilterEnum?
     ): Flow<PagingData<AnimeLight>>
+
+    fun getAnimeYears(): Flow<StateListWrapper<Int>>
+    fun getAnimeStudios(): Flow<StateListWrapper<AnimeStudio>>
+    fun getAnimeTranslations(): Flow<StateListWrapper<AnimeTranslation>>
 }

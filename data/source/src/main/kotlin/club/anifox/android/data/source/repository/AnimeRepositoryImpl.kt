@@ -9,7 +9,9 @@ import club.anifox.android.data.local.cache.dao.anime.search.AnimeSearchDao
 import club.anifox.android.data.local.dao.anime.AnimeDao
 import club.anifox.android.data.local.mappers.cache.anime.toLight
 import club.anifox.android.data.network.mappers.anime.common.toGenre
+import club.anifox.android.data.network.mappers.anime.common.toStudio
 import club.anifox.android.data.network.mappers.anime.detail.toDetail
+import club.anifox.android.data.network.mappers.anime.episodes.toTranslation
 import club.anifox.android.data.network.mappers.anime.light.toLight
 import club.anifox.android.data.network.mappers.anime.videos.toLight
 import club.anifox.android.data.network.service.AnimeService
@@ -24,6 +26,8 @@ import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.model.anime.enum.VideoType
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
+import club.anifox.android.domain.model.anime.studio.AnimeStudio
+import club.anifox.android.domain.model.anime.translations.AnimeTranslation
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.model.common.Resource
 import club.anifox.android.domain.repository.AnimeRepository
@@ -138,6 +142,69 @@ class AnimeRepositoryImpl @Inject constructor(
                 }
                 is Resource.Error -> {
                     StateListWrapper(error = genreResult.error)
+                }
+                is Resource.Loading -> {
+                    StateListWrapper.loading()
+                }
+            }
+
+            emit(state)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun getAnimeYears(): Flow<StateListWrapper<Int>> {
+        return flow {
+            emit(StateListWrapper.loading())
+
+            val state = when(val yearsResult = animeService.getAnimeYears()) {
+                is Resource.Success -> {
+                    val data = yearsResult.data
+                    StateListWrapper(data)
+                }
+                is Resource.Error -> {
+                    StateListWrapper(error = yearsResult.error)
+                }
+                is Resource.Loading -> {
+                    StateListWrapper.loading()
+                }
+            }
+
+            emit(state)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun getAnimeStudios(): Flow<StateListWrapper<AnimeStudio>> {
+        return flow {
+            emit(StateListWrapper.loading())
+
+            val state = when(val studioResult = animeService.getAnimeStudios()) {
+                is Resource.Success -> {
+                    val data = studioResult.data.map { it.toStudio() }
+                    StateListWrapper(data)
+                }
+                is Resource.Error -> {
+                    StateListWrapper(error = studioResult.error)
+                }
+                is Resource.Loading -> {
+                    StateListWrapper.loading()
+                }
+            }
+
+            emit(state)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun getAnimeTranslations(): Flow<StateListWrapper<AnimeTranslation>> {
+        return flow {
+            emit(StateListWrapper.loading())
+
+            val state = when(val translationsResult = animeService.getAnimeTranslations()) {
+                is Resource.Success -> {
+                    val data = translationsResult.data.map { it.toTranslation() }
+                    StateListWrapper(data)
+                }
+                is Resource.Error -> {
+                    StateListWrapper(error = translationsResult.error)
                 }
                 is Resource.Loading -> {
                     StateListWrapper.loading()

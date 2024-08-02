@@ -2,7 +2,9 @@ package club.anifox.android.data.network.service
 
 import club.anifox.android.data.network.api.ApiEndpoints
 import club.anifox.android.data.network.models.dto.anime.common.AnimeGenreDTO
+import club.anifox.android.data.network.models.dto.anime.common.AnimeStudioDTO
 import club.anifox.android.data.network.models.dto.anime.detail.AnimeDetailDTO
+import club.anifox.android.data.network.models.dto.anime.episodes.AnimeTranslationDTO
 import club.anifox.android.data.network.models.dto.anime.light.AnimeLightDTO
 import club.anifox.android.data.network.models.dto.anime.related.AnimeRelatedDTO
 import club.anifox.android.data.network.models.dto.anime.videos.AnimeVideosDTO
@@ -66,6 +68,39 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
         }
 
         return safeApiCall<List<AnimeGenreDTO>>(client, request)
+    }
+
+    suspend fun getAnimeYears(): Resource<List<Int>> {
+        val request = HttpRequestBuilder().apply {
+            method = HttpMethod.Get
+            url {
+                encodedPath = "${ApiEndpoints.ANIME}/${ApiEndpoints.ANIME_YEARS}"
+            }
+        }
+
+        return safeApiCall<List<Int>>(client, request)
+    }
+
+    suspend fun getAnimeStudios(): Resource<List<AnimeStudioDTO>> {
+        val request = HttpRequestBuilder().apply {
+            method = HttpMethod.Get
+            url {
+                encodedPath = "${ApiEndpoints.ANIME}/${ApiEndpoints.ANIME_STUDIOS}"
+            }
+        }
+
+        return safeApiCall<List<AnimeStudioDTO>>(client, request)
+    }
+
+    suspend fun getAnimeTranslations(): Resource<List<AnimeTranslationDTO>> {
+        val request = HttpRequestBuilder().apply {
+            method = HttpMethod.Get
+            url {
+                encodedPath = "${ApiEndpoints.ANIME}/${ApiEndpoints.ANIME_TRANSLATIONS}"
+            }
+        }
+
+        return safeApiCall<List<AnimeTranslationDTO>>(client, request)
     }
 
     suspend fun getAnimeDetail(url: String): Resource<AnimeDetailDTO> {
