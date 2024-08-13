@@ -41,7 +41,7 @@ fun SliderVideoContent(
     thumbnailWidth: Dp = CardVideoLandscapeDefaults.Width.Default,
     headerTitle: String,
     contentState: StateListWrapper<AnimeVideosLight>,
-    contentPadding: PaddingValues = PaddingValues(horizontal = 12.dp),
+    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
     contentArrangement: Arrangement.Horizontal = CardVideoLandscapeDefaults.HorizontalArrangement.Default,
     onItemClick: (String) -> Unit,
     showCardMoreWhenPastLimit: Boolean = true,

@@ -40,7 +40,7 @@ fun SliderScreenshotsContent(
     thumbnailWidth: Dp = CardScreenshotLandscapeDefaults.Width.Default,
     headerTitle: String,
     contentState: StateListWrapper<String>,
-    contentPadding: PaddingValues = PaddingValues(horizontal = 12.dp),
+    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
     contentArrangement: Arrangement.Horizontal = CardScreenshotLandscapeDefaults.HorizontalArrangement.Default,
     onItemClick: (String) -> Unit,
     onMoreClick: () -> Unit,

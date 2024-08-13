@@ -1,21 +1,30 @@
 package club.anifox.android.feature.detail.components.title
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons.Filled
+import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import club.anifox.android.core.uikit.component.button.AnifoxButtonSurface
+import club.anifox.android.core.uikit.component.icon.AnifoxIconOnSurface
 import club.anifox.android.core.uikit.theme.AnifoxTheme
 import club.anifox.android.feature.detail.R
 
@@ -27,6 +36,7 @@ internal fun TitleDialog(
     synonymsTitle: String,
     setShowDialog: (Boolean) -> Unit,
 ) {
+    val clipboardManager = LocalClipboardManager.current
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
             modifier = Modifier.fillMaxWidth(),
@@ -43,10 +53,24 @@ internal fun TitleDialog(
 
                 titleItems.add {
                     Column {
-                        Text(
-                            text = stringResource(R.string.feature_detail_dialog_title),
-                            style = MaterialTheme.typography.titleMedium,
-                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(
+                                text = stringResource(R.string.feature_detail_dialog_title),
+                                style = MaterialTheme.typography.titleMedium,
+                            )
+                            AnifoxIconOnSurface(
+                                modifier = Modifier
+                                    .size(20.dp)
+                                    .align(Alignment.CenterVertically)
+                                    .padding(start = 4.dp)
+                                    .clickable {
+                                        clipboardManager.setText(buildAnnotatedString { append(title) })
+                                    },
+                                Filled.ContentCopy,
+                            )
+                        }
                         Text(
                             text = title,
                             style = MaterialTheme.typography.titleSmall,
@@ -56,10 +80,24 @@ internal fun TitleDialog(
                 if(engTitle.isNotEmpty() && engTitle != "null") {
                     titleItems.add {
                         Column {
-                            Text(
-                                text = stringResource(R.string.feature_detail_dialog_original_title),
-                                style = MaterialTheme.typography.titleMedium,
-                            )
+                            Row (
+                                modifier = Modifier.fillMaxWidth(),
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.feature_detail_dialog_original_title),
+                                    style = MaterialTheme.typography.titleMedium,
+                                )
+                                AnifoxIconOnSurface(
+                                    modifier = Modifier
+                                        .size(20.dp)
+                                        .align(Alignment.CenterVertically)
+                                        .padding(start = 4.dp)
+                                        .clickable {
+                                            clipboardManager.setText(buildAnnotatedString { append(engTitle) })
+                                        },
+                                    Filled.ContentCopy,
+                                )
+                            }
                             Text(
                                 text = engTitle,
                                 style = MaterialTheme.typography.titleSmall,
@@ -70,10 +108,24 @@ internal fun TitleDialog(
                 if(japaneseTitle.isNotEmpty() && japaneseTitle != "null") {
                     titleItems.add {
                         Column {
-                            Text(
-                                text = stringResource(R.string.feature_detail_dialog_japanese_title),
-                                style = MaterialTheme.typography.titleMedium,
-                            )
+                            Row (
+                                modifier = Modifier.fillMaxWidth(),
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.feature_detail_dialog_japanese_title),
+                                    style = MaterialTheme.typography.titleMedium,
+                                )
+                                AnifoxIconOnSurface(
+                                    modifier = Modifier
+                                        .size(20.dp)
+                                        .align(Alignment.CenterVertically)
+                                        .padding(start = 4.dp)
+                                        .clickable {
+                                            clipboardManager.setText(buildAnnotatedString { append(japaneseTitle) })
+                                        },
+                                    Filled.ContentCopy,
+                                )
+                            }
                             Text(
                                 text = japaneseTitle,
                                 style = MaterialTheme.typography.titleSmall,
@@ -84,10 +136,24 @@ internal fun TitleDialog(
                 if(synonymsTitle.isNotEmpty() && synonymsTitle != "null") {
                     titleItems.add {
                         Column {
-                            Text(
-                                text = stringResource(R.string.feature_detail_dialog_synonyms_title),
-                                style = MaterialTheme.typography.titleMedium,
-                            )
+                            Row (
+                                modifier = Modifier.fillMaxWidth(),
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.feature_detail_dialog_synonyms_title),
+                                    style = MaterialTheme.typography.titleMedium,
+                                )
+                                AnifoxIconOnSurface(
+                                    modifier = Modifier
+                                        .size(20.dp)
+                                        .align(Alignment.CenterVertically)
+                                        .padding(start = 4.dp)
+                                        .clickable {
+                                            clipboardManager.setText(buildAnnotatedString { append(synonymsTitle) })
+                                        },
+                                    Filled.ContentCopy,
+                                )
+                            }
                             Text(
                                 text = synonymsTitle,
                                 style = MaterialTheme.typography.titleSmall,

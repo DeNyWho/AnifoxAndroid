@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.Card
@@ -24,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.R
 import club.anifox.android.core.uikit.theme.AnifoxTheme
 
-
 @Composable
 fun CardVideoLandscapeMore(
     modifier: Modifier = Modifier,
@@ -32,9 +30,7 @@ fun CardVideoLandscapeMore(
     thumbnailWidth: Dp = CardVideoLandscapeDefaults.Width.Default,
     onClick: () -> Unit,
 ) {
-    Column(
-        modifier = Modifier.padding(end = 16.dp)
-    ) {
+    Column {
         Card(
             modifier = Modifier
                 .clickable {

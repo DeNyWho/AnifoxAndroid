@@ -155,21 +155,20 @@ internal fun DetailContentUI(
 
     LazyColumn(
         modifier = Modifier
-            .padding(start = 16.dp)
             .fillMaxSize(),
         state = lazyColumnState,
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         item {
             TitleInformationContent(
-                modifier = Modifier.padding(end =  16.dp),
+                modifier = Modifier.padding(start = 16.dp, end =  16.dp),
                 detailAnimeState = detailAnimeState
             )
         }
         item {
             AnifoxButtonPrimary(
                 modifier = Modifier
-                    .padding(end = 16.dp)
+                    .padding(start = 16.dp, end = 16.dp)
                     .fillMaxWidth(),
                 shape = MaterialTheme.shapes.small,
                 elevation = ButtonDefaults.buttonElevation(
@@ -191,13 +190,14 @@ internal fun DetailContentUI(
         }
         item {
             GenreContent(
-                modifier = Modifier.padding(end =  16.dp),
+                modifier = Modifier.padding(start = 16.dp, end =  16.dp),
                 detailAnimeState = detailAnimeState,
             )
         }
         item {
             DescriptionContent(
-                modifier = Modifier.padding(end =  16.dp),
+                headerModifier = SliderContentDefaults.Default,
+                modifier = Modifier.padding(start = 16.dp, end =  16.dp),
                 detailAnimeState = detailAnimeState,
                 isExpanded = isDescriptionExpanded,
                 onExpandedChanged = { isDescriptionExpanded = it },
@@ -205,11 +205,10 @@ internal fun DetailContentUI(
         }
         item {
             SliderScreenshotsContent(
-                headerModifier = SliderContentDefaults.VerticalOnly,
+                headerModifier = SliderContentDefaults.Default,
                 contentState = screenshotAnimeState,
                 headerTitle = stringResource(R.string.feature_detail_section_screenshots_header_title),
                 onItemClick = onScreenshotClick,
-                contentPadding = PaddingValues(),
                 onMoreClick = {
                     detailAnimeState.data?.title?.let { title ->
                         onMoreScreenshotClick(title)
@@ -219,11 +218,10 @@ internal fun DetailContentUI(
         }
         item {
             SliderVideoContent(
-                headerModifier = SliderContentDefaults.VerticalOnly,
+                headerModifier = SliderContentDefaults.Default,
                 contentState = videosAnimeState,
                 headerTitle = stringResource(R.string.feature_detail_section_video_header_title),
                 onItemClick = onVideoClick,
-                contentPadding = PaddingValues(),
                 onMoreClick = {
                     detailAnimeState.data?.title?.let { title ->
                         onMoreVideoClick(title)
@@ -233,7 +231,8 @@ internal fun DetailContentUI(
         }
         item {
             RelationContent(
-                headerModifier = SliderContentDefaults.VerticalOnly,
+                modifier = Modifier.padding(start = 8.dp),
+                headerModifier = SliderContentDefaults.Default,
                 headerTitle = stringResource(R.string.feature_detail_section_header_title_relation),
                 contentState = relationAnimeState,
                 onItemClick = onAnimeClick,
@@ -242,11 +241,10 @@ internal fun DetailContentUI(
         }
         item {
             SliderContent(
-                headerModifier = SliderContentDefaults.VerticalOnly,
+                headerModifier = SliderContentDefaults.Default,
                 headerTitle = stringResource(R.string.feature_detail_section_header_title_similar),
                 contentState = similarAnimeState,
                 onItemClick = onAnimeClick,
-                contentPadding = PaddingValues(),
             )
         }
     }

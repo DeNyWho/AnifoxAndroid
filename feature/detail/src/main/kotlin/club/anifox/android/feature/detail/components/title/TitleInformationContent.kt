@@ -49,7 +49,7 @@ internal fun TitleInformationContent(
             }
 
         Row(
-            modifier = Modifier
+            modifier = modifier
                 .clickable {
                     showDialog.value = true
                 }
