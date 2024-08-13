@@ -31,6 +31,9 @@ import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
+import club.anifox.android.domain.model.anime.studio.AnimeStudio
+import club.anifox.android.domain.model.anime.translations.AnimeTranslation
+import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.search.composable.item.AnimeSearchItem
 import club.anifox.android.feature.search.composable.toolbar.ContentSearchScreenToolbar
 import club.anifox.android.feature.search.data.SearchState
@@ -48,6 +51,9 @@ internal fun SearchScreen(
     val searchState by viewModel.searchState.collectAsState()
     val items = viewModel.searchResults.collectAsLazyPagingItems()
     val loadState by viewModel.loadState.collectAsState()
+    val animeYears by viewModel.animeYears.collectAsState()
+    val animeStudios by viewModel.animeStudios.collectAsState()
+    val animeTranslations by viewModel.animeTranslations.collectAsState()
 
     BackHandler {
         onBackPressed.invoke()
@@ -68,10 +74,13 @@ internal fun SearchScreen(
         searchState = searchState,
         searchResults = viewModel.searchResults,
         onQueryChange = { viewModel.search(it) },
-        onFilterChange = { status, type, year, season ->
-            viewModel.updateFilter(status, type, year, season)
+        onFilterChange = { status, type, year, season, studio, translation ->
+            viewModel.updateFilter(status, type, year, season, studio, translation)
         },
         onAnimeClick = onAnimeClick,
+        animeYears = animeYears,
+        animeStudios = animeStudios,
+        animeTranslations = animeTranslations,
     )
 }
 
@@ -79,10 +88,13 @@ internal fun SearchScreen(
 private fun SearchUI(
     searchState: SearchState,
     onQueryChange: (String) -> Unit,
-    onFilterChange: (AnimeStatus?, AnimeType?, Int?, AnimeSeason?) -> Unit,
+    onFilterChange: (AnimeStatus?, AnimeType?, Int?, AnimeSeason?, AnimeStudio?, AnimeTranslation?) -> Unit,
     onAnimeClick: (String) -> Unit,
     modifier: Modifier = Modifier,
     searchResults: Flow<PagingData<AnimeLight>>,
+    animeYears: StateListWrapper<Int>,
+    animeStudios: StateListWrapper<AnimeStudio>,
+    animeTranslations: StateListWrapper<AnimeTranslation>,
 ) {
     val lazyColumnState = rememberLazyListState()
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()

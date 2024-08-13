@@ -21,6 +21,7 @@ class GetAnimePagingUseCase(private val animeRepository: AnimeRepository) {
         type: AnimeType? = null,
         year: Int? = null,
         studio: String? = null,
+        translation: List<Int>? = null,
         filter: FilterEnum? = null,
     ): Flow<PagingData<AnimeLight>> {
         return animeRepository.getAnimePaged(
@@ -34,6 +35,7 @@ class GetAnimePagingUseCase(private val animeRepository: AnimeRepository) {
             type = type,
             year = year,
             studio = studio,
+            translation = translation,
             filter = filter,
         )
     }

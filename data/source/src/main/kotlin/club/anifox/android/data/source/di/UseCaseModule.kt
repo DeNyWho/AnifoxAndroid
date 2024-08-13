@@ -1,6 +1,7 @@
 package club.anifox.android.data.source.di
 
 import club.anifox.android.domain.repository.AnimeRepository
+import club.anifox.android.domain.repository.UserSecurityRepository
 import club.anifox.android.domain.usecase.anime.GetAnimeDetailUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeGenresUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeRelatedUseCase
@@ -12,6 +13,7 @@ import club.anifox.android.domain.usecase.anime.GetAnimeUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeVideosUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeYearsUseCase
 import club.anifox.android.domain.usecase.anime.paging.GetAnimePagingUseCase
+import club.anifox.android.domain.usecase.user.UserTokensUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,6 +23,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal object UseCaseModule {
+
+    @Provides
+    @Singleton
+    fun provideUserTokensUseCase(userSecurityRepository: UserSecurityRepository): UserTokensUseCase {
+        return UserTokensUseCase(userSecurityRepository)
+    }
 
     @Provides
     @Singleton

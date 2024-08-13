@@ -1,4 +1,4 @@
-package club.anifox.android.data.source.repository
+package club.anifox.android.data.source.repository.anime
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
@@ -40,7 +40,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class AnimeRepositoryImpl @Inject constructor(
+internal class AnimeRepositoryImpl @Inject constructor(
     private val animeService: AnimeService,
     private val animeDao: AnimeDao,
     private val animeSearchDao: AnimeSearchDao,
@@ -107,6 +107,7 @@ class AnimeRepositoryImpl @Inject constructor(
         type: AnimeType?,
         year: Int?,
         studio: String?,
+        translation: List<Int>?,
         filter: FilterEnum?,
     ): Flow<PagingData<AnimeLight>> {
         return Pager(
@@ -123,6 +124,7 @@ class AnimeRepositoryImpl @Inject constructor(
                 type = type,
                 year = year,
                 studio = studio,
+                translation = translation,
                 filter = filter,
             ),
             pagingSourceFactory = { animeSearchDao.pagingSource() }

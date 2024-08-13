@@ -19,6 +19,8 @@ android {
 dependencies {
     lintPublish(projects.lint)
     implementation(projects.domain)
+    
+    implementation(libs.youtube.player)
 
     api(libs.paging.runtime)
     api(libs.paging.compose)

@@ -55,6 +55,7 @@ interface AnimeRepository {
         type: AnimeType?,
         year: Int?,
         studio: String?,
+        translation: List<Int>?,
         filter: FilterEnum?
     ): Flow<PagingData<AnimeLight>>
 

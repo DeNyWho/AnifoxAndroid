@@ -35,6 +35,7 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
         type: AnimeType? = null,
         year: Int? = null,
         studio: String? = null,
+        translation: List<Int>? = null,
         filter: FilterEnum? = null,
     ): Resource<List<AnimeLightDTO>> {
         val request = HttpRequestBuilder().apply {
@@ -53,6 +54,7 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
                 if (studio != null) parameter("studio", studio)
                 if (searchQuery != null) parameter("search", searchQuery)
                 if (filter != null) parameter("filter", filter.name)
+                if (translation != null) if (translation.isNotEmpty()) parameter("translation", translation)
             }
         }
 

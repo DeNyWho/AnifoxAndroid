@@ -1,44 +1,44 @@
 [versions]
-androidxActivity = "1.9.0"
+androidxActivity = "1.9.1"
 androidxAppCompat = "1.7.0"
 androidxComposeBom = "2024.06.00"
 androidxComposeCompiler = "1.5.11"
-androidxComposeMaterial3Adaptive = "1.0.0-beta03"
+androidxComposeMaterial3Adaptive = "1.0.0-beta04"
 androidxCore = "1.13.1"
 androidxCoreSplashscreen = "1.0.1"
 androidxDataStore = "1.1.1"
-androidxEspresso = "3.5.1"
+androidxEspresso = "3.6.1"
 androidxHiltNavigationCompose = "1.2.0"
-androidxLifecycle = "2.8.2"
+androidxLifecycle = "2.8.4"
 androidxMetrics = "1.0.0-beta01"
 androidxNavigation = "2.7.7"
-androidxTestCore = "1.5.0"
-androidxTestExt = "1.1.5"
-androidxTestRules = "1.5.0"
-androidxTestRunner = "1.5.2"
+androidxTestCore = "1.6.1"
+androidxTestExt = "1.2.1"
+androidxTestRules = "1.6.1"
+androidxTestRunner = "1.6.1"
 androidxTracing = "1.3.0-alpha02"
 androidDesugarJdkLibs = "2.0.4"
 androidGradlePlugin = "8.3.2"
-androidTools = "31.5.0"
+androidTools = "31.5.2"
 coil = "2.6.0"
 coreKtx = "1.12.0"
 dependencyGuard = "0.4.3"
-hilt = "2.51"
+hilt = "2.51.1"
 hiltExt = "1.2.0"
 jacoco = "0.8.7"
 junit = "4.13.2"
 junit4 = "4.13.2"
-junitVersion = "1.1.5"
+junitVersion = "1.2.1"
 kotlin = "1.9.23"
 kotlinVersion = "1.9.23"
-kotlinxCoroutines = "1.8.0"
+kotlinxCoroutines = "1.8.1"
 kotlinxDatetime = "0.5.0"
 kotlinxSerializationJson = "1.6.3"
 ksp = "1.9.23-1.0.20"
 ktorClient = "2.3.5"
 material = "1.12.0"
 moduleGraph = "2.5.0"
-paging = "3.3.1"
+paging = "3.3.2"
 protobuf = "3.25.2"
 protobufPlugin = "0.9.4"
 roborazzi = "1.7.0"
@@ -47,6 +47,7 @@ secrets = "2.0.1"
 shimmerCompose = "1.3.0"
 slf4j-simple = "2.0.7"
 toolbar = "2.3.5"
+youtube = "12.1.0"
 
 [libraries]
 android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
@@ -70,6 +71,7 @@ androidx-compose-ui-util = { group = "androidx.compose.ui", name = "ui-util" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxCoreSplashscreen" }
 androidx-dataStore-core = { group = "androidx.datastore", name = "datastore", version.ref = "androidxDataStore" }
+androidx-dataStore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDataStore" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 androidx-lifecycle-runtimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 androidx-lifecycle-runtimeTesting = { group = "androidx.lifecycle", name = "lifecycle-runtime-testing", version.ref = "androidxLifecycle" }
@@ -93,6 +95,7 @@ kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", v
 kotlinx-coroutines-guava = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-guava", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+kotlinx-serialization-protobuf = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-protobuf-jvm", version.ref = "kotlinxSerializationJson" }
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetime" }
 ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktorClient" }
 ktor-client-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktorClient" }
@@ -118,7 +121,7 @@ room-paging = { group = "androidx.room", name = "room-paging", version.ref = "ro
 slf4j-simple = { group = "org.slf4j", name = "slf4j-simple", version.ref = "slf4j-simple" }
 shimmer-compose = { group = "com.valentinilk.shimmer", name = "compose-shimmer", version.ref = "shimmerCompose" }
 toolbar-compose = { group = "me.onebone", name = "toolbar-compose", version.ref = "toolbar" }
-
+youtube-player = { group = "com.pierfrancescosoffritti.androidyoutubeplayer", name = "core", version.ref = "youtube" }
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
@@ -129,7 +132,6 @@ room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", vers
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

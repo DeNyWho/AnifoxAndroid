@@ -1,12 +1,16 @@
 package club.anifox.android.feature.search
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.PagingData
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
+import club.anifox.android.domain.model.anime.studio.AnimeStudio
+import club.anifox.android.domain.model.anime.translations.AnimeTranslation
+import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.usecase.anime.GetAnimeStudiosUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeTranslationsUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeYearsUseCase
@@ -22,6 +26,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,13 +41,34 @@ internal class SearchViewModel @Inject constructor(
 
     val loadState = MutableStateFlow<CombinedLoadStates?>(null)
 
+    private val _animeYears = MutableStateFlow<StateListWrapper<Int>>(StateListWrapper.loading())
+    val animeYears = _animeYears.asStateFlow()
+
+    private val _animeStudios = MutableStateFlow<StateListWrapper<AnimeStudio>>(StateListWrapper.loading())
+    val animeStudios = _animeStudios.asStateFlow()
+
+    private val _animeTranslations = MutableStateFlow<StateListWrapper<AnimeTranslation>>(StateListWrapper.loading())
+    val animeTranslations = _animeTranslations.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            getAnimeYearsUseCase().collect { _animeYears.value = it }
+        }
+        viewModelScope.launch {
+            getAnimeStudiosUseCase().collect { _animeStudios.value = it }
+        }
+        viewModelScope.launch {
+            getAnimeTranslationsUseCase().collect { _animeTranslations.value = it }
+        }
+    }
+
     fun updateLoadingState(isLoading: Boolean) {
         _searchState.update { it.copy(isLoading = isLoading) }
     }
 
     @OptIn(FlowPreview::class)
     val searchResults: Flow<PagingData<AnimeLight>> = _searchState
-        .onStart { _searchState.update { it.copy(isLoading = true) } }  // Устанавливаем isLoading в true при старте
+        .onStart { _searchState.update { it.copy(isLoading = true) } }
         .debounce(0)
         .distinctUntilChanged()
         .flatMapLatest { state ->
@@ -53,6 +79,8 @@ internal class SearchViewModel @Inject constructor(
                 type = state.type,
                 year = state.year,
                 season = state.season,
+                studio = state.studio?.name,
+                translation = null,
             )
         }
 
@@ -68,14 +96,18 @@ internal class SearchViewModel @Inject constructor(
         status: AnimeStatus? = null,
         type: AnimeType? = null,
         year: Int? = null,
-        season: AnimeSeason? = null
+        season: AnimeSeason? = null,
+        studio: AnimeStudio? = null,
+        translation: AnimeTranslation? = null,
     ) {
         _searchState.update {
             it.copy(
                 status = status ?: it.status,
                 type = type ?: it.type,
                 year = year ?: it.year,
-                season = season ?: it.season
+                season = season ?: it.season,
+                studio = studio ?: it.studio,
+                translation = translation ?: it.translation,
             )
         }
     }
