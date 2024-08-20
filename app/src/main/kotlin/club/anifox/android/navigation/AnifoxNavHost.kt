@@ -10,6 +10,7 @@ import club.anifox.android.feature.home.navigation.HOME_ROUTE
 import club.anifox.android.feature.home.navigation.homeScreen
 import club.anifox.android.feature.login.navigation.loginScreen
 import club.anifox.android.feature.profile.navigation.profileScreen
+import club.anifox.android.feature.registration.navigation.registrationScreen
 import club.anifox.android.feature.schedule.navigation.scheduleScreen
 import club.anifox.android.feature.screenshots.navigation.navigateToScreenshots
 import club.anifox.android.feature.screenshots.navigation.screenshotsScreen
@@ -56,5 +57,6 @@ fun AnifoxNavHost(
 //        browseScreen()
         favouriteScreen()
         loginScreen()
+        registrationScreen()
     }
 }

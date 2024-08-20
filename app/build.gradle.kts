@@ -57,6 +57,7 @@ dependencies {
     implementation(projects.feature.browse)
     implementation(projects.feature.profile)
     implementation(projects.feature.login)
+    implementation(projects.feature.registration)
 
     implementation(projects.core.uikit)
     implementation(projects.core.common)

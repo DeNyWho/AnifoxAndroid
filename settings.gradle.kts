@@ -38,6 +38,7 @@ include(":feature:browse")
 include(":feature:profile")
 include(":feature:favourite")
 include(":feature:login")
+include(":feature:registration")
 
 include(":core:testing")
 include(":core:uikit")
