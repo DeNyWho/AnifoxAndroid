@@ -1,7 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="feature_favourite_not_authenticated_title">Вас еще нет на Anifox?! 😮</string>
-    <string name="feature_favourite_not_authenticated_sub_title">Войдите или создайте профиль, чтобы открыть для себя большое количество новых возможностей!</string>
-    <string name="feature_favourite_not_authenticated_button_auth">Войти</string>
-    <string name="feature_favourite_not_authenticated_button_reg">Создать профиль</string>
 </resources>

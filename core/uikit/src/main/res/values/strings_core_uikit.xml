@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="core_uikit_card_more">Показать еще</string>
+    <string name="core_uikit_header_title_genres">Жанры</string>
+    <string name="core_uikit_error_no_search_result">По вашему запросу ничего не найдено</string>
+
+    <string name="core_uikit_not_authenticated_title">Вас еще нет на Anifox?! 😮</string>
+    <string name="core_uikit_not_authenticated_sub_title">Войдите или создайте профиль, чтобы открыть для себя большое количество новых возможностей!</string>
+    <string name="core_uikit_not_authenticated_button_auth">Войти</string>
+    <string name="core_uikit_not_authenticated_button_reg">Создать профиль</string>
+</resources>
