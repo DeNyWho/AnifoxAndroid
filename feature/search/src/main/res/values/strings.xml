@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string name="feature_search_filter_button">Фильтр</string>
+    <string name="feature_search_filter_status_title">Статус</string>
+    <string name="feature_search_filter_year_title">Год</string>
+    <string name="feature_search_filter_studio_title">Студия</string>
+    <string name="feature_search_filter_genre_title">Жанр</string>
 </resources>

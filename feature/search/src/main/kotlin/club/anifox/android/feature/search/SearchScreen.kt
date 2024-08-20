@@ -12,14 +12,23 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -34,10 +43,12 @@ import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.studio.AnimeStudio
 import club.anifox.android.domain.model.anime.translations.AnimeTranslation
 import club.anifox.android.domain.state.StateListWrapper
+import club.anifox.android.feature.search.composable.dialog.FilterDialog
 import club.anifox.android.feature.search.composable.item.AnimeSearchItem
 import club.anifox.android.feature.search.composable.toolbar.ContentSearchScreenToolbar
 import club.anifox.android.feature.search.data.SearchState
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -84,6 +95,7 @@ internal fun SearchScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SearchUI(
     searchState: SearchState,
@@ -99,33 +111,72 @@ private fun SearchUI(
     val lazyColumnState = rememberLazyListState()
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
     val focusRequester = remember { FocusRequester() }
+    val sheetState = rememberModalBottomSheetState(false)
+    var showSheet by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+    val onFilterClick: () -> Unit = {
+        showSheet = true
+        scope.launch {
+            sheetState.show()
+        }
+    }
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
     }
 
-    CollapsingToolbarScaffold(
-        modifier = modifier
-            .fillMaxSize(),
-        state = toolbarScaffoldState,
-        scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
-        toolbar = {
-            ContentSearchScreenToolbar(
-                navigateBack = { false },
-                searchQuery = searchState.query,
-                onSearchQueryChanged = onQueryChange,
-                focusRequest = focusRequester,
-            )
-        },
-        body = {
-            SearchContent(
-                searchState = searchState,
-                searchResults = searchResults,
-                lazyColumnState = lazyColumnState,
-                onAnimeClick = onAnimeClick,
+    Box(modifier = modifier.fillMaxSize()) {
+        CollapsingToolbarScaffold(
+            modifier = Modifier.fillMaxSize(),
+            state = toolbarScaffoldState,
+            scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
+            toolbar = {
+                ContentSearchScreenToolbar(
+                    navigateBack = { false },
+                    searchQuery = searchState.query,
+                    onSearchQueryChanged = onQueryChange,
+                    focusRequest = focusRequester,
+                )
+            },
+            body = {
+                SearchContent(
+                    searchState = searchState,
+                    searchResults = searchResults,
+                    lazyColumnState = lazyColumnState,
+                    onAnimeClick = onAnimeClick,
+                )
+            }
+        )
+        ExtendedFloatingActionButton(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp),
+            onClick = {
+                onFilterClick.invoke()
+            },
+        ) {
+            Text(
+                text = stringResource(R.string.feature_search_filter_button),
+                style = MaterialTheme.typography.titleSmall,
             )
         }
-    )
+    }
+
+    if (showSheet) {
+        FilterDialog(
+            onDismissRequest = {
+                scope.launch {
+                    sheetState.hide()
+                }.invokeOnCompletion {
+                    showSheet = false
+                }
+            },
+            sheetState = sheetState,
+            animeYears = animeYears,
+            animeStudios = animeStudios,
+            animeTranslations = animeTranslations,
+        )
+    }
 }
 
 @Composable

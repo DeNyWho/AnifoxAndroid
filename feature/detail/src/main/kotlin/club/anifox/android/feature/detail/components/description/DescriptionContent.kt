@@ -108,6 +108,7 @@ internal fun DescriptionContent(
         } else {
             if (detailAnimeState.data?.description?.isNotEmpty() == true) {
                 Text(
+                    modifier = modifier,
                     text = detailAnimeState.data?.description ?: "",
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Justify,
