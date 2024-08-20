@@ -1,4 +1,4 @@
-package club.anifox.android.feature.registration
+package club.anifox.android.feature.onboarding
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,20 +14,20 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import club.anifox.android.core.uikit.theme.AnifoxTheme
 
 @Composable
-internal fun RegistrationScreen(
-    viewModel: RegistrationViewModel = hiltViewModel(),
+internal fun OnboardingScreen(
+    viewModel: OnboardingViewModel = hiltViewModel(),
 ) {
-    RegistrationUI()
+    OnboardingUI()
 }
 
 @Composable
-private fun RegistrationUI() {
+private fun OnboardingUI() {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            text = "Registration Screen",
+            text = "Onboarding Screen",
             style = MaterialTheme.typography.titleLarge,
         )
     }
@@ -35,12 +35,12 @@ private fun RegistrationUI() {
 
 @PreviewScreenSizes
 @Composable
-private fun PreviewRegistrationUI() {
+private fun PreviewOnboardingUI() {
     AnifoxTheme {
         Column (
             Modifier.background(MaterialTheme.colorScheme.background)
         ) {
-            RegistrationUI()
+            OnboardingUI()
         }
     }
 }
