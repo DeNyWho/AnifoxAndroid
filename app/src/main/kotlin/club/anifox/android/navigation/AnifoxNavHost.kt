@@ -58,9 +58,14 @@ fun AnifoxNavHost(
             onBackPressed = navController::popBackStack,
         )
         scheduleScreen()
-        profileScreen()
-//        browseScreen()
-        favouriteScreen()
+        profileScreen(
+            onLoginClick = navController::navigateToLogin,
+            onRegistrationClick = navController::navigateToRegistration,
+        )
+        favouriteScreen(
+            onLoginClick = navController::navigateToLogin,
+            onRegistrationClick = navController::navigateToRegistration,
+        )
         loginScreen()
         registrationScreen()
         onboardingScreen(

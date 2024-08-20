@@ -10,10 +10,16 @@ const val PROFILE_ROUTE = "profile_route"
 
 fun NavController.navigateToProfile(navOptions: NavOptions) = navigate(PROFILE_ROUTE, navOptions)
 
-fun NavGraphBuilder.profileScreen() {
+fun NavGraphBuilder.profileScreen(
+    onLoginClick: () -> Unit,
+    onRegistrationClick: () -> Unit,
+) {
     composable(
         route = PROFILE_ROUTE
     ) {
-        ProfileScreen()
+        ProfileScreen(
+            onLoginClick = onLoginClick,
+            onRegistrationClick = onRegistrationClick,
+        )
     }
 }

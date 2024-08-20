@@ -26,17 +26,25 @@ import club.anifox.android.feature.favourite.state.ScreenState
 @Composable
 internal fun FavouriteScreen(
     viewModel: FavouriteViewModel = hiltViewModel(),
+    onLoginClick: () -> Unit,
+    onRegistrationClick: () -> Unit,
 ) {
     val screenState by viewModel.screenState.collectAsState(initial = ScreenState.Loading)
     LockScreenOrientation(orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     FavouriteUI(
         screenState = screenState,
+        onLoginClick = onLoginClick,
+        onRegistrationClick = onRegistrationClick,
     )
 }
 
 @Composable
-private fun FavouriteUI(screenState: ScreenState) {
+private fun FavouriteUI(
+    screenState: ScreenState,
+    onLoginClick: () -> Unit,
+    onRegistrationClick: () -> Unit,
+) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
@@ -49,7 +57,10 @@ private fun FavouriteUI(screenState: ScreenState) {
                 AuthenticatedUI()
             }
             is ScreenState.NotAuthenticated -> {
-                UnauthenticatedMessage()
+                UnauthenticatedMessage(
+                    onLoginClick = onLoginClick,
+                    onRegistrationClick = onRegistrationClick,
+                )
             }
             is ScreenState.Error -> {
                 Log.e(
@@ -75,7 +86,11 @@ private fun PreviewFavouriteUI(
         Column (
             Modifier.background(MaterialTheme.colorScheme.background)
         ) {
-            FavouriteUI(param.screenState)
+            FavouriteUI(
+                screenState = param.screenState,
+                onLoginClick = { },
+                onRegistrationClick = { },
+            )
         }
     }
 }

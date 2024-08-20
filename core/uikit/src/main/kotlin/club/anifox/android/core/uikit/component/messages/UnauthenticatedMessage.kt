@@ -25,7 +25,10 @@ import club.anifox.android.core.uikit.component.button.AnifoxButtonPrimary
 import club.anifox.android.core.uikit.theme.AnifoxTheme
 
 @Composable
-fun UnauthenticatedMessage() {
+fun UnauthenticatedMessage(
+    onLoginClick: () -> Unit,
+    onRegistrationClick: () -> Unit,
+) {
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -61,7 +64,7 @@ fun UnauthenticatedMessage() {
                 .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
                 .width(200.dp),
             onClick = {
-
+                onLoginClick.invoke()
             },
             shape = MaterialTheme.shapes.medium,
             elevation = ButtonDefaults.buttonElevation(
@@ -79,7 +82,7 @@ fun UnauthenticatedMessage() {
                 .padding(start = 16.dp, end = 16.dp)
                 .width(200.dp),
             onClick = {
-
+                onRegistrationClick.invoke()
             },
             shape = MaterialTheme.shapes.medium,
             elevation = ButtonDefaults.buttonElevation(
@@ -102,7 +105,10 @@ private fun PreviewUnauthenticatedMessage() {
         Column(
             modifier = Modifier.background(MaterialTheme.colorScheme.background)
         ) {
-            UnauthenticatedMessage()
+            UnauthenticatedMessage(
+                onLoginClick = { },
+                onRegistrationClick = { },
+            )
         }
     }
 }
