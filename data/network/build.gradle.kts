@@ -19,6 +19,7 @@ secrets {
 
 dependencies {
     implementation(projects.domain)
+    implementation(projects.data.datastore)
     implementation(projects.core.common)
 
     implementation(libs.kotlinx.serialization.json)

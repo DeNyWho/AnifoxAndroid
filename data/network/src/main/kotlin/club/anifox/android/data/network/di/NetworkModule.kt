@@ -1,6 +1,8 @@
 package club.anifox.android.data.network.di
 
+import club.anifox.android.data.datastore.source.UserSecurityDataSource
 import club.anifox.android.data.network.BuildConfig
+import club.anifox.android.data.network.interceptor.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,7 +40,16 @@ internal object NetworkModule {
 
     @Provides
     @Singleton
-    fun providesHttpClient(json: Json): HttpClient = HttpClient (OkHttp) {
+    fun providesAuthInterceptor(
+        userSecurityDataSource: UserSecurityDataSource,
+    ): AuthInterceptor = AuthInterceptor(userSecurityDataSource)
+
+    @Provides
+    @Singleton
+    fun providesHttpClient(json: Json, authInterceptor: AuthInterceptor): HttpClient = HttpClient (OkHttp) {
+        engine {
+            addInterceptor(authInterceptor)
+        }
         install(ContentNegotiation) {
             json(json)
         }
@@ -59,7 +70,7 @@ internal object NetworkModule {
             }
         }
         install(HttpTimeout) {
-            requestTimeoutMillis = 5000
+            requestTimeoutMillis = 100000
         }
     }
 

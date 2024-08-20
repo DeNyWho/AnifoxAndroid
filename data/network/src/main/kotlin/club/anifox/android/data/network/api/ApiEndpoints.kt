@@ -1,6 +1,7 @@
 package club.anifox.android.data.network.api
 
 object ApiEndpoints {
+    // ANIME PATH
     const val ANIME = "anime"
     const val ANIME_GENRES = "genres"
     const val ANIME_YEARS = "years"
@@ -10,4 +11,8 @@ object ApiEndpoints {
     const val ANIME_RELATED = "related"
     const val ANIME_SCREENSHOTS = "screenshots"
     const val ANIME_VIDEOS = "videos"
+
+    // USER PATH
+    const val AUTH = "auth"
+    const val REFRESH_TOKEN = "refreshToken"
 }
