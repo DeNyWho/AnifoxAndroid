@@ -5,7 +5,7 @@ import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.enum.FilterEnum
-import club.anifox.android.domain.repository.AnimeRepository
+import club.anifox.android.domain.repository.anime.AnimeRepository
 import club.anifox.android.domain.state.StateListWrapper
 import kotlinx.coroutines.flow.Flow
 

@@ -1,7 +1,7 @@
 package club.anifox.android.data.source.repository.user
 
 import club.anifox.android.data.datastore.source.UserSecurityDataSource
-import club.anifox.android.domain.repository.UserSecurityRepository
+import club.anifox.android.domain.repository.user.UserSecurityRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map

@@ -60,6 +60,8 @@ dependencies {
     implementation(projects.feature.registration)
     implementation(projects.feature.onboarding)
 
+    implementation(projects.domain)
+
     implementation(projects.core.uikit)
     implementation(projects.core.common)
 

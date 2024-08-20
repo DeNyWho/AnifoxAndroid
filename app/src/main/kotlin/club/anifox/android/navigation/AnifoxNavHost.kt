@@ -9,8 +9,11 @@ import club.anifox.android.feature.favourite.navigation.favouriteScreen
 import club.anifox.android.feature.home.navigation.HOME_ROUTE
 import club.anifox.android.feature.home.navigation.homeScreen
 import club.anifox.android.feature.login.navigation.loginScreen
+import club.anifox.android.feature.login.navigation.navigateToLogin
+import club.anifox.android.feature.onboarding.navigation.ONBOARDING_ROUTE
 import club.anifox.android.feature.onboarding.navigation.onboardingScreen
 import club.anifox.android.feature.profile.navigation.profileScreen
+import club.anifox.android.feature.registration.navigation.navigateToRegistration
 import club.anifox.android.feature.registration.navigation.registrationScreen
 import club.anifox.android.feature.schedule.navigation.scheduleScreen
 import club.anifox.android.feature.screenshots.navigation.navigateToScreenshots
@@ -25,12 +28,13 @@ import club.anifox.android.ui.AnifoxAppState
 fun AnifoxNavHost(
     appState: AnifoxAppState,
     modifier: Modifier = Modifier,
-    startDestination: String = HOME_ROUTE
+    startDestination: String = HOME_ROUTE,
+    isFirstLaunch: Boolean,
 ) {
     val navController = appState.navController
     NavHost(
         navController = navController,
-        startDestination = startDestination,
+        startDestination = if(isFirstLaunch) ONBOARDING_ROUTE else startDestination,
         modifier = modifier,
     ) {
         homeScreen(
@@ -59,6 +63,9 @@ fun AnifoxNavHost(
         favouriteScreen()
         loginScreen()
         registrationScreen()
-        onboardingScreen()
+        onboardingScreen(
+            onLoginClick = navController::navigateToLogin,
+            onRegistrationClick = navController::navigateToRegistration,
+        )
     }
 }

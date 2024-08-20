@@ -26,16 +26,19 @@ fun rememberAnifoxAppState(
     networkMonitor: NetworkMonitor,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = rememberNavController(),
+    isFirstLaunch: Boolean,
 ): AnifoxAppState {
     return remember (
         navController,
         coroutineScope,
         networkMonitor,
+        isFirstLaunch,
     ) {
         AnifoxAppState(
             navController = navController,
             coroutineScope = coroutineScope,
             networkMonitor = networkMonitor,
+            isFirstLaunch = isFirstLaunch,
         )
     }
 }
@@ -45,6 +48,7 @@ class AnifoxAppState(
     val navController: NavHostController,
     coroutineScope: CoroutineScope,
     networkMonitor: NetworkMonitor,
+    val isFirstLaunch: Boolean,
 ) {
     val currentDestination: NavDestination?
         @Composable get() = navController

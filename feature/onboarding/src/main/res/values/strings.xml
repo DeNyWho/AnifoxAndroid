@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_onboarding_title_main">Добро пожаловать в мир аниме!</string>
+    <string name="feature_onboarding_title_sub_main">Смотрите свои любимые тайтлы и открывайте новые истории.\nНачнем ваше приключение прямо сейчас!</string>
+    <string name="feature_onboarding_button_registration_title">Начать</string>
+    <string name="feature_onboarding_button_login_title">Уже есть аккаунт?</string>
+    <string name="feature_onboarding_button_login_sub_title">Войти</string>
+    <string name="feature_onboarding_button_skip_title">Пропустить</string>
+</resources>

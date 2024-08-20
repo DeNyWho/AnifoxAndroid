@@ -123,6 +123,7 @@ fun AnifoxApp(appState: AnifoxAppState) {
                 Column(Modifier.fillMaxSize()) {
                     AnifoxNavHost(
                         appState = appState,
+                        isFirstLaunch = appState.isFirstLaunch,
                     )
                 }
             }

@@ -1,4 +1,4 @@
-package club.anifox.android.domain.repository
+package club.anifox.android.domain.repository.user
 
 import kotlinx.coroutines.flow.Flow
 

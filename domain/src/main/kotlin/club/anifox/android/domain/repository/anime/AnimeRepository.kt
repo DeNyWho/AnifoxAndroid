@@ -1,4 +1,4 @@
-package club.anifox.android.domain.repository
+package club.anifox.android.domain.repository.anime
 
 import androidx.paging.PagingData
 import club.anifox.android.domain.model.anime.AnimeDetail
