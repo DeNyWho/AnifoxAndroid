@@ -1,6 +1,7 @@
 package club.anifox.android.domain.repository.user
 
 import kotlinx.coroutines.flow.Flow
+import club.anifox.android.domain.state.Result
 
 interface UserSecurityRepository {
     fun getAccessToken(): Flow<Result<String>>

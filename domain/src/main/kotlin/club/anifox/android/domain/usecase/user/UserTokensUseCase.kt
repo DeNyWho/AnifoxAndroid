@@ -1,6 +1,7 @@
 package club.anifox.android.domain.usecase.user
 
 import club.anifox.android.domain.repository.user.UserSecurityRepository
+import club.anifox.android.domain.state.Result
 import kotlinx.coroutines.flow.Flow
 
 class UserTokensUseCase(private val userSecurityRepository: UserSecurityRepository) {
