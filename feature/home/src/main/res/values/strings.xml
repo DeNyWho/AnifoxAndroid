@@ -5,4 +5,5 @@
     <string name="feature_home_section_header_title_ongoing_popular">Выходит сейчас</string>
     <string name="feature_home_section_header_title_popular">Популярные</string>
     <string name="feature_home_section_header_title_films">Фильмы</string>
+    <string name="feature_home_section_header_title_genres">Жанры</string>
 </resources>

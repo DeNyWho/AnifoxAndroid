@@ -8,14 +8,17 @@ import club.anifox.android.domain.model.anime.enum.AnimeType.Tv
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.model.anime.studio.AnimeStudio
+import java.util.UUID
 
 object GlobalParams {
+    val Genres: List<AnimeGenre> = listOf(AnimeGenre(id = UUID.randomUUID().toString(), name = "Приключения"), AnimeGenre(id = UUID.randomUUID().toString(), name = "Романтика"))
+
     val Data = AnimeDetail(
         title = "Провожающая в последний путь Фрирен",
         url = "provozhaiushchaia-v-poslednii-put-friren",
         titleEnglish = listOf("Frieren: Beyond Journey's End"),
         description = "Одержав победу над Королём демонов, отряд героя Химмеля вернулся домой. Приключение, растянувшееся на десятилетие, подошло к завершению. Волшебница-эльф Фрирен и её отважные товарищи принесли людям мир и разошлись в разные стороны, чтобы спокойно прожить остаток жизни. Однако не всех членов отряда ждёт одинаковая участь. Для эльфов время течёт иначе, поэтому Фрирен вынужденно становится свидетелем того, как её спутники один за другим постепенно уходят из жизни. Девушка осознала, что годы, проведённые в отряде героя, пронеслись в один миг, как падающая звезда в бескрайнем космосе её жизни, и столкнулась с сожалениями об упущенных возможностях. Сможет ли она смириться со смертью друзей и понять, что значит жизнь для окружающих её людей? Фрирен начинает новое путешествие, чтобы найти ответ.",
-        genre = listOf(AnimeGenre(name = "Приключения"), AnimeGenre(name = "Романтика")),
+        genre = Genres,
         studio = listOf(AnimeStudio(name = "Студия"), AnimeStudio(name = "Вторая студия")),
         type = Tv,
         rating = 4.8,
