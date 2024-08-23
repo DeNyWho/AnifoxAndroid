@@ -27,7 +27,7 @@ internal fun GenreContentItem(genreAnime: AnimeGenre) {
             modifier = Modifier.padding(28.dp),
             text = genreAnime.name,
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            color = MaterialTheme.colorScheme.background,
         )
     }
 }
