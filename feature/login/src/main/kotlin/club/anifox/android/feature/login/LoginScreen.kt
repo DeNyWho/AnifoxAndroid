@@ -56,6 +56,7 @@ private fun LoginUI(userIdentifier: MutableState<String>, password: MutableState
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier)
         Column(

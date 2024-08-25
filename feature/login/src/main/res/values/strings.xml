@@ -3,6 +3,6 @@
     <string name="feature_login_textfield_login_hint">Введите логин или email</string>
     <string name="feature_login_textfield_password_hint">Введите пароль</string>
     <string name="feature_login_button_auth">Войти</string>
-    <string name="feature_login_button_login_title">Уже есть аккаунт?</string>
-    <string name="feature_login_button_login_sub_title">Войти</string>
+    <string name="feature_login_button_login_title">У вас нет аккаунта?</string>
+    <string name="feature_login_button_login_sub_title">Зарегистрироваться</string>
 </resources>
