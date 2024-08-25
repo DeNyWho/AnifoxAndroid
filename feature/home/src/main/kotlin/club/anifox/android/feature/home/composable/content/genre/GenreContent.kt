@@ -15,7 +15,8 @@ import club.anifox.android.core.uikit.component.slider.header.SliderHeaderShimme
 import club.anifox.android.core.uikit.theme.AnifoxTheme
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.state.StateListWrapper
-import club.anifox.android.feature.home.composable.content.genre.item.GenreContentItem
+import club.anifox.android.feature.home.composable.content.genre.item.CardGenreContentItem
+import club.anifox.android.feature.home.composable.content.genre.item.showCardGenreContentItemShimmer
 import club.anifox.android.feature.home.composable.content.genre.param.GenreContentPreviewParam
 import club.anifox.android.feature.home.composable.content.genre.param.GenreContentProvider
 import com.valentinilk.shimmer.Shimmer
@@ -51,13 +52,13 @@ internal fun GenreContent(
         horizontalArrangement = horizontalArrangement,
     ) {
         if(genresAnime.isLoading) {
-
+            showCardGenreContentItemShimmer(shimmer)
         } else if(genresAnime.data.isNotEmpty()) {
             items(
                 genresAnime.data,
                 key = { it.id },
             ) { data ->
-                GenreContentItem(
+                CardGenreContentItem(
                     genreAnime = data,
                 )
             }

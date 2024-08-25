@@ -12,11 +12,11 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.theme.AnifoxTheme
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
-import club.anifox.android.feature.home.composable.content.genre.item.param.GenreContentItemPreviewParam
-import club.anifox.android.feature.home.composable.content.genre.item.param.GenreContentItemProvider
+import club.anifox.android.feature.home.composable.content.genre.item.param.CardGenreContentItemPreviewParam
+import club.anifox.android.feature.home.composable.content.genre.item.param.CardGenreContentItemProvider
 
 @Composable
-internal fun GenreContentItem(genreAnime: AnimeGenre) {
+internal fun CardGenreContentItem(genreAnime: AnimeGenre) {
     Card(
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(
@@ -34,10 +34,10 @@ internal fun GenreContentItem(genreAnime: AnimeGenre) {
 
 @PreviewLightDark
 @Composable
-private fun PreviewGenreContentItem(
-    @PreviewParameter(GenreContentItemProvider::class) param: GenreContentItemPreviewParam
+private fun PreviewCardGenreContentItem(
+    @PreviewParameter(CardGenreContentItemProvider::class) param: CardGenreContentItemPreviewParam
 ) {
     AnifoxTheme {
-        GenreContentItem(genreAnime = param.genreAnime)
+        CardGenreContentItem(genreAnime = param.genreAnime)
     }
 }
