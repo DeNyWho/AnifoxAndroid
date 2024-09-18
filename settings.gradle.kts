@@ -40,6 +40,7 @@ include(":feature:favourite")
 include(":feature:login")
 include(":feature:registration")
 include(":feature:onboarding")
+include(":feature:genres")
 
 include(":core:testing")
 include(":core:uikit")
