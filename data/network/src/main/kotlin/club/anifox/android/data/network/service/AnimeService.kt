@@ -41,7 +41,7 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
         val request = HttpRequestBuilder().apply {
             method = HttpMethod.Get
             url {
-                encodedPath = "${ApiEndpoints.ANIME}/"
+                encodedPath = ApiEndpoints.ANIME
                 parameter("page", page)
                 parameter("limit", limit)
                 if (season != null) parameter("season", season.name)
