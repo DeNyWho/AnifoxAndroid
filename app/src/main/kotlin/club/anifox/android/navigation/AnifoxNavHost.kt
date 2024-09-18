@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import club.anifox.android.feature.detail.navigation.detailScreen
 import club.anifox.android.feature.detail.navigation.navigateToDetail
 import club.anifox.android.feature.favourite.navigation.favouriteScreen
+import club.anifox.android.feature.genres.navigation.genresScreen
 import club.anifox.android.feature.home.navigation.HOME_ROUTE
 import club.anifox.android.feature.home.navigation.homeScreen
 import club.anifox.android.feature.login.navigation.loginScreen
@@ -68,6 +69,7 @@ fun AnifoxNavHost(
         )
         loginScreen()
         registrationScreen()
+        genresScreen()
         onboardingScreen(
             onLoginClick = navController::navigateToLogin,
             onRegistrationClick = navController::navigateToRegistration,
