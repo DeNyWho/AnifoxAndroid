@@ -50,11 +50,15 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
                 if (year != null) parameter("year", year)
                 if (type != null) parameter("type", type.name)
                 if (status != null) parameter("status", status.name)
-                if (genres != null) if (genres.isNotEmpty()) parameter("genres", genres)
+                genres?.forEach { genre ->
+                    parameter("genres", genre)
+                }
                 if (studio != null) parameter("studio", studio)
                 if (searchQuery != null) parameter("search", searchQuery)
                 if (filter != null) parameter("filter", filter.name)
-                if (translation != null) if (translation.isNotEmpty()) parameter("translation", translation)
+                translation?.forEach { translation ->
+                    parameter("translation", translation)
+                }
             }
         }
 

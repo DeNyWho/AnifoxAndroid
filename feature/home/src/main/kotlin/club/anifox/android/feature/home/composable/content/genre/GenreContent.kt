@@ -32,6 +32,7 @@ internal fun GenreContent(
     genresAnime: StateListWrapper<AnimeGenre>,
     contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
     horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(12.dp),
+    onItemClick: (String) -> Unit,
 ) {
     // header
     if(genresAnime.isLoading) {
@@ -60,6 +61,7 @@ internal fun GenreContent(
             ) { data ->
                 CardGenreContentItem(
                     genreAnime = data,
+                    onItemClick = onItemClick,
                 )
             }
         }
@@ -75,6 +77,7 @@ private fun PreviewGenreContent(
         GenreContent(
             genresAnime = param.genresAnime,
             headerTitle = param.headerTitle,
+            onItemClick = param.onItemClick,
         )
     }
 }

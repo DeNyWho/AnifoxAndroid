@@ -29,6 +29,7 @@ internal fun HomeScreen(
     onAnimeClick: (String) -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
     onSearchClick: () -> Unit,
+    onGenresClick: (String) -> Unit,
 ) {
     LaunchedEffect(viewModel) {
         viewModel.getPopularOngoingAnime(0,12)
@@ -45,6 +46,7 @@ internal fun HomeScreen(
         filmsAnime = viewModel.filmsAnime.value,
         genresAnime = viewModel.genresAnime.value,
         onSearchClick = onSearchClick,
+        onGenresClick = onGenresClick,
     )
 }
 
@@ -53,6 +55,7 @@ private fun HomeUI(
     modifier: Modifier = Modifier,
     onAnimeClick: (String) -> Unit,
     onSearchClick: () -> Unit,
+    onGenresClick: (String) -> Unit,
     onPopularOngoingAnime: StateListWrapper<AnimeLight>,
     onPopularAnime: StateListWrapper<AnimeLight>,
     filmsAnime: StateListWrapper<AnimeLight>,
@@ -79,6 +82,7 @@ private fun HomeUI(
         HomeContent(
             modifier = modifier,
             onAnimeClick = onAnimeClick,
+            onGenresClick = onGenresClick,
             onPopularOngoingAnime = onPopularOngoingAnime,
             onPopularAnime = onPopularAnime,
             filmsAnime = filmsAnime,
@@ -92,6 +96,7 @@ private fun HomeContent(
     modifier: Modifier = Modifier,
     lazyColumnState: LazyListState = rememberLazyListState(),
     onAnimeClick: (String) -> Unit,
+    onGenresClick: (String) -> Unit,
     onPopularOngoingAnime: StateListWrapper<AnimeLight>,
     onPopularAnime: StateListWrapper<AnimeLight>,
     filmsAnime: StateListWrapper<AnimeLight>,
@@ -100,7 +105,7 @@ private fun HomeContent(
     LazyColumn(
         modifier = modifier
             .fillMaxSize(),
-        state = lazyColumnState
+        state = lazyColumnState,
     ) {
         item {
             SliderContent(
@@ -123,6 +128,7 @@ private fun HomeContent(
                 headerTitle = stringResource(R.string.feature_home_section_header_title_genres),
                 headerModifier = SliderContentDefaults.Default,
                 genresAnime = genresAnime,
+                onItemClick = onGenresClick,
             )
         }
         item {

@@ -14,7 +14,9 @@ const val GENRES_ROUTE = "genres_route"
 
 fun NavController.navigateToGenres(genreID: String, navOptions: NavOptions? = null) = navigate("$GENRES_ROUTE/$GENRE_ID=$genreID", navOptions)
 
-fun NavGraphBuilder.genresScreen() {
+fun NavGraphBuilder.genresScreen(
+    onAnimeClick: (String) -> Unit,
+) {
     composable(
         route = "$GENRES_ROUTE/$GENRE_ID={genreID}",
         arguments = listOf(
@@ -22,6 +24,9 @@ fun NavGraphBuilder.genresScreen() {
         ),
     ) {
         val genreID = remember { it.arguments?.getString("genreID") } ?: ""
-        GenresScreen(genreID = genreID)
+        GenresScreen(
+            genreID = genreID,
+            onAnimeClick = onAnimeClick,
+        )
     }
 }

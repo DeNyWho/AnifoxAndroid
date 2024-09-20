@@ -1,4 +1,4 @@
-package club.anifox.android.feature.screenshots.composable.slider.item
+package club.anifox.android.feature.screenshots.composable.grid.item
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

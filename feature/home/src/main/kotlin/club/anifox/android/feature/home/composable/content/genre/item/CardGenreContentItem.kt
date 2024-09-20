@@ -1,5 +1,6 @@
 package club.anifox.android.feature.home.composable.content.genre.item
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -16,8 +17,14 @@ import club.anifox.android.feature.home.composable.content.genre.item.param.Card
 import club.anifox.android.feature.home.composable.content.genre.item.param.CardGenreContentItemProvider
 
 @Composable
-internal fun CardGenreContentItem(genreAnime: AnimeGenre) {
+internal fun CardGenreContentItem(
+    genreAnime: AnimeGenre,
+    onItemClick: (String) -> Unit,
+) {
     Card(
+        modifier = Modifier.clickable {
+            onItemClick.invoke(genreAnime.id)
+        },
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.onBackground
@@ -38,6 +45,9 @@ private fun PreviewCardGenreContentItem(
     @PreviewParameter(CardGenreContentItemProvider::class) param: CardGenreContentItemPreviewParam
 ) {
     AnifoxTheme {
-        CardGenreContentItem(genreAnime = param.genreAnime)
+        CardGenreContentItem(
+            genreAnime = param.genreAnime,
+            onItemClick = param.onItemClick,
+        )
     }
 }

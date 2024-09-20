@@ -98,11 +98,11 @@ internal fun SearchScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SearchUI(
+    modifier: Modifier = Modifier,
     searchState: SearchState,
     onQueryChange: (String) -> Unit,
     onFilterChange: (AnimeStatus?, AnimeType?, Int?, AnimeSeason?, AnimeStudio?, AnimeTranslation?) -> Unit,
     onAnimeClick: (String) -> Unit,
-    modifier: Modifier = Modifier,
     searchResults: Flow<PagingData<AnimeLight>>,
     animeYears: StateListWrapper<Int>,
     animeStudios: StateListWrapper<AnimeStudio>,
@@ -181,9 +181,9 @@ private fun SearchUI(
 
 @Composable
 private fun SearchContent(
+    modifier: Modifier = Modifier,
     searchResults: Flow<PagingData<AnimeLight>>,
     searchState: SearchState,
-    modifier: Modifier = Modifier,
     lazyColumnState: LazyListState,
     onAnimeClick: (String) -> Unit,
 ) {
@@ -195,7 +195,7 @@ private fun SearchContent(
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = modifier.fillMaxSize()) {
         when {
             searchState.isLoading -> {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))

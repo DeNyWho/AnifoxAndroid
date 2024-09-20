@@ -41,7 +41,7 @@ fun GridContent(
     LazyVerticalGrid(
         modifier = modifier
             .fillMaxSize(),
-        columns = GridCells.Adaptive(minSize=CardAnimePortraitDefaults.Width.Grid),
+        columns = GridCells.Adaptive(minSize = CardAnimePortraitDefaults.Width.Grid),
         horizontalArrangement = horizontalContentArrangement,
         verticalArrangement = verticalContentArrangement,
     ) {

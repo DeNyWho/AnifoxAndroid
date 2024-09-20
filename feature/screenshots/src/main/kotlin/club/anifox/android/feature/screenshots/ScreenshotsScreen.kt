@@ -27,7 +27,7 @@ import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
 import club.anifox.android.core.uikit.component.progress.CircularProgress
 import club.anifox.android.core.uikit.theme.AnifoxTheme
 import club.anifox.android.domain.state.StateListWrapper
-import club.anifox.android.feature.screenshots.composable.slider.content.SliderScreenshotsGridContent
+import club.anifox.android.feature.screenshots.composable.grid.content.ScreenshotsGridContent
 import club.anifox.android.feature.screenshots.param.ScreenshotsContentPreviewParam
 import club.anifox.android.feature.screenshots.param.ScreenshotsContentProvider
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -120,7 +120,7 @@ internal fun ScreenshotsContent(
         modifier = modifier
             .padding(start = 16.dp, end = 16.dp),
     ) {
-        SliderScreenshotsGridContent(
+        ScreenshotsGridContent(
             contentState = screenshotAnimeState,
             onItemClick = onScreenshotClick,
         )

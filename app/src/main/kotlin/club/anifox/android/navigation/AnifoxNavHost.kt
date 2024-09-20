@@ -7,6 +7,7 @@ import club.anifox.android.feature.detail.navigation.detailScreen
 import club.anifox.android.feature.detail.navigation.navigateToDetail
 import club.anifox.android.feature.favourite.navigation.favouriteScreen
 import club.anifox.android.feature.genres.navigation.genresScreen
+import club.anifox.android.feature.genres.navigation.navigateToGenres
 import club.anifox.android.feature.home.navigation.HOME_ROUTE
 import club.anifox.android.feature.home.navigation.homeScreen
 import club.anifox.android.feature.login.navigation.loginScreen
@@ -41,6 +42,7 @@ fun AnifoxNavHost(
         homeScreen(
             onAnimeClick = navController::navigateToDetail,
             onSearchClick = navController::navigateToSearch,
+            onGenresClick = navController::navigateToGenres,
         )
         detailScreen(
             onBackPressed = navController::popBackStack,
@@ -50,7 +52,7 @@ fun AnifoxNavHost(
         )
         searchScreen(
             onBackPressed = navController::popBackStack,
-            onAnimeClick = navController::navigateToDetail
+            onAnimeClick = navController::navigateToDetail,
         )
         screenshotsScreen(
             onBackPressed = navController::popBackStack,
@@ -69,7 +71,9 @@ fun AnifoxNavHost(
         )
         loginScreen()
         registrationScreen()
-        genresScreen()
+        genresScreen(
+            onAnimeClick = navController::navigateToDetail,
+        )
         onboardingScreen(
             onLoginClick = navController::navigateToLogin,
             onRegistrationClick = navController::navigateToRegistration,
