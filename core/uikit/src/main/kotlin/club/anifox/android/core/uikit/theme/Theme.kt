@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import club.anifox.android.core.uikit.util.LocalScreenInfo
 import org.jetbrains.annotations.VisibleForTesting
 
 /**
@@ -51,7 +52,7 @@ val LightColorScheme = lightColorScheme(
 @Composable
 fun AnifoxTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val colorScheme = if(!darkTheme) {
         LightColorScheme
@@ -59,9 +60,12 @@ fun AnifoxTheme(
         DarkColorScheme
     }
 
+    val screenInfo = LocalScreenInfo.current
+    val fontSizePrefs = screenInfo.fontSizePrefs
+
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = AnifoxTypography,
+        typography = anifoxTypography(fontSizePrefs = fontSizePrefs),
         content = content,
     )
 }

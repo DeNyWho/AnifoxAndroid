@@ -12,7 +12,7 @@ import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.enum.FilterEnum
-import club.anifox.android.domain.model.common.Resource
+import club.anifox.android.domain.model.common.request.Resource
 
 @OptIn(ExperimentalPagingApi::class)
 internal class AnimeSearchRemoteMediator(

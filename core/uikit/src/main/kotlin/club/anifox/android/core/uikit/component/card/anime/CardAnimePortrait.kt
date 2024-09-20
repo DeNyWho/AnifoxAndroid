@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.card.anime.param.CardAnimePreviewParam
 import club.anifox.android.core.uikit.component.card.anime.param.CardAnimeProvider
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.AnimeLight
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -100,7 +100,7 @@ fun CardAnimePortrait(
 private fun PreviewCardThumbnailPortraitDefault(
     @PreviewParameter(CardAnimeProvider::class) param: CardAnimePreviewParam,
 ) {
-    AnifoxTheme {
+    DefaultPreview {
         CardAnimePortrait (
             modifier = param.modifier,
             data = param.data,

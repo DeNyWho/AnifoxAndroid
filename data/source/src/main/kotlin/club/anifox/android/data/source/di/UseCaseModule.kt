@@ -16,6 +16,7 @@ import club.anifox.android.domain.usecase.anime.GetAnimeYearsUseCase
 import club.anifox.android.domain.usecase.anime.paging.anime.genres.AnimeGenresPagingUseCase
 import club.anifox.android.domain.usecase.anime.paging.anime.search.AnimeSearchPagingUseCase
 import club.anifox.android.domain.usecase.user.UserFirstLaunchUseCase
+import club.anifox.android.domain.usecase.user.UserSettingsUseCase
 import club.anifox.android.domain.usecase.user.UserTokensUseCase
 import dagger.Module
 import dagger.Provides
@@ -31,6 +32,12 @@ internal object UseCaseModule {
     @Singleton
     fun provideUserFirstLaunchUseCase(userRepository: UserRepository): UserFirstLaunchUseCase {
         return UserFirstLaunchUseCase(userRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserSettingsUseCase(userRepository: UserRepository): UserSettingsUseCase {
+        return UserSettingsUseCase(userRepository)
     }
 
     @Provides

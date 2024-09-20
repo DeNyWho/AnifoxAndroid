@@ -13,7 +13,7 @@ internal class OnboardingViewModel @Inject constructor(
 ): ViewModel() {
     fun updateFirstLaunch() {
         viewModelScope.launch {
-            userFirstLaunchUseCase.updateFirstLaunch(false)
+            userFirstLaunchUseCase.setFirstLaunchCompleted()
         }
     }
 }

@@ -5,8 +5,9 @@ import androidx.compose.ui.unit.dp
 
 object CardAnimePortraitDefaults {
     object Width {
+        val Min = 80.dp
         val Default = 140.dp
-        val GridSmall = 100.dp
+        val GridSmall = 120.dp
         val GridMedium = 140.dp
         val GridLarge = 180.dp
         val Small = 120.dp
@@ -15,17 +16,17 @@ object CardAnimePortraitDefaults {
     object Height {
         val Default = 190.dp
         val GridSmall = 160.dp
-        val GridMedium = 200.dp
+        val GridMedium = 180.dp
         val GridLarge = 240.dp
         val Small = 170.dp
     }
 
     object HorizontalArrangement {
         val Default = Arrangement.spacedBy(12.dp)
-        val Grid = Arrangement.spacedBy(16.dp)
+        val Grid = Arrangement.spacedBy(8.dp)
     }
 
     object VerticalArrangement {
-        val Grid = Arrangement.spacedBy(16.dp)
+        val Grid = Arrangement.spacedBy(4.dp)
     }
 }

@@ -1,4 +1,4 @@
-package club.anifox.android.domain.model.common
+package club.anifox.android.domain.model.common.request
 
 sealed class Resource<out T> {
     data object Loading : Resource<Nothing>()

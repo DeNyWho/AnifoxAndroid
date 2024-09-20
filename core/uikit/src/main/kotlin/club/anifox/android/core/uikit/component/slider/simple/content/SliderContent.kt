@@ -1,13 +1,10 @@
 package club.anifox.android.core.uikit.component.slider.simple.content
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -23,7 +20,7 @@ import club.anifox.android.core.uikit.component.slider.header.SliderHeader
 import club.anifox.android.core.uikit.component.slider.header.SliderHeaderShimmer
 import club.anifox.android.core.uikit.component.slider.simple.content.param.SliderContentPreviewParam
 import club.anifox.android.core.uikit.component.slider.simple.content.param.SliderContentProvider
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.onUpdateShimmerBounds
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.state.StateListWrapper
@@ -96,23 +93,19 @@ fun SliderContent(
 private fun PreviewScrollableHorizontalContentDefault(
     @PreviewParameter(SliderContentProvider::class) param: SliderContentPreviewParam,
 ) {
-    AnifoxTheme {
-        Column (
-            Modifier.background(MaterialTheme.colorScheme.background)
-        ) {
-            SliderContent (
-                modifier = param.modifier,
-                headerModifier = param.headerModifier,
-                itemModifier = param.itemModifier,
-                thumbnailHeight = param.thumbnailHeight,
-                thumbnailWidth = param.thumbnailWidth,
-                headerTitle = param.headerTitle,
-                contentState = param.contentState,
-                contentPadding = param.contentPadding,
-                contentArrangement = param.contentArrangement,
-                textAlign = param.textAlign,
-                onItemClick = param.onItemClick,
-            )
-        }
+    DefaultPreview(true) {
+        SliderContent (
+            modifier = param.modifier,
+            headerModifier = param.headerModifier,
+            itemModifier = param.itemModifier,
+            thumbnailHeight = param.thumbnailHeight,
+            thumbnailWidth = param.thumbnailWidth,
+            headerTitle = param.headerTitle,
+            contentState = param.contentState,
+            contentPadding = param.contentPadding,
+            contentArrangement = param.contentArrangement,
+            textAlign = param.textAlign,
+            onItemClick = param.onItemClick,
+        )
     }
 }

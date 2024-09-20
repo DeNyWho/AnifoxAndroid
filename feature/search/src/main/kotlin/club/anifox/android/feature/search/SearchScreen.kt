@@ -1,16 +1,13 @@
 package club.anifox.android.feature.search
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -35,16 +32,21 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
+import club.anifox.android.core.uikit.component.card.anime.CardAnimePortraitDefaults
 import club.anifox.android.core.uikit.component.error.NoSearchResultsError
+import club.anifox.android.core.uikit.component.grid.GridContentDefaults
+import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.studio.AnimeStudio
 import club.anifox.android.domain.model.anime.translations.AnimeTranslation
+import club.anifox.android.domain.model.common.device.ScreenType
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.search.composable.dialog.FilterDialog
 import club.anifox.android.feature.search.composable.item.AnimeSearchItem
+import club.anifox.android.feature.search.composable.item.AnimeSearchItemDefaults
 import club.anifox.android.feature.search.composable.toolbar.ContentSearchScreenToolbar
 import club.anifox.android.feature.search.data.SearchState
 import kotlinx.coroutines.flow.Flow
@@ -108,7 +110,7 @@ private fun SearchUI(
     animeStudios: StateListWrapper<AnimeStudio>,
     animeTranslations: StateListWrapper<AnimeTranslation>,
 ) {
-    val lazyColumnState = rememberLazyListState()
+    val lazyGridState = rememberLazyGridState()
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
     val focusRequester = remember { FocusRequester() }
     val sheetState = rememberModalBottomSheetState(false)
@@ -142,7 +144,7 @@ private fun SearchUI(
                 SearchContent(
                     searchState = searchState,
                     searchResults = searchResults,
-                    lazyColumnState = lazyColumnState,
+                    lazyGridState = lazyGridState,
                     onAnimeClick = onAnimeClick,
                 )
             }
@@ -184,10 +186,34 @@ private fun SearchContent(
     modifier: Modifier = Modifier,
     searchResults: Flow<PagingData<AnimeLight>>,
     searchState: SearchState,
-    lazyColumnState: LazyListState,
+    lazyGridState: LazyGridState,
     onAnimeClick: (String) -> Unit,
 ) {
     val items = searchResults.collectAsLazyPagingItems()
+
+    val screenInfo = LocalScreenInfo.current
+    val (width, height) = when (screenInfo.screenType) {
+        ScreenType.SMALL -> {
+            Pair(
+                AnimeSearchItemDefaults.Width.Small,
+                AnimeSearchItemDefaults.Height.Small,
+            )
+        }
+        ScreenType.DEFAULT -> {
+            Pair(
+                AnimeSearchItemDefaults.Width.Medium,
+                AnimeSearchItemDefaults.Height.Medium,
+            )
+        }
+        else -> {
+            Pair(
+                AnimeSearchItemDefaults.Width.Large,
+                AnimeSearchItemDefaults.Height.Large,
+            )
+        }
+    }
+
+    val minColumnSize = (screenInfo.portraitWidthDp.dp / 4).coerceAtLeast(300.dp)
 
     LaunchedEffect(searchState) {
         if (!searchState.isLoading) {
@@ -204,13 +230,12 @@ private fun SearchContent(
                 NoSearchResultsError()
             }
             else -> {
-                LazyColumn(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .fillMaxSize(),
-                    contentPadding = WindowInsets.navigationBars.asPaddingValues(),
-                    state = lazyColumnState,
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                LazyVerticalGrid(
+                    modifier = GridContentDefaults.Default.fillMaxSize(),
+                    columns = GridCells.Adaptive(minSize = minColumnSize),
+                    state = lazyGridState,
+                    horizontalArrangement = CardAnimePortraitDefaults.HorizontalArrangement.Grid,
+                    verticalArrangement = CardAnimePortraitDefaults.VerticalArrangement.Grid,
                 ) {
                     items(
                         count = items.itemCount,
@@ -219,6 +244,8 @@ private fun SearchContent(
                         val item = items[index]
                         if (item != null) {
                             AnimeSearchItem(
+                                thumbnailWidth = width,
+                                thumbnailHeight = height,
                                 data = item,
                                 onClick = onAnimeClick,
                             )
@@ -233,15 +260,3 @@ private fun SearchContent(
         }
     }
 }
-
-//@PreviewScreenSizes
-//@Composable
-//private fun PreviewSearchScreenUI() {
-//    AnifoxTheme {
-//        Column (
-//            Modifier.background(MaterialTheme.colorScheme.background)
-//        ) {
-//            SearchUI()
-//        }
-//    }
-//}

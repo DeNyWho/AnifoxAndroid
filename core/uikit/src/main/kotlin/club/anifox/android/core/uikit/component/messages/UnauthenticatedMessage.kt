@@ -1,7 +1,6 @@
 package club.anifox.android.core.uikit.component.messages
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,7 +21,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.R
 import club.anifox.android.core.uikit.component.button.AnifoxButtonPrimary
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 
 @Composable
 fun UnauthenticatedMessage(
@@ -101,14 +100,10 @@ fun UnauthenticatedMessage(
 @PreviewLightDark
 @Composable
 private fun PreviewUnauthenticatedMessage() {
-    AnifoxTheme {
-        Column(
-            modifier = Modifier.background(MaterialTheme.colorScheme.background)
-        ) {
-            UnauthenticatedMessage(
-                onLoginClick = { },
-                onRegistrationClick = { },
-            )
-        }
+    DefaultPreview {
+        UnauthenticatedMessage(
+            onLoginClick = { },
+            onRegistrationClick = { },
+        )
     }
 }

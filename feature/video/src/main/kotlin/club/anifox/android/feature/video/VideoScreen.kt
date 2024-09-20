@@ -1,6 +1,5 @@
 package club.anifox.android.feature.video
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,7 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
 import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
 import club.anifox.android.core.uikit.component.slider.video.content.SliderVideoContent
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.video.param.VideosContentPreviewParam
@@ -180,20 +179,16 @@ internal fun VideoContent(
 private fun PreviewVideoScreenUI(
     @PreviewParameter(VideosContentProvider::class) param: VideosContentPreviewParam,
 ) {
-    AnifoxTheme {
-        Column (
-            Modifier.background(MaterialTheme.colorScheme.background)
-        ) {
-            VideoUI(
-                modifier = param.modifier,
-                trailerVideoState = param.trailerVideoState,
-                openingVideoState = param.openingVideoState,
-                endingVideoState = param.endingVideoState,
-                otherVideoState = param.otherVideoState,
-                onVideoClick = param.onVideoClick,
-                onBackPressed = param.onBackPressed,
-                animeTitle = param.animeTitle,
-            )
-        }
+    DefaultPreview {
+        VideoUI(
+            modifier = param.modifier,
+            trailerVideoState = param.trailerVideoState,
+            openingVideoState = param.openingVideoState,
+            endingVideoState = param.endingVideoState,
+            otherVideoState = param.otherVideoState,
+            onVideoClick = param.onVideoClick,
+            onBackPressed = param.onBackPressed,
+            animeTitle = param.animeTitle,
+        )
     }
 }

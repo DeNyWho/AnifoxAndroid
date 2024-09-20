@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
 import club.anifox.android.core.uikit.component.slider.header.SliderHeader
 import club.anifox.android.core.uikit.component.slider.header.SliderHeaderShimmer
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.home.composable.content.genre.item.CardGenreContentItem
@@ -73,7 +73,7 @@ internal fun GenreContent(
 private fun PreviewGenreContent(
     @PreviewParameter(GenreContentProvider::class) param: GenreContentPreviewParam
 ) {
-    AnifoxTheme {
+    DefaultPreview {
         GenreContent(
             genresAnime = param.genresAnime,
             headerTitle = param.headerTitle,

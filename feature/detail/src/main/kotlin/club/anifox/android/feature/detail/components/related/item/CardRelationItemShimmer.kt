@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.shimmer.ShimmerDefaults
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
@@ -105,7 +105,7 @@ internal fun ColumnScope.ShowCardRelationItemShimmer(
 @PreviewLightDark
 @Composable
 private fun PreviewRelationItemShimmer() {
-    AnifoxTheme {
+    DefaultPreview {
         CardRelationItemShimmer(
             Modifier,
             rememberShimmer(shimmerBounds = ShimmerBounds.Custom),

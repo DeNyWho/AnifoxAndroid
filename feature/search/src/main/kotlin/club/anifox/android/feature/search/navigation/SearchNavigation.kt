@@ -5,7 +5,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import club.anifox.android.feature.search.SearchScreen
-import kotlin.reflect.KFunction2
 
 const val SEARCH_ROUTE = "search_route"
 

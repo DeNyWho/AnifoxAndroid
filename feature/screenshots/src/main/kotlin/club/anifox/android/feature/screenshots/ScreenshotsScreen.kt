@@ -1,6 +1,5 @@
 package club.anifox.android.feature.screenshots
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
 import club.anifox.android.core.uikit.component.progress.CircularProgress
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.screenshots.composable.grid.content.ScreenshotsGridContent
 import club.anifox.android.feature.screenshots.param.ScreenshotsContentPreviewParam
@@ -132,16 +131,12 @@ internal fun ScreenshotsContent(
 private fun PreviewScreenshotsScreenUI(
     @PreviewParameter(ScreenshotsContentProvider::class) param: ScreenshotsContentPreviewParam
 ) {
-    AnifoxTheme {
-        Column (
-            Modifier.background(MaterialTheme.colorScheme.background)
-        ) {
-            ScreenshotsUI(
-                screenshotAnimeState = param.screenshotsAnime,
-                onScreenshotClick = param.onScreenshotClick,
-                onBackPressed = param.onBackPressed,
-                animeTitle = param.animeTitle,
-            )
-        }
+    DefaultPreview(true) {
+        ScreenshotsUI(
+            screenshotAnimeState = param.screenshotsAnime,
+            onScreenshotClick = param.onScreenshotClick,
+            onBackPressed = param.onBackPressed,
+            animeTitle = param.animeTitle,
+        )
     }
 }

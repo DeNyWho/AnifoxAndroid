@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.shimmer.ShimmerDefaults
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
@@ -55,7 +55,7 @@ fun LazyListScope.showCardGenreContentItemShimmer(
 @PreviewLightDark
 @Composable
 private fun PreviewCardGenreContentItemShimmer() {
-    AnifoxTheme {
+    DefaultPreview {
         CardGenreContentItemShimmer(rememberShimmer(shimmerBounds = ShimmerBounds.Custom))
     }
 }

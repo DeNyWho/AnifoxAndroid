@@ -16,7 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
@@ -72,7 +72,7 @@ fun LazyListScope.showCardScreenshotLandscapeShimmer(
 @PreviewLightDark
 @Composable
 private fun PreviewCardScreenshotLandscapeShimmer() {
-    AnifoxTheme {
+    DefaultPreview {
         CardScreenshotLandscapeShimmer(
             Modifier.width(CardScreenshotLandscapeDefaults.Width.Default),
             rememberShimmer(shimmerBounds = ShimmerBounds.Custom),

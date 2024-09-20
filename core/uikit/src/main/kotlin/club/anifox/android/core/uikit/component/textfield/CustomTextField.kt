@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 
 @Composable
 fun CustomTextField(
@@ -58,7 +58,7 @@ fun CustomTextField(
 @PreviewLightDark
 @Composable
 private fun CustomTextFieldPreview () {
-    AnifoxTheme {
+    DefaultPreview {
         CustomTextField(
             content = {  },
             leadingIcon = {

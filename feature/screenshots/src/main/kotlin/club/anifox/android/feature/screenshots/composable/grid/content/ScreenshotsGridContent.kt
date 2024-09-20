@@ -1,12 +1,9 @@
 package club.anifox.android.feature.screenshots.composable.grid.content
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -14,7 +11,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.card.screenshot.CardScreenshotLandscapeDefaults
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.screenshots.composable.grid.content.param.ScreenshotsGridContentPreviewParam
 import club.anifox.android.feature.screenshots.composable.grid.content.param.ScreenshotsGridContentProvider
@@ -63,14 +60,10 @@ internal fun ScreenshotsGridContent(
 private fun PreviewScrollableHorizontalContentScreenshots(
     @PreviewParameter(ScreenshotsGridContentProvider::class) param: ScreenshotsGridContentPreviewParam,
 ) {
-    AnifoxTheme {
-        Column (
-            Modifier.background(MaterialTheme.colorScheme.background)
-        ) {
-            ScreenshotsGridContent (
-                contentState = param.contentState,
-                onItemClick = param.onItemClick,
-            )
-        }
+    DefaultPreview(true) {
+        ScreenshotsGridContent (
+            contentState = param.contentState,
+            onItemClick = param.onItemClick,
+        )
     }
 }

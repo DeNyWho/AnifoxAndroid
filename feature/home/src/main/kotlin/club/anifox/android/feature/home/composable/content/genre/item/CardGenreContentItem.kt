@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.feature.home.composable.content.genre.item.param.CardGenreContentItemPreviewParam
 import club.anifox.android.feature.home.composable.content.genre.item.param.CardGenreContentItemProvider
@@ -44,7 +44,7 @@ internal fun CardGenreContentItem(
 private fun PreviewCardGenreContentItem(
     @PreviewParameter(CardGenreContentItemProvider::class) param: CardGenreContentItemPreviewParam
 ) {
-    AnifoxTheme {
+    DefaultPreview {
         CardGenreContentItem(
             genreAnime = param.genreAnime,
             onItemClick = param.onItemClick,

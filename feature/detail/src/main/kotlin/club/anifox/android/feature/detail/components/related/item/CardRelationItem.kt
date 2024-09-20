@@ -27,7 +27,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.chip.AnifoxChipPrimary
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.feature.detail.components.related.item.param.CardRelationItemPreviewParam
 import club.anifox.android.feature.detail.components.related.item.param.CardRelationItemProvider
@@ -126,7 +126,7 @@ internal fun CardRelationItem(
 private fun PreviewCardRelationItemDefault(
     @PreviewParameter(CardRelationItemProvider::class) param: CardRelationItemPreviewParam,
 ) {
-    AnifoxTheme {
+    DefaultPreview {
         CardRelationItem (
             modifier = param.modifier,
             data = param.data,

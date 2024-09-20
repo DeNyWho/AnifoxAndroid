@@ -1,8 +1,6 @@
 package club.anifox.android.feature.detail
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,7 +33,7 @@ import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
 import club.anifox.android.core.uikit.component.slider.screenshots.content.SliderScreenshotsContent
 import club.anifox.android.core.uikit.component.slider.simple.content.SliderContent
 import club.anifox.android.core.uikit.component.slider.video.content.SliderVideoContent
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
@@ -255,23 +253,19 @@ internal fun DetailContentUI(
 private fun PreviewDetailScreenUI(
     @PreviewParameter(DetailContentProvider::class) param: DetailContentPreviewParam,
 ) {
-    AnifoxTheme {
-        Column (
-            Modifier.background(MaterialTheme.colorScheme.background)
-        ) {
-            DetailUI (
-                modifier = param.modifier,
-                detailAnimeState = param.detailAnime,
-                screenshotAnimeState = param.screenshotsAnime,
-                relationAnimeState = param.relationAnime,
-                similarAnimeState = param.similarAnime,
-                onBackPressed = param.onBackPressed,
-                onAnimeClick = param.onAnimeClick,
-                onScreenshotClick = param.onScreenshotClick,
-                onMoreScreenshotClick = param.onMoreScreenshotClick,
-                videosAnimeState = param.videosAnime,
-                onMoreVideoClick = param.onMoreScreenshotClick,
-            )
-        }
+    DefaultPreview(true) {
+        DetailUI (
+            modifier = param.modifier,
+            detailAnimeState = param.detailAnime,
+            screenshotAnimeState = param.screenshotsAnime,
+            relationAnimeState = param.relationAnime,
+            similarAnimeState = param.similarAnime,
+            onBackPressed = param.onBackPressed,
+            onAnimeClick = param.onAnimeClick,
+            onScreenshotClick = param.onScreenshotClick,
+            onMoreScreenshotClick = param.onMoreScreenshotClick,
+            videosAnimeState = param.videosAnime,
+            onMoreVideoClick = param.onMoreScreenshotClick,
+        )
     }
 }

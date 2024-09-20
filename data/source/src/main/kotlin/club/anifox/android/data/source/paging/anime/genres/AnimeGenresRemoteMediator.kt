@@ -9,7 +9,7 @@ import club.anifox.android.data.local.cache.model.anime.genres.AnimeCacheGenresE
 import club.anifox.android.data.network.service.AnimeService
 import club.anifox.android.data.source.mapper.toEntityCacheGenresLight
 import club.anifox.android.domain.model.anime.enum.FilterEnum
-import club.anifox.android.domain.model.common.Resource
+import club.anifox.android.domain.model.common.request.Resource
 
 @OptIn(ExperimentalPagingApi::class)
 internal class AnimeGenresRemoteMediator(

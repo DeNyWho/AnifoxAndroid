@@ -2,12 +2,9 @@ package club.anifox.android.feature.profile
 
 import android.content.pm.ActivityInfo
 import android.util.Log
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -17,7 +14,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.hilt.navigation.compose.hiltViewModel
 import club.anifox.android.core.uikit.component.messages.UnauthenticatedMessage
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.LockScreenOrientation
 import club.anifox.android.feature.profile.param.ProfileContentPreviewParam
 import club.anifox.android.feature.profile.param.ProfileContentProvider
@@ -82,15 +79,11 @@ private fun AuthenticatedUI() {
 private fun PreviewProfileUI(
     @PreviewParameter(ProfileContentProvider::class) param: ProfileContentPreviewParam,
 ) {
-    AnifoxTheme {
-        Column (
-            Modifier.background(MaterialTheme.colorScheme.background)
-        ) {
-            ProfileUI(
-                screenState = param.screenState,
-                onLoginClick = { },
-                onRegistrationClick = { },
-            )
-        }
+    DefaultPreview(true) {
+        ProfileUI(
+            screenState = param.screenState,
+            onLoginClick = { },
+            onRegistrationClick = { },
+        )
     }
 }

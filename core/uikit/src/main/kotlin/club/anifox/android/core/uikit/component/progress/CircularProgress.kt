@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 
 @Composable
 fun CircularProgress(
@@ -33,7 +33,7 @@ fun CircularProgress(
 @PreviewLightDark
 @Composable
 private fun PreviewCircularProgress() {
-    AnifoxTheme {
+    DefaultPreview {
         CircularProgress()
     }
 }

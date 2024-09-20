@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 class UserFirstLaunchUseCase(private val userRepository: UserRepository) {
     val isFirstLaunch: Flow<Boolean> = userRepository.isFirstLaunch
 
-    suspend fun updateFirstLaunch(isFirstLaunch: Boolean) {
-        userRepository.updateFirstLaunch(isFirstLaunch)
+    suspend fun setFirstLaunchCompleted() {
+        userRepository.updateFirstLaunch(false)
     }
 }

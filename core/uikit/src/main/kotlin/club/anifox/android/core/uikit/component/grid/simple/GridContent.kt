@@ -1,14 +1,11 @@
 package club.anifox.android.core.uikit.component.grid.simple
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -19,7 +16,7 @@ import club.anifox.android.core.uikit.component.card.anime.CardAnimePortraitDefa
 import club.anifox.android.core.uikit.component.card.anime.showCardAnimePortraitShimmer
 import club.anifox.android.core.uikit.component.grid.param.GridContentPreviewParam
 import club.anifox.android.core.uikit.component.grid.param.GridContentProvider
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.state.StateListWrapper
 import com.valentinilk.shimmer.Shimmer
@@ -74,19 +71,15 @@ fun GridContent(
 private fun PreviewGridContent(
     @PreviewParameter(GridContentProvider::class) param: GridContentPreviewParam,
 ) {
-    AnifoxTheme {
-        Column (
-            Modifier.background(MaterialTheme.colorScheme.background)
-        ) {
-            GridContent(
-                modifier = param.modifier,
-                itemModifier = param.itemModifier,
-                thumbnailHeight = param.thumbnailHeight,
-                thumbnailWidth = param.thumbnailWidth,
-                contentState = param.contentState,
-                horizontalContentArrangement = param.contentArrangement,
-                onItemClick = param.onItemClick,
-            )
-        }
+    DefaultPreview(true) {
+        GridContent(
+            modifier = param.modifier,
+            itemModifier = param.itemModifier,
+            thumbnailHeight = param.thumbnailHeight,
+            thumbnailWidth = param.thumbnailWidth,
+            contentState = param.contentState,
+            horizontalContentArrangement = param.contentArrangement,
+            onItemClick = param.onItemClick,
+        )
     }
 }

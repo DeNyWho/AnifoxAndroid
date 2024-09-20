@@ -1,7 +1,6 @@
 package club.anifox.android.feature.login
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import club.anifox.android.core.uikit.component.button.AnifoxButtonPrimary
 import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 
 @Composable
 internal fun LoginScreen(
@@ -151,14 +150,10 @@ private fun LoginUI(userIdentifier: MutableState<String>, password: MutableState
 @PreviewScreenSizes
 @Composable
 private fun PreviewLoginUI() {
-    AnifoxTheme {
-        Column (
-            Modifier.background(MaterialTheme.colorScheme.background)
-        ) {
-            LoginUI(
-                rememberSaveable { mutableStateOf("") },
-                rememberSaveable { mutableStateOf("") },
-            )
-        }
+    DefaultPreview(true) {
+        LoginUI(
+            rememberSaveable { mutableStateOf("") },
+            rememberSaveable { mutableStateOf("") },
+        )
     }
 }

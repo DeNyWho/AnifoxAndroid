@@ -2,7 +2,6 @@ package club.anifox.android.feature.onboarding
 
 import android.content.pm.ActivityInfo
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,7 +23,7 @@ import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import club.anifox.android.core.uikit.component.button.AnifoxButtonPrimary
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.LockScreenOrientation
 
 @Composable
@@ -143,15 +142,11 @@ private fun OnboardingUI(
 @PreviewScreenSizes
 @Composable
 private fun PreviewOnboardingUI() {
-    AnifoxTheme {
-        Column (
-            Modifier.background(MaterialTheme.colorScheme.background)
-        ) {
-            OnboardingUI(
-                onSkipClick = { },
-                onLoginClick = { },
-                onRegistrationClick = { },
-            )
-        }
+    DefaultPreview {
+        OnboardingUI(
+            onSkipClick = { },
+            onLoginClick = { },
+            onRegistrationClick = { },
+        )
     }
 }

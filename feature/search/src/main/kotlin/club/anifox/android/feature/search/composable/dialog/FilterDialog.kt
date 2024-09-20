@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import club.anifox.android.core.uikit.component.button.AnifoxButtonPrimary
 import club.anifox.android.domain.model.anime.studio.AnimeStudio
 import club.anifox.android.domain.model.anime.translations.AnimeTranslation
 import club.anifox.android.domain.state.StateListWrapper

@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.chip.AnifoxChipPrimary
 import club.anifox.android.domain.model.anime.AnimeLight
@@ -29,19 +30,21 @@ import coil.size.Size
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun AnimeSearchItem(
+    thumbnailHeight: Dp = AnimeSearchItemDefaults.Height.Small,
+    thumbnailWidth: Dp = AnimeSearchItemDefaults.Width.Small,
     data: AnimeLight,
-    onClick: (String) -> Unit
+    onClick: (String) -> Unit,
 ) {
     Row(
         modifier = Modifier.clickable {
             onClick.invoke(data.url)
         },
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         AsyncImage(
             modifier = Modifier
-                .width(120.dp)
-                .height(170.dp)
+                .width(thumbnailWidth)
+                .height(thumbnailHeight)
                 .clip(MaterialTheme.shapes.medium),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(data.image)

@@ -14,7 +14,7 @@ import club.anifox.android.core.uikit.R
 import club.anifox.android.core.uikit.component.chip.AnifoxChipPrimary
 import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
 import club.anifox.android.core.uikit.component.slider.header.SliderHeader
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.state.StateWrapper
 import club.anifox.android.feature.detail.components.genres.param.GenreContentPreviewParam
@@ -55,7 +55,7 @@ fun GenreContent(
 private fun PreviewGenreContent(
     @PreviewParameter(GenreContentProvider::class) param: GenreContentPreviewParam,
 ) {
-    AnifoxTheme {
+    DefaultPreview {
         GenreContent(
             detailAnimeState = param.detailAnime,
         )

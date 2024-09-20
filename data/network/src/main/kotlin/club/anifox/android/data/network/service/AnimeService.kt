@@ -14,7 +14,7 @@ import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.model.anime.enum.VideoType
-import club.anifox.android.domain.model.common.Resource
+import club.anifox.android.domain.model.common.request.Resource
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.parameter

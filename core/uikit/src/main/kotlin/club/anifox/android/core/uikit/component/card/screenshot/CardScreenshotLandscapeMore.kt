@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.R
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 
 @Composable
 fun CardScreenshotLandscapeMore(
@@ -80,7 +80,7 @@ fun LazyListScope.showCardScreenshotLandscapeMoreWhenPastLimit(
 @PreviewLightDark
 @Composable
 private fun PreviewCardScreenshotLandscapeMore() {
-    AnifoxTheme {
+    DefaultPreview {
         CardScreenshotLandscapeMore (
             onClick = { },
         )

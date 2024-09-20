@@ -14,7 +14,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -25,8 +24,10 @@ import club.anifox.android.core.uikit.component.card.anime.CardAnimePortrait
 import club.anifox.android.core.uikit.component.card.anime.CardAnimePortraitDefaults
 import club.anifox.android.core.uikit.component.error.NoSearchResultsError
 import club.anifox.android.core.uikit.component.grid.GridContentDefaults
+import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
+import club.anifox.android.domain.model.common.device.ScreenType
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.genres.data.SearchState
 import kotlinx.coroutines.flow.Flow
@@ -109,16 +110,16 @@ private fun GenresContent(
 ) {
     val items = searchResults.collectAsLazyPagingItems()
 
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
-    val (width, height) = when {
-        screenWidth < 400.dp -> {
+    val screenInfo = LocalScreenInfo.current
+
+    val (width, height) = when (screenInfo.screenType) {
+        ScreenType.SMALL -> {
             Pair(
                 CardAnimePortraitDefaults.Width.GridSmall,
                 CardAnimePortraitDefaults.Height.GridSmall,
             )
         }
-        screenWidth < 600.dp -> {
+        ScreenType.DEFAULT -> {
             Pair(
                 CardAnimePortraitDefaults.Width.GridMedium,
                 CardAnimePortraitDefaults.Height.GridMedium,
@@ -132,7 +133,7 @@ private fun GenresContent(
         }
     }
 
-    val minColumnSize = (screenWidth / (if (screenWidth < 600.dp) 4 else 6)).coerceAtLeast(width)
+    val minColumnSize = (screenInfo.portraitWidthDp.dp / (if (screenInfo.portraitWidthDp.dp < 600.dp) 4 else 6)).coerceAtLeast(if(screenInfo.portraitWidthDp.dp < 600.dp) CardAnimePortraitDefaults.Width.Min else width )
 
 
     LaunchedEffect(searchState) {
@@ -181,15 +182,3 @@ private fun GenresContent(
         }
     }
 }
-
-//@PreviewScreenSizes
-//@Composable
-//private fun PreviewGenresUI() {
-//    AnifoxTheme {
-//        Column (
-//            Modifier.background(MaterialTheme.colorScheme.background)
-//        ) {
-//            GenresUI()
-//        }
-//    }
-//}

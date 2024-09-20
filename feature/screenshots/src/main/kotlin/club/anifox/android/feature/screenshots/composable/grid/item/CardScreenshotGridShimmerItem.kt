@@ -17,7 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.card.screenshot.CardScreenshotLandscapeDefaults
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
@@ -65,7 +65,7 @@ fun LazyGridScope.showCardScreenshotGridItemShimmer(
 @PreviewLightDark
 @Composable
 private fun PreviewCardScreenshotLandscapeShimmer() {
-    AnifoxTheme {
+    DefaultPreview {
         CardScreenshotGridShimmerItem(
             Modifier.width(CardScreenshotLandscapeDefaults.Width.Default),
             rememberShimmer(shimmerBounds = ShimmerBounds.Custom),
