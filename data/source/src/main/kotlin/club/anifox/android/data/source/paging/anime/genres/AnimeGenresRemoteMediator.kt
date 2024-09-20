@@ -65,8 +65,12 @@ internal class AnimeGenresRemoteMediator(
                     lastLoadedPage = loadKey
                     MediatorResult.Success(endOfPaginationReached = animeEntities.isEmpty())
                 }
-                is Resource.Error -> MediatorResult.Error(Exception("Failed to load: ${response.error}"))
-                is Resource.Loading -> MediatorResult.Error(Exception("Unexpected loading state"))
+                is Resource.Error -> {
+                    MediatorResult.Error(Exception("Failed to load: ${response.error}"))
+                }
+                is Resource.Loading -> {
+                    MediatorResult.Error(Exception("Unexpected loading state"))
+                }
             }
         } catch (e: Exception) {
             MediatorResult.Error(e)

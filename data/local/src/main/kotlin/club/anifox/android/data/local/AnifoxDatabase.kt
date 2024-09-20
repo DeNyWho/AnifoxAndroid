@@ -11,7 +11,7 @@ import club.anifox.android.data.local.model.anime.AnimeEntity
 
 @Database(
     entities = [AnimeEntity::class, AnimeCacheSearchEntity::class, AnimeCacheGenresEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = true,
 )
 internal abstract class AnifoxDatabase: RoomDatabase() {

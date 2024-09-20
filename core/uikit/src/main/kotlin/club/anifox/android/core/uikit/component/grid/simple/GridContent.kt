@@ -29,10 +29,10 @@ import com.valentinilk.shimmer.rememberShimmer
 @Composable
 fun GridContent(
     modifier: Modifier = Modifier,
-    itemModifier: Modifier = Modifier.width(CardAnimePortraitDefaults.Width.Grid),
+    itemModifier: Modifier = Modifier.width(CardAnimePortraitDefaults.Width.GridSmall),
     shimmer: Shimmer = rememberShimmer(ShimmerBounds.Custom),
-    thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.Grid,
-    thumbnailWidth: Dp = CardAnimePortraitDefaults.Width.Grid,
+    thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.GridSmall,
+    thumbnailWidth: Dp = CardAnimePortraitDefaults.Width.GridSmall,
     contentState: StateListWrapper<AnimeLight>,
     horizontalContentArrangement: Arrangement.Horizontal = CardAnimePortraitDefaults.HorizontalArrangement.Grid,
     verticalContentArrangement: Arrangement.Vertical = CardAnimePortraitDefaults.VerticalArrangement.Grid,
@@ -41,7 +41,7 @@ fun GridContent(
     LazyVerticalGrid(
         modifier = modifier
             .fillMaxSize(),
-        columns = GridCells.Adaptive(minSize = CardAnimePortraitDefaults.Width.Grid),
+        columns = GridCells.Adaptive(minSize = CardAnimePortraitDefaults.Width.GridSmall),
         horizontalArrangement = horizontalContentArrangement,
         verticalArrangement = verticalContentArrangement,
     ) {

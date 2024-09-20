@@ -14,6 +14,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.PagingData
@@ -53,10 +55,8 @@ internal fun GenresScreen(
 
     LaunchedEffect(loadState) {
         val currentLoadState = loadState
-        when {
-            currentLoadState?.refresh is LoadState.NotLoading -> viewModel.updateLoadingState(false)
-            currentLoadState?.refresh is LoadState.Error -> viewModel.updateLoadingState(false)
-            currentLoadState?.refresh is LoadState.Loading -> viewModel.updateLoadingState(true)
+        if (currentLoadState?.refresh is LoadState.NotLoading) {
+            viewModel.updateLoadingState(false)
         }
     }
 
@@ -109,6 +109,32 @@ private fun GenresContent(
 ) {
     val items = searchResults.collectAsLazyPagingItems()
 
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp
+    val (width, height) = when {
+        screenWidth < 400.dp -> {
+            Pair(
+                CardAnimePortraitDefaults.Width.GridSmall,
+                CardAnimePortraitDefaults.Height.GridSmall,
+            )
+        }
+        screenWidth < 600.dp -> {
+            Pair(
+                CardAnimePortraitDefaults.Width.GridMedium,
+                CardAnimePortraitDefaults.Height.GridMedium,
+            )
+        }
+        else -> {
+            Pair(
+                CardAnimePortraitDefaults.Width.GridLarge,
+                CardAnimePortraitDefaults.Height.GridLarge,
+            )
+        }
+    }
+
+    val minColumnSize = (screenWidth / (if (screenWidth < 600.dp) 4 else 6)).coerceAtLeast(width)
+
+
     LaunchedEffect(searchState) {
         if (!searchState.isLoading) {
             items.refresh()
@@ -126,7 +152,7 @@ private fun GenresContent(
             else -> {
                 LazyVerticalGrid(
                     modifier = GridContentDefaults.Default.fillMaxSize(),
-                    columns = GridCells.Adaptive(minSize = CardAnimePortraitDefaults.Width.Grid),
+                    columns = GridCells.Adaptive(minSize = minColumnSize),
                     state = lazyGridState,
                     horizontalArrangement = CardAnimePortraitDefaults.HorizontalArrangement.Grid,
                     verticalArrangement = CardAnimePortraitDefaults.VerticalArrangement.Grid,
@@ -138,11 +164,11 @@ private fun GenresContent(
                         val item = items[index]
                         if (item != null) {
                             CardAnimePortrait(
-                                modifier = Modifier.width(CardAnimePortraitDefaults.Width.Grid),
+                                modifier = Modifier.width(width),
                                 data = item,
                                 onClick = { onAnimeClick.invoke(item.url) },
-                                thumbnailHeight = CardAnimePortraitDefaults.Height.Grid,
-                                thumbnailWidth = CardAnimePortraitDefaults.Width.Grid,
+                                thumbnailHeight = height,
+                                thumbnailWidth = width,
                             )
                         }
                     }

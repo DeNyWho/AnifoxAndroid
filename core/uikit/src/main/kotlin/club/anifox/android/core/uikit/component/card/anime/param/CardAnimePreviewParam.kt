@@ -24,7 +24,7 @@ internal class CardAnimeProvider: PreviewParameterProvider<CardAnimePreviewParam
             ),
             CardAnimePreviewParam(
                 modifier = Modifier.width(CardAnimePortraitDefaults.Width.Small),
-                thumbnailHeight = CardAnimePortraitDefaults.Height.Grid,
+                thumbnailHeight = CardAnimePortraitDefaults.Height.GridSmall,
             ),
             CardAnimePreviewParam(
                 modifier = Modifier.width(CardAnimePortraitDefaults.Width.Small),

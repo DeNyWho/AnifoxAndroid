@@ -93,11 +93,9 @@ internal class AnimeSearchRemoteMediator(
                     MediatorResult.Success(endOfPaginationReached = animeEntities.isEmpty())
                 }
                 is Resource.Error -> {
-                    println("ERROR MEDIATOR SEARCH")
                     MediatorResult.Error(Exception("Failed to load: ${response.error}"))
                 }
                 is Resource.Loading -> {
-                    println("HERE LOADING")
                     MediatorResult.Error(Exception("Unexpected loading state"))
                 }
             }

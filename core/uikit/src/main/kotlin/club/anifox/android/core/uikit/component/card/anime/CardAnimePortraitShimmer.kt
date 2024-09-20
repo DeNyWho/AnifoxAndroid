@@ -92,8 +92,8 @@ fun LazyGridScope.showCardAnimePortraitShimmer(
     modifier: Modifier,
     shimmerInstance: Shimmer,
     count: Int = 11,
-    thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.Grid,
-    thumbnailWidth: Dp = CardAnimePortraitDefaults.Width.Grid,
+    thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.GridSmall,
+    thumbnailWidth: Dp = CardAnimePortraitDefaults.Width.GridSmall,
 ) {
     items(count) {
         CardThumbnailPortraitShimmer(

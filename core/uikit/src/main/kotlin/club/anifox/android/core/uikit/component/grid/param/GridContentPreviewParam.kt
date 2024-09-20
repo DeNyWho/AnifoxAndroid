@@ -12,9 +12,9 @@ import club.anifox.android.domain.state.StateListWrapper
 
 internal data class GridContentPreviewParam(
     val modifier: Modifier = Modifier,
-    val itemModifier: Modifier = Modifier.width(CardAnimePortraitDefaults.Width.Grid),
-    val thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.Grid,
-    val thumbnailWidth: Dp = CardAnimePortraitDefaults.Width.Grid,
+    val itemModifier: Modifier = Modifier.width(CardAnimePortraitDefaults.Width.GridSmall),
+    val thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.GridSmall,
+    val thumbnailWidth: Dp = CardAnimePortraitDefaults.Width.GridSmall,
     val contentState: StateListWrapper<AnimeLight>,
     val contentArrangement: Arrangement.Horizontal = CardAnimePortraitDefaults.HorizontalArrangement.Grid,
     val onItemClick: (String) -> Unit = { },

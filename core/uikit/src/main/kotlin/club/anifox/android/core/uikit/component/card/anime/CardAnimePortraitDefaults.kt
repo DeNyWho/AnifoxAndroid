@@ -6,13 +6,17 @@ import androidx.compose.ui.unit.dp
 object CardAnimePortraitDefaults {
     object Width {
         val Default = 140.dp
-        val Grid = 100.dp
+        val GridSmall = 100.dp
+        val GridMedium = 140.dp
+        val GridLarge = 180.dp
         val Small = 120.dp
     }
 
     object Height {
         val Default = 190.dp
-        val Grid = 160.dp
+        val GridSmall = 160.dp
+        val GridMedium = 200.dp
+        val GridLarge = 240.dp
         val Small = 170.dp
     }
 
