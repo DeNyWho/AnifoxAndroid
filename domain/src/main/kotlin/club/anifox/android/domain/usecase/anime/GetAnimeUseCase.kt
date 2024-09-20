@@ -18,15 +18,25 @@ class GetAnimeUseCase(private val animeRepository: AnimeRepository) {
         searchQuery: String? = null,
         season: AnimeSeason? = null,
         ratingMpa: String? = null,
-        minimalAge: String? = null,
+        minimalAge: Int? = null,
         type: AnimeType? = null,
         year: Int? = null,
         studio: String? = null,
         filter: FilterEnum? = null,
     ): Flow<StateListWrapper<AnimeLight>> {
         return animeRepository.getAnime(
-            page, limit, status, genres, searchQuery, season, ratingMpa,
-            minimalAge, type, year, studio, filter
+            page = page,
+            limit = limit,
+            status = status,
+            genres = genres,
+            searchQuery = searchQuery,
+            season = season,
+            ratingMpa = ratingMpa,
+            minimalAge = minimalAge,
+            type = type,
+            year = year,
+            studio = studio,
+            filter = filter,
         )
     }
 }

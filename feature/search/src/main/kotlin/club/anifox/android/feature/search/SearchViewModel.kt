@@ -14,7 +14,7 @@ import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.usecase.anime.GetAnimeStudiosUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeTranslationsUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeYearsUseCase
-import club.anifox.android.domain.usecase.anime.paging.GetAnimePagingUseCase
+import club.anifox.android.domain.usecase.anime.paging.anime.search.AnimeSearchPagingUseCase
 import club.anifox.android.feature.search.data.SearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
@@ -31,7 +31,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class SearchViewModel @Inject constructor(
-    private val getAnimePagingUseCase: GetAnimePagingUseCase,
+    private val animeSearchPagingUseCase: AnimeSearchPagingUseCase,
     private val getAnimeYearsUseCase: GetAnimeYearsUseCase,
     private val getAnimeStudiosUseCase: GetAnimeStudiosUseCase,
     private val getAnimeTranslationsUseCase: GetAnimeTranslationsUseCase,
@@ -72,7 +72,7 @@ internal class SearchViewModel @Inject constructor(
         .debounce(0)
         .distinctUntilChanged()
         .flatMapLatest { state ->
-            getAnimePagingUseCase(
+            animeSearchPagingUseCase(
                 limit = 20,
                 searchQuery = state.query,
                 status = state.status,

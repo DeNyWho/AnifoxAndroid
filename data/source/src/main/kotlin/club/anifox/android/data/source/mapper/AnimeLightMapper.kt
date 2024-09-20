@@ -1,6 +1,7 @@
 package club.anifox.android.data.source.mapper
 
-import club.anifox.android.data.local.cache.model.anime.search.AnimeSearchEntity
+import club.anifox.android.data.local.cache.model.anime.genres.AnimeCacheGenresEntity
+import club.anifox.android.data.local.cache.model.anime.search.AnimeCacheSearchEntity
 import club.anifox.android.data.local.model.anime.AnimeEntity
 import club.anifox.android.data.network.mappers.anime.common.toImage
 import club.anifox.android.data.network.models.dto.anime.light.AnimeLightDTO
@@ -28,7 +29,19 @@ fun AnimeLightDTO.toEntityLight(): AnimeEntity = AnimeEntity(
     season = season,
 )
 
-fun AnimeLightDTO.toEntityCacheSearchLight(): AnimeSearchEntity = AnimeSearchEntity(
+fun AnimeLightDTO.toEntityCacheSearchLight(): AnimeCacheSearchEntity = AnimeCacheSearchEntity(
+    title = title,
+    image = image.toImage().medium,
+    url = url,
+    type = type,
+    rating = rating,
+    year = year,
+    status = status,
+    season = season,
+    description = description
+)
+
+fun AnimeLightDTO.toEntityCacheGenresLight(): AnimeCacheGenresEntity = AnimeCacheGenresEntity(
     title = title,
     image = image.toImage().medium,
     url = url,

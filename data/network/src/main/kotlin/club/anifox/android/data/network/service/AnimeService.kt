@@ -31,7 +31,7 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
         searchQuery: String? = null,
         season: AnimeSeason? = null,
         ratingMpa: String? = null,
-        minimalAge: String? = null,
+        minimalAge: Int? = null,
         type: AnimeType? = null,
         year: Int? = null,
         studio: String? = null,

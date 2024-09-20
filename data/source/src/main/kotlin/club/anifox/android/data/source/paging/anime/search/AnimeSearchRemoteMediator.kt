@@ -1,11 +1,11 @@
-package club.anifox.android.data.source.paging.anime
+package club.anifox.android.data.source.paging.anime.search
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import club.anifox.android.data.local.cache.dao.anime.search.AnimeSearchDao
-import club.anifox.android.data.local.cache.model.anime.search.AnimeSearchEntity
+import club.anifox.android.data.local.cache.dao.anime.search.AnimeCacheSearchDao
+import club.anifox.android.data.local.cache.model.anime.search.AnimeCacheSearchEntity
 import club.anifox.android.data.network.service.AnimeService
 import club.anifox.android.data.source.mapper.toEntityCacheSearchLight
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
@@ -15,42 +15,42 @@ import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.model.common.Resource
 
 @OptIn(ExperimentalPagingApi::class)
-class AnimeRemoteMediator(
+internal class AnimeSearchRemoteMediator(
     private val animeService: AnimeService,
-    private val animeSearchDao: AnimeSearchDao,
+    private val animeCacheSearchDao: AnimeCacheSearchDao,
     private var status: AnimeStatus?,
     private var genres: List<String>?,
     private var searchQuery: String?,
     private var season: AnimeSeason?,
     private var ratingMpa: String?,
-    private var minimalAge: String?,
+    private var minimalAge: Int?,
     private var type: AnimeType?,
     private var year: Int?,
     private var studio: String?,
     private var translation: List<Int>?,
     private var filter: FilterEnum?,
-) : RemoteMediator<Int, AnimeSearchEntity>() {
+) : RemoteMediator<Int, AnimeCacheSearchEntity>() {
 
     private var lastLoadedPage = -1
     private var currentParams: Params = Params(status, genres, searchQuery, season, ratingMpa, minimalAge, type, year, studio, translation, filter)
 
-    data class Params(
+    private data class Params(
         val status: AnimeStatus?,
         val genres: List<String>?,
         val searchQuery: String?,
         val season: AnimeSeason?,
         val ratingMpa: String?,
-        val minimalAge: String?,
+        val minimalAge: Int?,
         val type: AnimeType?,
         val year: Int?,
         val studio: String?,
         val translation: List<Int>?,
-        val filter: FilterEnum?
+        val filter: FilterEnum?,
     )
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, AnimeSearchEntity>
+        state: PagingState<Int, AnimeCacheSearchEntity>
     ): MediatorResult {
         val newParams = Params(status, genres, searchQuery, season, ratingMpa, minimalAge, type, year, studio, translation, filter)
         if (newParams != currentParams) {
@@ -68,27 +68,27 @@ class AnimeRemoteMediator(
             val response = animeService.getAnime(
                 page = loadKey,
                 limit = state.config.pageSize,
-                status = status,
-                genres = genres,
-                searchQuery = searchQuery,
-                season = season,
-                ratingMpa = ratingMpa,
-                minimalAge = minimalAge,
-                type = type,
-                year = year,
-                studio = studio,
-                translation = translation,
-                filter = filter,
+                status = currentParams.status,
+                genres = currentParams.genres,
+                searchQuery = currentParams.searchQuery,
+                season = currentParams.season,
+                ratingMpa = currentParams.ratingMpa,
+                minimalAge = currentParams.minimalAge,
+                type = currentParams.type,
+                year = currentParams.year,
+                studio = currentParams.studio,
+                translation = currentParams.translation,
+                filter = currentParams.filter,
             )
 
             when(response) {
                 is Resource.Success -> {
                     if (loadType == LoadType.REFRESH) {
-                        animeSearchDao.clearAll()
+                        animeCacheSearchDao.clearAll()
                         lastLoadedPage = -1
                     }
                     val animeEntities = response.data.map { it.toEntityCacheSearchLight() }
-                    animeSearchDao.insertAll(animeEntities)
+                    animeCacheSearchDao.insertAll(animeEntities)
                     lastLoadedPage = loadKey
                     MediatorResult.Success(endOfPaginationReached = animeEntities.isEmpty())
                 }
