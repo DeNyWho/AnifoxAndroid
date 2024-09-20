@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -34,7 +35,7 @@ fun CardThumbnailPortraitShimmer(
     Column(
         modifier = modifier
             .width(thumbnailWidth)
-            .padding(bottom = 8.dp)
+            .height(thumbnailHeight + 50.dp)
             .shimmer(shimmerInstance),
     ) {
         Card(
@@ -56,7 +57,7 @@ fun CardThumbnailPortraitShimmer(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(24.dp)
-                .padding(0.dp, 6.dp, 0.dp, 0.dp)
+                .padding(0.dp, 8.dp, 0.dp, 0.dp)
                 .background(color = MaterialTheme.colorScheme.onSurfaceVariant),
         )
 
@@ -64,7 +65,7 @@ fun CardThumbnailPortraitShimmer(
             modifier = Modifier
                 .width(62.dp)
                 .height(24.dp)
-                .padding(0.dp, 6.dp, 0.dp, 0.dp)
+                .padding(0.dp, 8.dp, 0.dp, 0.dp)
                 .background(color = MaterialTheme.colorScheme.onSurfaceVariant),
         )
     }
@@ -76,6 +77,23 @@ fun LazyListScope.showCardAnimePortraitShimmer(
     count: Int = 11,
     thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.Default,
     thumbnailWidth: Dp = CardAnimePortraitDefaults.Width.Default,
+) {
+    items(count) {
+        CardThumbnailPortraitShimmer(
+            modifier = modifier,
+            shimmerInstance = shimmerInstance,
+            thumbnailHeight = thumbnailHeight,
+            thumbnailWidth = thumbnailWidth,
+        )
+    }
+}
+
+fun LazyGridScope.showCardAnimePortraitShimmer(
+    modifier: Modifier,
+    shimmerInstance: Shimmer,
+    count: Int = 11,
+    thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.Grid,
+    thumbnailWidth: Dp = CardAnimePortraitDefaults.Width.Grid,
 ) {
     items(count) {
         CardThumbnailPortraitShimmer(

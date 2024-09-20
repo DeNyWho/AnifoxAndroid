@@ -10,13 +10,14 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.slider.screenshots.content.param.SliderScreenshotsContentPreviewParam
 import club.anifox.android.core.uikit.component.slider.screenshots.content.param.SliderScreenshotsContentProvider
 import club.anifox.android.core.uikit.theme.AnifoxTheme
-import club.anifox.android.core.uikit.util.calculateGridCount
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.screenshots.composable.slider.item.CardScreenshotGridItem
 import club.anifox.android.feature.screenshots.composable.slider.item.showCardScreenshotGridItemShimmer
@@ -31,7 +32,7 @@ internal fun SliderScreenshotsGridContent(
     contentState: StateListWrapper<String>,
     onItemClick: (String) -> Unit
 ) {
-    val columnCount = calculateGridCount(columnWidth = 150.dp)
+    val columnCount = calculateSliderScreenshotsGridCount(columnWidth = 150.dp)
     LazyVerticalGrid(
         modifier = modifier.fillMaxSize(),
         columns = GridCells.Fixed(columnCount),
@@ -52,6 +53,13 @@ internal fun SliderScreenshotsGridContent(
             }
         }
     }
+}
+
+@Composable
+private fun calculateSliderScreenshotsGridCount(columnWidth: Dp): Int {
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp
+    return (screenWidth / columnWidth).toInt().coerceIn(2, 3)
 }
 
 @PreviewLightDark

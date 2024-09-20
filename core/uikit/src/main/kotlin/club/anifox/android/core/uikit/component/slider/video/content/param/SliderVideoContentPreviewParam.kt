@@ -15,7 +15,7 @@ import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.state.StateListWrapper
 import java.util.UUID
 
-data class SliderVideoContentPreviewParam(
+internal data class SliderVideoContentPreviewParam(
     val modifier: Modifier = Modifier,
     val headerModifier: Modifier = SliderContentDefaults.Default,
     val itemModifier: Modifier = Modifier.width(CardScreenshotLandscapeDefaults.Width.Default),
@@ -40,7 +40,7 @@ private val DataSet = List(10) {
     )
 }
 
-class SliderVideoContentProvider:
+internal class SliderVideoContentProvider:
     PreviewParameterProvider<SliderVideoContentPreviewParam> {
     override val count: Int
         get() = super.count

@@ -38,7 +38,7 @@ fun AnifoxIconOnSurface(
 
 @PreviewLightDark
 @Composable
-internal fun PreviewAnifoxIconOnSurface() {
+private fun PreviewAnifoxIconOnSurface() {
     AnifoxIconOnSurface(modifier = Modifier.size(40.dp), AutoMirrored.Filled.ArrowBack, contentDescription = "content description")
 
 }
@@ -59,7 +59,7 @@ fun AnifoxIconPrimary(
 
 @PreviewLightDark
 @Composable
-internal fun PreviewAnifoxIconPrimary() {
+private fun PreviewAnifoxIconPrimary() {
     AnifoxTheme {
         AnifoxIconPrimary(modifier = Modifier.size(40.dp), AutoMirrored.Filled.ArrowBack, contentDescription = "content description")
     }
@@ -81,7 +81,7 @@ fun AnifoxIconOnPrimary(
 
 @PreviewLightDark
 @Composable
-internal fun PreviewAnifoxIconOnPrimary() {
+private fun PreviewAnifoxIconOnPrimary() {
     AnifoxTheme {
         AnifoxIconOnPrimary(modifier = Modifier.size(40.dp), AutoMirrored.Filled.ArrowBack, contentDescription = "content description")
     }
@@ -105,7 +105,7 @@ fun AnifoxIconOnBackground(
 
 @PreviewLightDark
 @Composable
-internal fun PreviewAnifoxIconOnBackground() {
+private fun PreviewAnifoxIconOnBackground() {
     AnifoxTheme {
         AnifoxIconOnBackground(
             modifier = Modifier.size(40.dp),

@@ -13,7 +13,7 @@ import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
 import club.anifox.android.domain.state.StateListWrapper
 import java.util.UUID
 
-data class SliderScreenshotsContentPreviewParam(
+internal data class SliderScreenshotsContentPreviewParam(
     val modifier: Modifier = Modifier,
     val headerModifier: Modifier = SliderContentDefaults.Default,
     val itemModifier: Modifier = Modifier.width(CardScreenshotLandscapeDefaults.Width.Default),
@@ -30,7 +30,7 @@ data class SliderScreenshotsContentPreviewParam(
 
 private val DataSet = List(10) { UUID.randomUUID().toString() }
 
-class SliderScreenshotsContentProvider:
+internal class SliderScreenshotsContentProvider:
     PreviewParameterProvider<SliderScreenshotsContentPreviewParam> {
     override val count: Int
         get() = super.count

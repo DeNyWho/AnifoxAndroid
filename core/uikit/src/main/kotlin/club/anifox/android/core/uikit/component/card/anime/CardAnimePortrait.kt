@@ -85,7 +85,7 @@ fun CardAnimePortrait(
             text = data.title,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 6.dp, bottom = 4.dp),
+                .padding(top = 8.dp),
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
             color = MaterialTheme.colorScheme.onBackground.copy(0.8f),

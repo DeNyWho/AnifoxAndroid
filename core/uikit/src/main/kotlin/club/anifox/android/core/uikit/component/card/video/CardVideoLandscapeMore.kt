@@ -32,7 +32,7 @@ fun CardVideoLandscapeMore(
 ) {
     Column {
         Card(
-            modifier = Modifier
+            modifier = modifier
                 .clickable {
                     onClick.invoke()
                 }

@@ -23,8 +23,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import club.anifox.android.core.uikit.component.icon.AnifoxIconOnSurface
 import club.anifox.android.core.uikit.component.icon.AnifoxIconOnPrimary
+import club.anifox.android.core.uikit.component.icon.AnifoxIconOnSurface
 import club.anifox.android.core.uikit.theme.AnifoxTheme
 
 @Composable
@@ -56,7 +56,7 @@ fun AnifoxButton(
 
 @PreviewLightDark
 @Composable
-internal fun PreviewAnifoxButton() {
+private fun PreviewAnifoxButton() {
     AnifoxTheme {
         AnifoxButton(
             shape = MaterialTheme.shapes.small,
@@ -72,7 +72,7 @@ internal fun PreviewAnifoxButton() {
 
 @PreviewLightDark
 @Composable
-internal fun PreviewAnifoxButtonWithIcon() {
+private fun PreviewAnifoxButtonWithIcon() {
     AnifoxTheme {
         AnifoxButton(
             modifier = Modifier.size(40.dp),
@@ -116,7 +116,7 @@ fun AnifoxButtonPrimary(
 
 @PreviewLightDark
 @Composable
-internal fun PreviewAnifoxButtonPrimaryWithIcon() {
+private fun PreviewAnifoxButtonPrimaryWithIcon() {
     AnifoxTheme {
         AnifoxButtonPrimary(
             modifier = Modifier.fillMaxWidth(),
@@ -167,7 +167,7 @@ fun AnifoxButtonIconTransparent(
 
 @PreviewLightDark
 @Composable
-internal fun PreviewAnifoxButtonIconTransparent() {
+private fun PreviewAnifoxButtonIconTransparent() {
     AnifoxTheme {
         AnifoxButtonIconTransparent(
             modifier = Modifier.size(20.dp),
@@ -209,7 +209,7 @@ fun AnifoxButtonSurface(
 
 @PreviewLightDark
 @Composable
-internal fun PreviewAnifoxButtonSurface() {
+private fun PreviewAnifoxButtonSurface() {
     AnifoxTheme {
         AnifoxButtonSurface(
             modifier = Modifier.fillMaxWidth(),
