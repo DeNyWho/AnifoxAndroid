@@ -44,7 +44,7 @@ internal fun FilterDialog(
         onDismissRequest = {
             onDismissRequest.invoke()
         },
-        windowInsets = WindowInsets(top = 30.dp),
+        contentWindowInsets = { WindowInsets(top = 30.dp) },
         scrimColor = Color.Black.copy(alpha = 0.5f),
         dragHandle = {
             Box(
