@@ -39,7 +39,7 @@ fun UnauthenticatedMessage(
             modifier = Modifier
                 .padding(end = 24.dp)
                 .align(Alignment.CenterHorizontally),
-            painter = painterResource(R.drawable.anifox_logo),
+            painter = painterResource(R.drawable.core_uikit_anifox_logo),
             contentDescription = null,
         )
         Text(

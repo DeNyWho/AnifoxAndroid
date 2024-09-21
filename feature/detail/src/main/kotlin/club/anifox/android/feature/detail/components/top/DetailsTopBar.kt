@@ -85,18 +85,13 @@ internal fun CollapsingToolbarScope.ContentDetailsScreenToolbar(
             Box {
                 SubcomposeAsyncImage(
                     modifier = Modifier
+                        .background(MaterialTheme.colorScheme.onSurfaceVariant)
                         .fillMaxSize(),
                     model = ImageRequest.Builder(LocalContext.current)
                         .data(data.image.large)
                         .build(),
                     contentScale = ContentScale.Crop,
                     contentDescription = "Item poster image",
-                    loading = {
-//                        CenterCircularProgressIndicator(
-//                            strokeWidth = 2.dp,
-//                            size = 20.dp,
-//                        )
-                    },
                     imageLoader = ImageLoader.Builder(LocalContext.current).build(),
                     onError = {
                         println(it.result.throwable.message)
@@ -120,6 +115,7 @@ internal fun CollapsingToolbarScope.ContentDetailsScreenToolbar(
             ) {
                 SubcomposeAsyncImage(
                     modifier = Modifier
+                        .background(MaterialTheme.colorScheme.onSurfaceVariant)
                         .width(200.dp)
                         .height(300.dp)
                         .clip(MaterialTheme.shapes.small),

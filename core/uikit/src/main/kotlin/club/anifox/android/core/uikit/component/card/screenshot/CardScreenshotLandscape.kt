@@ -1,5 +1,6 @@
 package club.anifox.android.core.uikit.component.card.screenshot
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -47,6 +48,7 @@ fun CardScreenshotLandscape(
     ) {
         AsyncImage(
             modifier = Modifier
+                .background(MaterialTheme.colorScheme.onSurfaceVariant)
                 .fillMaxSize()
                 .clip(MaterialTheme.shapes.medium),
             model = ImageRequest.Builder(LocalContext.current)

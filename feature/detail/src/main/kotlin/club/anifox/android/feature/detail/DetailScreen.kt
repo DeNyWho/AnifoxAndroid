@@ -159,7 +159,7 @@ internal fun DetailContentUI(
     ) {
         item {
             TitleInformationContent(
-                modifier = Modifier.padding(start = 16.dp, end =  16.dp),
+                modifier = Modifier.padding(start = 16.dp, end =  16.dp, top = 4.dp),
                 detailAnimeState = detailAnimeState
             )
         }

@@ -66,7 +66,7 @@ private fun LoginUI(userIdentifier: MutableState<String>, password: MutableState
                 modifier = Modifier
                     .padding(end = 24.dp)
                     .align(Alignment.CenterHorizontally),
-                painter = painterResource(club.anifox.android.core.uikit.R.drawable.anifox_logo),
+                painter = painterResource(club.anifox.android.core.uikit.R.drawable.core_uikit_anifox_logo),
                 contentDescription = null,
             )
             OutlinedTextField(

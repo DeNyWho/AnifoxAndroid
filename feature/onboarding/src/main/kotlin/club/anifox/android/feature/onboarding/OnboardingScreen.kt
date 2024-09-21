@@ -59,7 +59,7 @@ private fun OnboardingUI(
             Image(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally),
-                painter = painterResource(club.anifox.android.core.uikit.R.drawable.anifox_logo),
+                painter = painterResource(club.anifox.android.core.uikit.R.drawable.core_uikit_anifox_logo),
                 contentDescription = null,
             )
             Column (

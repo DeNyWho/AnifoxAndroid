@@ -1,5 +1,6 @@
 package club.anifox.android.feature.detail.components.related.item
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -64,6 +65,7 @@ internal fun CardRelationItem(
         ) {
             AsyncImage(
                 modifier = Modifier
+                    .background(MaterialTheme.colorScheme.onSurfaceVariant)
                     .fillMaxSize()
                     .clip(MaterialTheme.shapes.medium),
                 model = ImageRequest.Builder(LocalContext.current)

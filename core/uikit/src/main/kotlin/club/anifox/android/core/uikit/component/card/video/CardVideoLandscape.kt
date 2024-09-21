@@ -1,6 +1,7 @@
 package club.anifox.android.core.uikit.component.card.video
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -63,11 +64,12 @@ fun CardVideoLandscape(
                     .zIndex(2f)
                     .align(Alignment.TopStart)
                     .size(24.dp),
-                painter = painterResource(R.drawable.youtube),
+                painter = painterResource(R.drawable.core_uikit_youtube),
                 contentDescription = null,
             )
             AsyncImage(
                 modifier = Modifier
+                    .background(MaterialTheme.colorScheme.onSurfaceVariant)
                     .fillMaxSize()
                     .clip(MaterialTheme.shapes.medium),
                 model = ImageRequest.Builder(LocalContext.current)

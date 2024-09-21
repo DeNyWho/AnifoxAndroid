@@ -1,5 +1,6 @@
 package club.anifox.android.feature.screenshots.composable.grid.item
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,6 +36,7 @@ fun CardScreenshotGridItem(
     ) {
         AsyncImage(
             modifier = Modifier
+                .background(MaterialTheme.colorScheme.onSurfaceVariant)
                 .fillMaxSize()
                 .clip(MaterialTheme.shapes.medium),
             model = ImageRequest.Builder(LocalContext.current)

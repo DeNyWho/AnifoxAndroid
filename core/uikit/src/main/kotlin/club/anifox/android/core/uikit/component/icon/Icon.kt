@@ -98,14 +98,12 @@ fun AnifoxIconOnBackground(
     imageVector: ImageVector,
     contentDescription: String? = null,
 ) {
-    DefaultPreview {
-        Icon(
-            modifier = modifier,
-            imageVector = imageVector,
-            contentDescription = contentDescription,
-            tint = MaterialTheme.colorScheme.onBackground,
-        )
-    }
+    Icon(
+        modifier = modifier,
+        imageVector = imageVector,
+        contentDescription = contentDescription,
+        tint = MaterialTheme.colorScheme.onBackground,
+    )
 }
 
 @PreviewLightDark

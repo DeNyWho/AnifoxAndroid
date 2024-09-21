@@ -11,8 +11,8 @@ import com.valentinilk.shimmer.unclippedBoundsInWindow
 fun Modifier.onUpdateShimmerBounds(
     shimmerInstance: Shimmer,
 ) = this.then(
-    onGloballyPositioned { value: LayoutCoordinates ->
+    Modifier.onGloballyPositioned { value: LayoutCoordinates ->
         val position = value.unclippedBoundsInWindow()
         shimmerInstance.updateBounds(position)
-    },
+    }
 )
