@@ -67,6 +67,7 @@ dependencies {
     implementation(projects.feature.registration)
     implementation(projects.feature.onboarding)
     implementation(projects.feature.genres)
+    implementation(projects.feature.catalog)
 
     implementation(projects.domain)
 
