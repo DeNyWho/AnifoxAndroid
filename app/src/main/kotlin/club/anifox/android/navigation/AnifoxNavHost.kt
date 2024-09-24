@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import club.anifox.android.feature.catalog.navigation.catalogScreen
+import club.anifox.android.feature.catalog.navigation.navigateToCatalog
 import club.anifox.android.feature.detail.navigation.detailScreen
 import club.anifox.android.feature.detail.navigation.navigateToDetail
 import club.anifox.android.feature.favourite.navigation.favouriteScreen
@@ -44,6 +45,7 @@ fun AnifoxNavHost(
             onAnimeClick = navController::navigateToDetail,
             onSearchClick = navController::navigateToSearch,
             onGenresClick = navController::navigateToGenres,
+            onMoreClick = navController::navigateToCatalog,
         )
         detailScreen(
             onBackPressed = navController::popBackStack,

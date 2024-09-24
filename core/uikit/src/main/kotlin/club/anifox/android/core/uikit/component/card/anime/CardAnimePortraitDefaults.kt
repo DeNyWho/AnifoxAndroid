@@ -29,4 +29,8 @@ object CardAnimePortraitDefaults {
     object VerticalArrangement {
         val Grid = Arrangement.spacedBy(4.dp)
     }
+
+    object Limit {
+        const val LANDSCAPE_LIMIT = 11
+    }
 }

@@ -14,6 +14,7 @@ fun NavGraphBuilder.homeScreen(
     onAnimeClick: (String) -> Unit,
     onSearchClick: () -> Unit,
     onGenresClick: (String) -> Unit,
+    onMoreClick: () -> Unit,
 ) {
     composable(
         route = HOME_ROUTE
@@ -22,6 +23,7 @@ fun NavGraphBuilder.homeScreen(
             onAnimeClick = onAnimeClick,
             onSearchClick = onSearchClick,
             onGenresClick = onGenresClick,
+            onMoreClick = onMoreClick,
         )
     }
 }

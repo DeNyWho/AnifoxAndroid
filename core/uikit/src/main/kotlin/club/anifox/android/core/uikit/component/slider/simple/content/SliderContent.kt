@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.card.anime.CardAnimePortrait
 import club.anifox.android.core.uikit.component.card.anime.CardAnimePortraitDefaults
+import club.anifox.android.core.uikit.component.card.anime.showCardAnimePortraitMoreWhenPastLimit
 import club.anifox.android.core.uikit.component.card.anime.showCardAnimePortraitShimmer
 import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
 import club.anifox.android.core.uikit.component.slider.header.SliderHeader
@@ -42,6 +43,8 @@ fun SliderContent(
     contentArrangement: Arrangement.Horizontal = CardAnimePortraitDefaults.HorizontalArrangement.Default,
     textAlign: TextAlign = TextAlign.Start,
     onItemClick: (String) -> Unit,
+    isMoreVisible: Boolean = false,
+    onMoreClick: () -> Unit = { },
 ) {
     // header
     if(contentState.isLoading) {
@@ -53,6 +56,8 @@ fun SliderContent(
         SliderHeader(
             modifier = headerModifier,
             title = headerTitle,
+            isMoreVisible = isMoreVisible,
+            onMoreClick = onMoreClick,
         )
     }
 
@@ -83,6 +88,12 @@ fun SliderContent(
                     onClick = { onItemClick.invoke(data.url) },
                 )
             }
+            showCardAnimePortraitMoreWhenPastLimit (
+                size = contentState.data.size,
+                onClick = {
+                    onMoreClick.invoke()
+                },
+            )
         }
     }
 
@@ -106,6 +117,7 @@ private fun PreviewScrollableHorizontalContentDefault(
             contentArrangement = param.contentArrangement,
             textAlign = param.textAlign,
             onItemClick = param.onItemClick,
+            isMoreVisible = param.isMoreVisible,
         )
     }
 }

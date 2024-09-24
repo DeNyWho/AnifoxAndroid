@@ -30,6 +30,7 @@ internal fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     onSearchClick: () -> Unit,
     onGenresClick: (String) -> Unit,
+    onMoreClick: () -> Unit,
 ) {
     LaunchedEffect(viewModel) {
         viewModel.getPopularOngoingAnime(0,12)
@@ -47,6 +48,7 @@ internal fun HomeScreen(
         genresAnime = viewModel.genresAnime.value,
         onSearchClick = onSearchClick,
         onGenresClick = onGenresClick,
+        onMoreClick = onMoreClick,
     )
 }
 
@@ -56,6 +58,7 @@ private fun HomeUI(
     onAnimeClick: (String) -> Unit,
     onSearchClick: () -> Unit,
     onGenresClick: (String) -> Unit,
+    onMoreClick: () -> Unit,
     onPopularOngoingAnime: StateListWrapper<AnimeLight>,
     onPopularAnime: StateListWrapper<AnimeLight>,
     filmsAnime: StateListWrapper<AnimeLight>,
@@ -83,6 +86,7 @@ private fun HomeUI(
             modifier = modifier,
             onAnimeClick = onAnimeClick,
             onGenresClick = onGenresClick,
+            onMoreClick = onMoreClick,
             onPopularOngoingAnime = onPopularOngoingAnime,
             onPopularAnime = onPopularAnime,
             filmsAnime = filmsAnime,
@@ -97,6 +101,7 @@ private fun HomeContent(
     lazyColumnState: LazyListState = rememberLazyListState(),
     onAnimeClick: (String) -> Unit,
     onGenresClick: (String) -> Unit,
+    onMoreClick: () -> Unit,
     onPopularOngoingAnime: StateListWrapper<AnimeLight>,
     onPopularAnime: StateListWrapper<AnimeLight>,
     filmsAnime: StateListWrapper<AnimeLight>,
@@ -113,6 +118,8 @@ private fun HomeContent(
                 headerModifier = SliderContentDefaults.Default,
                 contentState = onPopularOngoingAnime,
                 onItemClick = onAnimeClick,
+                isMoreVisible = true,
+                onMoreClick = onMoreClick,
             )
         }
         item {
@@ -121,6 +128,8 @@ private fun HomeContent(
                 headerModifier = SliderContentDefaults.Default,
                 contentState = onPopularAnime,
                 onItemClick = onAnimeClick,
+                isMoreVisible = true,
+                onMoreClick = onMoreClick,
             )
         }
         item {
@@ -137,6 +146,8 @@ private fun HomeContent(
                 headerModifier = SliderContentDefaults.Default,
                 contentState = filmsAnime,
                 onItemClick = onAnimeClick,
+                isMoreVisible = true,
+                onMoreClick = onMoreClick,
             )
         }
     }

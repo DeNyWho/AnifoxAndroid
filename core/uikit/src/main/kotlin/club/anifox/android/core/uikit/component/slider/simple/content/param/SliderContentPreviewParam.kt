@@ -28,6 +28,7 @@ internal data class SliderContentPreviewParam(
     val textAlign: TextAlign = TextAlign.Start,
     val onHeaderClick: () -> Unit = { },
     val onItemClick: (String) -> Unit = { },
+    val isMoreVisible: Boolean = true,
 )
 
 internal class SliderContentProvider:
