@@ -5,10 +5,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import club.anifox.android.data.local.cache.dao.anime.genres.AnimeCacheGenresDao
-import club.anifox.android.data.local.cache.dao.anime.search.AnimeCacheSearchDao
 import club.anifox.android.data.local.dao.anime.AnimeDao
-import club.anifox.android.data.local.mappers.cache.anime.toLight
+import club.anifox.android.data.local.mappers.anime.toLight
 import club.anifox.android.data.network.mappers.anime.common.toGenre
 import club.anifox.android.data.network.mappers.anime.common.toStudio
 import club.anifox.android.data.network.mappers.anime.detail.toDetail
@@ -17,8 +15,7 @@ import club.anifox.android.data.network.mappers.anime.light.toLight
 import club.anifox.android.data.network.mappers.anime.videos.toLight
 import club.anifox.android.data.network.service.AnimeService
 import club.anifox.android.data.source.mapper.toLight
-import club.anifox.android.data.source.paging.anime.genres.AnimeGenresRemoteMediator
-import club.anifox.android.data.source.paging.anime.search.AnimeSearchRemoteMediator
+import club.anifox.android.data.source.paging.anime.AnimeRemoteMediator
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
@@ -45,8 +42,6 @@ import javax.inject.Inject
 internal class AnimeRepositoryImpl @Inject constructor(
     private val animeService: AnimeService,
     private val animeDao: AnimeDao,
-    private val animeCacheSearchDao: AnimeCacheSearchDao,
-    private val animeCacheGenresDao: AnimeCacheGenresDao,
 ) : AnimeRepository {
 
     override fun getAnime(
@@ -99,7 +94,7 @@ internal class AnimeRepositoryImpl @Inject constructor(
     }
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun getAnimeSearchPaged(
+    override fun getAnimePaged(
         limit: Int,
         status: AnimeStatus?,
         genres: List<String>?,
@@ -115,9 +110,9 @@ internal class AnimeRepositoryImpl @Inject constructor(
     ): Flow<PagingData<AnimeLight>> {
         return Pager(
             config = PagingConfig(pageSize = limit),
-            remoteMediator = AnimeSearchRemoteMediator(
+            remoteMediator = AnimeRemoteMediator(
                 animeService = animeService,
-                animeCacheSearchDao = animeCacheSearchDao,
+                animeDao = animeDao,
                 status = status,
                 genres = genres,
                 searchQuery = searchQuery,
@@ -130,29 +125,7 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 translation = translation,
                 filter = filter,
             ),
-            pagingSourceFactory = { animeCacheSearchDao.pagingSource() }
-        ).flow.map { pagingData ->
-            pagingData.map { it.toLight() }
-        }
-    }
-
-    @OptIn(ExperimentalPagingApi::class)
-    override fun getAnimeGenresPaged(
-        limit: Int,
-        genre: String,
-        minimalAge: Int?,
-        filter: FilterEnum?,
-    ): Flow<PagingData<AnimeLight>> {
-        return Pager(
-            config = PagingConfig(pageSize = limit),
-            remoteMediator = AnimeGenresRemoteMediator(
-                animeService = animeService,
-                animeCacheGenresDao = animeCacheGenresDao,
-                genre = genre,
-                minimalAge = minimalAge,
-                filter = filter,
-            ),
-            pagingSourceFactory = { animeCacheGenresDao.pagingSource() }
+            pagingSourceFactory = { animeDao.pagingSource() }
         ).flow.map { pagingData ->
             pagingData.map { it.toLight() }
         }

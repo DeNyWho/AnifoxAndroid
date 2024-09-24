@@ -43,8 +43,11 @@ interface AnimeRepository {
     fun getAnimeRelated(url: String): Flow<StateListWrapper<AnimeRelatedLight>>
     fun getAnimeScreenshots(url: String, limit: Int?): Flow<StateListWrapper<String>>
     fun getAnimeVideos(url: String, videoType: VideoType?, limit: Int?): Flow<StateListWrapper<AnimeVideosLight>>
+    fun getAnimeYears(): Flow<StateListWrapper<Int>>
+    fun getAnimeStudios(): Flow<StateListWrapper<AnimeStudio>>
+    fun getAnimeTranslations(): Flow<StateListWrapper<AnimeTranslation>>
 
-    fun getAnimeSearchPaged(
+    fun getAnimePaged(
         limit: Int,
         status: AnimeStatus?,
         genres: List<String>?,
@@ -58,15 +61,4 @@ interface AnimeRepository {
         translation: List<Int>?,
         filter: FilterEnum?
     ): Flow<PagingData<AnimeLight>>
-
-    fun getAnimeGenresPaged(
-        limit: Int,
-        genre: String,
-        minimalAge: Int?,
-        filter: FilterEnum?
-    ): Flow<PagingData<AnimeLight>>
-
-    fun getAnimeYears(): Flow<StateListWrapper<Int>>
-    fun getAnimeStudios(): Flow<StateListWrapper<AnimeStudio>>
-    fun getAnimeTranslations(): Flow<StateListWrapper<AnimeTranslation>>
 }

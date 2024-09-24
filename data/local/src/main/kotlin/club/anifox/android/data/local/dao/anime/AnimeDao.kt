@@ -9,8 +9,9 @@ import club.anifox.android.data.local.model.anime.AnimeEntity
 
 @Dao
 interface AnimeDao {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(animes: List<AnimeEntity>)
+    suspend fun insertOrUpdate(anime: List<AnimeEntity>)
 
     @Query("SELECT * FROM anime ORDER BY title ASC")
     fun pagingSource(): PagingSource<Int, AnimeEntity>

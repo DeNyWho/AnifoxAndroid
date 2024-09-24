@@ -13,8 +13,7 @@ import club.anifox.android.domain.usecase.anime.GetAnimeTranslationsUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeVideosUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeYearsUseCase
-import club.anifox.android.domain.usecase.anime.paging.anime.genres.AnimeGenresPagingUseCase
-import club.anifox.android.domain.usecase.anime.paging.anime.search.AnimeSearchPagingUseCase
+import club.anifox.android.domain.usecase.anime.paging.anime.AnimePagingUseCase
 import club.anifox.android.domain.usecase.user.UserFirstLaunchUseCase
 import club.anifox.android.domain.usecase.user.UserSettingsUseCase
 import club.anifox.android.domain.usecase.user.UserTokensUseCase
@@ -54,14 +53,8 @@ internal object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideAnimeSearchPagingUseCase(animeRepository: AnimeRepository): AnimeSearchPagingUseCase {
-        return AnimeSearchPagingUseCase(animeRepository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideAnimeGenresPagingUseCase(animeRepository: AnimeRepository): AnimeGenresPagingUseCase {
-        return AnimeGenresPagingUseCase(animeRepository)
+    fun provideAnimePagingUseCase(animeRepository: AnimeRepository): AnimePagingUseCase {
+        return AnimePagingUseCase(animeRepository)
     }
 
     @Provides

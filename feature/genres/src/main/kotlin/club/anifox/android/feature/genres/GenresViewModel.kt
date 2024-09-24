@@ -8,7 +8,7 @@ import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.usecase.anime.GetAnimeGenresUseCase
-import club.anifox.android.domain.usecase.anime.paging.anime.genres.AnimeGenresPagingUseCase
+import club.anifox.android.domain.usecase.anime.paging.anime.AnimePagingUseCase
 import club.anifox.android.feature.genres.data.SearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
@@ -29,7 +29,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class GenresViewModel @Inject constructor(
     private val getAnimeGenresUseCase: GetAnimeGenresUseCase,
-    private val animeGenresPagingUseCase: AnimeGenresPagingUseCase,
+    private val animePagingUseCase: AnimePagingUseCase,
 ): ViewModel() {
     private val _searchState = MutableStateFlow(SearchState())
     val searchState = _searchState.asStateFlow()
@@ -59,9 +59,9 @@ internal class GenresViewModel @Inject constructor(
         .filter { it.isInitialized }
         .distinctUntilChanged()
         .flatMapLatest { state ->
-            animeGenresPagingUseCase(
+            animePagingUseCase(
                 limit = 20,
-                genre = state.genre,
+                genres = listOf(state.genre),
                 minimalAge = state.minimalAge,
                 filter = state.filter,
             )
