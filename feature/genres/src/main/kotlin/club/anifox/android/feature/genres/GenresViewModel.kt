@@ -14,10 +14,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
@@ -31,6 +33,9 @@ internal class GenresViewModel @Inject constructor(
 ): ViewModel() {
     private val _searchState = MutableStateFlow(SearchState())
     val searchState = _searchState.asStateFlow()
+
+    private val _selectedGenre = MutableStateFlow(AnimeGenre())
+    val selectedGenre: StateFlow<AnimeGenre> = _selectedGenre.asStateFlow()
 
     val loadState = MutableStateFlow<CombinedLoadStates?>(null)
 
@@ -66,17 +71,28 @@ internal class GenresViewModel @Inject constructor(
         this.loadState.value = loadState
     }
 
-    fun initializeFilter(genre: String) {
-        if (!_searchState.value.isInitialized) {
-            _searchState.update {
-                it.copy(
-                    genre = genre,
-                    minimalAge = it.minimalAge,
-                    filter = it.filter,
-                    isInitialized = true,
-                    isLoading = it.isLoading,
-                )
-            }
+    fun initializeFilter(genreId: String) {
+        viewModelScope.launch {
+            _animeGenres
+                .onStart { _searchState.update { it.copy(isLoading = true) } }
+                .filter { !it.isLoading && it.data.isNotEmpty() }
+                .first()
+                .let { stateListWrapper ->
+                    if (!_searchState.value.isInitialized) {
+                        val selected = stateListWrapper.data.find { it.id == genreId }
+                        if(selected != null) _selectedGenre.update { selected }
+
+                        _searchState.update { state ->
+                            state.copy(
+                                genre = genreId,
+                                minimalAge = state.minimalAge,
+                                filter = state.filter,
+                                isInitialized = true,
+                                isLoading = state.isLoading,
+                            )
+                        }
+                    }
+                }
         }
     }
 
@@ -86,6 +102,8 @@ internal class GenresViewModel @Inject constructor(
                 genre = genre,
                 minimalAge = it.minimalAge,
                 filter = it.filter,
+                isInitialized = it.isInitialized,
+                isLoading = it.isLoading,
             )
         }
     }

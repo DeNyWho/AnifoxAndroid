@@ -16,6 +16,7 @@ fun NavController.navigateToGenres(genreID: String, navOptions: NavOptions? = nu
 
 fun NavGraphBuilder.genresScreen(
     onAnimeClick: (String) -> Unit,
+    onBackPressed: () -> Boolean,
 ) {
     composable(
         route = "$GENRES_ROUTE/$GENRE_ID={genreID}",
@@ -27,6 +28,7 @@ fun NavGraphBuilder.genresScreen(
         GenresScreen(
             genreID = genreID,
             onAnimeClick = onAnimeClick,
+            onBackPressed = onBackPressed,
         )
     }
 }

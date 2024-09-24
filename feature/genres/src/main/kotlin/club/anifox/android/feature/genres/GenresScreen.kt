@@ -24,11 +24,13 @@ import club.anifox.android.core.uikit.component.card.anime.CardAnimePortrait
 import club.anifox.android.core.uikit.component.card.anime.CardAnimePortraitDefaults
 import club.anifox.android.core.uikit.component.error.NoSearchResultsError
 import club.anifox.android.core.uikit.component.grid.GridContentDefaults
+import club.anifox.android.core.uikit.component.progress.CircularProgress
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.common.device.ScreenType
 import club.anifox.android.domain.state.StateListWrapper
+import club.anifox.android.feature.genres.composable.top.GenreTopBar
 import club.anifox.android.feature.genres.data.SearchState
 import kotlinx.coroutines.flow.Flow
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -40,11 +42,13 @@ internal fun GenresScreen(
     viewModel: GenresViewModel = hiltViewModel(),
     genreID: String,
     onAnimeClick: (String) -> Unit,
+    onBackPressed: () -> Boolean,
 ) {
     val searchState by viewModel.searchState.collectAsState()
     val items = viewModel.searchResults.collectAsLazyPagingItems()
     val loadState by viewModel.loadState.collectAsState()
     val animeGenres by viewModel.animeGenres.collectAsState()
+    val selectedGenre by viewModel.selectedGenre.collectAsState()
 
     LaunchedEffect(genreID) {
         viewModel.initializeFilter(genreID)
@@ -65,7 +69,9 @@ internal fun GenresScreen(
         searchState = searchState,
         searchResults = viewModel.searchResults,
         onAnimeClick = onAnimeClick,
+        onBackPressed = onBackPressed,
         animeGenres = animeGenres,
+        selectedGenre = selectedGenre,
     )
 }
 
@@ -74,19 +80,27 @@ private fun GenresUI(
     modifier: Modifier = Modifier,
     searchState: SearchState,
     onAnimeClick: (String) -> Unit,
+    onBackPressed: () -> Boolean,
     searchResults: Flow<PagingData<AnimeLight>>,
     animeGenres: StateListWrapper<AnimeGenre>,
+    selectedGenre: AnimeGenre,
 ) {
     val lazyGridState = rememberLazyGridState()
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
 
-    Box(modifier = modifier.fillMaxSize()) {
+    if(animeGenres.isLoading) {
+        CircularProgress()
+    } else {
         CollapsingToolbarScaffold(
             modifier = Modifier.fillMaxSize(),
             state = toolbarScaffoldState,
             scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
             toolbar = {
-
+                GenreTopBar(
+                    selectedGenre = selectedGenre,
+                    toolbarScaffoldState = toolbarScaffoldState,
+                    onBackPressed = onBackPressed,
+                )
             },
             body = {
                 GenresContent(
@@ -134,7 +148,6 @@ private fun GenresContent(
     }
 
     val minColumnSize = (screenInfo.portraitWidthDp.dp / (if (screenInfo.portraitWidthDp.dp < 600.dp) 4 else 6)).coerceAtLeast(if(screenInfo.portraitWidthDp.dp < 600.dp) CardAnimePortraitDefaults.Width.Min else width )
-
 
     LaunchedEffect(searchState) {
         if (!searchState.isLoading) {

@@ -73,6 +73,7 @@ fun AnifoxNavHost(
         registrationScreen()
         genresScreen(
             onAnimeClick = navController::navigateToDetail,
+            onBackPressed = navController::popBackStack,
         )
         onboardingScreen(
             onLoginClick = navController::navigateToLogin,
