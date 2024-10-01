@@ -69,4 +69,18 @@ interface AnimeRepository {
     fun getAnimeYears(): Flow<StateListWrapper<Int>>
     fun getAnimeStudios(): Flow<StateListWrapper<AnimeStudio>>
     fun getAnimeTranslations(): Flow<StateListWrapper<AnimeTranslation>>
+    fun getAnimeCatalogPaged(
+        limit: Int,
+        status: AnimeStatus?,
+        genres: List<String>?,
+        searchQuery: String?,
+        season: AnimeSeason?,
+        ratingMpa: String?,
+        minimalAge: Int?,
+        type: AnimeType?,
+        year: Int?,
+        studio: String?,
+        translation: List<Int>?,
+        filter: FilterEnum?
+    ): Flow<PagingData<AnimeLight>>
 }

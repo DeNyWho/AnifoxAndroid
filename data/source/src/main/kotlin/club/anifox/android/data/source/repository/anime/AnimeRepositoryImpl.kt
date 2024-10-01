@@ -5,6 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import club.anifox.android.data.local.cache.dao.anime.catalog.AnimeCacheCatalogDao
 import club.anifox.android.data.local.cache.dao.anime.genres.AnimeCacheGenresDao
 import club.anifox.android.data.local.cache.dao.anime.search.AnimeCacheSearchDao
 import club.anifox.android.data.local.dao.anime.AnimeDao
@@ -17,6 +18,7 @@ import club.anifox.android.data.network.mappers.anime.light.toLight
 import club.anifox.android.data.network.mappers.anime.videos.toLight
 import club.anifox.android.data.network.service.AnimeService
 import club.anifox.android.data.source.mapper.toLight
+import club.anifox.android.data.source.paging.anime.catalog.AnimeCatalogRemoteMediator
 import club.anifox.android.data.source.paging.anime.genres.AnimeGenresRemoteMediator
 import club.anifox.android.data.source.paging.anime.search.AnimeSearchRemoteMediator
 import club.anifox.android.domain.model.anime.AnimeDetail
@@ -46,6 +48,7 @@ internal class AnimeRepositoryImpl @Inject constructor(
     private val animeService: AnimeService,
     private val animeDao: AnimeDao,
     private val animeCacheSearchDao: AnimeCacheSearchDao,
+    private val animeCacheCatalogDao: AnimeCacheCatalogDao,
     private val animeCacheGenresDao: AnimeCacheGenresDao,
 ) : AnimeRepository {
 
@@ -131,6 +134,44 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 filter = filter,
             ),
             pagingSourceFactory = { animeCacheSearchDao.pagingSource() }
+        ).flow.map { pagingData ->
+            pagingData.map { it.toLight() }
+        }
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getAnimeCatalogPaged(
+        limit: Int,
+        status: AnimeStatus?,
+        genres: List<String>?,
+        searchQuery: String?,
+        season: AnimeSeason?,
+        ratingMpa: String?,
+        minimalAge: Int?,
+        type: AnimeType?,
+        year: Int?,
+        studio: String?,
+        translation: List<Int>?,
+        filter: FilterEnum?,
+    ): Flow<PagingData<AnimeLight>> {
+        return Pager(
+            config = PagingConfig(pageSize = limit),
+            remoteMediator = AnimeCatalogRemoteMediator(
+                animeService = animeService,
+                animeCacheCatalogDao = animeCacheCatalogDao,
+                status = status,
+                genres = genres,
+                searchQuery = searchQuery,
+                season = season,
+                ratingMpa = ratingMpa,
+                minimalAge = minimalAge,
+                type = type,
+                year = year,
+                studio = studio,
+                translation = translation,
+                filter = filter,
+            ),
+            pagingSourceFactory = { animeCacheCatalogDao.pagingSource() }
         ).flow.map { pagingData ->
             pagingData.map { it.toLight() }
         }

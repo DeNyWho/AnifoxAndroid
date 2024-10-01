@@ -16,7 +16,11 @@ import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
 import club.anifox.android.core.uikit.component.slider.simple.content.SliderContent
 import club.anifox.android.core.uikit.component.textfield.SearchField
 import club.anifox.android.domain.model.anime.AnimeLight
+import club.anifox.android.domain.model.anime.enum.AnimeStatus
+import club.anifox.android.domain.model.anime.enum.AnimeType
+import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
+import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.home.composable.content.genre.GenreContent
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -30,7 +34,7 @@ internal fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     onSearchClick: () -> Unit,
     onGenresClick: (String) -> Unit,
-    onMoreClick: () -> Unit,
+    onMoreClick: (CatalogFilterParams) -> Unit,
 ) {
     LaunchedEffect(viewModel) {
         viewModel.getPopularOngoingAnime(0,12)
@@ -58,7 +62,7 @@ private fun HomeUI(
     onAnimeClick: (String) -> Unit,
     onSearchClick: () -> Unit,
     onGenresClick: (String) -> Unit,
-    onMoreClick: () -> Unit,
+    onMoreClick: (CatalogFilterParams) -> Unit,
     onPopularOngoingAnime: StateListWrapper<AnimeLight>,
     onPopularAnime: StateListWrapper<AnimeLight>,
     filmsAnime: StateListWrapper<AnimeLight>,
@@ -101,7 +105,7 @@ private fun HomeContent(
     lazyColumnState: LazyListState = rememberLazyListState(),
     onAnimeClick: (String) -> Unit,
     onGenresClick: (String) -> Unit,
-    onMoreClick: () -> Unit,
+    onMoreClick: (CatalogFilterParams) -> Unit,
     onPopularOngoingAnime: StateListWrapper<AnimeLight>,
     onPopularAnime: StateListWrapper<AnimeLight>,
     filmsAnime: StateListWrapper<AnimeLight>,
@@ -119,7 +123,9 @@ private fun HomeContent(
                 contentState = onPopularOngoingAnime,
                 onItemClick = onAnimeClick,
                 isMoreVisible = true,
-                onMoreClick = onMoreClick,
+                onMoreClick = {
+                    onMoreClick(CatalogFilterParams(genres = null, status = AnimeStatus.Ongoing, filter = FilterEnum.ShikimoriRating))
+                },
             )
         }
         item {
@@ -129,7 +135,9 @@ private fun HomeContent(
                 contentState = onPopularAnime,
                 onItemClick = onAnimeClick,
                 isMoreVisible = true,
-                onMoreClick = onMoreClick,
+                onMoreClick = {
+                    onMoreClick(CatalogFilterParams(genres = null, filter = FilterEnum.ShikimoriRating))
+                },
             )
         }
         item {
@@ -147,7 +155,9 @@ private fun HomeContent(
                 contentState = filmsAnime,
                 onItemClick = onAnimeClick,
                 isMoreVisible = true,
-                onMoreClick = onMoreClick,
+                onMoreClick = {
+                    onMoreClick(CatalogFilterParams(genres = null, type = AnimeType.Movie))
+                },
             )
         }
     }

@@ -1,6 +1,7 @@
 package club.anifox.android.data.local.di
 
 import club.anifox.android.data.local.AnifoxDatabase
+import club.anifox.android.data.local.cache.dao.anime.catalog.AnimeCacheCatalogDao
 import club.anifox.android.data.local.cache.dao.anime.genres.AnimeCacheGenresDao
 import club.anifox.android.data.local.cache.dao.anime.search.AnimeCacheSearchDao
 import club.anifox.android.data.local.dao.anime.AnimeDao
@@ -11,11 +12,16 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object DaosModule {
+internal object DaoModule {
     @Provides
     fun provideAnimeDao(
         database: AnifoxDatabase,
     ): AnimeDao = database.animeDao()
+
+    @Provides
+    fun provideAnimeCacheCatalogDao(
+        database: AnifoxDatabase,
+    ): AnimeCacheCatalogDao = database.animeCacheCatalogDao()
 
     @Provides
     fun provideAnimeCacheSearchDao(

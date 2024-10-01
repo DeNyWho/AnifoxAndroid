@@ -79,6 +79,7 @@ fun AnifoxNavHost(
             onBackPressed = navController::popBackStack,
         )
         catalogScreen(
+            onAnimeClick = navController::navigateToDetail,
             onBackPressed = navController::popBackStack,
         )
         onboardingScreen(

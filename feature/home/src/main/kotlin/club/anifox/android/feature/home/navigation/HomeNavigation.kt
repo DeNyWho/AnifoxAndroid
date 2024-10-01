@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.feature.home.HomeScreen
 
 const val HOME_ROUTE = "home_route"
@@ -14,7 +15,7 @@ fun NavGraphBuilder.homeScreen(
     onAnimeClick: (String) -> Unit,
     onSearchClick: () -> Unit,
     onGenresClick: (String) -> Unit,
-    onMoreClick: () -> Unit,
+    onMoreClick: (CatalogFilterParams) -> Unit,
 ) {
     composable(
         route = HOME_ROUTE

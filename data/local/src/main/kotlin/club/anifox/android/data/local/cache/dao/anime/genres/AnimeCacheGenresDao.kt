@@ -10,7 +10,7 @@ import club.anifox.android.data.local.cache.model.anime.genres.AnimeCacheGenresE
 @Dao
 interface AnimeCacheGenresDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(animes: List<AnimeCacheGenresEntity>)
+    suspend fun insertAll(anime: List<AnimeCacheGenresEntity>)
 
     @Query("SELECT * FROM cache_anime_genres")
     fun pagingSource(): PagingSource<Int, AnimeCacheGenresEntity>

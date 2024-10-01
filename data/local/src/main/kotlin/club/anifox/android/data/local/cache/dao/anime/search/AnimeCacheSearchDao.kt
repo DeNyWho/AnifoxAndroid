@@ -10,7 +10,7 @@ import club.anifox.android.data.local.cache.model.anime.search.AnimeCacheSearchE
 @Dao
 interface AnimeCacheSearchDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(animes: List<AnimeCacheSearchEntity>)
+    suspend fun insertAll(anime: List<AnimeCacheSearchEntity>)
 
     @Query("SELECT * FROM cache_anime_search")
     fun pagingSource(): PagingSource<Int, AnimeCacheSearchEntity>
