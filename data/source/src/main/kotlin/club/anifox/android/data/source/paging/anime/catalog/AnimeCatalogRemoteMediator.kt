@@ -93,7 +93,6 @@ internal class AnimeCatalogRemoteMediator(
                     MediatorResult.Success(endOfPaginationReached = animeEntities.isEmpty())
                 }
                 is Resource.Error -> {
-                    println("WAFL = ${response.error.message}")
                     MediatorResult.Error(Exception("Failed to load: ${response.error}"))
                 }
                 is Resource.Loading -> {
@@ -101,7 +100,6 @@ internal class AnimeCatalogRemoteMediator(
                 }
             }
         } catch (e: Exception) {
-            println("WAFL FFF = ${e.message}")
             MediatorResult.Error(e)
         }
     }

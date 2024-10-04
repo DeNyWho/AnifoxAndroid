@@ -93,6 +93,26 @@ internal class CatalogViewModel @Inject constructor(
             )
         }
 
+    fun updateFilter(
+        filterParams: CatalogFilterParams,
+//        filterType: FilterType,
+    ) {
+        _catalogState.update { currentState ->
+            currentState.copy(
+                genres = filterParams.genres ?: currentState.genres,
+                status = filterParams.status ?: currentState.status,
+                type = filterParams.type ?: currentState.type,
+                year = filterParams.year ?: currentState.year,
+                season = filterParams.season ?: currentState.season,
+                studio = filterParams.studio ?: currentState.studio,
+                minimalAge = currentState.minimalAge,
+                filter = filterParams.filter ?: currentState.filter,
+                isInitialized = currentState.isInitialized,
+                isLoading = currentState.isLoading,
+            )
+        }
+    }
+
     fun initializeParams(initialParams: CatalogFilterParams) {
         viewModelScope.launch {
             if (!_catalogState.value.isInitialized) {

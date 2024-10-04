@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_catalog_filter_genre_title">жанр</string>
+    <string name="feature_catalog_filter_year_title">год</string>
+    <string name="feature_catalog_filter_type_title">тип</string>
+    <string name="feature_catalog_filter_status_title">статус</string>
+    <string name="feature_catalog_filter_translation_title">озвучка</string>
+</resources>
