@@ -8,51 +8,30 @@ import club.anifox.android.data.local.cache.dao.anime.search.AnimeCacheSearchDao
 import club.anifox.android.data.local.cache.model.anime.search.AnimeCacheSearchEntity
 import club.anifox.android.data.network.service.AnimeService
 import club.anifox.android.data.source.mapper.toEntityCacheSearchLight
-import club.anifox.android.domain.model.anime.enum.AnimeSeason
-import club.anifox.android.domain.model.anime.enum.AnimeStatus
-import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.common.request.Resource
 
 @OptIn(ExperimentalPagingApi::class)
 internal class AnimeSearchRemoteMediator(
     private val animeService: AnimeService,
     private val animeCacheSearchDao: AnimeCacheSearchDao,
-    private var status: AnimeStatus?,
-    private var genres: List<String>?,
     private var searchQuery: String?,
-    private var season: AnimeSeason?,
-    private var ratingMpa: String?,
-    private var minimalAge: Int?,
-    private var type: AnimeType?,
-    private var year: Int?,
-    private var studio: String?,
-    private var translation: List<Int>?,
 ) : RemoteMediator<Int, AnimeCacheSearchEntity>() {
 
     private var lastLoadedPage = -1
-    private var currentParams: Params = Params(status, genres, searchQuery, season, ratingMpa, minimalAge, type, year, studio, translation)
+    private var currentParams: Params = Params(searchQuery)
 
     private data class Params(
-        val status: AnimeStatus?,
-        val genres: List<String>?,
         val searchQuery: String?,
-        val season: AnimeSeason?,
-        val ratingMpa: String?,
-        val minimalAge: Int?,
-        val type: AnimeType?,
-        val year: Int?,
-        val studio: String?,
-        val translation: List<Int>?,
     )
 
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, AnimeCacheSearchEntity>
     ): MediatorResult {
-        val newParams = Params(status, genres, searchQuery, season, ratingMpa, minimalAge, type, year, studio, translation)
+        val newParams = Params(searchQuery)
         if (newParams != currentParams) {
             currentParams = newParams
-            lastLoadedPage = -1 // Сброс страницы при изменении параметров
+            lastLoadedPage = -1
         }
 
         return try {
@@ -65,16 +44,7 @@ internal class AnimeSearchRemoteMediator(
             val response = animeService.getAnime(
                 page = loadKey,
                 limit = state.config.pageSize,
-                status = currentParams.status,
-                genres = currentParams.genres,
                 searchQuery = currentParams.searchQuery,
-                season = currentParams.season,
-                ratingMpa = currentParams.ratingMpa,
-                minimalAge = currentParams.minimalAge,
-                type = currentParams.type,
-                year = currentParams.year,
-                studio = currentParams.studio,
-                translation = currentParams.translation,
             )
 
             when(response) {

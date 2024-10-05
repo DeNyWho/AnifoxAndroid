@@ -28,7 +28,7 @@ interface AnimeRepository {
         minimalAge: Int?,
         type: AnimeType?,
         year: Int?,
-        studio: String?,
+        studios: List<String>?,
     ): Flow<StateListWrapper<AnimeLight>>
 
     fun getAnimeGenres(): Flow<StateListWrapper<AnimeGenre>>
@@ -44,16 +44,7 @@ interface AnimeRepository {
 
     fun getAnimeSearchPaged(
         limit: Int,
-        status: AnimeStatus?,
-        genres: List<String>?,
         searchQuery: String?,
-        season: AnimeSeason?,
-        ratingMpa: String?,
-        minimalAge: Int?,
-        type: AnimeType?,
-        year: Int?,
-        studio: String?,
-        translation: List<Int>?,
     ): Flow<PagingData<AnimeLight>>
 
     fun getAnimeGenresPaged(
@@ -75,7 +66,7 @@ interface AnimeRepository {
         minimalAge: Int?,
         type: AnimeType?,
         year: Int?,
-        studio: String?,
+        studios: List<String>?,
         translation: List<Int>?,
     ): Flow<PagingData<AnimeLight>>
 }

@@ -19,7 +19,7 @@ class AnimeCatalogPagingUseCase(private val animeRepository: AnimeRepository) {
         minimalAge: Int? = null,
         type: AnimeType? = null,
         year: Int? = null,
-        studio: String? = null,
+        studios: List<String>? = null,
         translation: List<Int>? = null,
     ): Flow<PagingData<AnimeLight>> {
         return animeRepository.getAnimeCatalogPaged(
@@ -32,7 +32,7 @@ class AnimeCatalogPagingUseCase(private val animeRepository: AnimeRepository) {
             minimalAge = minimalAge,
             type = type,
             year = year,
-            studio = studio,
+            studios = studios,
             translation = translation,
         )
     }

@@ -20,7 +20,7 @@ class GetAnimeUseCase(private val animeRepository: AnimeRepository) {
         minimalAge: Int? = null,
         type: AnimeType? = null,
         year: Int? = null,
-        studio: String? = null,
+        studios: List<String>? = null,
     ): Flow<StateListWrapper<AnimeLight>> {
         return animeRepository.getAnime(
             page = page,
@@ -33,7 +33,7 @@ class GetAnimeUseCase(private val animeRepository: AnimeRepository) {
             minimalAge = minimalAge,
             type = type,
             year = year,
-            studio = studio,
+            studios = studios,
         )
     }
 }

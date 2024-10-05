@@ -34,10 +34,11 @@ fun NavController.navigateToCatalog(
 
 fun NavGraphBuilder.catalogScreen(
     onBackPressed: () -> Boolean,
+    onSearchClick: () -> Unit,
     onAnimeClick: (String) -> Unit,
 ) {
     composable(
-        route = "${CATALOG_ROUTE}?genres={genres}&status={status}&type={type}&year={year}&season={season}&studio={studio}&filter={filter}",
+        route = "${CATALOG_ROUTE}?genres={genres}&status={status}&type={type}&year={year}&season={season}&studio={studio}",
         arguments = listOf(
             navArgument("genres") { type = NavType.StringType; defaultValue = "" },
             navArgument("status") { type = NavType.StringType; defaultValue = "" },
@@ -45,7 +46,6 @@ fun NavGraphBuilder.catalogScreen(
             navArgument("year") { type = NavType.StringType; defaultValue = "" },
             navArgument("season") { type = NavType.StringType; defaultValue = "" },
             navArgument("studio") { type = NavType.StringType; defaultValue = "" },
-            navArgument("filter") { type = NavType.StringType; defaultValue = "" },
         ),
     ) { backStackEntry ->
         val genres = backStackEntry.arguments?.getString("genres")?.let {
@@ -70,6 +70,7 @@ fun NavGraphBuilder.catalogScreen(
 
         CatalogScreen(
             onBackPressed = onBackPressed,
+            onSearchClick = onSearchClick,
             onAnimeClick = onAnimeClick,
             initialParams = params,
         )

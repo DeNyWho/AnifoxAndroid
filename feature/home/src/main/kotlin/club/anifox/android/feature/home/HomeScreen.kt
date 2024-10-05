@@ -1,6 +1,5 @@
 package club.anifox.android.feature.home
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,6 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
 import club.anifox.android.core.uikit.component.slider.simple.content.SliderContent
 import club.anifox.android.core.uikit.component.textfield.SearchField
+import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
@@ -77,9 +77,9 @@ private fun HomeUI(
             SearchField(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 16.dp)
-                    .clickable {
-                    onSearchClick.invoke()
-                },
+                    .clickableWithoutRipple {
+                        onSearchClick.invoke()
+                    },
                 placeHolder = stringResource(R.string.feature_home_search_placeholder),
                 isEnabled = false,
             )

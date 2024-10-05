@@ -85,6 +85,7 @@ internal class CatalogViewModel @Inject constructor(
             animeCatalogPagingUseCase(
                 limit = 20,
                 genres = state.genres?.map { it.id },
+                studios = state.studios?.map { it.id },
                 minimalAge = state.minimalAge,
                 status = state.status,
                 type = state.type,

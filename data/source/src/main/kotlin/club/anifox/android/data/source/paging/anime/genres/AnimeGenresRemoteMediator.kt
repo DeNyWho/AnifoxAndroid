@@ -33,7 +33,7 @@ internal class AnimeGenresRemoteMediator(
         val newParams = Params(genre, minimalAge)
         if (newParams != currentParams) {
             currentParams = newParams
-            lastLoadedPage = -1 // Сброс страницы при изменении параметров
+            lastLoadedPage = -1
         }
 
         return try {

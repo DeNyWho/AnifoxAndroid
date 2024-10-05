@@ -25,12 +25,12 @@ internal class AnimeCatalogRemoteMediator(
     private var minimalAge: Int?,
     private var type: AnimeType?,
     private var year: Int?,
-    private var studio: String?,
+    private var studios: List<String>?,
     private var translation: List<Int>?,
 ) : RemoteMediator<Int, AnimeCacheCatalogEntity>() {
 
     private var lastLoadedPage = -1
-    private var currentParams: Params = Params(status, genres, searchQuery, season, ratingMpa, minimalAge, type, year, studio, translation)
+    private var currentParams: Params = Params(status, genres, searchQuery, season, ratingMpa, minimalAge, type, year, studios, translation)
 
     private data class Params(
         val status: AnimeStatus?,
@@ -41,7 +41,7 @@ internal class AnimeCatalogRemoteMediator(
         val minimalAge: Int?,
         val type: AnimeType?,
         val year: Int?,
-        val studio: String?,
+        val studios: List<String>?,
         val translation: List<Int>?,
     )
 
@@ -49,10 +49,10 @@ internal class AnimeCatalogRemoteMediator(
         loadType: LoadType,
         state: PagingState<Int, AnimeCacheCatalogEntity>
     ): MediatorResult {
-        val newParams = Params(status, genres, searchQuery, season, ratingMpa, minimalAge, type, year, studio, translation)
+        val newParams = Params(status, genres, searchQuery, season, ratingMpa, minimalAge, type, year, studios, translation)
         if (newParams != currentParams) {
             currentParams = newParams
-            lastLoadedPage = -1 // Сброс страницы при изменении параметров
+            lastLoadedPage = -1
         }
 
         return try {
@@ -73,7 +73,7 @@ internal class AnimeCatalogRemoteMediator(
                 minimalAge = currentParams.minimalAge,
                 type = currentParams.type,
                 year = currentParams.year,
-                studio = currentParams.studio,
+                studios = currentParams.studios,
                 translation = currentParams.translation,
             )
 

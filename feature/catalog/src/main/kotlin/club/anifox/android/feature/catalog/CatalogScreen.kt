@@ -2,12 +2,10 @@ package club.anifox.android.feature.catalog
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.CircularProgressIndicator
@@ -47,6 +45,7 @@ import kotlinx.coroutines.flow.Flow
 internal fun CatalogScreen(
     viewModel: CatalogViewModel = hiltViewModel(),
     onBackPressed: () -> Boolean,
+    onSearchClick: () -> Unit,
     onAnimeClick: (String) -> Unit,
     initialParams: CatalogFilterParams,
 ) {
@@ -79,6 +78,7 @@ internal fun CatalogScreen(
 
     CatalogUI(
         onBackPressed = onBackPressed,
+        onSearchClick = onSearchClick,
         catalogState = catalogState,
         searchResults = viewModel.searchResults,
         onAnimeClick = onAnimeClick,
@@ -98,6 +98,7 @@ private fun CatalogUI(
     catalogState: CatalogState,
     onAnimeClick: (String) -> Unit,
     onBackPressed: () -> Boolean,
+    onSearchClick: () -> Unit,
     searchResults: Flow<PagingData<AnimeLight>>,
     animeYears: StateListWrapper<Int>,
     animeGenres: StateListWrapper<AnimeGenre>,
@@ -143,6 +144,7 @@ private fun CatalogUI(
         topBar = {
             CatalogTopBar(
                 onBackPressed = onBackPressed,
+                onSearchClick = onSearchClick,
             )
         }
     ) { padding ->
@@ -202,19 +204,4 @@ private fun CatalogUI(
             }
         }
     }
-}
-
-@Composable
-private fun CatalogContent(
-    modifier: Modifier = Modifier,
-    searchResults: Flow<PagingData<AnimeLight>>,
-    animeYears: StateListWrapper<Int>,
-    animeGenres: StateListWrapper<AnimeGenre>,
-    catalogState: CatalogState,
-    lazyGridState: LazyGridState,
-    onAnimeClick: (String) -> Unit,
-    updateFilter: (CatalogFilterParams) -> Unit,
-    padding: PaddingValues,
-) {
-
 }

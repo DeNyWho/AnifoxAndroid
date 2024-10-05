@@ -33,7 +33,7 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
         minimalAge: Int? = null,
         type: AnimeType? = null,
         year: Int? = null,
-        studio: String? = null,
+        studios: List<String>? = null,
         translation: List<Int>? = null,
     ): Resource<List<AnimeLightDTO>> {
         val request = HttpRequestBuilder().apply {
@@ -51,7 +51,9 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
                 genres?.forEach { genre ->
                     parameter("genres", genre)
                 }
-                if (studio != null) parameter("studio", studio)
+                studios?.forEach { studio ->
+                    parameter("studios", studio)
+                }
                 if (searchQuery != null) parameter("search", searchQuery)
                 translation?.forEach { translation ->
                     parameter("translation", translation)

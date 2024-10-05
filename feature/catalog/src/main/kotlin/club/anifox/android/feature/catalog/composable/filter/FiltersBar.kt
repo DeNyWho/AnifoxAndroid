@@ -25,8 +25,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.Tune
@@ -50,15 +50,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
+import club.anifox.android.core.uikit.component.icon.AnifoxIconCustomTintVector
 import club.anifox.android.core.uikit.component.textfield.SearchField
 import club.anifox.android.core.uikit.icon.AnifoxIcons
+import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.anime.studio.AnimeStudio
 import club.anifox.android.domain.model.anime.translations.AnimeTranslation
+import club.anifox.android.domain.model.common.device.ScreenType
 import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.catalog.R
@@ -85,16 +87,34 @@ internal fun FiltersBar(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     var drawer: FilterType? by remember { mutableStateOf(null) }
+    var drawerFilters: Boolean by remember { mutableStateOf(false) }
+    val screenInfo = LocalScreenInfo.current
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val iconWidth = 24.dp
     val horizontalPadding = 32.dp
-    val minColumnWidth = 100.dp
+    val minColumnWidth = when (screenInfo.screenType) {
+        ScreenType.SMALL -> 80.dp
+        ScreenType.DEFAULT -> 100.dp
+        ScreenType.LARGE -> 120.dp
+        ScreenType.EXTRA_LARGE -> 140.dp
+    }
     val availableWidth = screenWidth - iconWidth - horizontalPadding
     val filterColumnCount = (availableWidth / minColumnWidth).toInt().coerceAtLeast(3)
 
     val visibleFilters = mainFilters.filter { it.isShow }.take(filterColumnCount)
     val hiddenFilters = mainFilters.filter { it.isShow }.drop(filterColumnCount)
+    val hiddenActive: Boolean = hiddenFilters.any { filter ->
+        when(filter) {
+            FilterType.YEAR -> catalogState.year != null
+            FilterType.GENRE -> catalogState.genres != null
+            FilterType.TYPE -> catalogState.type != null
+            FilterType.STATUS -> catalogState.status != null
+            FilterType.TRANSLATION -> catalogState.translation != null
+            FilterType.STUDIO -> catalogState.studios != null
+            FilterType.SEASON -> catalogState.season != null
+        }
+    }
 
     Column(modifier) {
         Row(
@@ -118,7 +138,16 @@ internal fun FiltersBar(
                                 interactionSource = interactionSource,
                                 indication = null,
                                 role = Role.DropdownList,
-                                onClick = { drawer = if (drawer != filter) filter else null }
+                                onClick = {
+                                    drawer = if (drawer != filter) {
+                                        if(drawerFilters) {
+                                            drawerFilters = false
+                                            filter
+                                        } else {
+                                            filter
+                                        }
+                                    } else null
+                                },
                             )
                             .padding(horizontal = 4.dp),
                         expand = drawer == filter,
@@ -127,74 +156,66 @@ internal fun FiltersBar(
                     )
                 }
             }
-            AnifoxIconPrimary(
-                modifier = Modifier
-                    .size(24.dp),
-                imageVector = Outlined.Tune,
-                contentDescription = null,
-            )
+
+            if (hiddenFilters.isNotEmpty()) {
+                AnifoxIconCustomTintVector(
+                    modifier = Modifier
+                        .clickable(
+                            interactionSource = interactionSource,
+                            indication = null,
+                            role = Role.DropdownList,
+                            onClick = { drawerFilters = !drawerFilters },
+                        )
+                        .size(24.dp),
+                    imageVector = Outlined.Tune,
+                    contentDescription = null,
+                    tint = if (hiddenActive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
+                )
+            }
         }
+
         Box {
             androidx.compose.animation.AnimatedVisibility(
-                visible = drawer != null,
+                visible = drawer != null || drawerFilters,
                 enter = fadeIn(),
                 exit = fadeOut(),
             ) {
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.1f))
-                    .pointerInput(Unit) { detectTapGestures { drawer = null } })
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.1f))
+                        .pointerInput(Unit) {
+                            detectTapGestures {
+                                drawerFilters = false
+                                drawer = null
+                            }
+                        }
+                )
             }
+
+            AnimatedDrawer(drawerFilters && drawer == null) {
+                AllFiltersDraw(
+                    hiddenFilters = hiddenFilters,
+                    animeYears = animeYears,
+                    animeGenres = animeGenres,
+                    animeStudios = animeStudios,
+                    animeTranslations = animeTranslations,
+                    catalogState = catalogState,
+                    updateFilter = updateFilter,
+                )
+            }
+
             for (filter in mainFilters) {
                 AnimatedDrawer(drawer == filter) {
                     when(drawer) {
-                        FilterType.YEAR -> {
-                            YearFilterDraw(
-                                animeYears = animeYears,
-                                catalogState = catalogState,
-                                updateFilter = updateFilter,
-                            )
-                        }
-                        FilterType.GENRE -> {
-                            GenresFilterDraw(
-                                animeGenres = animeGenres,
-                                catalogState = catalogState,
-                                updateFilter = updateFilter,
-                            )
-                        }
-                        FilterType.TYPE -> {
-                            AnimeTypeFilterDraw(
-                                catalogState = catalogState,
-                                updateFilter = updateFilter,
-                            )
-                        }
-                        FilterType.STATUS -> {
-                            StatusFilterDraw(
-                                catalogState = catalogState,
-                                updateFilter = updateFilter,
-                            )
-                        }
-                        FilterType.TRANSLATION -> {
-                            TranslationFilterDraw(
-                                animeTranslations = animeTranslations,
-                                catalogState = catalogState,
-                                updateFilter = updateFilter,
-                            )
-                        }
+                        FilterType.YEAR -> YearFilterDraw(animeYears, catalogState, updateFilter)
+                        FilterType.GENRE -> GenresFilterDraw(animeGenres, catalogState, updateFilter)
+                        FilterType.TYPE -> AnimeTypeFilterDraw(catalogState, updateFilter)
+                        FilterType.STATUS -> StatusFilterDraw(catalogState, updateFilter)
+                        FilterType.TRANSLATION -> TranslationFilterDraw(animeTranslations, catalogState, updateFilter)
+                        FilterType.STUDIO -> StudiosFilterDraw(animeStudios, catalogState, updateFilter)
+                        FilterType.SEASON -> SeasonFilterDraw(catalogState, updateFilter)
                         null -> { }
-                        FilterType.STUDIO -> {
-                            StudiosFilterDraw(
-                                animeStudios = animeStudios,
-                                catalogState = catalogState,
-                                updateFilter = updateFilter,
-                            )
-                        }
-                        FilterType.SEASON -> {
-                            SeasonFilterDraw(
-                                catalogState = catalogState,
-                                updateFilter = updateFilter,
-                            )
-                        }
                     }
                 }
             }
@@ -202,93 +223,49 @@ internal fun FiltersBar(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun AnimeTypeFilterDraw(
     catalogState: CatalogState,
     updateFilter: (CatalogFilterParams, FilterType) -> Unit,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
 ) {
-    FlowRow(
-        horizontalArrangement = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        AnimeType.entries.forEach { type ->
-            val isSelected = catalogState.type == type
-            OptionChip(
-                modifier = Modifier.clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null,
-                    role = Role.Checkbox,
-                    onClick = {
-                        val newType = if (isSelected) null else type
-                        updateFilter.invoke(CatalogFilterParams(type = newType), FilterType.TYPE)
-                    }
-                ),
-                text = type.toString(),
-                isSelected = isSelected,
-            )
-        }
-    }
-
+    FilterDraw(
+        items = AnimeType.entries,
+        selectedItem = catalogState.type,
+        updateFilter = updateFilter,
+        filterType = FilterType.TYPE,
+        itemToString = { it.toString() },
+        horizontalArrangement = horizontalArrangement,
+    )
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun YearFilterDraw(
     animeYears: StateListWrapper<Int>,
     catalogState: CatalogState,
     updateFilter: (CatalogFilterParams, FilterType) -> Unit,
 ) {
-    FlowRow(
-        horizontalArrangement = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        animeYears.data.forEach { year ->
-            val isSelected = catalogState.year == year
-            OptionChip(
-                modifier = Modifier.clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null,
-                    role = Role.Checkbox,
-                    onClick = {
-                        val newYear = if (isSelected) null else year
-                        updateFilter.invoke(CatalogFilterParams(year = newYear), FilterType.YEAR)
-                    }
-                ),
-                text = year.toString(),
-                isSelected = isSelected,
-            )
-        }
-    }
+    FilterDraw(
+        items = animeYears.data,
+        selectedItem = catalogState.year,
+        updateFilter = updateFilter,
+        filterType = FilterType.YEAR,
+        itemToString = { it.toString() },
+    )
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun SeasonFilterDraw(
     catalogState: CatalogState,
     updateFilter: (CatalogFilterParams, FilterType) -> Unit,
 ) {
-    FlowRow(
-        horizontalArrangement = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        AnimeSeason.entries.forEach { season ->
-            val isSelected = catalogState.season == season
-            OptionChip(
-                modifier = Modifier.clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null,
-                    role = Role.Checkbox,
-                    onClick = {
-                        val newSeason = if (isSelected) null else season
-                        updateFilter.invoke(CatalogFilterParams(season = newSeason), FilterType.SEASON)
-                    }
-                ),
-                text = season.toString(),
-                isSelected = isSelected,
-            )
-        }
-    }
+    FilterDraw(
+        items = AnimeSeason.entries,
+        selectedItem = catalogState.season,
+        updateFilter = updateFilter,
+        filterType = FilterType.SEASON,
+        itemToString = { it.toString() },
+    )
 }
 
 @Composable
@@ -296,72 +273,30 @@ private fun StatusFilterDraw(
     catalogState: CatalogState,
     updateFilter: (CatalogFilterParams, FilterType) -> Unit,
 ) {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
-    ) {
-        AnimeStatus.entries.forEach { status ->
-            val isSelected = catalogState.status == status
-            OptionChip(
-                modifier = Modifier.clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null,
-                    role = Role.Checkbox,
-                    onClick = {
-                        val newStatus = if (isSelected) null else status
-                        updateFilter.invoke(CatalogFilterParams(status = newStatus), FilterType.STATUS)
-                    }
-                ),
-                text = status.toString(),
-                isSelected = isSelected,
-            )
-        }
-    }
+    FilterDraw(
+        items = AnimeStatus.entries,
+        selectedItem = catalogState.status,
+        updateFilter = updateFilter,
+        filterType = FilterType.STATUS,
+        itemToString = { it.toString() },
+    )
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun GenresFilterDraw(
     animeGenres: StateListWrapper<AnimeGenre>,
     catalogState: CatalogState,
     updateFilter: (CatalogFilterParams, FilterType) -> Unit,
 ) {
-    FlowRow(
-        horizontalArrangement = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        animeGenres.data.forEach { genre ->
-            val isSelected = if (catalogState.genres != null) {
-                catalogState.genres.contains(genre)
-            } else {
-                false
-            }
-            OptionChip(
-                modifier = Modifier.clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null,
-                    role = Role.Checkbox,
-                    onClick = {
-                        val updatedGenres = catalogState.genres?.let { currentGenres ->
-                            if (isSelected) {
-                                currentGenres - genre
-                            } else {
-                                currentGenres + genre
-                            }
-                        } ?: listOf(genre)
-
-                        updateFilter(
-                            CatalogFilterParams(
-                                genres = updatedGenres.takeUnless { it.isEmpty() }
-                            ),
-                            FilterType.GENRE
-                        )
-                    }
-                ),
-                text = genre.name,
-                isSelected = isSelected,
-            )
-        }
-    }
+    FilterDraw(
+        items = animeGenres.data,
+        selectedItem = null,
+        selectedItems = catalogState.genres,
+        updateFilter = updateFilter,
+        filterType = FilterType.GENRE,
+        itemToString = { it.name },
+        isMultiSelect = true,
+    )
 }
 
 @Composable
@@ -375,89 +310,171 @@ private fun StudiosFilterDraw(
     Column {
         SearchField(
             modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 24.dp),
+                .padding(16.dp),
             placeHolder = stringResource(R.string.feature_catalog_filter_studio_search_placeholder),
             isEnabled = true,
             searchQuery = searchQuery,
             onSearchQueryChanged = { searchQuery = it },
         )
 
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(100.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            val filteredStudios = animeStudios.data
-                .filter { it.name.contains(searchQuery, ignoreCase = true) }
-                .sortedByDescending { studio ->
-                    catalogState.studios?.contains(studio) ?: false
-                }
+        val filteredStudios = animeStudios.data
+            .filter { it.name.contains(searchQuery, ignoreCase = true) }
+            .sortedByDescending { catalogState.studios?.contains(it) ?: false }
 
-            items(filteredStudios.size) { index ->
-                val studio = filteredStudios[index]
-                val isSelected = catalogState.studios?.contains(studio) ?: false
-
-                OptionChip(
-                    modifier = Modifier.clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null,
-                        role = Role.Checkbox,
-                        onClick = {
-                            val updatedStudios = catalogState.studios?.let { currentStudios ->
-                                if (isSelected) {
-                                    currentStudios - studio
-                                } else {
-                                    currentStudios + studio
-                                }
-                            } ?: listOf(studio)
-
-                            updateFilter(
-                                CatalogFilterParams(
-                                    studio = updatedStudios.takeUnless { it.isEmpty() }
-                                ),
-                                FilterType.STUDIO,
-                            )
-                        }
-                    ),
-                    text = studio.name,
-                    isSelected = isSelected,
-                )
-            }
-        }
+        FilterDraw(
+            items = filteredStudios,
+            selectedItem = null,
+            selectedItems = catalogState.studios,
+            updateFilter = updateFilter,
+            filterType = FilterType.STUDIO,
+            itemToString = { it.name },
+            isMultiSelect = true,
+        )
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun TranslationFilterDraw(
     animeTranslations: StateListWrapper<AnimeTranslation>,
     catalogState: CatalogState,
     updateFilter: (CatalogFilterParams, FilterType) -> Unit,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
+) {
+    FilterDraw(
+        items = animeTranslations.data,
+        selectedItem = catalogState.translation,
+        updateFilter = updateFilter,
+        filterType = FilterType.TRANSLATION,
+        itemToString = { it.title },
+        horizontalArrangement = horizontalArrangement,
+    )
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun <T> FilterDraw(
+    items: List<T>,
+    selectedItem: T?,
+    updateFilter: (CatalogFilterParams, FilterType) -> Unit,
+    filterType: FilterType,
+    itemToString: (T) -> String,
+    isMultiSelect: Boolean = false,
+    selectedItems: List<T>? = null,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
 ) {
     FlowRow(
-        horizontalArrangement = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
+        horizontalArrangement = horizontalArrangement,
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        animeTranslations.data.forEach { translation ->
-            val isSelected = catalogState.translation == translation
+        items.forEach { item ->
+            val isSelected = if (isMultiSelect) {
+                selectedItems?.contains(item) ?: false
+            } else {
+                selectedItem == item
+            }
+
             OptionChip(
                 modifier = Modifier.clickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null,
                     role = Role.Checkbox,
                     onClick = {
-                        val newTranslation = if (isSelected) null else translation
-                        updateFilter.invoke(
-                            CatalogFilterParams(
-                                translation = newTranslation
-                            ),
-                            FilterType.TRANSLATION,
-                        )
+                        if (isMultiSelect) {
+                            val newSelection = selectedItems?.let { current ->
+                                if (isSelected) current - item else current + item
+                            } ?: listOf(item)
+
+                            when (filterType) {
+                                FilterType.GENRE -> {
+                                    val genreList: List<AnimeGenre>? = newSelection.filterIsInstance<AnimeGenre>().takeUnless { it.isEmpty() }
+                                    updateFilter(
+                                        CatalogFilterParams(genres = genreList),
+                                        filterType
+                                    )
+                                }
+                                FilterType.STUDIO -> {
+                                    val studioList: List<AnimeStudio>? = newSelection.filterIsInstance<AnimeStudio>().takeUnless { it.isEmpty() }
+                                    updateFilter(
+                                        CatalogFilterParams(studio = studioList),
+                                        filterType
+                                    )
+                                }
+                                else -> {
+                                    throw IllegalArgumentException("Unsupported filter type for multi-select")
+                                }
+                            }
+                        } else {
+                            val newSelection = if (isSelected) null else item
+                            updateFilter(
+                                when (filterType) {
+                                    FilterType.TYPE -> CatalogFilterParams(type = newSelection as? AnimeType)
+                                    FilterType.YEAR -> CatalogFilterParams(year = newSelection as? Int)
+                                    FilterType.SEASON -> CatalogFilterParams(season = newSelection as? AnimeSeason)
+                                    FilterType.STATUS -> CatalogFilterParams(status = newSelection as? AnimeStatus)
+                                    FilterType.TRANSLATION -> CatalogFilterParams(translation = newSelection as? AnimeTranslation)
+                                    else -> throw IllegalArgumentException("Unsupported filter type")
+                                },
+                                filterType
+                            )
+                        }
                     }
                 ),
-                text = translation.title,
+                text = itemToString(item),
                 isSelected = isSelected,
             )
+        }
+    }
+}
+
+@Composable
+private fun AllFiltersDraw(
+    hiddenFilters: List<FilterType>,
+    animeYears: StateListWrapper<Int>,
+    animeGenres: StateListWrapper<AnimeGenre>,
+    animeStudios: StateListWrapper<AnimeStudio>,
+    animeTranslations: StateListWrapper<AnimeTranslation>,
+    catalogState: CatalogState,
+    updateFilter: (CatalogFilterParams, FilterType) -> Unit,
+) {
+    LazyColumn (
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.Start,
+    ) {
+        items(
+            hiddenFilters,
+            key = { it.name },
+        ) { filter ->
+            Column(
+                modifier = Modifier.padding(bottom = 8.dp)
+            ) {
+                Text(
+                    modifier = Modifier.padding(bottom = 8.dp),
+                    text = stringResource(filter.displayTitleId),
+                    color = MaterialTheme.colorScheme.onBackground,
+                    style = MaterialTheme.typography.titleMedium,
+                )
+
+                when (filter) {
+                    FilterType.YEAR -> YearFilterDraw(animeYears, catalogState, updateFilter)
+                    FilterType.GENRE -> GenresFilterDraw(animeGenres, catalogState, updateFilter)
+                    FilterType.TYPE -> AnimeTypeFilterDraw(
+                        catalogState = catalogState,
+                        updateFilter = updateFilter,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start)
+                    )
+                    FilterType.STATUS -> StatusFilterDraw(catalogState, updateFilter)
+                    FilterType.TRANSLATION -> TranslationFilterDraw(
+                        animeTranslations = animeTranslations,
+                        catalogState = catalogState,
+                        updateFilter = updateFilter,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start)
+                    )
+                    FilterType.STUDIO -> StudiosFilterDraw(animeStudios, catalogState, updateFilter)
+                    FilterType.SEASON -> SeasonFilterDraw(catalogState, updateFilter)
+                }
+            }
         }
     }
 }
@@ -525,35 +542,18 @@ private fun CategoryHead(
     catalogState: CatalogState,
 ) {
     val label: String = when(filterType) {
-        FilterType.YEAR -> if(catalogState.year != null) catalogState.year.toString() else stringResource(filterType.displayTitleId)
-        FilterType.GENRE -> if(catalogState.genres != null) {
-            if(catalogState.genres.size > 1) {
-                "${catalogState.genres[0].name}..."
-            } else {
-                catalogState.genres[0].name
-            }
-        } else {
-            stringResource(filterType.displayTitleId)
-        }
-        FilterType.TYPE -> if(catalogState.type != null) {
-            catalogState.type.toString()
-        } else {
-            stringResource(filterType.displayTitleId)
-        }
+        FilterType.YEAR -> catalogState.year?.toString() ?: stringResource(filterType.displayTitleId)
+        FilterType.GENRE -> catalogState.genres?.firstOrNull()?.name?.let { if (catalogState.genres.size > 1) "$it..." else it }
+            ?: stringResource(filterType.displayTitleId)
+        FilterType.TYPE -> catalogState.type?.toString() ?: stringResource(filterType.displayTitleId)
         FilterType.STATUS -> catalogState.status.toString()
         FilterType.TRANSLATION -> catalogState.translation?.title ?: stringResource(filterType.displayTitleId)
-        FilterType.STUDIO -> if(catalogState.studios != null) {
-            if(catalogState.studios.size > 1) {
-                "${catalogState.studios[0].name}..."
-            } else {
-                catalogState.studios[0].name
-            }
-        } else {
-            stringResource(filterType.displayTitleId)
-        }
+        FilterType.STUDIO -> catalogState.studios?.firstOrNull()?.name?.let { if (catalogState.studios.size > 1) "$it..." else it }
+            ?: stringResource(filterType.displayTitleId)
         FilterType.SEASON -> if(catalogState.season != null) catalogState.season.toString() else stringResource(filterType.displayTitleId)
     }
-    val active: Boolean = when(filterType) {
+
+    val isActive: Boolean = when(filterType) {
         FilterType.YEAR -> catalogState.year != null
         FilterType.GENRE -> catalogState.genres != null
         FilterType.TYPE -> catalogState.type != null
@@ -570,8 +570,8 @@ private fun CategoryHead(
     ) {
         Text(
             modifier = Modifier.weight(1f),
-            text = if (active) label else stringResource(filterType.displayTitleId),
-            color = if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
+            text = if (isActive) label else stringResource(filterType.displayTitleId),
+            color = if (isActive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
             style = MaterialTheme.typography.titleMedium,
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
@@ -588,7 +588,7 @@ private fun CategoryHead(
         val arrowColor = rememberLottieDynamicProperties(
             rememberLottieDynamicProperty(
                 property = LottieProperty.COLOR_FILTER,
-                value = if (active) SimpleColorFilter(MaterialTheme.colorScheme.primary.toArgb())
+                value = if (isActive) SimpleColorFilter(MaterialTheme.colorScheme.primary.toArgb())
                 else SimpleColorFilter(MaterialTheme.colorScheme.onBackground.toArgb()),
                 "**"
             )

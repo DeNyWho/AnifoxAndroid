@@ -1,9 +1,7 @@
 package club.anifox.android.feature.catalog.composable.top
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -16,14 +14,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.icon.AnifoxIconOnSurface
+import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
+import club.anifox.android.core.uikit.icon.AnifoxIcons
+import club.anifox.android.core.uikit.util.clickableWithoutRipple
+import club.anifox.android.feature.catalog.R
 
 @Composable
 internal fun CatalogTopBar(
     modifier: Modifier = Modifier,
     onBackPressed: () -> Boolean,
+    onSearchClick: () -> Unit,
 ) {
     Surface(
         modifier = modifier
@@ -41,7 +44,7 @@ internal fun CatalogTopBar(
         ) {
             AnifoxIconOnSurface(
                 modifier = Modifier
-                    .clickable {
+                    .clickableWithoutRipple {
                         onBackPressed.invoke()
                     }
                     .size(24.dp),
@@ -50,13 +53,19 @@ internal fun CatalogTopBar(
             )
 
             Text(
-                text = "All",
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
+                text = stringResource(R.string.feature_catalog_title),
                 style = MaterialTheme.typography.titleLarge,
             )
 
-            Spacer(Modifier.size(24.dp))
+            AnifoxIconPrimary(
+                modifier = Modifier
+                    .clickableWithoutRipple {
+                        onSearchClick.invoke()
+                    }
+                    .size(24.dp),
+                imageVector = AnifoxIcons.search,
+                contentDescription = "search",
+            )
         }
     }
 }

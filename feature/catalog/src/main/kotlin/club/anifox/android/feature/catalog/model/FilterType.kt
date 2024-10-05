@@ -2,13 +2,13 @@ package club.anifox.android.feature.catalog.model
 
 import club.anifox.android.feature.catalog.R
 
-enum class FilterType(val displayTitleId: Int, val isShow: Boolean = true) {
-    YEAR(R.string.feature_catalog_filter_year_title),
+internal enum class FilterType(val displayTitleId: Int, val isShow: Boolean = true) {
     GENRE(R.string.feature_catalog_filter_genre_title),
+    STUDIO(R.string.feature_catalog_filter_studio_title),
+    YEAR(R.string.feature_catalog_filter_year_title),
     TYPE(R.string.feature_catalog_filter_type_title),
     STATUS(R.string.feature_catalog_filter_status_title),
     TRANSLATION(R.string.feature_catalog_filter_translation_title),
-    STUDIO(R.string.feature_catalog_filter_studio_title),
     SEASON(R.string.feature_catalog_filter_season_title),
 //    FILTER(R.string.feature_catalog_filter_filter_title),
 }

@@ -80,6 +80,7 @@ fun AnifoxNavHost(
         )
         catalogScreen(
             onAnimeClick = navController::navigateToDetail,
+            onSearchClick = navController::navigateToSearch,
             onBackPressed = navController::popBackStack,
         )
         onboardingScreen(

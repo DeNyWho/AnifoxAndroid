@@ -1,6 +1,5 @@
 package club.anifox.android.core.uikit.component.slider.header
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.R
 import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
 import club.anifox.android.core.uikit.util.DefaultPreview
+import club.anifox.android.core.uikit.util.clickableWithoutRipple
 
 @Composable
 fun SliderHeader(
@@ -43,7 +43,7 @@ fun SliderHeader(
 
         if(isMoreVisible) {
             Row(
-                modifier = Modifier.clickable {
+                modifier = Modifier.clickableWithoutRipple {
                     onMoreClick.invoke()
                 },
                 verticalAlignment = Alignment.CenterVertically,

@@ -62,7 +62,7 @@ internal class AnimeRepositoryImpl @Inject constructor(
         minimalAge: Int?,
         type: AnimeType?,
         year: Int?,
-        studio: String?,
+        studios: List<String>?,
     ): Flow<StateListWrapper<AnimeLight>> {
         return flow {
             emit(StateListWrapper.loading())
@@ -78,7 +78,7 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 minimalAge = minimalAge,
                 type = type,
                 year = year,
-                studio = studio,
+                studios = studios,
             )
 
             val state = when (animeResult) {
@@ -101,32 +101,14 @@ internal class AnimeRepositoryImpl @Inject constructor(
     @OptIn(ExperimentalPagingApi::class)
     override fun getAnimeSearchPaged(
         limit: Int,
-        status: AnimeStatus?,
-        genres: List<String>?,
         searchQuery: String?,
-        season: AnimeSeason?,
-        ratingMpa: String?,
-        minimalAge: Int?,
-        type: AnimeType?,
-        year: Int?,
-        studio: String?,
-        translation: List<Int>?,
     ): Flow<PagingData<AnimeLight>> {
         return Pager(
             config = PagingConfig(pageSize = limit),
             remoteMediator = AnimeSearchRemoteMediator(
                 animeService = animeService,
                 animeCacheSearchDao = animeCacheSearchDao,
-                status = status,
-                genres = genres,
                 searchQuery = searchQuery,
-                season = season,
-                ratingMpa = ratingMpa,
-                minimalAge = minimalAge,
-                type = type,
-                year = year,
-                studio = studio,
-                translation = translation,
             ),
             pagingSourceFactory = { animeCacheSearchDao.pagingSource() }
         ).flow.map { pagingData ->
@@ -145,7 +127,7 @@ internal class AnimeRepositoryImpl @Inject constructor(
         minimalAge: Int?,
         type: AnimeType?,
         year: Int?,
-        studio: String?,
+        studios: List<String>?,
         translation: List<Int>?,
     ): Flow<PagingData<AnimeLight>> {
         return Pager(
@@ -161,7 +143,7 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 minimalAge = minimalAge,
                 type = type,
                 year = year,
-                studio = studio,
+                studios = studios,
                 translation = translation,
             ),
             pagingSourceFactory = { animeCacheCatalogDao.pagingSource() }
