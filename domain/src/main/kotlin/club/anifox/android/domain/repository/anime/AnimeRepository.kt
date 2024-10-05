@@ -6,7 +6,6 @@ import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
-import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.model.anime.enum.VideoType
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
@@ -30,7 +29,6 @@ interface AnimeRepository {
         type: AnimeType?,
         year: Int?,
         studio: String?,
-        filter: FilterEnum?,
     ): Flow<StateListWrapper<AnimeLight>>
 
     fun getAnimeGenres(): Flow<StateListWrapper<AnimeGenre>>
@@ -56,14 +54,12 @@ interface AnimeRepository {
         year: Int?,
         studio: String?,
         translation: List<Int>?,
-        filter: FilterEnum?
     ): Flow<PagingData<AnimeLight>>
 
     fun getAnimeGenresPaged(
         limit: Int,
         genre: String,
         minimalAge: Int?,
-        filter: FilterEnum?
     ): Flow<PagingData<AnimeLight>>
 
     fun getAnimeYears(): Flow<StateListWrapper<Int>>
@@ -81,6 +77,5 @@ interface AnimeRepository {
         year: Int?,
         studio: String?,
         translation: List<Int>?,
-        filter: FilterEnum?
     ): Flow<PagingData<AnimeLight>>
 }

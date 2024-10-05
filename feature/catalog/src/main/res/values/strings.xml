@@ -5,4 +5,8 @@
     <string name="feature_catalog_filter_type_title">тип</string>
     <string name="feature_catalog_filter_status_title">статус</string>
     <string name="feature_catalog_filter_translation_title">озвучка</string>
+    <string name="feature_catalog_filter_studio_title">студия</string>
+    <string name="feature_catalog_filter_studio_search_placeholder">Поиск студии...</string>
+    <string name="feature_catalog_filter_season_title">сезон</string>
+    <string name="feature_catalog_filter_filter_title">фильтр</string>
 </resources>

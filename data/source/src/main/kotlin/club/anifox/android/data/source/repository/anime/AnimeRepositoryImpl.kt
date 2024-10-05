@@ -26,7 +26,6 @@ import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
-import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.model.anime.enum.VideoType
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
@@ -64,7 +63,6 @@ internal class AnimeRepositoryImpl @Inject constructor(
         type: AnimeType?,
         year: Int?,
         studio: String?,
-        filter: FilterEnum?,
     ): Flow<StateListWrapper<AnimeLight>> {
         return flow {
             emit(StateListWrapper.loading())
@@ -81,7 +79,6 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 type = type,
                 year = year,
                 studio = studio,
-                filter = filter
             )
 
             val state = when (animeResult) {
@@ -114,7 +111,6 @@ internal class AnimeRepositoryImpl @Inject constructor(
         year: Int?,
         studio: String?,
         translation: List<Int>?,
-        filter: FilterEnum?,
     ): Flow<PagingData<AnimeLight>> {
         return Pager(
             config = PagingConfig(pageSize = limit),
@@ -131,7 +127,6 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 year = year,
                 studio = studio,
                 translation = translation,
-                filter = filter,
             ),
             pagingSourceFactory = { animeCacheSearchDao.pagingSource() }
         ).flow.map { pagingData ->
@@ -152,7 +147,6 @@ internal class AnimeRepositoryImpl @Inject constructor(
         year: Int?,
         studio: String?,
         translation: List<Int>?,
-        filter: FilterEnum?,
     ): Flow<PagingData<AnimeLight>> {
         return Pager(
             config = PagingConfig(pageSize = limit),
@@ -169,7 +163,6 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 year = year,
                 studio = studio,
                 translation = translation,
-                filter = filter,
             ),
             pagingSourceFactory = { animeCacheCatalogDao.pagingSource() }
         ).flow.map { pagingData ->
@@ -182,7 +175,6 @@ internal class AnimeRepositoryImpl @Inject constructor(
         limit: Int,
         genre: String,
         minimalAge: Int?,
-        filter: FilterEnum?,
     ): Flow<PagingData<AnimeLight>> {
         return Pager(
             config = PagingConfig(pageSize = limit),
@@ -191,7 +183,6 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 animeCacheGenresDao = animeCacheGenresDao,
                 genre = genre,
                 minimalAge = minimalAge,
-                filter = filter,
             ),
             pagingSourceFactory = { animeCacheGenresDao.pagingSource() }
         ).flow.map { pagingData ->

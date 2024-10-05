@@ -18,7 +18,6 @@ import club.anifox.android.core.uikit.component.textfield.SearchField
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
-import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.domain.state.StateListWrapper
@@ -124,7 +123,7 @@ private fun HomeContent(
                 onItemClick = onAnimeClick,
                 isMoreVisible = true,
                 onMoreClick = {
-                    onMoreClick(CatalogFilterParams(genres = null, status = AnimeStatus.Ongoing, filter = FilterEnum.ShikimoriRating))
+                    onMoreClick(CatalogFilterParams(genres = null, status = AnimeStatus.Ongoing))
                 },
             )
         }
@@ -136,7 +135,7 @@ private fun HomeContent(
                 onItemClick = onAnimeClick,
                 isMoreVisible = true,
                 onMoreClick = {
-                    onMoreClick(CatalogFilterParams(genres = null, filter = FilterEnum.ShikimoriRating))
+                    onMoreClick(CatalogFilterParams(genres = null))
                 },
             )
         }

@@ -9,7 +9,8 @@ import androidx.navigation.navArgument
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
-import club.anifox.android.domain.model.anime.enum.FilterEnum
+import club.anifox.android.domain.model.anime.genre.AnimeGenre
+import club.anifox.android.domain.model.anime.studio.AnimeStudio
 import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.feature.catalog.CatalogScreen
 
@@ -25,9 +26,8 @@ fun NavController.navigateToCatalog(
     val yearParam = params.year?.toString() ?: ""
     val seasonParam = params.season?.name ?: ""
     val studioParam = params.studio?.joinToString(",") ?: ""
-    val filterParam = params.filter?.name ?: ""
 
-    val route = "${CATALOG_ROUTE}?genres=$genresParam&status=$statusParam&type=$typeParam&year=$yearParam&season=$seasonParam&studio=$studioParam&filter=$filterParam"
+    val route = "${CATALOG_ROUTE}?genres=$genresParam&status=$statusParam&type=$typeParam&year=$yearParam&season=$seasonParam&studio=$studioParam"
 
     navigate(route, navOptions)
 }
@@ -48,13 +48,16 @@ fun NavGraphBuilder.catalogScreen(
             navArgument("filter") { type = NavType.StringType; defaultValue = "" },
         ),
     ) { backStackEntry ->
-        val genres = backStackEntry.arguments?.getString("genres")?.let { if (it.isNotEmpty()) it.split(",") else null }
+        val genres = backStackEntry.arguments?.getString("genres")?.let {
+            if (it.isNotEmpty()) it.split(",").map { genre -> AnimeGenre(id = genre, name = genre) } else null
+        }
         val status = backStackEntry.arguments?.getString("status")?.takeIf { it.isNotEmpty() }?.let { AnimeStatus.valueOf(it) }
         val type = backStackEntry.arguments?.getString("type")?.takeIf { it.isNotEmpty() }?.let { AnimeType.valueOf(it) }
         val year = backStackEntry.arguments?.getString("year")?.toIntOrNull()
         val season = backStackEntry.arguments?.getString("season")?.takeIf { it.isNotEmpty() }?.let { AnimeSeason.valueOf(it) }
-        val studio = backStackEntry.arguments?.getString("studio")?.let { if (it.isNotEmpty()) it.split(",") else null }
-        val filter = backStackEntry.arguments?.getString("filter")?.takeIf { it.isNotEmpty() }?.let { FilterEnum.valueOf(it) }
+        val studio = backStackEntry.arguments?.getString("studio")?.let {
+            if (it.isNotEmpty()) it.split(",").map { studioName -> AnimeStudio(id = studioName, name = studioName) } else null
+        }
 
         val params = CatalogFilterParams(
             genres = genres,
@@ -63,7 +66,6 @@ fun NavGraphBuilder.catalogScreen(
             year = year,
             season = season,
             studio = studio,
-            filter = filter
         )
 
         CatalogScreen(

@@ -25,8 +25,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.Tune
@@ -46,15 +46,22 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
+import club.anifox.android.core.uikit.component.textfield.SearchField
 import club.anifox.android.core.uikit.icon.AnifoxIcons
+import club.anifox.android.domain.model.anime.enum.AnimeSeason
+import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
+import club.anifox.android.domain.model.anime.studio.AnimeStudio
+import club.anifox.android.domain.model.anime.translations.AnimeTranslation
 import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.domain.state.StateListWrapper
+import club.anifox.android.feature.catalog.R
 import club.anifox.android.feature.catalog.data.CatalogState
 import club.anifox.android.feature.catalog.model.FilterType
 import com.airbnb.lottie.LottieProperty
@@ -68,27 +75,23 @@ import com.airbnb.lottie.compose.rememberLottieDynamicProperty
 @Composable
 internal fun FiltersBar(
     modifier: Modifier = Modifier,
-    mainFilters: List<FilterType> = listOf(
-        FilterType.YEAR,
-        FilterType.GENRE,
-        FilterType.TYPE,
-        FilterType.STATUS,
-        FilterType.TRANSLATION,
-    ),
+    mainFilters: List<FilterType> = FilterType.entries,
     animeYears: StateListWrapper<Int>,
     animeGenres: StateListWrapper<AnimeGenre>,
     catalogState: CatalogState,
-    updateFilter: (CatalogFilterParams) -> Unit,
+    updateFilter: (CatalogFilterParams, FilterType) -> Unit,
+    animeStudios: StateListWrapper<AnimeStudio>,
+    animeTranslations: StateListWrapper<AnimeTranslation>,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     var drawer: FilterType? by remember { mutableStateOf(null) }
-    val hideDrawer = { drawer = null }
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
-    val filterColumnWidth = 100.dp
     val iconWidth = 24.dp
-    val availableWidth = screenWidth - iconWidth
-    val filterColumnCount = (availableWidth / filterColumnWidth).toInt().coerceAtLeast(1)
+    val horizontalPadding = 32.dp
+    val minColumnWidth = 100.dp
+    val availableWidth = screenWidth - iconWidth - horizontalPadding
+    val filterColumnCount = (availableWidth / minColumnWidth).toInt().coerceAtLeast(3)
 
     val visibleFilters = mainFilters.filter { it.isShow }.take(filterColumnCount)
     val hiddenFilters = mainFilters.filter { it.isShow }.drop(filterColumnCount)
@@ -103,25 +106,24 @@ internal fun FiltersBar(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
-            LazyRow(
-                userScrollEnabled = false,
+            Row(
                 modifier = Modifier.weight(1f),
-                horizontalArrangement = Arrangement.SpaceEvenly,
+                horizontalArrangement = Arrangement.Start,
             ) {
-                items(visibleFilters) { filter ->
+                visibleFilters.forEach { filter ->
                     CategoryHead(
                         modifier = Modifier
+                            .weight(1f)
                             .clickable(
                                 interactionSource = interactionSource,
                                 indication = null,
                                 role = Role.DropdownList,
                                 onClick = { drawer = if (drawer != filter) filter else null }
                             )
-                            .padding(horizontal = 20.dp),
-                        expand = false,
-                        active = false,
+                            .padding(horizontal = 4.dp),
+                        expand = drawer == filter,
                         filterType = filter,
-                        label = "",
+                        catalogState = catalogState,
                     )
                 }
             }
@@ -166,9 +168,33 @@ internal fun FiltersBar(
                                 updateFilter = updateFilter,
                             )
                         }
-                        FilterType.STATUS -> {}
-                        FilterType.TRANSLATION -> {}
+                        FilterType.STATUS -> {
+                            StatusFilterDraw(
+                                catalogState = catalogState,
+                                updateFilter = updateFilter,
+                            )
+                        }
+                        FilterType.TRANSLATION -> {
+                            TranslationFilterDraw(
+                                animeTranslations = animeTranslations,
+                                catalogState = catalogState,
+                                updateFilter = updateFilter,
+                            )
+                        }
                         null -> { }
+                        FilterType.STUDIO -> {
+                            StudiosFilterDraw(
+                                animeStudios = animeStudios,
+                                catalogState = catalogState,
+                                updateFilter = updateFilter,
+                            )
+                        }
+                        FilterType.SEASON -> {
+                            SeasonFilterDraw(
+                                catalogState = catalogState,
+                                updateFilter = updateFilter,
+                            )
+                        }
                     }
                 }
             }
@@ -180,7 +206,7 @@ internal fun FiltersBar(
 @Composable
 private fun AnimeTypeFilterDraw(
     catalogState: CatalogState,
-    updateFilter: (CatalogFilterParams) -> Unit,
+    updateFilter: (CatalogFilterParams, FilterType) -> Unit,
 ) {
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
@@ -194,7 +220,8 @@ private fun AnimeTypeFilterDraw(
                     indication = null,
                     role = Role.Checkbox,
                     onClick = {
-                        updateFilter.invoke(CatalogFilterParams(type = type))
+                        val newType = if (isSelected) null else type
+                        updateFilter.invoke(CatalogFilterParams(type = newType), FilterType.TYPE)
                     }
                 ),
                 text = type.toString(),
@@ -210,7 +237,7 @@ private fun AnimeTypeFilterDraw(
 private fun YearFilterDraw(
     animeYears: StateListWrapper<Int>,
     catalogState: CatalogState,
-    updateFilter: (CatalogFilterParams) -> Unit,
+    updateFilter: (CatalogFilterParams, FilterType) -> Unit,
 ) {
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
@@ -224,7 +251,8 @@ private fun YearFilterDraw(
                     indication = null,
                     role = Role.Checkbox,
                     onClick = {
-                        updateFilter.invoke(CatalogFilterParams(year = year))
+                        val newYear = if (isSelected) null else year
+                        updateFilter.invoke(CatalogFilterParams(year = newYear), FilterType.YEAR)
                     }
                 ),
                 text = year.toString(),
@@ -236,10 +264,66 @@ private fun YearFilterDraw(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
+private fun SeasonFilterDraw(
+    catalogState: CatalogState,
+    updateFilter: (CatalogFilterParams, FilterType) -> Unit,
+) {
+    FlowRow(
+        horizontalArrangement = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        AnimeSeason.entries.forEach { season ->
+            val isSelected = catalogState.season == season
+            OptionChip(
+                modifier = Modifier.clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    role = Role.Checkbox,
+                    onClick = {
+                        val newSeason = if (isSelected) null else season
+                        updateFilter.invoke(CatalogFilterParams(season = newSeason), FilterType.SEASON)
+                    }
+                ),
+                text = season.toString(),
+                isSelected = isSelected,
+            )
+        }
+    }
+}
+
+@Composable
+private fun StatusFilterDraw(
+    catalogState: CatalogState,
+    updateFilter: (CatalogFilterParams, FilterType) -> Unit,
+) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
+    ) {
+        AnimeStatus.entries.forEach { status ->
+            val isSelected = catalogState.status == status
+            OptionChip(
+                modifier = Modifier.clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    role = Role.Checkbox,
+                    onClick = {
+                        val newStatus = if (isSelected) null else status
+                        updateFilter.invoke(CatalogFilterParams(status = newStatus), FilterType.STATUS)
+                    }
+                ),
+                text = status.toString(),
+                isSelected = isSelected,
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
 private fun GenresFilterDraw(
     animeGenres: StateListWrapper<AnimeGenre>,
     catalogState: CatalogState,
-    updateFilter: (CatalogFilterParams) -> Unit,
+    updateFilter: (CatalogFilterParams, FilterType) -> Unit,
 ) {
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
@@ -247,7 +331,7 @@ private fun GenresFilterDraw(
     ) {
         animeGenres.data.forEach { genre ->
             val isSelected = if (catalogState.genres != null) {
-                catalogState.genres.contains(genre.id)
+                catalogState.genres.contains(genre)
             } else {
                 false
             }
@@ -257,15 +341,121 @@ private fun GenresFilterDraw(
                     indication = null,
                     role = Role.Checkbox,
                     onClick = {
-                        val updatedGenres = if (isSelected) {
-                            catalogState.genres?.filter { it != genre.id }
-                        } else {
-                            (catalogState.genres ?: emptyList()) + genre.id
-                        }
-                        updateFilter(CatalogFilterParams(genres = updatedGenres))
+                        val updatedGenres = catalogState.genres?.let { currentGenres ->
+                            if (isSelected) {
+                                currentGenres - genre
+                            } else {
+                                currentGenres + genre
+                            }
+                        } ?: listOf(genre)
+
+                        updateFilter(
+                            CatalogFilterParams(
+                                genres = updatedGenres.takeUnless { it.isEmpty() }
+                            ),
+                            FilterType.GENRE
+                        )
                     }
                 ),
                 text = genre.name,
+                isSelected = isSelected,
+            )
+        }
+    }
+}
+
+@Composable
+private fun StudiosFilterDraw(
+    animeStudios: StateListWrapper<AnimeStudio>,
+    catalogState: CatalogState,
+    updateFilter: (CatalogFilterParams, FilterType) -> Unit,
+) {
+    var searchQuery by remember { mutableStateOf("") }
+
+    Column {
+        SearchField(
+            modifier = Modifier
+                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 24.dp),
+            placeHolder = stringResource(R.string.feature_catalog_filter_studio_search_placeholder),
+            isEnabled = true,
+            searchQuery = searchQuery,
+            onSearchQueryChanged = { searchQuery = it },
+        )
+
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(100.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            val filteredStudios = animeStudios.data
+                .filter { it.name.contains(searchQuery, ignoreCase = true) }
+                .sortedByDescending { studio ->
+                    catalogState.studios?.contains(studio) ?: false
+                }
+
+            items(filteredStudios.size) { index ->
+                val studio = filteredStudios[index]
+                val isSelected = catalogState.studios?.contains(studio) ?: false
+
+                OptionChip(
+                    modifier = Modifier.clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,
+                        role = Role.Checkbox,
+                        onClick = {
+                            val updatedStudios = catalogState.studios?.let { currentStudios ->
+                                if (isSelected) {
+                                    currentStudios - studio
+                                } else {
+                                    currentStudios + studio
+                                }
+                            } ?: listOf(studio)
+
+                            updateFilter(
+                                CatalogFilterParams(
+                                    studio = updatedStudios.takeUnless { it.isEmpty() }
+                                ),
+                                FilterType.STUDIO,
+                            )
+                        }
+                    ),
+                    text = studio.name,
+                    isSelected = isSelected,
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun TranslationFilterDraw(
+    animeTranslations: StateListWrapper<AnimeTranslation>,
+    catalogState: CatalogState,
+    updateFilter: (CatalogFilterParams, FilterType) -> Unit,
+) {
+    FlowRow(
+        horizontalArrangement = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        animeTranslations.data.forEach { translation ->
+            val isSelected = catalogState.translation == translation
+            OptionChip(
+                modifier = Modifier.clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    role = Role.Checkbox,
+                    onClick = {
+                        val newTranslation = if (isSelected) null else translation
+                        updateFilter.invoke(
+                            CatalogFilterParams(
+                                translation = newTranslation
+                            ),
+                            FilterType.TRANSLATION,
+                        )
+                    }
+                ),
+                text = translation.title,
                 isSelected = isSelected,
             )
         }
@@ -281,7 +471,7 @@ private fun OptionChip(
     Box(
         modifier = modifier
             .background(
-                color = if(isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background,
+                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background,
                 shape = RoundedCornerShape(8.dp),
             )
             .padding(vertical = 4.dp, horizontal = 12.dp),
@@ -317,7 +507,12 @@ private fun AnimatedDrawer(
                 .fillMaxWidth(),
             color = MaterialTheme.colorScheme.background,
         ) {
-            content()
+            Box(
+                Modifier.padding(bottom = 8.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                content()
+            }
         }
     }
 }
@@ -326,19 +521,60 @@ private fun AnimatedDrawer(
 private fun CategoryHead(
     modifier: Modifier = Modifier,
     expand: Boolean,
-    active: Boolean,
     filterType: FilterType,
-    label: String,
+    catalogState: CatalogState,
 ) {
+    val label: String = when(filterType) {
+        FilterType.YEAR -> if(catalogState.year != null) catalogState.year.toString() else stringResource(filterType.displayTitleId)
+        FilterType.GENRE -> if(catalogState.genres != null) {
+            if(catalogState.genres.size > 1) {
+                "${catalogState.genres[0].name}..."
+            } else {
+                catalogState.genres[0].name
+            }
+        } else {
+            stringResource(filterType.displayTitleId)
+        }
+        FilterType.TYPE -> if(catalogState.type != null) {
+            catalogState.type.toString()
+        } else {
+            stringResource(filterType.displayTitleId)
+        }
+        FilterType.STATUS -> catalogState.status.toString()
+        FilterType.TRANSLATION -> catalogState.translation?.title ?: stringResource(filterType.displayTitleId)
+        FilterType.STUDIO -> if(catalogState.studios != null) {
+            if(catalogState.studios.size > 1) {
+                "${catalogState.studios[0].name}..."
+            } else {
+                catalogState.studios[0].name
+            }
+        } else {
+            stringResource(filterType.displayTitleId)
+        }
+        FilterType.SEASON -> if(catalogState.season != null) catalogState.season.toString() else stringResource(filterType.displayTitleId)
+    }
+    val active: Boolean = when(filterType) {
+        FilterType.YEAR -> catalogState.year != null
+        FilterType.GENRE -> catalogState.genres != null
+        FilterType.TYPE -> catalogState.type != null
+        FilterType.STATUS -> catalogState.status != null
+        FilterType.TRANSLATION -> catalogState.translation != null
+        FilterType.STUDIO -> catalogState.studios != null
+        FilterType.SEASON -> catalogState.season != null
+    }
+
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.End
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
+            modifier = Modifier.weight(1f),
             text = if (active) label else stringResource(filterType.displayTitleId),
             color = if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleMedium,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1,
         )
 
         val arrowUpDown by rememberLottieComposition(
@@ -348,7 +584,6 @@ private fun CategoryHead(
             targetValue = if (expand) 1f else 0f,
             animationSpec = tween(300, easing = LinearEasing), label = ""
         )
-
 
         val arrowColor = rememberLottieDynamicProperties(
             rememberLottieDynamicProperty(
@@ -360,6 +595,7 @@ private fun CategoryHead(
         )
 
         LottieAnimation(
+            modifier = Modifier.size(24.dp),
             composition = arrowUpDown,
             progress = { animationProgress },
             dynamicProperties = arrowColor

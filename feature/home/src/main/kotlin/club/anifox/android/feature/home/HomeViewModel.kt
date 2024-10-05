@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType.Movie
-import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.usecase.anime.GetAnimeGenresUseCase
@@ -39,7 +38,7 @@ internal class HomeViewModel @Inject constructor(
     val genresAnime: MutableState<StateListWrapper<AnimeGenre>> = _genresAnime
 
     fun getPopularOngoingAnime(page: Int, limit: Int) {
-        animeUseCase.invoke(page = page, limit = limit, filter = FilterEnum.ShikimoriRating, status = AnimeStatus.Ongoing).onEach {
+        animeUseCase.invoke(page = page, limit = limit, status = AnimeStatus.Ongoing).onEach {
             _onPopularOngoingAnime.value = it
         }.launchIn(viewModelScope)
     }
@@ -51,7 +50,7 @@ internal class HomeViewModel @Inject constructor(
     }
 
     fun getPopularAnime(page: Int, limit: Int) {
-        animeUseCase.invoke(page = page, limit = limit, filter = FilterEnum.ShikimoriRating).onEach {
+        animeUseCase.invoke(page = page, limit = limit).onEach {
             _onPopularAnime.value = it
         }.launchIn(viewModelScope)
     }

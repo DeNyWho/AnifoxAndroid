@@ -40,6 +40,7 @@ import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.catalog.composable.filter.FiltersBar
 import club.anifox.android.feature.catalog.composable.top.CatalogTopBar
 import club.anifox.android.feature.catalog.data.CatalogState
+import club.anifox.android.feature.catalog.model.FilterType
 import kotlinx.coroutines.flow.Flow
 
 @Composable
@@ -85,8 +86,8 @@ internal fun CatalogScreen(
         animeYears = animeYears,
         animeStudios = animeStudios,
         animeTranslations = animeTranslations,
-        updateFilter = { filterParams ->
-            viewModel.updateFilter(filterParams)
+        updateFilter = { filterParams, filterType ->
+            viewModel.updateFilter(filterParams, filterType)
         },
     )
 }
@@ -102,7 +103,7 @@ private fun CatalogUI(
     animeGenres: StateListWrapper<AnimeGenre>,
     animeStudios: StateListWrapper<AnimeStudio>,
     animeTranslations: StateListWrapper<AnimeTranslation>,
-    updateFilter: (CatalogFilterParams) -> Unit,
+    updateFilter: (CatalogFilterParams, FilterType) -> Unit,
 ) {
     val lazyGridState = rememberLazyGridState()
     val items = searchResults.collectAsLazyPagingItems()
@@ -150,6 +151,8 @@ private fun CatalogUI(
                 .padding(padding),
             animeYears = animeYears,
             animeGenres = animeGenres,
+            animeStudios = animeStudios,
+            animeTranslations = animeTranslations,
             catalogState = catalogState,
             updateFilter = updateFilter,
         )

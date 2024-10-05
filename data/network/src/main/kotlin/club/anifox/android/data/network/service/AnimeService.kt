@@ -12,7 +12,6 @@ import club.anifox.android.data.network.safeApiCall
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
-import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.model.anime.enum.VideoType
 import club.anifox.android.domain.model.common.request.Resource
 import io.ktor.client.HttpClient
@@ -36,7 +35,6 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
         year: Int? = null,
         studio: String? = null,
         translation: List<Int>? = null,
-        filter: FilterEnum? = null,
     ): Resource<List<AnimeLightDTO>> {
         val request = HttpRequestBuilder().apply {
             method = HttpMethod.Get
@@ -55,7 +53,6 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
                 }
                 if (studio != null) parameter("studio", studio)
                 if (searchQuery != null) parameter("search", searchQuery)
-                if (filter != null) parameter("filter", filter.name)
                 translation?.forEach { translation ->
                     parameter("translation", translation)
                 }

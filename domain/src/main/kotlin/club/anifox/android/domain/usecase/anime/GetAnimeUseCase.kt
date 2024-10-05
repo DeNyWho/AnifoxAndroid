@@ -4,7 +4,6 @@ import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
-import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.repository.anime.AnimeRepository
 import club.anifox.android.domain.state.StateListWrapper
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +21,6 @@ class GetAnimeUseCase(private val animeRepository: AnimeRepository) {
         type: AnimeType? = null,
         year: Int? = null,
         studio: String? = null,
-        filter: FilterEnum? = null,
     ): Flow<StateListWrapper<AnimeLight>> {
         return animeRepository.getAnime(
             page = page,
@@ -36,7 +34,6 @@ class GetAnimeUseCase(private val animeRepository: AnimeRepository) {
             type = type,
             year = year,
             studio = studio,
-            filter = filter,
         )
     }
 }

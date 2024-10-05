@@ -5,7 +5,6 @@ import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
-import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.repository.anime.AnimeRepository
 import kotlinx.coroutines.flow.Flow
 
@@ -22,7 +21,6 @@ class AnimeSearchPagingUseCase(private val animeRepository: AnimeRepository) {
         year: Int? = null,
         studio: String? = null,
         translation: List<Int>? = null,
-        filter: FilterEnum? = null,
     ): Flow<PagingData<AnimeLight>> {
         return animeRepository.getAnimeSearchPaged(
             limit = limit,
@@ -36,7 +34,6 @@ class AnimeSearchPagingUseCase(private val animeRepository: AnimeRepository) {
             year = year,
             studio = studio,
             translation = translation,
-            filter = filter,
         )
     }
 }

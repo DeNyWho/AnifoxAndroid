@@ -8,7 +8,6 @@ import club.anifox.android.data.local.cache.dao.anime.genres.AnimeCacheGenresDao
 import club.anifox.android.data.local.cache.model.anime.genres.AnimeCacheGenresEntity
 import club.anifox.android.data.network.service.AnimeService
 import club.anifox.android.data.source.mapper.toEntityCacheGenresLight
-import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.model.common.request.Resource
 
 @OptIn(ExperimentalPagingApi::class)
@@ -17,23 +16,21 @@ internal class AnimeGenresRemoteMediator(
     private val animeCacheGenresDao: AnimeCacheGenresDao,
     private var genre: String,
     private var minimalAge: Int?,
-    private var filter: FilterEnum?,
 ) : RemoteMediator<Int, AnimeCacheGenresEntity>() {
 
     private var lastLoadedPage = -1
-    private var currentParams: Params = Params(genre, minimalAge, filter)
+    private var currentParams: Params = Params(genre, minimalAge)
 
     private data class Params(
         val genre: String,
         val minimalAge: Int?,
-        val filter: FilterEnum?,
     )
 
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, AnimeCacheGenresEntity>
     ): MediatorResult {
-        val newParams = Params(genre, minimalAge, filter)
+        val newParams = Params(genre, minimalAge)
         if (newParams != currentParams) {
             currentParams = newParams
             lastLoadedPage = -1 // Сброс страницы при изменении параметров
@@ -51,7 +48,6 @@ internal class AnimeGenresRemoteMediator(
                 limit = state.config.pageSize,
                 genres = listOf(currentParams.genre),
                 minimalAge = currentParams.minimalAge,
-                filter = currentParams.filter,
             )
 
             when(response) {

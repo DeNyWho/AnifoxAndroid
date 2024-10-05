@@ -16,6 +16,7 @@ import club.anifox.android.domain.usecase.anime.GetAnimeTranslationsUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeYearsUseCase
 import club.anifox.android.domain.usecase.anime.paging.anime.catalog.AnimeCatalogPagingUseCase
 import club.anifox.android.feature.catalog.data.CatalogState
+import club.anifox.android.feature.catalog.model.FilterType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -83,9 +84,8 @@ internal class CatalogViewModel @Inject constructor(
         .flatMapLatest { state ->
             animeCatalogPagingUseCase(
                 limit = 20,
-                genres = state.genres,
+                genres = state.genres?.map { it.id },
                 minimalAge = state.minimalAge,
-                filter = state.filter,
                 status = state.status,
                 type = state.type,
                 year = state.year,
@@ -95,18 +95,18 @@ internal class CatalogViewModel @Inject constructor(
 
     fun updateFilter(
         filterParams: CatalogFilterParams,
-//        filterType: FilterType,
+        filterType: FilterType,
     ) {
         _catalogState.update { currentState ->
             currentState.copy(
-                genres = filterParams.genres ?: currentState.genres,
-                status = filterParams.status ?: currentState.status,
-                type = filterParams.type ?: currentState.type,
-                year = filterParams.year ?: currentState.year,
-                season = filterParams.season ?: currentState.season,
-                studio = filterParams.studio ?: currentState.studio,
+                genres = if(filterType == FilterType.GENRE) filterParams.genres else currentState.genres,
+                status = if(filterType == FilterType.STATUS) filterParams.status else currentState.status,
+                type = if(filterType == FilterType.TYPE) filterParams.type else currentState.type,
+                year = if(filterType == FilterType.YEAR) filterParams.year else currentState.year,
+                season = if(filterType == FilterType.SEASON) filterParams.season else currentState.season,
+                studios = if(filterType == FilterType.STUDIO) filterParams.studio else currentState.studios,
+                translation = if(filterType == FilterType.TRANSLATION) filterParams.translation else currentState.translation,
                 minimalAge = currentState.minimalAge,
-                filter = filterParams.filter ?: currentState.filter,
                 isInitialized = currentState.isInitialized,
                 isLoading = currentState.isLoading,
             )
@@ -124,8 +124,7 @@ internal class CatalogViewModel @Inject constructor(
                         type = initialParams.type,
                         year = initialParams.year,
                         season = initialParams.season,
-                        studio = initialParams.studio,
-                        filter = initialParams.filter,
+                        studios = initialParams.studio,
                     )
                 }
             }

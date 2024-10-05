@@ -63,7 +63,6 @@ internal class GenresViewModel @Inject constructor(
                 limit = 20,
                 genre = state.genre,
                 minimalAge = state.minimalAge,
-                filter = state.filter,
             )
         }
 
@@ -86,7 +85,6 @@ internal class GenresViewModel @Inject constructor(
                             state.copy(
                                 genre = genreId,
                                 minimalAge = state.minimalAge,
-                                filter = state.filter,
                                 isInitialized = true,
                                 isLoading = state.isLoading,
                             )
@@ -101,7 +99,6 @@ internal class GenresViewModel @Inject constructor(
             it.copy(
                 genre = genre,
                 minimalAge = it.minimalAge,
-                filter = it.filter,
                 isInitialized = it.isInitialized,
                 isLoading = it.isLoading,
             )

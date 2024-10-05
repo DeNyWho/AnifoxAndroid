@@ -11,7 +11,6 @@ import club.anifox.android.data.source.mapper.toEntityCacheSearchLight
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
-import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.model.common.request.Resource
 
 @OptIn(ExperimentalPagingApi::class)
@@ -28,11 +27,10 @@ internal class AnimeSearchRemoteMediator(
     private var year: Int?,
     private var studio: String?,
     private var translation: List<Int>?,
-    private var filter: FilterEnum?,
 ) : RemoteMediator<Int, AnimeCacheSearchEntity>() {
 
     private var lastLoadedPage = -1
-    private var currentParams: Params = Params(status, genres, searchQuery, season, ratingMpa, minimalAge, type, year, studio, translation, filter)
+    private var currentParams: Params = Params(status, genres, searchQuery, season, ratingMpa, minimalAge, type, year, studio, translation)
 
     private data class Params(
         val status: AnimeStatus?,
@@ -45,14 +43,13 @@ internal class AnimeSearchRemoteMediator(
         val year: Int?,
         val studio: String?,
         val translation: List<Int>?,
-        val filter: FilterEnum?,
     )
 
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, AnimeCacheSearchEntity>
     ): MediatorResult {
-        val newParams = Params(status, genres, searchQuery, season, ratingMpa, minimalAge, type, year, studio, translation, filter)
+        val newParams = Params(status, genres, searchQuery, season, ratingMpa, minimalAge, type, year, studio, translation)
         if (newParams != currentParams) {
             currentParams = newParams
             lastLoadedPage = -1 // Сброс страницы при изменении параметров
@@ -78,7 +75,6 @@ internal class AnimeSearchRemoteMediator(
                 year = currentParams.year,
                 studio = currentParams.studio,
                 translation = currentParams.translation,
-                filter = currentParams.filter,
             )
 
             when(response) {
