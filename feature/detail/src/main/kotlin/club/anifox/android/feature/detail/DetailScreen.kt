@@ -38,11 +38,14 @@ import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
+import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.state.StateWrapper
 import club.anifox.android.feature.detail.components.description.DescriptionContent
-import club.anifox.android.feature.detail.components.genres.GenreContent
+import club.anifox.android.feature.detail.components.genres.GenresContent
+import club.anifox.android.feature.detail.components.information.InformationComponent
 import club.anifox.android.feature.detail.components.related.RelationContent
+import club.anifox.android.feature.detail.components.studios.StudiosContent
 import club.anifox.android.feature.detail.components.title.TitleInformationContent
 import club.anifox.android.feature.detail.components.top.ContentDetailsScreenToolbar
 import club.anifox.android.feature.detail.param.DetailContentPreviewParam
@@ -51,15 +54,19 @@ import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
+/*
+    TODO: redo the information section, implement an adaptive option
+ */
+
 @Composable
 internal fun DetailScreen(
     viewModel: DetailViewModel = hiltViewModel(),
     url: String = "",
     onBackPressed: () -> Boolean,
     onAnimeClick: (String) -> Unit,
-    onScreenshotClick: (String) -> Unit,
     onMoreScreenshotClick: (String, String) -> Unit,
     onMoreVideoClick: (String, String) -> Unit,
+    onCatalogClick: (CatalogFilterParams) -> Unit,
 ) {
     LaunchedEffect(viewModel) {
         viewModel.getDetailAnime(url)
@@ -77,13 +84,16 @@ internal fun DetailScreen(
         similarAnimeState = viewModel.similarAnime.value,
         onBackPressed = onBackPressed,
         onAnimeClick = onAnimeClick,
-        onScreenshotClick = onScreenshotClick,
         onMoreScreenshotClick = { title ->
             onMoreScreenshotClick(url, title)
         },
         onMoreVideoClick = { title ->
             onMoreVideoClick(url, title)
-        }
+        },
+        onCatalogClick = onCatalogClick,
+        onVideoClick = { youtubeUrl ->
+            viewModel.openYoutube(youtubeUrl)
+        },
     )
 }
 
@@ -97,14 +107,16 @@ internal fun DetailUI(
     similarAnimeState: StateListWrapper<AnimeLight>,
     onBackPressed: () -> Boolean,
     onAnimeClick: (String) -> Unit,
-    onScreenshotClick: (String) -> Unit,
     onMoreScreenshotClick: (String) -> Unit,
     onMoreVideoClick: (String) -> Unit,
+    onCatalogClick: (CatalogFilterParams) -> Unit,
+    onVideoClick: (String) -> Unit,
 ) {
     if(detailAnimeState.isLoading) {
         CircularProgress()
     } else {
         val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
+
         CollapsingToolbarScaffold(
             modifier = modifier
                 .fillMaxSize(),
@@ -114,7 +126,7 @@ internal fun DetailUI(
                 ContentDetailsScreenToolbar(
                     contentDetailState = detailAnimeState,
                     toolbarScaffoldState = toolbarScaffoldState,
-                    navigateBack = onBackPressed,
+                    onBackPressed = onBackPressed,
                 )
             },
             body = {
@@ -125,10 +137,10 @@ internal fun DetailUI(
                     relationAnimeState = relationAnimeState,
                     similarAnimeState = similarAnimeState,
                     onAnimeClick = onAnimeClick,
-                    onScreenshotClick = onScreenshotClick,
-                    onVideoClick = { },
                     onMoreScreenshotClick = onMoreScreenshotClick,
                     onMoreVideoClick = onMoreVideoClick,
+                    onCatalogClick = onCatalogClick,
+                    onVideoClick = onVideoClick,
                 )
             }
         )
@@ -143,10 +155,10 @@ internal fun DetailContentUI(
     relationAnimeState: StateListWrapper<AnimeRelatedLight>,
     similarAnimeState: StateListWrapper<AnimeLight>,
     onAnimeClick: (String) -> Unit,
-    onScreenshotClick: (String) -> Unit,
-    onVideoClick: (String) -> Unit,
     onMoreScreenshotClick: (String) -> Unit,
     onMoreVideoClick: (String) -> Unit,
+    onCatalogClick: (CatalogFilterParams) -> Unit,
+    onVideoClick: (String) -> Unit,
     lazyColumnState: LazyListState = rememberLazyListState(),
 ) {
     var isDescriptionExpanded by remember { mutableStateOf(false) }
@@ -187,9 +199,24 @@ internal fun DetailContentUI(
             }
         }
         item {
-            GenreContent(
+            InformationComponent(
                 modifier = Modifier.padding(start = 16.dp, end =  16.dp),
                 detailAnimeState = detailAnimeState,
+                onCatalogClick = onCatalogClick,
+            )
+        }
+        item {
+            GenresContent(
+                modifier = Modifier.padding(start = 16.dp, end =  16.dp),
+                detailAnimeState = detailAnimeState,
+                onCatalogClick = onCatalogClick,
+            )
+        }
+        item {
+            StudiosContent(
+                modifier = Modifier.padding(start = 16.dp, end =  16.dp),
+                detailAnimeState = detailAnimeState,
+                onCatalogClick = onCatalogClick,
             )
         }
         item {
@@ -206,7 +233,6 @@ internal fun DetailContentUI(
                 headerModifier = SliderContentDefaults.Default,
                 contentState = screenshotAnimeState,
                 headerTitle = stringResource(R.string.feature_detail_section_screenshots_header_title),
-                onItemClick = onScreenshotClick,
                 onMoreClick = {
                     detailAnimeState.data?.title?.let { title ->
                         onMoreScreenshotClick(title)
@@ -260,12 +286,13 @@ private fun PreviewDetailScreenUI(
             screenshotAnimeState = param.screenshotsAnime,
             relationAnimeState = param.relationAnime,
             similarAnimeState = param.similarAnime,
-            onBackPressed = param.onBackPressed,
-            onAnimeClick = param.onAnimeClick,
-            onScreenshotClick = param.onScreenshotClick,
-            onMoreScreenshotClick = param.onMoreScreenshotClick,
             videosAnimeState = param.videosAnime,
-            onMoreVideoClick = param.onMoreScreenshotClick,
+            onBackPressed = { false },
+            onAnimeClick = { },
+            onMoreScreenshotClick = { },
+            onMoreVideoClick = { },
+            onCatalogClick = { },
+            onVideoClick = { },
         )
     }
 }

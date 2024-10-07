@@ -6,7 +6,6 @@ import java.util.UUID
 
 internal data class ScreenshotsGridContentPreviewParam(
     val contentState: StateListWrapper<String>,
-    val onItemClick: (String) -> Unit = { },
 )
 
 private val DataSet = List(10) { UUID.randomUUID().toString() }

@@ -6,7 +6,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,15 +23,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import club.anifox.android.core.uikit.component.icon.AnifoxIconOnSurface
+import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
+import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
-import me.onebone.toolbar.CollapsingToolbarScope
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import kotlin.math.roundToInt
 
 @Composable
-internal fun CollapsingToolbarScope.GenreTopBar(
+internal fun GenreTopBar(
     selectedGenre: AnimeGenre?,
     toolbarScaffoldState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
     onBackPressed: () -> Boolean,
@@ -45,9 +44,9 @@ internal fun CollapsingToolbarScope.GenreTopBar(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        AnifoxIconOnSurface(
+        AnifoxIconPrimary(
             modifier = Modifier
-                .clickable {
+                .clickableWithoutRipple {
                     onBackPressed.invoke()
                 }
                 .size(24.dp),

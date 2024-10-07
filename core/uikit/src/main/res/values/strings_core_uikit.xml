@@ -2,6 +2,10 @@
 <resources>
     <string name="core_uikit_card_more">Показать еще</string>
     <string name="core_uikit_header_title_genres">Жанры</string>
+    <string name="core_uikit_header_title_information">Информация</string>
+    <string name="core_uikit_next_episode_title">Следующий эпизод</string>
+    <string name="core_uikit_header_title_studios">Студии</string>
+    <string name="core_uikit_header_title_studio">Студия</string>
     <string name="core_uikit_error_no_search_result">По вашему запросу ничего не найдено</string>
 
     <string name="core_uikit_not_authenticated_title">Вас еще нет на Anifox?! 😮</string>

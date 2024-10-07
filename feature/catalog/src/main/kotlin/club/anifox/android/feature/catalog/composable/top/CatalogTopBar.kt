@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import club.anifox.android.core.uikit.component.icon.AnifoxIconOnSurface
 import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
 import club.anifox.android.core.uikit.icon.AnifoxIcons
 import club.anifox.android.core.uikit.util.clickableWithoutRipple
@@ -42,7 +41,7 @@ internal fun CatalogTopBar(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            AnifoxIconOnSurface(
+            AnifoxIconPrimary(
                 modifier = Modifier
                     .clickableWithoutRipple {
                         onBackPressed.invoke()

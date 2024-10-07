@@ -24,7 +24,6 @@ internal data class SliderScreenshotsContentPreviewParam(
     val contentPadding: PaddingValues = PaddingValues(horizontal = 12.dp),
     val contentArrangement: Arrangement.Horizontal,
     val onHeaderClick: () -> Unit = { },
-    val onItemClick: (String) -> Unit = { },
     val onMoreClick: () -> Unit = { },
 )
 

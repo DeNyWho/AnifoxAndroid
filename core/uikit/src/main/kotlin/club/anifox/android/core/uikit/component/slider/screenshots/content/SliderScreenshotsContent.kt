@@ -6,6 +6,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -15,6 +19,7 @@ import club.anifox.android.core.uikit.component.card.screenshot.CardScreenshotLa
 import club.anifox.android.core.uikit.component.card.screenshot.CardScreenshotLandscapeDefaults
 import club.anifox.android.core.uikit.component.card.screenshot.showCardScreenshotLandscapeMoreWhenPastLimit
 import club.anifox.android.core.uikit.component.card.screenshot.showCardScreenshotLandscapeShimmer
+import club.anifox.android.core.uikit.component.dialog.gallery.SwipeableImageDialog
 import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
 import club.anifox.android.core.uikit.component.slider.header.SliderHeader
 import club.anifox.android.core.uikit.component.slider.header.SliderHeaderShimmer
@@ -39,9 +44,10 @@ fun SliderScreenshotsContent(
     contentState: StateListWrapper<String>,
     contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
     contentArrangement: Arrangement.Horizontal = CardScreenshotLandscapeDefaults.HorizontalArrangement.Default,
-    onItemClick: (String) -> Unit,
     onMoreClick: () -> Unit,
 ) {
+    var selectedImageIndex by remember { mutableStateOf<Int?>(null) }
+
     // header
     if(contentState.isLoading) {
         SliderHeaderShimmer(
@@ -78,7 +84,9 @@ fun SliderScreenshotsContent(
                     image = imageUrl,
                     thumbnailHeight = thumbnailHeight,
                     thumbnailWidth = thumbnailWidth,
-                    onClick = { onItemClick.invoke(imageUrl) }
+                    onClick = {
+                        selectedImageIndex = contentState.data.indexOf(imageUrl)
+                    }
                 )
             }
             showCardScreenshotLandscapeMoreWhenPastLimit(
@@ -88,6 +96,14 @@ fun SliderScreenshotsContent(
                 },
             )
         }
+    }
+
+    if (selectedImageIndex != null) {
+        SwipeableImageDialog(
+            images = contentState.data,
+            initialIndex = selectedImageIndex!!,
+            onDismiss = { selectedImageIndex = null },
+        )
     }
 }
 
@@ -107,7 +123,6 @@ private fun PreviewScrollableHorizontalContentScreenshots(
             contentState = param.contentState,
             contentPadding = param.contentPadding,
             contentArrangement = param.contentArrangement,
-            onItemClick = param.onItemClick,
             onMoreClick = param.onMoreClick,
         )
     }

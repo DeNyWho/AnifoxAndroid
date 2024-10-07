@@ -4,6 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import club.anifox.android.core.common.util.deeplink.DeepLink
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
@@ -27,6 +28,7 @@ internal class DetailViewModel @Inject constructor(
     private val animeRelatedUseCase: GetAnimeRelatedUseCase,
     private val animeScreenshotUseCase: GetAnimeScreenshotUseCase,
     private val animeVideosUseCase: GetAnimeVideosUseCase,
+    private val deepLink: DeepLink,
 ) : ViewModel() {
     private val _detailAnime: MutableState<StateWrapper<AnimeDetail>> =
         mutableStateOf(StateWrapper())
@@ -76,5 +78,9 @@ internal class DetailViewModel @Inject constructor(
         animeVideosUseCase.invoke(url = url, videoType = null, 5).onEach {
             _videosAnime.value = it
         }.launchIn(viewModelScope)
+    }
+
+    fun openYoutube(youtubeUrl: String) {
+        deepLink.openYouTubeApp(youtubeUrl)
     }
 }

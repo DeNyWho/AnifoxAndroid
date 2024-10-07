@@ -30,7 +30,7 @@ data class AnimeDetail(
     val releasedOn: LocalDate? = null,
     val airedOn: LocalDate = LocalDate.now(),
     val description: String? = null,
-    val genre: List<AnimeGenre> = listOf(),
-    val studio: List<AnimeStudio> = listOf(),
+    val genres: List<AnimeGenre> = listOf(),
+    val studios: List<AnimeStudio> = listOf(),
 //    val translations: List<AnimeTranslations>,
 )

@@ -105,7 +105,7 @@ internal class CatalogViewModel @Inject constructor(
                 type = if(filterType == FilterType.TYPE) filterParams.type else currentState.type,
                 year = if(filterType == FilterType.YEAR) filterParams.year else currentState.year,
                 season = if(filterType == FilterType.SEASON) filterParams.season else currentState.season,
-                studios = if(filterType == FilterType.STUDIO) filterParams.studio else currentState.studios,
+                studios = if(filterType == FilterType.STUDIO) filterParams.studios else currentState.studios,
                 translation = if(filterType == FilterType.TRANSLATION) filterParams.translation else currentState.translation,
                 minimalAge = currentState.minimalAge,
                 isInitialized = currentState.isInitialized,
@@ -125,7 +125,7 @@ internal class CatalogViewModel @Inject constructor(
                         type = initialParams.type,
                         year = initialParams.year,
                         season = initialParams.season,
-                        studios = initialParams.studio,
+                        studios = initialParams.studios,
                     )
                 }
             }

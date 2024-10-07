@@ -395,7 +395,7 @@ private fun <T> FilterDraw(
                                 FilterType.STUDIO -> {
                                     val studioList: List<AnimeStudio>? = newSelection.filterIsInstance<AnimeStudio>().takeUnless { it.isEmpty() }
                                     updateFilter(
-                                        CatalogFilterParams(studio = studioList),
+                                        CatalogFilterParams(studios = studioList),
                                         filterType
                                     )
                                 }

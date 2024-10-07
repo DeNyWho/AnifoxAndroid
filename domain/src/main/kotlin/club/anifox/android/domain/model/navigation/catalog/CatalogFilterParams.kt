@@ -13,6 +13,6 @@ data class CatalogFilterParams(
     val type: AnimeType? = null,
     val year: Int? = null,
     val season: AnimeSeason? = null,
-    val studio: List<AnimeStudio>? = null,
+    val studios: List<AnimeStudio>? = null,
     val translation: AnimeTranslation? = null,
 )

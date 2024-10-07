@@ -1,32 +1,21 @@
 package club.anifox.android.feature.video
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material.icons.Icons.AutoMirrored.Filled
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
 import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
 import club.anifox.android.core.uikit.component.slider.video.content.SliderVideoContent
+import club.anifox.android.core.uikit.component.topbar.SimpleTopBar
 import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.state.StateListWrapper
@@ -57,7 +46,9 @@ internal fun VideoScreen(
         otherVideoState = viewModel.otherVideos.value,
         onBackPressed = onBackPressed,
         animeTitle = animeTitle,
-        onVideoClick = { },
+        onVideoClick = { youtubeUrl ->
+            viewModel.openYoutube(youtubeUrl)
+        },
     )
 }
 
@@ -79,35 +70,10 @@ private fun VideoUI(
         state = toolbarScaffoldState,
         scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
         toolbar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, top = 16.dp, bottom = 16.dp)
-                    .statusBarsPadding(),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                AnifoxIconPrimary(
-                    imageVector = Filled.ArrowBack,
-                    contentDescription = "back",
-                    modifier = Modifier
-                        .clickable {
-                            onBackPressed.invoke()
-                        }
-                        .size(24.dp),
-                )
-
-                Text(
-                    text = if(animeTitle == null) "" else "${stringResource(R.string.feature_video_top_bar_title)} $animeTitle",
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier
-                        .align(Alignment.CenterVertically)
-                        .weight(1f)
-                        .padding(start = 16.dp, end = 12.dp),
-                )
-            }
+            SimpleTopBar(
+                onBackPressed = onBackPressed,
+                title = if(animeTitle == null) "" else "${stringResource(R.string.feature_video_top_bar_title)} $animeTitle",
+            )
         },
     ) {
         VideoContent(
