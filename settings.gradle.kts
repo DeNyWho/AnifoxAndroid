@@ -42,6 +42,7 @@ include(":feature:registration")
 include(":feature:onboarding")
 include(":feature:genres")
 include(":feature:catalog")
+include(":feature:translations")
 
 include(":core:testing")
 include(":core:uikit")

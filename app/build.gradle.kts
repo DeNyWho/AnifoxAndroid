@@ -68,6 +68,7 @@ dependencies {
     implementation(projects.feature.onboarding)
     implementation(projects.feature.genres)
     implementation(projects.feature.catalog)
+    implementation(projects.feature.translations)
 
     implementation(projects.domain)
 
