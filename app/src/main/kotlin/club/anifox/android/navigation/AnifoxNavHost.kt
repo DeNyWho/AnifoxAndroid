@@ -24,6 +24,7 @@ import club.anifox.android.feature.screenshots.navigation.navigateToScreenshots
 import club.anifox.android.feature.screenshots.navigation.screenshotsScreen
 import club.anifox.android.feature.search.navigation.navigateToSearch
 import club.anifox.android.feature.search.navigation.searchScreen
+import club.anifox.android.feature.translations.navigation.translationsScreen
 import club.anifox.android.feature.video.navigation.navigateToVideo
 import club.anifox.android.feature.video.navigation.videoScreen
 import club.anifox.android.ui.AnifoxAppState
@@ -53,6 +54,9 @@ fun AnifoxNavHost(
             onMoreScreenshotClick = navController::navigateToScreenshots,
             onMoreVideoClick = navController::navigateToVideo,
             onCatalogClick = navController::navigateToCatalog,
+        )
+        translationsScreen(
+            onBackPressed = navController::popBackStack,
         )
         searchScreen(
             onBackPressed = navController::popBackStack,
