@@ -9,7 +9,9 @@ import club.anifox.android.data.network.models.dto.anime.light.AnimeLightDTO
 import club.anifox.android.data.network.models.dto.anime.related.AnimeRelatedDTO
 import club.anifox.android.data.network.models.dto.anime.videos.AnimeVideosDTO
 import club.anifox.android.data.network.safeApiCall
+import club.anifox.android.domain.model.anime.enum.AnimeOrder
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
+import club.anifox.android.domain.model.anime.enum.AnimeSort
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.enum.VideoType
@@ -32,9 +34,11 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
         ratingMpa: String? = null,
         minimalAge: Int? = null,
         type: AnimeType? = null,
-        year: Int? = null,
+        years: List<Int>? = null,
         studios: List<String>? = null,
         translation: List<Int>? = null,
+        order: AnimeOrder? = null,
+        sort: AnimeSort? = null,
     ): Resource<List<AnimeLightDTO>> {
         val request = HttpRequestBuilder().apply {
             method = HttpMethod.Get
@@ -45,11 +49,15 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
                 if (season != null) parameter("season", season.name)
                 if (ratingMpa != null) parameter("rating_mpa", ratingMpa)
                 if (minimalAge != null) parameter("age", minimalAge)
-                if (year != null) parameter("year", year)
                 if (type != null) parameter("type", type.name)
                 if (status != null) parameter("status", status.name)
+                if (order != null) parameter("order", order.name)
+                if (sort != null) parameter("sort", sort.name)
                 genres?.forEach { genre ->
                     parameter("genres", genre)
+                }
+                years?.forEach { year ->
+                    parameter("year", year)
                 }
                 studios?.forEach { studio ->
                     parameter("studios", studio)

@@ -3,7 +3,9 @@ package club.anifox.android.domain.repository.anime
 import androidx.paging.PagingData
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
+import club.anifox.android.domain.model.anime.enum.AnimeOrder
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
+import club.anifox.android.domain.model.anime.enum.AnimeSort
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.enum.VideoType
@@ -27,8 +29,10 @@ interface AnimeRepository {
         ratingMpa: String?,
         minimalAge: Int?,
         type: AnimeType?,
-        year: Int?,
+        years: List<Int>?,
         studios: List<String>?,
+        order: AnimeOrder?,
+        sort: AnimeSort?,
     ): Flow<StateListWrapper<AnimeLight>>
 
     fun getAnimeGenres(): Flow<StateListWrapper<AnimeGenre>>
@@ -65,8 +69,10 @@ interface AnimeRepository {
         ratingMpa: String?,
         minimalAge: Int?,
         type: AnimeType?,
-        year: Int?,
+        years: List<Int>?,
         studios: List<String>?,
         translation: List<Int>?,
+        order: AnimeOrder?,
+        sort: AnimeSort?,
     ): Flow<PagingData<AnimeLight>>
 }

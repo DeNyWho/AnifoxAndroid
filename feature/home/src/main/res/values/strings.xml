@@ -2,8 +2,9 @@
 <resources>
     <string name="feature_home_title">Главная</string>
     <string name="feature_home_search_placeholder">Поиск...</string>
-    <string name="feature_home_section_header_title_ongoing_popular">Выходит сейчас</string>
+    <string name="feature_home_section_header_title_anime_of_season">Аниме сезона</string>
     <string name="feature_home_section_header_title_popular">Популярные</string>
+    <string name="feature_home_section_header_title_updated">Новые серии</string>
     <string name="feature_home_section_header_title_films">Фильмы</string>
     <string name="feature_home_section_header_title_genres">Жанры</string>
 </resources>

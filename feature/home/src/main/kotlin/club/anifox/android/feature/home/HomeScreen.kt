@@ -16,6 +16,9 @@ import club.anifox.android.core.uikit.component.slider.simple.content.SliderCont
 import club.anifox.android.core.uikit.component.textfield.SearchField
 import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.domain.model.anime.AnimeLight
+import club.anifox.android.domain.model.anime.enum.AnimeOrder
+import club.anifox.android.domain.model.anime.enum.AnimeSeason
+import club.anifox.android.domain.model.anime.enum.AnimeSort
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
@@ -25,6 +28,7 @@ import club.anifox.android.feature.home.composable.content.genre.GenreContent
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
+import java.time.LocalDate
 
 @Composable
 internal fun HomeScreen(
@@ -36,8 +40,9 @@ internal fun HomeScreen(
     onMoreClick: (CatalogFilterParams) -> Unit,
 ) {
     LaunchedEffect(viewModel) {
-        viewModel.getPopularOngoingAnime(0,12)
+        viewModel.getAnimeOfSeason(0,12)
         viewModel.getPopularAnime(0,12)
+        viewModel.getUpdatedAnime(0,12)
         viewModel.getAnimeGenres()
         viewModel.getFilmsAnime(0, 12)
     }
@@ -45,8 +50,9 @@ internal fun HomeScreen(
     HomeUI(
         modifier = modifier,
         onAnimeClick = onAnimeClick,
-        onPopularOngoingAnime = viewModel.onPopularOngoingAnime.value,
+        animeOfSeason = viewModel.animeOfSeason.value,
         onPopularAnime = viewModel.onPopularAnime.value,
+        onUpdatedAnime = viewModel.onUpdatedAnime.value,
         filmsAnime = viewModel.filmsAnime.value,
         genresAnime = viewModel.genresAnime.value,
         onSearchClick = onSearchClick,
@@ -62,8 +68,9 @@ private fun HomeUI(
     onSearchClick: () -> Unit,
     onGenresClick: (String) -> Unit,
     onMoreClick: (CatalogFilterParams) -> Unit,
-    onPopularOngoingAnime: StateListWrapper<AnimeLight>,
+    animeOfSeason: StateListWrapper<AnimeLight>,
     onPopularAnime: StateListWrapper<AnimeLight>,
+    onUpdatedAnime: StateListWrapper<AnimeLight>,
     filmsAnime: StateListWrapper<AnimeLight>,
     genresAnime: StateListWrapper<AnimeGenre>,
 ) {
@@ -90,8 +97,9 @@ private fun HomeUI(
             onAnimeClick = onAnimeClick,
             onGenresClick = onGenresClick,
             onMoreClick = onMoreClick,
-            onPopularOngoingAnime = onPopularOngoingAnime,
+            animeOfSeason = animeOfSeason,
             onPopularAnime = onPopularAnime,
+            onUpdatedAnime = onUpdatedAnime,
             filmsAnime = filmsAnime,
             genresAnime = genresAnime,
         )
@@ -105,8 +113,9 @@ private fun HomeContent(
     onAnimeClick: (String) -> Unit,
     onGenresClick: (String) -> Unit,
     onMoreClick: (CatalogFilterParams) -> Unit,
-    onPopularOngoingAnime: StateListWrapper<AnimeLight>,
+    animeOfSeason: StateListWrapper<AnimeLight>,
     onPopularAnime: StateListWrapper<AnimeLight>,
+    onUpdatedAnime: StateListWrapper<AnimeLight>,
     filmsAnime: StateListWrapper<AnimeLight>,
     genresAnime: StateListWrapper<AnimeGenre>,
 ) {
@@ -117,13 +126,22 @@ private fun HomeContent(
     ) {
         item {
             SliderContent(
-                headerTitle = stringResource(R.string.feature_home_section_header_title_ongoing_popular),
+                headerTitle = stringResource(R.string.feature_home_section_header_title_anime_of_season),
                 headerModifier = SliderContentDefaults.Default,
-                contentState = onPopularOngoingAnime,
+                contentState = animeOfSeason,
                 onItemClick = onAnimeClick,
                 isMoreVisible = true,
                 onMoreClick = {
-                    onMoreClick(CatalogFilterParams(genres = null, status = AnimeStatus.Ongoing))
+                    onMoreClick(
+                        CatalogFilterParams(
+                            genres = null,
+                            status = AnimeStatus.Ongoing,
+                            season = AnimeSeason.fromMonth(LocalDate.now().month.value),
+                            years = listOf(LocalDate.now().year),
+                            order = AnimeOrder.Rating,
+                            sort = AnimeSort.Desc,
+                        )
+                    )
                 },
             )
         }
@@ -135,7 +153,29 @@ private fun HomeContent(
                 onItemClick = onAnimeClick,
                 isMoreVisible = true,
                 onMoreClick = {
-                    onMoreClick(CatalogFilterParams(genres = null))
+                    onMoreClick(
+                        CatalogFilterParams(
+                            order = AnimeOrder.Rating,
+                            sort = AnimeSort.Desc,
+                        )
+                    )
+                },
+            )
+        }
+        item {
+            SliderContent(
+                headerTitle = stringResource(R.string.feature_home_section_header_title_updated),
+                headerModifier = SliderContentDefaults.Default,
+                contentState = onUpdatedAnime,
+                onItemClick = onAnimeClick,
+                isMoreVisible = true,
+                onMoreClick = {
+                    onMoreClick(
+                        CatalogFilterParams(
+                            order = AnimeOrder.Update,
+                            sort = AnimeSort.Desc,
+                        )
+                    )
                 },
             )
         }

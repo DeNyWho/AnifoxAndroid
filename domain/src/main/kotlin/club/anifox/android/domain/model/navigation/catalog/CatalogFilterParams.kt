@@ -1,6 +1,8 @@
 package club.anifox.android.domain.model.navigation.catalog
 
+import club.anifox.android.domain.model.anime.enum.AnimeOrder
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
+import club.anifox.android.domain.model.anime.enum.AnimeSort
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
@@ -11,8 +13,10 @@ data class CatalogFilterParams(
     val genres: List<AnimeGenre>? = null,
     val status: AnimeStatus? = null,
     val type: AnimeType? = null,
-    val year: Int? = null,
+    val years: List<Int>? = null,
     val season: AnimeSeason? = null,
     val studios: List<AnimeStudio>? = null,
     val translation: AnimeTranslation? = null,
+    val order: AnimeOrder? = null,
+    val sort: AnimeSort? = null,
 )

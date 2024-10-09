@@ -1,7 +1,9 @@
 package club.anifox.android.domain.usecase.anime
 
 import club.anifox.android.domain.model.anime.AnimeLight
+import club.anifox.android.domain.model.anime.enum.AnimeOrder
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
+import club.anifox.android.domain.model.anime.enum.AnimeSort
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.repository.anime.AnimeRepository
@@ -19,8 +21,10 @@ class GetAnimeUseCase(private val animeRepository: AnimeRepository) {
         ratingMpa: String? = null,
         minimalAge: Int? = null,
         type: AnimeType? = null,
-        year: Int? = null,
+        years: List<Int>? = null,
         studios: List<String>? = null,
+        order: AnimeOrder? = null,
+        sort: AnimeSort? = null,
     ): Flow<StateListWrapper<AnimeLight>> {
         return animeRepository.getAnime(
             page = page,
@@ -32,8 +36,10 @@ class GetAnimeUseCase(private val animeRepository: AnimeRepository) {
             ratingMpa = ratingMpa,
             minimalAge = minimalAge,
             type = type,
-            year = year,
+            years = years,
             studios = studios,
+            order = order,
+            sort = sort,
         )
     }
 }

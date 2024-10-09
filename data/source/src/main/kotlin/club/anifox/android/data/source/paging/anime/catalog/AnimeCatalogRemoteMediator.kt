@@ -8,7 +8,9 @@ import club.anifox.android.data.local.cache.dao.anime.catalog.AnimeCacheCatalogD
 import club.anifox.android.data.local.cache.model.anime.catalog.AnimeCacheCatalogEntity
 import club.anifox.android.data.network.service.AnimeService
 import club.anifox.android.data.source.mapper.toEntityCacheCatalogLight
+import club.anifox.android.domain.model.anime.enum.AnimeOrder
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
+import club.anifox.android.domain.model.anime.enum.AnimeSort
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.common.request.Resource
@@ -24,13 +26,15 @@ internal class AnimeCatalogRemoteMediator(
     private var ratingMpa: String?,
     private var minimalAge: Int?,
     private var type: AnimeType?,
-    private var year: Int?,
+    private var years: List<Int>?,
     private var studios: List<String>?,
     private var translation: List<Int>?,
+    private var order: AnimeOrder? = null,
+    private var sort: AnimeSort? = null,
 ) : RemoteMediator<Int, AnimeCacheCatalogEntity>() {
 
     private var lastLoadedPage = -1
-    private var currentParams: Params = Params(status, genres, searchQuery, season, ratingMpa, minimalAge, type, year, studios, translation)
+    private var currentParams: Params = Params(status, genres, searchQuery, season, ratingMpa, minimalAge, type, years, studios, translation, order, sort)
 
     private data class Params(
         val status: AnimeStatus?,
@@ -40,16 +44,18 @@ internal class AnimeCatalogRemoteMediator(
         val ratingMpa: String?,
         val minimalAge: Int?,
         val type: AnimeType?,
-        val year: Int?,
+        val years: List<Int>?,
         val studios: List<String>?,
         val translation: List<Int>?,
+        val order: AnimeOrder?,
+        val sort: AnimeSort?,
     )
 
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, AnimeCacheCatalogEntity>
     ): MediatorResult {
-        val newParams = Params(status, genres, searchQuery, season, ratingMpa, minimalAge, type, year, studios, translation)
+        val newParams = Params(status, genres, searchQuery, season, ratingMpa, minimalAge, type, years, studios, translation, order, sort)
         if (newParams != currentParams) {
             currentParams = newParams
             lastLoadedPage = -1
@@ -72,9 +78,11 @@ internal class AnimeCatalogRemoteMediator(
                 ratingMpa = currentParams.ratingMpa,
                 minimalAge = currentParams.minimalAge,
                 type = currentParams.type,
-                year = currentParams.year,
+                years = currentParams.years,
                 studios = currentParams.studios,
                 translation = currentParams.translation,
+                order = currentParams.order,
+                sort = currentParams.sort,
             )
 
             when(response) {

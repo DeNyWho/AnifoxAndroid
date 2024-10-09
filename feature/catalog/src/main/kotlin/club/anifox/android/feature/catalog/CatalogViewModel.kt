@@ -89,8 +89,10 @@ internal class CatalogViewModel @Inject constructor(
                 minimalAge = state.minimalAge,
                 status = state.status,
                 type = state.type,
-                year = state.year,
+                years = state.years,
                 season = state.season,
+                order = state.order,
+                sort = state.sort,
             )
         }
 
@@ -103,10 +105,12 @@ internal class CatalogViewModel @Inject constructor(
                 genres = if(filterType == FilterType.GENRE) filterParams.genres else currentState.genres,
                 status = if(filterType == FilterType.STATUS) filterParams.status else currentState.status,
                 type = if(filterType == FilterType.TYPE) filterParams.type else currentState.type,
-                year = if(filterType == FilterType.YEAR) filterParams.year else currentState.year,
+                years = if(filterType == FilterType.YEARS) filterParams.years else currentState.years,
                 season = if(filterType == FilterType.SEASON) filterParams.season else currentState.season,
                 studios = if(filterType == FilterType.STUDIO) filterParams.studios else currentState.studios,
                 translation = if(filterType == FilterType.TRANSLATION) filterParams.translation else currentState.translation,
+                order = if(filterType == FilterType.ORDER) filterParams.order else currentState.order,
+                sort = if(filterType == FilterType.SORT) filterParams.sort else currentState.sort,
                 minimalAge = currentState.minimalAge,
                 isInitialized = currentState.isInitialized,
                 isLoading = currentState.isLoading,
@@ -123,9 +127,12 @@ internal class CatalogViewModel @Inject constructor(
                         genres = initialParams.genres,
                         status = initialParams.status,
                         type = initialParams.type,
-                        year = initialParams.year,
+                        years = initialParams.years,
                         season = initialParams.season,
                         studios = initialParams.studios,
+                        translation = initialParams.translation,
+                        order = initialParams.order,
+                        sort = initialParams.sort,
                     )
                 }
             }

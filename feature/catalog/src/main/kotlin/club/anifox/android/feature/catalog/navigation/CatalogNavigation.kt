@@ -6,7 +6,9 @@ import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import club.anifox.android.domain.model.anime.enum.AnimeOrder
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
+import club.anifox.android.domain.model.anime.enum.AnimeSort
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
@@ -23,11 +25,13 @@ fun NavController.navigateToCatalog(
     val genresParam = params.genres?.joinToString(",") ?: ""
     val statusParam = params.status?.name ?: ""
     val typeParam = params.type?.name ?: ""
-    val yearParam = params.year?.toString() ?: ""
+    val yearsParam = params.years?.joinToString(",") ?: ""
     val seasonParam = params.season?.name ?: ""
     val studioParam = params.studios?.joinToString(",") ?: ""
+    val orderParam = params.order?.name ?: ""
+    val sortParam = params.sort?.name ?: ""
 
-    val route = "${CATALOG_ROUTE}?genres=$genresParam&status=$statusParam&type=$typeParam&year=$yearParam&season=$seasonParam&studios=$studioParam"
+    val route = "${CATALOG_ROUTE}?genres=$genresParam&status=$statusParam&type=$typeParam&years=$yearsParam&season=$seasonParam&studios=$studioParam&order=$orderParam&sort=$sortParam"
 
     navigate(route, navOptions)
 }
@@ -38,14 +42,16 @@ fun NavGraphBuilder.catalogScreen(
     onAnimeClick: (String) -> Unit,
 ) {
     composable(
-        route = "${CATALOG_ROUTE}?genres={genres}&status={status}&type={type}&year={year}&season={season}&studios={studios}",
+        route = "${CATALOG_ROUTE}?genres={genres}&status={status}&type={type}&years={years}&season={season}&studios={studios}&order={order}&sort={sort}",
         arguments = listOf(
             navArgument("genres") { type = NavType.StringType; defaultValue = "" },
             navArgument("status") { type = NavType.StringType; defaultValue = "" },
             navArgument("type") { type = NavType.StringType; defaultValue = "" },
-            navArgument("year") { type = NavType.StringType; defaultValue = "" },
+            navArgument("years") { type = NavType.StringType; defaultValue = "" },
             navArgument("season") { type = NavType.StringType; defaultValue = "" },
             navArgument("studios") { type = NavType.StringType; defaultValue = "" },
+            navArgument("order") { type = NavType.StringType; defaultValue = "" },
+            navArgument("sort") { type = NavType.StringType; defaultValue = "" },
         ),
     ) { backStackEntry ->
         val genres = backStackEntry.arguments?.getString("genres")?.let { genresString ->
@@ -59,7 +65,11 @@ fun NavGraphBuilder.catalogScreen(
         }
         val status = backStackEntry.arguments?.getString("status")?.takeIf { it.isNotEmpty() }?.let { AnimeStatus.valueOf(it) }
         val type = backStackEntry.arguments?.getString("type")?.takeIf { it.isNotEmpty() }?.let { AnimeType.valueOf(it) }
-        val year = backStackEntry.arguments?.getString("year")?.toIntOrNull()
+        val years = backStackEntry.arguments?.getString("years")?.takeIf { it.isNotEmpty() }?.let { yearsString ->
+            yearsString.split(",").mapNotNull { yearStr ->
+                yearStr.toIntOrNull()
+            }
+        }
         val season = backStackEntry.arguments?.getString("season")?.takeIf { it.isNotEmpty() }?.let { AnimeSeason.valueOf(it) }
         val studios = backStackEntry.arguments?.getString("studios")?.let { studiosString ->
             if (studiosString.isNotEmpty()) {
@@ -70,14 +80,18 @@ fun NavGraphBuilder.catalogScreen(
                 }.toList()
             } else null
         }
+        val order = backStackEntry.arguments?.getString("order")?.takeIf { it.isNotEmpty() }?.let { AnimeOrder.valueOf(it) }
+        val sort = backStackEntry.arguments?.getString("sort")?.takeIf { it.isNotEmpty() }?.let { AnimeSort.valueOf(it) }
 
         val params = CatalogFilterParams(
             genres = genres,
             status = status,
             type = type,
-            year = year,
+            years = years,
             season = season,
             studios = studios,
+            order = order,
+            sort = sort,
         )
 
         CatalogScreen(

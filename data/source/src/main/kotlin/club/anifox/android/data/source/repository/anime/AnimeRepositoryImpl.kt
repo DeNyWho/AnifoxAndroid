@@ -23,7 +23,9 @@ import club.anifox.android.data.source.paging.anime.genres.AnimeGenresRemoteMedi
 import club.anifox.android.data.source.paging.anime.search.AnimeSearchRemoteMediator
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
+import club.anifox.android.domain.model.anime.enum.AnimeOrder
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
+import club.anifox.android.domain.model.anime.enum.AnimeSort
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.enum.VideoType
@@ -61,8 +63,10 @@ internal class AnimeRepositoryImpl @Inject constructor(
         ratingMpa: String?,
         minimalAge: Int?,
         type: AnimeType?,
-        year: Int?,
+        years: List<Int>?,
         studios: List<String>?,
+        order: AnimeOrder?,
+        sort: AnimeSort?,
     ): Flow<StateListWrapper<AnimeLight>> {
         return flow {
             emit(StateListWrapper.loading())
@@ -77,8 +81,10 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 ratingMpa = ratingMpa,
                 minimalAge = minimalAge,
                 type = type,
-                year = year,
+                years = years,
                 studios = studios,
+                order = order,
+                sort = sort,
             )
 
             val state = when (animeResult) {
@@ -126,9 +132,11 @@ internal class AnimeRepositoryImpl @Inject constructor(
         ratingMpa: String?,
         minimalAge: Int?,
         type: AnimeType?,
-        year: Int?,
+        years: List<Int>?,
         studios: List<String>?,
         translation: List<Int>?,
+        order: AnimeOrder?,
+        sort: AnimeSort?,
     ): Flow<PagingData<AnimeLight>> {
         return Pager(
             config = PagingConfig(pageSize = limit),
@@ -142,9 +150,11 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 ratingMpa = ratingMpa,
                 minimalAge = minimalAge,
                 type = type,
-                year = year,
+                years = years,
                 studios = studios,
                 translation = translation,
+                order = order,
+                sort = sort,
             ),
             pagingSourceFactory = { animeCacheCatalogDao.pagingSource() }
         ).flow.map { pagingData ->

@@ -49,7 +49,7 @@ internal fun InformationComponent(
                     modifier = Modifier.clickableWithoutRipple {
                         onCatalogClick.invoke(
                             CatalogFilterParams(
-                                year = data.year,
+                                years = listOf(data.year),
                             )
                         )
                     },
