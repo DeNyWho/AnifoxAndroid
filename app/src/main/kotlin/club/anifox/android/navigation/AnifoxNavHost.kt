@@ -7,6 +7,8 @@ import club.anifox.android.feature.catalog.navigation.catalogScreen
 import club.anifox.android.feature.catalog.navigation.navigateToCatalog
 import club.anifox.android.feature.detail.navigation.detailScreen
 import club.anifox.android.feature.detail.navigation.navigateToDetail
+import club.anifox.android.feature.episodes.navigation.episodesScreen
+import club.anifox.android.feature.episodes.navigation.navigateToEpisodes
 import club.anifox.android.feature.favourite.navigation.favouriteScreen
 import club.anifox.android.feature.genres.navigation.genresScreen
 import club.anifox.android.feature.genres.navigation.navigateToGenres
@@ -58,6 +60,10 @@ fun AnifoxNavHost(
             onCatalogClick = navController::navigateToCatalog,
         )
         translationsScreen(
+            onBackPressed = navController::popBackStack,
+            onTranslationClick = navController::navigateToEpisodes,
+        )
+        episodesScreen(
             onBackPressed = navController::popBackStack,
         )
         searchScreen(

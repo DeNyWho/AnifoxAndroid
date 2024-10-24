@@ -28,7 +28,7 @@ import club.anifox.android.feature.translations.param.TranslationsContentProvide
 internal fun TranslationsScreen(
     viewModel: TranslationsViewModel = hiltViewModel(),
     onBackPressed: () -> Boolean,
-    onTranslationClick: (Int) -> Unit,
+    onTranslationClick: (String, Int) -> Unit,
     url: String,
 ) {
     val animeTranslationsCount by viewModel.animeTranslationsCount.collectAsState()
@@ -40,7 +40,9 @@ internal fun TranslationsScreen(
     TranslationsUI(
         onBackPressed = onBackPressed,
         animeTranslationsCount = animeTranslationsCount,
-        onTranslationClick = onTranslationClick,
+        onTranslationClick = { translationId ->
+            onTranslationClick(url, translationId)
+        }
     )
 }
 
