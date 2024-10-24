@@ -7,6 +7,6 @@ import kotlinx.serialization.Serializable
 data class AnimeTranslationCountDTO(
     @SerialName("translation")
     val translation: AnimeTranslationDTO = AnimeTranslationDTO(),
-    @SerialName("countEpisodes")
+    @SerialName("count_episodes")
     val countEpisodes: Int = 0,
 )

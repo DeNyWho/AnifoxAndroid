@@ -34,6 +34,7 @@ import club.anifox.android.core.uikit.component.slider.screenshots.content.Slide
 import club.anifox.android.core.uikit.component.slider.simple.content.SliderContent
 import club.anifox.android.core.uikit.component.slider.video.content.SliderVideoContent
 import club.anifox.android.core.uikit.util.DefaultPreview
+import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
@@ -63,6 +64,7 @@ internal fun DetailScreen(
     viewModel: DetailViewModel = hiltViewModel(),
     url: String = "",
     onBackPressed: () -> Boolean,
+    onWatchClick: (String) -> Unit,
     onAnimeClick: (String) -> Unit,
     onMoreScreenshotClick: (String, String) -> Unit,
     onMoreVideoClick: (String, String) -> Unit,
@@ -77,12 +79,14 @@ internal fun DetailScreen(
     }
 
     DetailUI(
+        url = url,
         detailAnimeState = viewModel.detailAnime.value,
         screenshotAnimeState = viewModel.screenshotsAnime.value,
         videosAnimeState = viewModel.videosAnime.value,
         relationAnimeState = viewModel.relatedAnime.value,
         similarAnimeState = viewModel.similarAnime.value,
         onBackPressed = onBackPressed,
+        onWatchClick = onWatchClick,
         onAnimeClick = onAnimeClick,
         onMoreScreenshotClick = { title ->
             onMoreScreenshotClick(url, title)
@@ -100,12 +104,14 @@ internal fun DetailScreen(
 @Composable
 internal fun DetailUI(
     modifier: Modifier = Modifier,
+    url: String,
     detailAnimeState: StateWrapper<AnimeDetail>,
     screenshotAnimeState: StateListWrapper<String>,
     videosAnimeState: StateListWrapper<AnimeVideosLight>,
     relationAnimeState: StateListWrapper<AnimeRelatedLight>,
     similarAnimeState: StateListWrapper<AnimeLight>,
     onBackPressed: () -> Boolean,
+    onWatchClick: (String) -> Unit,
     onAnimeClick: (String) -> Unit,
     onMoreScreenshotClick: (String) -> Unit,
     onMoreVideoClick: (String) -> Unit,
@@ -131,11 +137,13 @@ internal fun DetailUI(
             },
             body = {
                 DetailContentUI(
+                    url = url,
                     detailAnimeState = detailAnimeState,
                     screenshotAnimeState = screenshotAnimeState,
                     videosAnimeState = videosAnimeState,
                     relationAnimeState = relationAnimeState,
                     similarAnimeState = similarAnimeState,
+                    onWatchClick = onWatchClick,
                     onAnimeClick = onAnimeClick,
                     onMoreScreenshotClick = onMoreScreenshotClick,
                     onMoreVideoClick = onMoreVideoClick,
@@ -149,11 +157,13 @@ internal fun DetailUI(
 
 @Composable
 internal fun DetailContentUI(
+    url: String,
     detailAnimeState: StateWrapper<AnimeDetail>,
     screenshotAnimeState: StateListWrapper<String>,
     videosAnimeState: StateListWrapper<AnimeVideosLight>,
     relationAnimeState: StateListWrapper<AnimeRelatedLight>,
     similarAnimeState: StateListWrapper<AnimeLight>,
+    onWatchClick: (String) -> Unit,
     onAnimeClick: (String) -> Unit,
     onMoreScreenshotClick: (String) -> Unit,
     onMoreVideoClick: (String) -> Unit,
@@ -185,6 +195,9 @@ internal fun DetailContentUI(
                     defaultElevation = 2.dp
                 ),
                 paddingValues = PaddingValues(0.dp),
+                onClick = {
+                    onWatchClick.invoke(url)
+                },
             ) {
                 AnifoxIconOnPrimary(
                     imageVector = Filled.PlayArrow,
@@ -282,12 +295,14 @@ private fun PreviewDetailScreenUI(
     DefaultPreview(true) {
         DetailUI (
             modifier = param.modifier,
+            url = "",
             detailAnimeState = param.detailAnime,
             screenshotAnimeState = param.screenshotsAnime,
             relationAnimeState = param.relationAnime,
             similarAnimeState = param.similarAnime,
             videosAnimeState = param.videosAnime,
             onBackPressed = { false },
+            onWatchClick = { },
             onAnimeClick = { },
             onMoreScreenshotClick = { },
             onMoreVideoClick = { },

@@ -9,6 +9,7 @@ import club.anifox.android.domain.usecase.anime.GetAnimeRelatedUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeScreenshotUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeSimilarUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeStudiosUseCase
+import club.anifox.android.domain.usecase.anime.GetAnimeTranslationsCountUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeTranslationsUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeVideosUseCase
@@ -93,6 +94,12 @@ internal object UseCaseModule {
     @Singleton
     fun provideGetAnimeTranslationsUseCase(animeRepository: AnimeRepository): GetAnimeTranslationsUseCase {
         return GetAnimeTranslationsUseCase(animeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAnimeTranslationsCountUseCase(animeRepository: AnimeRepository): GetAnimeTranslationsCountUseCase {
+        return GetAnimeTranslationsCountUseCase(animeRepository)
     }
 
     @Provides

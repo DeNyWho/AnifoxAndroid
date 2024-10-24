@@ -8,11 +8,31 @@ import club.anifox.android.domain.model.anime.enum.AnimeType.Tv
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.model.anime.studio.AnimeStudio
+import club.anifox.android.domain.model.anime.translations.AnimeTranslation
+import club.anifox.android.domain.model.anime.translations.AnimeTranslationsCount
 import java.util.UUID
 
 object GlobalParams {
     val Genres: List<AnimeGenre> = listOf(AnimeGenre(id = UUID.randomUUID().toString(), name = "Приключения"), AnimeGenre(id = UUID.randomUUID().toString(), name = "Романтика"))
     val Studios: List<AnimeStudio> = listOf(AnimeStudio(id = UUID.randomUUID().toString(), name = "Madhouse"), AnimeStudio(id = UUID.randomUUID().toString(), name = "TEST studio"))
+    val TranslationsCount: List<AnimeTranslationsCount> = listOf(
+        AnimeTranslationsCount(
+            translation = AnimeTranslation(
+                id = 610,
+                title = "AniLibria.TV",
+                voice = "voice",
+            ),
+            countEpisodes = 24,
+        ),
+        AnimeTranslationsCount(
+            translation = AnimeTranslation(
+                id = 609,
+                title = "AniDUB",
+                voice = "voice",
+            ),
+            countEpisodes = 21,
+        ),
+    )
 
     val Data = AnimeDetail(
         title = "Провожающая в последний путь Фрирен",

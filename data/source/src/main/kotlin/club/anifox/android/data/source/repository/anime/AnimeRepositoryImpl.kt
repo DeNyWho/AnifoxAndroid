@@ -14,6 +14,7 @@ import club.anifox.android.data.network.mappers.anime.common.toGenre
 import club.anifox.android.data.network.mappers.anime.common.toStudio
 import club.anifox.android.data.network.mappers.anime.detail.toDetail
 import club.anifox.android.data.network.mappers.anime.episodes.toTranslation
+import club.anifox.android.data.network.mappers.anime.episodes.toTranslationsCount
 import club.anifox.android.data.network.mappers.anime.light.toLight
 import club.anifox.android.data.network.mappers.anime.videos.toLight
 import club.anifox.android.data.network.service.AnimeService
@@ -33,6 +34,7 @@ import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.model.anime.studio.AnimeStudio
 import club.anifox.android.domain.model.anime.translations.AnimeTranslation
+import club.anifox.android.domain.model.anime.translations.AnimeTranslationsCount
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.model.common.request.Resource
 import club.anifox.android.domain.repository.anime.AnimeRepository
@@ -256,6 +258,27 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 }
                 is Resource.Error -> {
                     StateListWrapper(error = translationsResult.error)
+                }
+                is Resource.Loading -> {
+                    StateListWrapper.loading()
+                }
+            }
+
+            emit(state)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun getAnimeTranslationsCount(url: String): Flow<StateListWrapper<AnimeTranslationsCount>> {
+        return flow {
+            emit(StateListWrapper.loading())
+
+            val state = when(val translationsCountResult = animeService.getAnimeTranslationsCount(url)) {
+                is Resource.Success -> {
+                    val data = translationsCountResult.data.map { it.toTranslationsCount() }
+                    StateListWrapper(data)
+                }
+                is Resource.Error -> {
+                    StateListWrapper(error = translationsCountResult.error)
                 }
                 is Resource.Loading -> {
                     StateListWrapper.loading()
