@@ -6,10 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "club.anifox.android.feature.translations"
+    namespace = "club.anifox.android.feature.episodes"
 }
 
 dependencies {
+    implementation(libs.toolbar.compose)
     implementation(libs.paging.runtime)
     implementation(libs.paging.compose)
 
