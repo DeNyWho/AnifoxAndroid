@@ -1,9 +1,11 @@
 package club.anifox.android.data.network.service
 
 import club.anifox.android.data.network.api.ApiEndpoints
+import club.anifox.android.data.network.api.ApiEndpoints.ANIME_EPISODES
 import club.anifox.android.data.network.models.dto.anime.common.AnimeGenreDTO
 import club.anifox.android.data.network.models.dto.anime.common.AnimeStudioDTO
 import club.anifox.android.data.network.models.dto.anime.detail.AnimeDetailDTO
+import club.anifox.android.data.network.models.dto.anime.episodes.AnimeEpisodesDTO
 import club.anifox.android.data.network.models.dto.anime.episodes.AnimeTranslationCountDTO
 import club.anifox.android.data.network.models.dto.anime.episodes.AnimeTranslationDTO
 import club.anifox.android.data.network.models.dto.anime.light.AnimeLightDTO
@@ -126,6 +128,20 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
         }
 
         return safeApiCall<List<AnimeTranslationCountDTO>>(client, request)
+    }
+
+    suspend fun getAnimeEpisodes(page: Int, limit: Int, url: String, translationId: Int): Resource<List<AnimeEpisodesDTO>> {
+        val request = HttpRequestBuilder().apply {
+            method = HttpMethod.Get
+            url {
+                encodedPath = "${ApiEndpoints.ANIME}/$url/${ANIME_EPISODES}"
+                parameter("page", page)
+                parameter("limit", limit)
+                parameter("translation_id", translationId)
+            }
+        }
+
+        return safeApiCall<List<AnimeEpisodesDTO>>(client, request)
     }
 
     suspend fun getAnimeDetail(url: String): Resource<AnimeDetailDTO> {

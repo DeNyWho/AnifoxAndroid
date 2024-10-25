@@ -1,7 +1,11 @@
+@file:UseSerializers(LocalDateSerializer::class)
 package club.anifox.android.data.network.models.dto.anime.episodes
 
+import club.anifox.android.core.common.serializer.LocalDateSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
+import java.time.LocalDate
 
 @Serializable
 data class AnimeEpisodesDTO(
@@ -11,6 +15,12 @@ data class AnimeEpisodesDTO(
     val number: Int = 0,
     @SerialName("image")
     val image: String = "",
+    @SerialName("aired")
+    val aired: LocalDate = LocalDate.now(),
+    @SerialName("filler")
+    val filler: Boolean = false,
+    @SerialName("recap")
+    val recap: Boolean = false,
     @SerialName("translations")
-    val translations: List<AnimeTranslationDTO> = listOf(),
+    val translations: List<AnimeEpisodesTranslationsDTO> = listOf(),
 )

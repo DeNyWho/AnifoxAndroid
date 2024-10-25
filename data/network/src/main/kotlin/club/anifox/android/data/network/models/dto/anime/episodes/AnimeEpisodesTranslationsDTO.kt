@@ -11,6 +11,4 @@ data class AnimeEpisodesTranslationsDTO(
     val link: String = "",
     @SerialName("title")
     val title: String = "",
-    @SerialName("type")
-    val type: String = "",
 )
