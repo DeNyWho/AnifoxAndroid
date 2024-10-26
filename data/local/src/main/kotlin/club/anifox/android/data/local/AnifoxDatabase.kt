@@ -2,6 +2,7 @@ package club.anifox.android.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import club.anifox.android.data.local.cache.dao.anime.catalog.AnimeCacheCatalogDao
 import club.anifox.android.data.local.cache.dao.anime.episodes.AnimeCacheEpisodesDao
 import club.anifox.android.data.local.cache.dao.anime.genres.AnimeCacheGenresDao
@@ -11,6 +12,7 @@ import club.anifox.android.data.local.cache.model.anime.episodes.AnimeCacheEpiso
 import club.anifox.android.data.local.cache.model.anime.genres.AnimeCacheGenresEntity
 import club.anifox.android.data.local.cache.model.anime.search.AnimeCacheSearchEntity
 import club.anifox.android.data.local.cache.model.anime.translation.AnimeCacheEpisodesTranslationsEntity
+import club.anifox.android.data.local.converters.Converters
 import club.anifox.android.data.local.dao.anime.AnimeDao
 import club.anifox.android.data.local.model.anime.AnimeEntity
 
@@ -26,6 +28,7 @@ import club.anifox.android.data.local.model.anime.AnimeEntity
     version = 6,
     exportSchema = true,
 )
+@TypeConverters(Converters::class)
 internal abstract class AnifoxDatabase: RoomDatabase() {
     abstract fun animeDao(): AnimeDao
     abstract fun animeCacheSearchDao(): AnimeCacheSearchDao

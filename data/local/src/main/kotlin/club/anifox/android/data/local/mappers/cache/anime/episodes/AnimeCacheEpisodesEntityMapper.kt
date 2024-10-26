@@ -18,5 +18,5 @@ fun AnimeCacheEpisodeWithTranslations.toLight(): AnimeEpisodesLight = AnimeEpiso
 fun AnimeCacheEpisodesTranslationsEntity.toTranslation(): AnimeEpisodeTranslation = AnimeEpisodeTranslation(
     id = translationId,
     link = link,
-    title = title,
+    title = translationTitle,
 )

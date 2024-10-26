@@ -22,5 +22,5 @@ data class AnimeCacheEpisodesTranslationsEntity(
     @ColumnInfo(name = "episodeNumber")
     val episodeNumber: Int,
     val link: String,
-    val title: String
+    val translationTitle: String,
 )

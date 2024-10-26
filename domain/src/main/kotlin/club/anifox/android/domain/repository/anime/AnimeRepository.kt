@@ -9,6 +9,7 @@ import club.anifox.android.domain.model.anime.enum.AnimeSort
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.enum.VideoType
+import club.anifox.android.domain.model.anime.episodes.AnimeEpisodesLight
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.model.anime.studio.AnimeStudio
@@ -78,4 +79,9 @@ interface AnimeRepository {
     ): Flow<PagingData<AnimeLight>>
 
     fun getAnimeTranslationsCount(url: String): Flow<StateListWrapper<AnimeTranslationsCount>>
+    fun getAnimeEpisodesPaged(
+        limit: Int,
+        url: String,
+        translationId: Int
+    ): Flow<PagingData<AnimeEpisodesLight>>
 }
