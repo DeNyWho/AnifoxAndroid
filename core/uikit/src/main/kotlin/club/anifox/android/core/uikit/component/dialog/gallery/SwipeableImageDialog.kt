@@ -4,6 +4,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -25,6 +26,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
@@ -66,10 +68,16 @@ fun SwipeableImageDialog(
 
     Dialog(
         onDismissRequest = onDismiss,
-        properties = DialogProperties(usePlatformDefaultWidth = false),
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false,
+            decorFitsSystemWindows = false,
+            dismissOnBackPress = true,
+            dismissOnClickOutside = true,
+        ),
     ) {
         Surface(
             modifier = Modifier.fillMaxSize(),
+            shape = RoundedCornerShape(0.dp),
             color = Color.Black.copy(alpha = backgroundAlpha),
         ) {
             AsyncImage(
@@ -109,7 +117,7 @@ fun SwipeableImageDialog(
                             }
                         }
                     },
-                contentScale = ContentScale.Fit,
+                contentScale = ContentScale.FillWidth,
                 alignment = Alignment.Center,
             )
         }

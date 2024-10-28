@@ -3,7 +3,7 @@ package club.anifox.android.feature.search.composable.item
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.ui.unit.dp
 
-object AnimeSearchItemDefaults {
+internal object AnimeSearchItemDefaults {
     object Width {
         val Small = 120.dp
         val Medium = 140.dp

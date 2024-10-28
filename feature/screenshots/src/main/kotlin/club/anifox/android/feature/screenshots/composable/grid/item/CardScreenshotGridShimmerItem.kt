@@ -51,7 +51,7 @@ internal fun CardScreenshotGridShimmerItem(
     }
 }
 
-fun LazyGridScope.showCardScreenshotGridItemShimmer(
+internal fun LazyGridScope.showCardScreenshotGridItemShimmer(
     shimmerInstance: Shimmer,
     count: Int = 5,
 ) {

@@ -44,7 +44,6 @@ internal fun AnimeSearchItem(
     ) {
         AsyncImage(
             modifier = Modifier
-                .background(MaterialTheme.colorScheme.onSurfaceVariant)
                 .width(thumbnailWidth)
                 .height(thumbnailHeight)
                 .clip(MaterialTheme.shapes.medium),

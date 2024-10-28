@@ -41,7 +41,7 @@ internal fun CardGenreContentItemShimmer(
     }
 }
 
-fun LazyListScope.showCardGenreContentItemShimmer(
+internal fun LazyListScope.showCardGenreContentItemShimmer(
     shimmerInstance: Shimmer,
     count: Int = 11,
 ) {

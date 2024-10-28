@@ -19,7 +19,7 @@ import coil.request.ImageRequest
 import coil.size.Size
 
 @Composable
-fun CardScreenshotGridItem(
+internal fun CardScreenshotGridItem(
     modifier: Modifier = Modifier,
     image: String,
     onClick: (String) -> Unit,

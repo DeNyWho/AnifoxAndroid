@@ -3,7 +3,7 @@ package club.anifox.android.feature.episodes.composable.grid.item
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.ui.unit.dp
 
-object CardEpisodeGridItemDefaults {
+internal object CardEpisodeGridItemDefaults {
     object Width {
         val Min = 160.dp
         val GridSmall = 180.dp
