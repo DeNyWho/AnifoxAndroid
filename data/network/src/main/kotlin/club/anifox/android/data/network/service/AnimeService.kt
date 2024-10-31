@@ -10,6 +10,7 @@ import club.anifox.android.data.network.models.dto.anime.episodes.AnimeTranslati
 import club.anifox.android.data.network.models.dto.anime.episodes.AnimeTranslationDTO
 import club.anifox.android.data.network.models.dto.anime.light.AnimeLightDTO
 import club.anifox.android.data.network.models.dto.anime.related.AnimeRelatedDTO
+import club.anifox.android.data.network.models.dto.anime.schedule.AnimeScheduleDTO
 import club.anifox.android.data.network.models.dto.anime.videos.AnimeVideosDTO
 import club.anifox.android.data.network.safeApiCall
 import club.anifox.android.domain.model.anime.enum.AnimeOrder
@@ -198,5 +199,24 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
         }
 
         return safeApiCall<List<AnimeVideosDTO>>(client, request)
+    }
+
+    suspend fun getAnimeSchedule(
+        page: Int,
+        limit: Int,
+        dayOfWeek: String?,
+    ): Resource<AnimeScheduleDTO> {
+        val request = HttpRequestBuilder().apply {
+            method = HttpMethod.Get
+            url {
+                encodedPath = "${ApiEndpoints.ANIME}/$url/${ApiEndpoints.ANIME_SCHEDULE}"
+                parameter("page", page)
+                parameter("limit", limit)
+
+                if(dayOfWeek != null) parameter("day_of_week", dayOfWeek)
+            }
+        }
+
+        return safeApiCall<AnimeScheduleDTO>(client, request)
     }
 }

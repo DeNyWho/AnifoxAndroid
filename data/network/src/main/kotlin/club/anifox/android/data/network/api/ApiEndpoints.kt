@@ -12,6 +12,7 @@ object ApiEndpoints {
     const val ANIME_SIMILAR = "similar"
     const val ANIME_RELATED = "related"
     const val ANIME_SCREENSHOTS = "screenshots"
+    const val ANIME_SCHEDULE = "schedules"
     const val ANIME_VIDEOS = "videos"
 
     // USER PATH
