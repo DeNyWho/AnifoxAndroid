@@ -14,7 +14,7 @@ import androidx.tracing.trace
 import club.anifox.android.core.common.util.network.NetworkMonitor
 import club.anifox.android.feature.favourite.navigation.navigateToFavourite
 import club.anifox.android.feature.home.navigation.navigateToHome
-import club.anifox.android.feature.profile.navigation.navigateToProfile
+import club.anifox.android.feature.schedule.navigation.navigateToSchedule
 import club.anifox.android.navigation.TopLevelDestination
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -82,8 +82,9 @@ class AnifoxAppState(
 
             when (topLevelDestination) {
                 TopLevelDestination.HOME -> navController.navigateToHome(topLevelNavOptions)
+                TopLevelDestination.SCHEDULE -> navController.navigateToSchedule(topLevelNavOptions)
                 TopLevelDestination.FAVOURITE -> navController.navigateToFavourite(topLevelNavOptions)
-                TopLevelDestination.PROFILE -> navController.navigateToProfile(topLevelNavOptions)
+//                TopLevelDestination.PROFILE -> navController.navigateToProfile(topLevelNavOptions)
             }
         }
     }

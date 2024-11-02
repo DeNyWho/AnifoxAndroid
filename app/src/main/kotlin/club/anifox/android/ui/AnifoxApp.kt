@@ -40,7 +40,7 @@ import club.anifox.android.core.uikit.component.navigation.AnifoxNavigationBar
 import club.anifox.android.core.uikit.component.navigation.AnifoxNavigationBarItem
 import club.anifox.android.feature.favourite.navigation.FAVOURITE_ROUTE
 import club.anifox.android.feature.home.navigation.HOME_ROUTE
-import club.anifox.android.feature.profile.navigation.PROFILE_ROUTE
+import club.anifox.android.feature.schedule.navigation.SCHEDULE_ROUTE
 import club.anifox.android.navigation.AnifoxNavHost
 import club.anifox.android.navigation.TopLevelDestination
 
@@ -49,8 +49,9 @@ import club.anifox.android.navigation.TopLevelDestination
 fun AnifoxApp(appState: AnifoxAppState) {
     val screensWithNavBar = listOf(
         HOME_ROUTE,
+        SCHEDULE_ROUTE,
         FAVOURITE_ROUTE,
-        PROFILE_ROUTE,
+//        PROFILE_ROUTE,
     )
 
     AnifoxBackground {
