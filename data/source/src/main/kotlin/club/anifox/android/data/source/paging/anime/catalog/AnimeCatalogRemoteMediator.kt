@@ -7,7 +7,7 @@ import androidx.paging.RemoteMediator
 import club.anifox.android.data.local.cache.dao.anime.catalog.AnimeCacheCatalogDao
 import club.anifox.android.data.local.cache.model.anime.catalog.AnimeCacheCatalogEntity
 import club.anifox.android.data.network.service.AnimeService
-import club.anifox.android.data.source.mapper.toEntityCacheCatalogLight
+import club.anifox.android.data.source.mapper.anime.toEntityCacheCatalogLight
 import club.anifox.android.domain.model.anime.enum.AnimeOrder
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeSort

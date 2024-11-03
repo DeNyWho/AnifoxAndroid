@@ -1,12 +1,14 @@
-package club.anifox.android.data.source.mapper
+package club.anifox.android.data.source.mapper.anime
 
 import club.anifox.android.data.local.cache.model.anime.catalog.AnimeCacheCatalogEntity
 import club.anifox.android.data.local.cache.model.anime.genres.AnimeCacheGenresEntity
+import club.anifox.android.data.local.cache.model.anime.schedule.AnimeCacheScheduleEntity
 import club.anifox.android.data.local.cache.model.anime.search.AnimeCacheSearchEntity
 import club.anifox.android.data.local.model.anime.AnimeEntity
 import club.anifox.android.data.network.mappers.anime.common.toImage
 import club.anifox.android.data.network.models.dto.anime.light.AnimeLightDTO
 import club.anifox.android.domain.model.anime.AnimeLight
+import club.anifox.android.domain.model.common.enum.WeekDay
 
 fun AnimeLightDTO.toLight(): AnimeLight = AnimeLight(
     title,
@@ -64,4 +66,17 @@ fun AnimeLightDTO.toEntityCacheGenresLight(): AnimeCacheGenresEntity = AnimeCach
     status = status,
     season = season,
     description = description
+)
+
+fun AnimeLightDTO.toEntityCacheScheduleLight(dayOfWeek: WeekDay): AnimeCacheScheduleEntity = AnimeCacheScheduleEntity(
+    title = title,
+    image = image.toImage().medium,
+    url = url,
+    dayOfWeek = dayOfWeek,
+    type = type,
+    rating = rating,
+    year = year,
+    status = status,
+    season = season,
+    description = description,
 )

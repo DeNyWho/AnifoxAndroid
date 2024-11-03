@@ -7,7 +7,7 @@ import androidx.paging.RemoteMediator
 import club.anifox.android.data.local.cache.dao.anime.genres.AnimeCacheGenresDao
 import club.anifox.android.data.local.cache.model.anime.genres.AnimeCacheGenresEntity
 import club.anifox.android.data.network.service.AnimeService
-import club.anifox.android.data.source.mapper.toEntityCacheGenresLight
+import club.anifox.android.data.source.mapper.anime.toEntityCacheGenresLight
 import club.anifox.android.domain.model.common.request.Resource
 
 @OptIn(ExperimentalPagingApi::class)

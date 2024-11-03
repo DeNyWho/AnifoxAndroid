@@ -1,36 +1,32 @@
-package club.anifox.android.data.source.paging.anime.search
+package club.anifox.android.data.source.paging.anime.schedule
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import club.anifox.android.data.local.cache.dao.anime.search.AnimeCacheSearchDao
-import club.anifox.android.data.local.cache.model.anime.search.AnimeCacheSearchEntity
+import club.anifox.android.data.local.cache.dao.anime.schedule.AnimeCacheScheduleDao
+import club.anifox.android.data.local.cache.model.anime.schedule.AnimeCacheScheduleEntity
 import club.anifox.android.data.network.service.AnimeService
-import club.anifox.android.data.source.mapper.anime.toEntityCacheSearchLight
+import club.anifox.android.data.source.mapper.anime.toEntityCacheScheduleLight
+import club.anifox.android.domain.model.common.enum.WeekDay
 import club.anifox.android.domain.model.common.request.Resource
 
 @OptIn(ExperimentalPagingApi::class)
-internal class AnimeSearchRemoteMediator(
+internal class AnimeScheduleRemoteMediator(
     private val animeService: AnimeService,
-    private val animeCacheSearchDao: AnimeCacheSearchDao,
-    private var searchQuery: String?,
-) : RemoteMediator<Int, AnimeCacheSearchEntity>() {
+    private val animeCacheScheduleDao: AnimeCacheScheduleDao,
+    private var dayOfWeek: WeekDay
+) : RemoteMediator<Int, AnimeCacheScheduleEntity>() {
 
     private var lastLoadedPage = -1
-    private var currentParams: Params = Params(searchQuery)
-
-    private data class Params(
-        val searchQuery: String?,
-    )
+    private var currentDay: WeekDay = dayOfWeek
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, AnimeCacheSearchEntity>
+        state: PagingState<Int, AnimeCacheScheduleEntity>
     ): MediatorResult {
-        val newParams = Params(searchQuery)
-        if (newParams != currentParams) {
-            currentParams = newParams
+        if (currentDay != dayOfWeek) {
+            currentDay = dayOfWeek
             lastLoadedPage = -1
         }
 
@@ -41,20 +37,22 @@ internal class AnimeSearchRemoteMediator(
                 LoadType.APPEND -> lastLoadedPage + 1
             }
 
-            val response = animeService.getAnime(
+            val response = animeService.getAnimeSchedule(
                 page = loadKey,
                 limit = state.config.pageSize,
-                searchQuery = currentParams.searchQuery,
+                dayOfWeek = currentDay.name.lowercase()
             )
 
-            when(response) {
+            when (response) {
                 is Resource.Success -> {
                     if (loadType == LoadType.REFRESH) {
-                        animeCacheSearchDao.clearAll()
+                        animeCacheScheduleDao.deleteSchedulesForDay(currentDay.name)
                         lastLoadedPage = -1
                     }
-                    val animeEntities = response.data.map { it.toEntityCacheSearchLight() }
-                    animeCacheSearchDao.insertAll(animeEntities)
+
+                    val animeEntities = response.data.getListByDay(currentDay).map { it.toEntityCacheScheduleLight(currentDay)}
+
+                    animeCacheScheduleDao.insertAnimeSchedules(animeEntities)
                     lastLoadedPage = loadKey
                     MediatorResult.Success(endOfPaginationReached = animeEntities.isEmpty())
                 }

@@ -16,6 +16,7 @@ import club.anifox.android.domain.model.anime.studio.AnimeStudio
 import club.anifox.android.domain.model.anime.translations.AnimeTranslation
 import club.anifox.android.domain.model.anime.translations.AnimeTranslationsCount
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
+import club.anifox.android.domain.model.common.enum.WeekDay
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.state.StateWrapper
 import kotlinx.coroutines.flow.Flow
@@ -84,4 +85,7 @@ interface AnimeRepository {
         url: String,
         translationId: Int
     ): Flow<PagingData<AnimeEpisodesLight>>
+
+    @OptIn(ExperimentalPagingApi::class)
+    fun getAnimeScheduleForDayPaged(limit: Int, dayOfWeek: WeekDay): Flow<PagingData<AnimeLight>>
 }

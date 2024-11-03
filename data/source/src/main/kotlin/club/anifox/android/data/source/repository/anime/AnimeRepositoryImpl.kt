@@ -8,9 +8,11 @@ import androidx.paging.map
 import club.anifox.android.data.local.cache.dao.anime.catalog.AnimeCacheCatalogDao
 import club.anifox.android.data.local.cache.dao.anime.episodes.AnimeCacheEpisodesDao
 import club.anifox.android.data.local.cache.dao.anime.genres.AnimeCacheGenresDao
+import club.anifox.android.data.local.cache.dao.anime.schedule.AnimeCacheScheduleDao
 import club.anifox.android.data.local.cache.dao.anime.search.AnimeCacheSearchDao
 import club.anifox.android.data.local.dao.anime.AnimeDao
 import club.anifox.android.data.local.mappers.cache.anime.episodes.toLight
+import club.anifox.android.data.local.mappers.cache.anime.schedule.toLight
 import club.anifox.android.data.local.mappers.cache.anime.toLight
 import club.anifox.android.data.network.mappers.anime.common.toGenre
 import club.anifox.android.data.network.mappers.anime.common.toStudio
@@ -20,10 +22,11 @@ import club.anifox.android.data.network.mappers.anime.episodes.toTranslationsCou
 import club.anifox.android.data.network.mappers.anime.light.toLight
 import club.anifox.android.data.network.mappers.anime.videos.toLight
 import club.anifox.android.data.network.service.AnimeService
-import club.anifox.android.data.source.mapper.toLight
+import club.anifox.android.data.source.mapper.anime.toLight
 import club.anifox.android.data.source.paging.anime.catalog.AnimeCatalogRemoteMediator
 import club.anifox.android.data.source.paging.anime.episodes.AnimeEpisodesRemoteMediator
 import club.anifox.android.data.source.paging.anime.genres.AnimeGenresRemoteMediator
+import club.anifox.android.data.source.paging.anime.schedule.AnimeScheduleRemoteMediator
 import club.anifox.android.data.source.paging.anime.search.AnimeSearchRemoteMediator
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
@@ -40,6 +43,7 @@ import club.anifox.android.domain.model.anime.studio.AnimeStudio
 import club.anifox.android.domain.model.anime.translations.AnimeTranslation
 import club.anifox.android.domain.model.anime.translations.AnimeTranslationsCount
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
+import club.anifox.android.domain.model.common.enum.WeekDay
 import club.anifox.android.domain.model.common.request.Resource
 import club.anifox.android.domain.repository.anime.AnimeRepository
 import club.anifox.android.domain.state.StateListWrapper
@@ -58,6 +62,7 @@ internal class AnimeRepositoryImpl @Inject constructor(
     private val animeCacheCatalogDao: AnimeCacheCatalogDao,
     private val animeCacheGenresDao: AnimeCacheGenresDao,
     private val animeCacheEpisodesDao: AnimeCacheEpisodesDao,
+    private val animeCacheScheduleDao: AnimeCacheScheduleDao,
 ) : AnimeRepository {
 
     override fun getAnime(
@@ -204,6 +209,24 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 translationId = translationId,
             ),
             pagingSourceFactory = { animeCacheEpisodesDao.getPagedEpisodes() }
+        ).flow.map { pagingData ->
+            pagingData.map { it.toLight() }
+        }
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getAnimeScheduleForDayPaged(
+        limit: Int,
+        dayOfWeek: WeekDay,
+    ): Flow<PagingData<AnimeLight>> {
+        return Pager(
+            config = PagingConfig(pageSize = limit),
+            remoteMediator = AnimeScheduleRemoteMediator(
+                dayOfWeek = dayOfWeek,
+                animeService = animeService,
+                animeCacheScheduleDao = animeCacheScheduleDao
+            ),
+            pagingSourceFactory = { animeCacheScheduleDao.getPagedAnimeForDay(dayOfWeek.name) }
         ).flow.map { pagingData ->
             pagingData.map { it.toLight() }
         }
