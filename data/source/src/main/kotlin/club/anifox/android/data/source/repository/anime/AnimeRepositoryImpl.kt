@@ -216,11 +216,14 @@ internal class AnimeRepositoryImpl @Inject constructor(
 
     @OptIn(ExperimentalPagingApi::class)
     override fun getAnimeScheduleForDayPaged(
-        limit: Int,
         dayOfWeek: WeekDay,
     ): Flow<PagingData<AnimeLight>> {
         return Pager(
-            config = PagingConfig(pageSize = limit),
+            config = PagingConfig(
+                pageSize = 100,
+                enablePlaceholders = false,
+                initialLoadSize = 100,
+            ),
             remoteMediator = AnimeScheduleRemoteMediator(
                 dayOfWeek = dayOfWeek,
                 animeService = animeService,

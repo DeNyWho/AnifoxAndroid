@@ -86,6 +86,5 @@ interface AnimeRepository {
         translationId: Int
     ): Flow<PagingData<AnimeEpisodesLight>>
 
-    @OptIn(ExperimentalPagingApi::class)
-    fun getAnimeScheduleForDayPaged(limit: Int, dayOfWeek: WeekDay): Flow<PagingData<AnimeLight>>
+    fun getAnimeScheduleForDayPaged(dayOfWeek: WeekDay): Flow<PagingData<AnimeLight>>
 }

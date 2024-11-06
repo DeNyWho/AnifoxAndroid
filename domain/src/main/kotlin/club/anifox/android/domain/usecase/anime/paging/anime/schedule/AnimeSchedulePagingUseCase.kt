@@ -8,11 +8,9 @@ import kotlinx.coroutines.flow.Flow
 
 class AnimeSchedulePagingUseCase(private val animeRepository: AnimeRepository) {
     operator fun invoke(
-        limit: Int = 20,
         dayOfWeek: WeekDay,
     ): Flow<PagingData<AnimeLight>> {
         return animeRepository.getAnimeScheduleForDayPaged(
-            limit = limit,
             dayOfWeek = dayOfWeek,
         )
     }

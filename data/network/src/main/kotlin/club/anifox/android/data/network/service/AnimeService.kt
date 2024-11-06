@@ -204,16 +204,13 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
     suspend fun getAnimeSchedule(
         page: Int,
         limit: Int,
-        dayOfWeek: String?,
     ): Resource<AnimeScheduleDTO> {
         val request = HttpRequestBuilder().apply {
             method = HttpMethod.Get
             url {
-                encodedPath = "${ApiEndpoints.ANIME}/$url/${ApiEndpoints.ANIME_SCHEDULE}"
+                encodedPath = "${ApiEndpoints.ANIME}/${ApiEndpoints.ANIME_SCHEDULE}"
                 parameter("page", page)
                 parameter("limit", limit)
-
-                if(dayOfWeek != null) parameter("day_of_week", dayOfWeek)
             }
         }
 
