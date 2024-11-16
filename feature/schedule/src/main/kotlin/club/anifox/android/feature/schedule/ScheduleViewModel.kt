@@ -6,8 +6,12 @@ import androidx.paging.PagingData
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.common.enum.WeekDay
 import club.anifox.android.domain.usecase.anime.paging.anime.schedule.AnimeSchedulePagingUseCase
+import club.anifox.android.feature.schedule.state.ScheduleState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,22 +19,36 @@ import javax.inject.Inject
 internal class ScheduleViewModel @Inject constructor(
     private val animeSchedulePagingUseCase: AnimeSchedulePagingUseCase,
 ) : ViewModel() {
+    private val _scheduleState = MutableStateFlow(ScheduleState())
+    val scheduleState = _scheduleState.asStateFlow()
 
-    // Cache for storing PagingData flows
+    private fun updateLoadingState(dayOfWeek: WeekDay, isLoading: Boolean) {
+        _scheduleState.update {
+            val updatedLoadingMap = it.loadingMap.toMutableMap().apply {
+                this[dayOfWeek] = isLoading
+            }
+            it.copy(
+                isLoading = updatedLoadingMap.values.any { loading -> loading },
+                loadingMap = updatedLoadingMap
+            )
+        }
+    }
+
     private val scheduleCache = mutableMapOf<WeekDay, Flow<PagingData<AnimeLight>>>()
 
-    // Get schedule data with caching
     fun getScheduleForDay(dayOfWeek: WeekDay): Flow<PagingData<AnimeLight>> {
         return scheduleCache.getOrPut(dayOfWeek) {
             animeSchedulePagingUseCase(dayOfWeek = dayOfWeek)
         }
     }
 
-    // Prefetch data for a specific day
     fun prefetchScheduleForDay(dayOfWeek: WeekDay) {
         viewModelScope.launch {
             if (!scheduleCache.containsKey(dayOfWeek)) {
-                scheduleCache[dayOfWeek] = animeSchedulePagingUseCase(dayOfWeek = dayOfWeek)
+                updateLoadingState(dayOfWeek, true)
+                scheduleCache[dayOfWeek] = animeSchedulePagingUseCase(dayOfWeek = dayOfWeek).also {
+                    updateLoadingState(dayOfWeek, false)
+                }
             }
         }
     }

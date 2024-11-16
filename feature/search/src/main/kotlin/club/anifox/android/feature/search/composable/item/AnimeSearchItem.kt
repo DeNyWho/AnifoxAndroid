@@ -48,7 +48,7 @@ internal fun AnimeSearchItem(
                 .width(thumbnailWidth)
                 .height(thumbnailHeight),
             elevation = CardDefaults.elevatedCardElevation(
-                defaultElevation = 10.dp,
+                defaultElevation = 4.dp,
             ),
             shape = MaterialTheme.shapes.medium,
         ) {

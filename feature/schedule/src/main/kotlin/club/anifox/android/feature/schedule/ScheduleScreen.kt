@@ -2,8 +2,10 @@ package club.anifox.android.feature.schedule
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -13,11 +15,15 @@ import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -28,13 +34,16 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import club.anifox.android.core.uikit.component.grid.GridContentDefaults
+import club.anifox.android.core.uikit.component.tab.simple.AnifoxScrollableTabRow
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.common.device.ScreenType
 import club.anifox.android.domain.model.common.enum.WeekDay
 import club.anifox.android.feature.schedule.composable.item.AnimeScheduleItem
 import club.anifox.android.feature.schedule.composable.item.AnimeScheduleItemDefaults
+import club.anifox.android.feature.schedule.state.ScheduleState
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 @Composable
@@ -42,6 +51,7 @@ internal fun ScheduleScreen(
     viewModel: ScheduleViewModel = hiltViewModel(),
     onAnimeClick: (String) -> Unit,
 ) {
+    val scheduleState by viewModel.scheduleState.collectAsState()
     val daysOfWeek = WeekDay.entries.toTypedArray()
     val localWeek = LocalDate.now().dayOfWeek.value - 1
     val pagerState = rememberPagerState(initialPage = localWeek, pageCount = { daysOfWeek.size })
@@ -67,6 +77,7 @@ internal fun ScheduleScreen(
     }
 
     ScheduleUI(
+        scheduleState = scheduleState,
         pagerState = pagerState,
         daysOfWeek = daysOfWeek,
         scheduleResults = scheduleResults,
@@ -76,31 +87,67 @@ internal fun ScheduleScreen(
 
 @Composable
 private fun ScheduleUI(
+    scheduleState: ScheduleState,
     pagerState: PagerState,
     daysOfWeek: Array<WeekDay>,
     scheduleResults: Map<WeekDay, Flow<PagingData<AnimeLight>>>,
     onAnimeClick: (String) -> Unit,
 ) {
+    val scope = rememberCoroutineScope()
+
     Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
         Box(modifier = Modifier.padding(padding)) {
-            HorizontalPager(
-                state = pagerState,
-                pageSize = PageSize.Fill,
-                modifier = Modifier.fillMaxSize(),
-                beyondViewportPageCount = 1 // Keep one page on each side loaded
-            ) { page ->
-                val currentDayOfWeek = daysOfWeek[page]
-                val currentDayFlow = scheduleResults[currentDayOfWeek]
+            Column {
+                AnifoxScrollableTabRow(
+                    modifier = Modifier
+                        .padding(bottom = 20.dp),
+                    itemModifier = Modifier.height(48.dp),
+                    items = daysOfWeek.toList(),
+                    selectedIndex = pagerState.currentPage,
+                    onTabSelected = { index ->
+                        scope.launch {
+                            pagerState.animateScrollToPage(index)
+                        }
+                    },
+                    itemToText = { it.russianName },
+                    selectedColor = MaterialTheme.colorScheme.primary,
+                    unSelectedColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
 
-                if (currentDayFlow != null) {
-                    key(currentDayOfWeek) {
-                        val currentDayItems = currentDayFlow.collectAsLazyPagingItems()
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                ) {
+                    HorizontalPager(
+                        state = pagerState,
+                        pageSize = PageSize.Fill,
+                        modifier = Modifier.fillMaxSize(),
+                        beyondViewportPageCount = 1 // Keep one page on each side loaded
+                    ) { page ->
+                        val currentDayOfWeek = daysOfWeek[page]
+                        val currentDayFlow = scheduleResults[currentDayOfWeek]
 
-                        Box(modifier = Modifier.fillMaxSize()) {
-                            ScheduleContent(
-                                scheduleResults = currentDayItems,
-                                onAnimeClick = onAnimeClick,
-                            )
+                        if (currentDayFlow != null) {
+                            key(currentDayOfWeek) {
+                                val currentDayItems = currentDayFlow.collectAsLazyPagingItems()
+
+                                // Проверяем состояния загрузки
+                                val isLoading = scheduleState.isLoading ||
+                                        currentDayItems.loadState.refresh is LoadState.Loading ||
+                                        currentDayItems.loadState.append is LoadState.Loading
+
+                                Box(modifier = Modifier.fillMaxSize()) {
+                                    if (isLoading) {
+                                        CircularProgressIndicator(
+                                            modifier = Modifier.align(Alignment.Center)
+                                        )
+                                    } else {
+                                        ScheduleContent(
+                                            scheduleResults = currentDayItems,
+                                            onAnimeClick = onAnimeClick,
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
                 }
