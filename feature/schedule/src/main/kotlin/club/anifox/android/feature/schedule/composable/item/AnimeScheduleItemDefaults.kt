@@ -1,9 +1,9 @@
-package club.anifox.android.feature.search.composable.item
+package club.anifox.android.feature.schedule.composable.item
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.ui.unit.dp
 
-internal object AnimeSearchItemDefaults {
+internal object AnimeScheduleItemDefaults {
     object Width {
         val Small = 140.dp
         val Medium = 140.dp
@@ -21,6 +21,6 @@ internal object AnimeSearchItemDefaults {
     }
 
     object VerticalArrangement {
-        val Grid = Arrangement.spacedBy(12.dp)
+        val Grid = Arrangement.spacedBy(20.dp)
     }
 }

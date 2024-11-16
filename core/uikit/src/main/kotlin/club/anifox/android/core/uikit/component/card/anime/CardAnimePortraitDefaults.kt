@@ -28,6 +28,7 @@ object CardAnimePortraitDefaults {
 
     object VerticalArrangement {
         val Grid = Arrangement.spacedBy(4.dp)
+        val GridSearch = Arrangement.spacedBy(12.dp)
     }
 
     object Limit {

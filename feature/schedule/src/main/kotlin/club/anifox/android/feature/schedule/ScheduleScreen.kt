@@ -27,16 +27,20 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
-import club.anifox.android.core.uikit.component.card.anime.CardAnimePortrait
 import club.anifox.android.core.uikit.component.grid.GridContentDefaults
+import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.AnimeLight
+import club.anifox.android.domain.model.common.device.ScreenType
 import club.anifox.android.domain.model.common.enum.WeekDay
+import club.anifox.android.feature.schedule.composable.item.AnimeScheduleItem
+import club.anifox.android.feature.schedule.composable.item.AnimeScheduleItemDefaults
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 @Composable
 internal fun ScheduleScreen(
     viewModel: ScheduleViewModel = hiltViewModel(),
+    onAnimeClick: (String) -> Unit,
 ) {
     val daysOfWeek = WeekDay.entries.toTypedArray()
     val localWeek = LocalDate.now().dayOfWeek.value - 1
@@ -66,6 +70,7 @@ internal fun ScheduleScreen(
         pagerState = pagerState,
         daysOfWeek = daysOfWeek,
         scheduleResults = scheduleResults,
+        onAnimeClick = onAnimeClick,
     )
 }
 
@@ -73,7 +78,8 @@ internal fun ScheduleScreen(
 private fun ScheduleUI(
     pagerState: PagerState,
     daysOfWeek: Array<WeekDay>,
-    scheduleResults: Map<WeekDay, Flow<PagingData<AnimeLight>>>
+    scheduleResults: Map<WeekDay, Flow<PagingData<AnimeLight>>>,
+    onAnimeClick: (String) -> Unit,
 ) {
     Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
         Box(modifier = Modifier.padding(padding)) {
@@ -93,6 +99,7 @@ private fun ScheduleUI(
                         Box(modifier = Modifier.fillMaxSize()) {
                             ScheduleContent(
                                 scheduleResults = currentDayItems,
+                                onAnimeClick = onAnimeClick,
                             )
                         }
                     }
@@ -106,8 +113,32 @@ private fun ScheduleUI(
 private fun ScheduleContent(
     modifier: Modifier = Modifier,
     scheduleResults: LazyPagingItems<AnimeLight>,
+    onAnimeClick: (String) -> Unit,
 ) {
     val lazyGridState = rememberLazyGridState()
+
+    val screenInfo = LocalScreenInfo.current
+    val (width, height) = when (screenInfo.screenType) {
+        ScreenType.SMALL -> {
+            Pair(
+                AnimeScheduleItemDefaults.Width.Small,
+                AnimeScheduleItemDefaults.Height.Small,
+            )
+        }
+        ScreenType.DEFAULT -> {
+            Pair(
+                AnimeScheduleItemDefaults.Width.Medium,
+                AnimeScheduleItemDefaults.Height.Medium,
+            )
+        }
+        else -> {
+            Pair(
+                AnimeScheduleItemDefaults.Width.Large,
+                AnimeScheduleItemDefaults.Height.Large,
+            )
+        }
+    }
+    val minColumnSize = (screenInfo.portraitWidthDp.dp / 4).coerceAtLeast(300.dp)
 
     Box(
         modifier = modifier.fillMaxSize(),
@@ -117,8 +148,10 @@ private fun ScheduleContent(
             modifier = GridContentDefaults.Default
                 .fillMaxSize()
                 .animateContentSize(),
-            columns = GridCells.Adaptive(minSize = 160.dp),
+            columns = GridCells.Adaptive(minSize = minColumnSize),
             state = lazyGridState,
+            horizontalArrangement = AnimeScheduleItemDefaults.HorizontalArrangement.Grid,
+            verticalArrangement = AnimeScheduleItemDefaults.VerticalArrangement.Grid,
         ) {
             when {
                 scheduleResults.loadState.refresh is LoadState.Loading -> {
@@ -138,15 +171,11 @@ private fun ScheduleContent(
                     ) { index ->
                         val item = scheduleResults[index]
                         if (item != null) {
-                            Modifier
-                                .padding(8.dp)
-                            CardAnimePortrait(
-                                modifier = Modifier.animateItem(
-                                    fadeInSpec = null,
-                                    fadeOutSpec = null
-                                ),
+                            AnimeScheduleItem(
+                                thumbnailWidth = width,
+                                thumbnailHeight = height,
                                 data = item,
-                                onClick = { /* Navigation */ }
+                                onClick = onAnimeClick,
                             )
                         }
                     }

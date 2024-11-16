@@ -1,13 +1,11 @@
-package club.anifox.android.feature.search.composable.item
+package club.anifox.android.feature.schedule.composable.item
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -23,17 +21,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import club.anifox.android.core.uikit.component.chip.AnifoxChipPrimary
 import club.anifox.android.domain.model.anime.AnimeLight
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Size
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
-internal fun AnimeSearchItem(
-    thumbnailHeight: Dp = AnimeSearchItemDefaults.Height.Small,
-    thumbnailWidth: Dp = AnimeSearchItemDefaults.Width.Small,
+internal fun AnimeScheduleItem(
+    thumbnailHeight: Dp = AnimeScheduleItemDefaults.Height.Small,
+    thumbnailWidth: Dp = AnimeScheduleItemDefaults.Width.Small,
     data: AnimeLight,
     onClick: (String) -> Unit,
 ) {
@@ -55,6 +51,7 @@ internal fun AnimeSearchItem(
             AsyncImage(
                 modifier = Modifier
                     .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.onSurfaceVariant)
                     .clip(MaterialTheme.shapes.medium),
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(data.image)
@@ -81,24 +78,6 @@ internal fun AnimeSearchItem(
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier,
             )
-            FlowRow (
-                modifier = Modifier
-                    .padding(top = 8.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                AnifoxChipPrimary(
-                    title = data.year.toString(),
-                )
-                AnifoxChipPrimary(
-                    title = data.type.toString(),
-                )
-                if(data.rating != null) {
-                    AnifoxChipPrimary(
-                        title = data.rating.toString(),
-                    )
-                }
-            }
             Text(
                 text = data.description,
                 overflow = TextOverflow.Ellipsis,

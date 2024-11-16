@@ -22,7 +22,6 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
-import club.anifox.android.core.uikit.component.card.anime.CardAnimePortraitDefaults
 import club.anifox.android.core.uikit.component.error.NoSearchResultsError
 import club.anifox.android.core.uikit.component.grid.GridContentDefaults
 import club.anifox.android.core.uikit.util.LocalScreenInfo
@@ -164,8 +163,8 @@ private fun SearchContent(
                     modifier = GridContentDefaults.Default.fillMaxSize(),
                     columns = GridCells.Adaptive(minSize = minColumnSize),
                     state = lazyGridState,
-                    horizontalArrangement = CardAnimePortraitDefaults.HorizontalArrangement.Grid,
-                    verticalArrangement = CardAnimePortraitDefaults.VerticalArrangement.Grid,
+                    horizontalArrangement = AnimeSearchItemDefaults.HorizontalArrangement.Grid,
+                    verticalArrangement = AnimeSearchItemDefaults.VerticalArrangement.Grid,
                 ) {
                     items(
                         count = items.itemCount,

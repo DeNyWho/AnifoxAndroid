@@ -76,7 +76,9 @@ fun AnifoxNavHost(
         videoScreen(
             onBackPressed = navController::popBackStack,
         )
-        scheduleScreen()
+        scheduleScreen(
+            onAnimeClick = navController::navigateToDetail,
+        )
         profileScreen(
             onLoginClick = navController::navigateToLogin,
             onRegistrationClick = navController::navigateToRegistration,
