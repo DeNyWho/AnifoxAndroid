@@ -87,4 +87,7 @@ interface AnimeRepository {
     ): Flow<PagingData<AnimeEpisodesLight>>
 
     fun getAnimeScheduleForDayPaged(dayOfWeek: WeekDay): Flow<PagingData<AnimeLight>>
+    fun getLastSearchesHistory(): Flow<List<String>>
+    suspend fun addSearchHistory(query: String)
+    suspend fun deleteSearchHistory(query: String)
 }

@@ -1,5 +1,6 @@
 package club.anifox.android.feature.search.composable.item
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -54,6 +55,7 @@ internal fun AnimeSearchItem(
         ) {
             AsyncImage(
                 modifier = Modifier
+                    .background(MaterialTheme.colorScheme.onSurfaceVariant)
                     .fillMaxSize()
                     .clip(MaterialTheme.shapes.medium),
                 model = ImageRequest.Builder(LocalContext.current)

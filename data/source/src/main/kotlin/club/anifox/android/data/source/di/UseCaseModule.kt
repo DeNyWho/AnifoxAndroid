@@ -19,6 +19,9 @@ import club.anifox.android.domain.usecase.anime.paging.anime.episodes.AnimeEpiso
 import club.anifox.android.domain.usecase.anime.paging.anime.genres.AnimeGenresPagingUseCase
 import club.anifox.android.domain.usecase.anime.paging.anime.schedule.AnimeSchedulePagingUseCase
 import club.anifox.android.domain.usecase.anime.paging.anime.search.AnimeSearchPagingUseCase
+import club.anifox.android.domain.usecase.anime.search.AddAnimeSearchQueryUseCase
+import club.anifox.android.domain.usecase.anime.search.DeleteAnimeSearchQueryUseCase
+import club.anifox.android.domain.usecase.anime.search.GetAnimeSearchHistoryUseCase
 import club.anifox.android.domain.usecase.user.UserFirstLaunchUseCase
 import club.anifox.android.domain.usecase.user.UserSettingsUseCase
 import club.anifox.android.domain.usecase.user.UserTokensUseCase
@@ -60,6 +63,24 @@ internal object UseCaseModule {
     @Singleton
     fun provideAnimeSearchPagingUseCase(animeRepository: AnimeRepository): AnimeSearchPagingUseCase {
         return AnimeSearchPagingUseCase(animeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAddAnimeSearchQueryUseCase(animeRepository: AnimeRepository): AddAnimeSearchQueryUseCase {
+        return AddAnimeSearchQueryUseCase(animeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDeleteAnimeSearchQueryUseCase(animeRepository: AnimeRepository): DeleteAnimeSearchQueryUseCase {
+        return DeleteAnimeSearchQueryUseCase(animeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAnimeSearchHistoryUseCase(animeRepository: AnimeRepository): GetAnimeSearchHistoryUseCase {
+        return GetAnimeSearchHistoryUseCase(animeRepository)
     }
 
     @Provides

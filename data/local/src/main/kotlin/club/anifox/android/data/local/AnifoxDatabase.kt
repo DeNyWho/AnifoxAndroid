@@ -16,24 +16,28 @@ import club.anifox.android.data.local.cache.model.anime.search.AnimeCacheSearchE
 import club.anifox.android.data.local.cache.model.anime.translation.AnimeCacheEpisodesTranslationsEntity
 import club.anifox.android.data.local.converters.Converters
 import club.anifox.android.data.local.dao.anime.AnimeDao
+import club.anifox.android.data.local.dao.anime.AnimeSearchHistoryDao
 import club.anifox.android.data.local.model.anime.AnimeEntity
+import club.anifox.android.data.local.model.anime.AnimeSearchHistoryEntity
 
 @Database(
     entities = [
         AnimeEntity::class,
+        AnimeSearchHistoryEntity::class,
         AnimeCacheSearchEntity::class,
         AnimeCacheGenresEntity::class,
         AnimeCacheCatalogEntity::class,
         AnimeCacheEpisodesEntity::class,
         AnimeCacheScheduleEntity::class,
-        AnimeCacheEpisodesTranslationsEntity::class
+        AnimeCacheEpisodesTranslationsEntity::class,
                ],
-    version = 7,
+    version = 8,
     exportSchema = true,
 )
 @TypeConverters(Converters::class)
 internal abstract class AnifoxDatabase: RoomDatabase() {
     abstract fun animeDao(): AnimeDao
+    abstract fun animeSearchHistoryDao(): AnimeSearchHistoryDao
     abstract fun animeCacheSearchDao(): AnimeCacheSearchDao
     abstract fun animeCacheGenresDao(): AnimeCacheGenresDao
     abstract fun animeCacheCatalogDao(): AnimeCacheCatalogDao

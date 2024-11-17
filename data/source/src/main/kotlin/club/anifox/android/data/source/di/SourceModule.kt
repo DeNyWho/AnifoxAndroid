@@ -8,6 +8,7 @@ import club.anifox.android.data.local.cache.dao.anime.genres.AnimeCacheGenresDao
 import club.anifox.android.data.local.cache.dao.anime.schedule.AnimeCacheScheduleDao
 import club.anifox.android.data.local.cache.dao.anime.search.AnimeCacheSearchDao
 import club.anifox.android.data.local.dao.anime.AnimeDao
+import club.anifox.android.data.local.dao.anime.AnimeSearchHistoryDao
 import club.anifox.android.data.network.service.AnimeService
 import club.anifox.android.data.source.repository.anime.AnimeRepositoryImpl
 import club.anifox.android.data.source.repository.user.UserRepositoryImpl
@@ -30,6 +31,7 @@ internal object SourceModule {
     fun provideAnimeRepository(
         animeService: AnimeService,
         animeDao: AnimeDao,
+        animeSearchHistoryDao: AnimeSearchHistoryDao,
         animeCacheSearchDao: AnimeCacheSearchDao,
         animeCacheGenresDao: AnimeCacheGenresDao,
         animeCacheCatalogDao: AnimeCacheCatalogDao,
@@ -39,6 +41,7 @@ internal object SourceModule {
         return AnimeRepositoryImpl(
             animeService = animeService,
             animeDao = animeDao,
+            animeSearchHistoryDao = animeSearchHistoryDao,
             animeCacheSearchDao = animeCacheSearchDao,
             animeCacheGenresDao = animeCacheGenresDao,
             animeCacheCatalogDao = animeCacheCatalogDao,

@@ -11,9 +11,11 @@ import club.anifox.android.data.local.cache.dao.anime.genres.AnimeCacheGenresDao
 import club.anifox.android.data.local.cache.dao.anime.schedule.AnimeCacheScheduleDao
 import club.anifox.android.data.local.cache.dao.anime.search.AnimeCacheSearchDao
 import club.anifox.android.data.local.dao.anime.AnimeDao
+import club.anifox.android.data.local.dao.anime.AnimeSearchHistoryDao
 import club.anifox.android.data.local.mappers.cache.anime.episodes.toLight
 import club.anifox.android.data.local.mappers.cache.anime.schedule.toLight
 import club.anifox.android.data.local.mappers.cache.anime.toLight
+import club.anifox.android.data.local.model.anime.AnimeSearchHistoryEntity
 import club.anifox.android.data.network.mappers.anime.common.toGenre
 import club.anifox.android.data.network.mappers.anime.common.toStudio
 import club.anifox.android.data.network.mappers.anime.detail.toDetail
@@ -58,6 +60,7 @@ import javax.inject.Inject
 internal class AnimeRepositoryImpl @Inject constructor(
     private val animeService: AnimeService,
     private val animeDao: AnimeDao,
+    private val animeSearchHistoryDao: AnimeSearchHistoryDao,
     private val animeCacheSearchDao: AnimeCacheSearchDao,
     private val animeCacheCatalogDao: AnimeCacheCatalogDao,
     private val animeCacheGenresDao: AnimeCacheGenresDao,
@@ -114,6 +117,19 @@ internal class AnimeRepositoryImpl @Inject constructor(
 
             emit(state)
         }.flowOn(Dispatchers.IO)
+    }
+
+    override fun getLastSearchesHistory(): Flow<List<String>> =
+        animeSearchHistoryDao.getLastSearches()
+            .map { entities -> entities.map { it.query } }
+
+    override suspend fun addSearchHistory(query: String) {
+        animeSearchHistoryDao.insertSearch(AnimeSearchHistoryEntity(query = query))
+        animeSearchHistoryDao.keepOnly10LastSearches()
+    }
+
+    override suspend fun deleteSearchHistory(query: String) {
+        animeSearchHistoryDao.deleteSearch(query)
     }
 
     @OptIn(ExperimentalPagingApi::class)
