@@ -3,6 +3,9 @@ package club.anifox.android.feature.search
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -23,10 +26,11 @@ import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import club.anifox.android.core.uikit.component.error.NoSearchResultsError
-import club.anifox.android.core.uikit.component.grid.GridContentDefaults
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.common.device.ScreenType
+import club.anifox.android.domain.state.StateListWrapper
+import club.anifox.android.feature.search.composable.empty.SearchEmptyContent
 import club.anifox.android.feature.search.composable.item.AnimeSearchItem
 import club.anifox.android.feature.search.composable.item.AnimeSearchItemDefaults
 import club.anifox.android.feature.search.composable.toolbar.ContentSearchScreenToolbar
@@ -43,6 +47,8 @@ internal fun SearchScreen(
     onAnimeClick: (String) -> Unit,
 ) {
     val searchState by viewModel.searchState.collectAsState()
+    val searchHistory by viewModel.searchHistory.collectAsState()
+    val randomAnime by viewModel.randomAnime.collectAsState()
     val items = viewModel.searchResults.collectAsLazyPagingItems()
     val loadState by viewModel.loadState.collectAsState()
 
@@ -64,8 +70,16 @@ internal fun SearchScreen(
     SearchUI(
         searchState = searchState,
         searchResults = viewModel.searchResults,
+        searchHistory = searchHistory,
+        randomAnime = randomAnime,
         onQueryChange = { viewModel.search(it) },
         onAnimeClick = onAnimeClick,
+        onHistoryItemClick = { query ->
+            viewModel.search(query)
+        },
+        onDeleteHistoryClick = {
+            viewModel.deleteSearchHistory()
+        },
     )
 }
 
@@ -73,9 +87,13 @@ internal fun SearchScreen(
 private fun SearchUI(
     modifier: Modifier = Modifier,
     searchState: SearchState,
+    searchHistory: List<String>,
+    randomAnime: StateListWrapper<AnimeLight>,
     onQueryChange: (String) -> Unit,
     onAnimeClick: (String) -> Unit,
     searchResults: Flow<PagingData<AnimeLight>>,
+    onHistoryItemClick: (String) -> Unit,
+    onDeleteHistoryClick: () -> Unit,
 ) {
     val lazyGridState = rememberLazyGridState()
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
@@ -102,8 +120,12 @@ private fun SearchUI(
                 SearchContent(
                     searchState = searchState,
                     searchResults = searchResults,
+                    searchHistory = searchHistory,
+                    randomAnime = randomAnime,
                     lazyGridState = lazyGridState,
                     onAnimeClick = onAnimeClick,
+                    onHistoryItemClick = onHistoryItemClick,
+                    onDeleteHistoryClick = onDeleteHistoryClick,
                 )
             }
         )
@@ -115,8 +137,12 @@ private fun SearchContent(
     modifier: Modifier = Modifier,
     searchResults: Flow<PagingData<AnimeLight>>,
     searchState: SearchState,
+    searchHistory: List<String>,
+    randomAnime: StateListWrapper<AnimeLight>,
     lazyGridState: LazyGridState,
     onAnimeClick: (String) -> Unit,
+    onHistoryItemClick: (String) -> Unit,
+    onDeleteHistoryClick: () -> Unit,
 ) {
     val items = searchResults.collectAsLazyPagingItems()
 
@@ -144,23 +170,42 @@ private fun SearchContent(
 
     val minColumnSize = (screenInfo.portraitWidthDp.dp / 4).coerceAtLeast(300.dp)
 
-    LaunchedEffect(searchState) {
-        if (!searchState.isLoading) {
-            items.refresh()
+    LaunchedEffect(searchState.query) {
+        if (searchState.query.isNotBlank()) {
+            lazyGridState.scrollToItem(0)
         }
     }
 
-    Box(modifier = modifier.fillMaxSize()) {
+    Box(
+        modifier = modifier
+            .padding(vertical = 8.dp, horizontal = 16.dp)
+            .fillMaxSize(),
+    ) {
         when {
-            searchState.isLoading -> {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            (searchState.query.isEmpty() && (searchHistory.isNotEmpty() || searchState.isInitial)) -> {
+                SearchEmptyContent(
+                    searchHistory = searchHistory,
+                    randomAnime = randomAnime,
+                    onHistoryItemClick = onHistoryItemClick,
+                    onDeleteHistoryClick = onDeleteHistoryClick,
+                )
             }
-            items.itemCount == 0 && !searchState.isLoading -> {
+
+            searchState.isLoading && !searchState.isInitial -> {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .size(48.dp)
+                )
+            }
+
+            !searchState.isLoading && items.itemCount == 0 && searchState.query.isNotBlank() -> {
                 NoSearchResultsError()
             }
-            else -> {
+
+            !searchState.isLoading && items.itemCount > 0 -> {
                 LazyVerticalGrid(
-                    modifier = GridContentDefaults.Default.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     columns = GridCells.Adaptive(minSize = minColumnSize),
                     state = lazyGridState,
                     horizontalArrangement = AnimeSearchItemDefaults.HorizontalArrangement.Grid,
@@ -181,8 +226,20 @@ private fun SearchContent(
                         }
                     }
 
-                    if(items.loadState.append is LoadState.Loading) {
-                        item { CircularProgressIndicator() }
+                    if (items.loadState.append is LoadState.Loading) {
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp)
+                            ) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier
+                                        .align(Alignment.Center)
+                                        .size(32.dp)
+                                )
+                            }
+                        }
                     }
                 }
             }

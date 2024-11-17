@@ -4,8 +4,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.textfield.SearchField
+import club.anifox.android.feature.search.R
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.CollapsingToolbarScope
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -22,6 +24,7 @@ internal fun CollapsingToolbarScope.ContentSearchScreenToolbar(
         modifier = Modifier
             .padding(vertical = 8.dp, horizontal = 16.dp),
         isEnabled = true,
+        placeHolder = stringResource(R.string.feature_search_search_placeholder),
         searchQuery = searchQuery,
         onSearchQueryChanged = onSearchQueryChanged,
         focusRequest = focusRequest,

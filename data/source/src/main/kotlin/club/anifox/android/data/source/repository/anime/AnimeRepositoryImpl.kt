@@ -128,8 +128,8 @@ internal class AnimeRepositoryImpl @Inject constructor(
         animeSearchHistoryDao.keepOnly10LastSearches()
     }
 
-    override suspend fun deleteSearchHistory(query: String) {
-        animeSearchHistoryDao.deleteSearch(query)
+    override suspend fun deleteSearchHistory() {
+        animeSearchHistoryDao.deleteSearch()
     }
 
     @OptIn(ExperimentalPagingApi::class)

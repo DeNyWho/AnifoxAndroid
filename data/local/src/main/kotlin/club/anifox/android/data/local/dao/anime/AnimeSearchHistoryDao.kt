@@ -18,6 +18,6 @@ interface AnimeSearchHistoryDao {
     @Query("DELETE FROM anime_search_history WHERE id NOT IN (SELECT id FROM anime_search_history ORDER BY timestamp DESC LIMIT 10)")
     suspend fun keepOnly10LastSearches()
 
-    @Query("DELETE FROM anime_search_history WHERE `query` = :query")
-    suspend fun deleteSearch(query: String)
+    @Query("DELETE FROM anime_search_history")
+    suspend fun deleteSearch()
 }
