@@ -49,7 +49,7 @@ fun AnifoxNavHost(
             onAnimeClick = navController::navigateToDetail,
             onSearchClick = navController::navigateToSearch,
             onGenresClick = navController::navigateToGenres,
-            onMoreClick = navController::navigateToCatalog,
+            onCatalogClick = navController::navigateToCatalog,
         )
         detailScreen(
             onBackPressed = navController::popBackStack,

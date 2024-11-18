@@ -1,7 +1,6 @@
 package club.anifox.android.feature.home
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -9,12 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
 import club.anifox.android.core.uikit.component.slider.simple.content.SliderContent
-import club.anifox.android.core.uikit.component.textfield.SearchField
-import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeOrder
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
@@ -25,6 +21,7 @@ import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.home.composable.content.genre.GenreContent
+import club.anifox.android.feature.home.composable.top.ContentHomeScreenToolbar
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -37,7 +34,7 @@ internal fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     onSearchClick: () -> Unit,
     onGenresClick: (String) -> Unit,
-    onMoreClick: (CatalogFilterParams) -> Unit,
+    onCatalogClick: (CatalogFilterParams) -> Unit,
 ) {
     LaunchedEffect(viewModel) {
         viewModel.getAnimeOfSeason(0,12)
@@ -57,7 +54,7 @@ internal fun HomeScreen(
         genresAnime = viewModel.genresAnime.value,
         onSearchClick = onSearchClick,
         onGenresClick = onGenresClick,
-        onMoreClick = onMoreClick,
+        onCatalogClick = onCatalogClick,
     )
 }
 
@@ -67,7 +64,7 @@ private fun HomeUI(
     onAnimeClick: (String) -> Unit,
     onSearchClick: () -> Unit,
     onGenresClick: (String) -> Unit,
-    onMoreClick: (CatalogFilterParams) -> Unit,
+    onCatalogClick: (CatalogFilterParams) -> Unit,
     animeOfSeason: StateListWrapper<AnimeLight>,
     onPopularAnime: StateListWrapper<AnimeLight>,
     onUpdatedAnime: StateListWrapper<AnimeLight>,
@@ -81,14 +78,15 @@ private fun HomeUI(
         state = toolbarScaffoldState,
         scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
         toolbar = {
-            SearchField(
-                modifier = Modifier
-                    .padding(vertical = 8.dp, horizontal = 16.dp)
-                    .clickableWithoutRipple {
-                        onSearchClick.invoke()
-                    },
-                placeHolder = stringResource(R.string.feature_home_search_placeholder),
-                isEnabled = false,
+            ContentHomeScreenToolbar(
+                toolbarScaffoldState = toolbarScaffoldState,
+                onSearchClick = onSearchClick,
+                onHistoryClick = { },
+                onCatalogClick = {
+                    onCatalogClick(
+                        CatalogFilterParams()
+                    )
+                },
             )
         },
     ) {
@@ -96,7 +94,7 @@ private fun HomeUI(
             modifier = modifier,
             onAnimeClick = onAnimeClick,
             onGenresClick = onGenresClick,
-            onMoreClick = onMoreClick,
+            onCatalogClick = onCatalogClick,
             animeOfSeason = animeOfSeason,
             onPopularAnime = onPopularAnime,
             onUpdatedAnime = onUpdatedAnime,
@@ -112,7 +110,7 @@ private fun HomeContent(
     lazyColumnState: LazyListState = rememberLazyListState(),
     onAnimeClick: (String) -> Unit,
     onGenresClick: (String) -> Unit,
-    onMoreClick: (CatalogFilterParams) -> Unit,
+    onCatalogClick: (CatalogFilterParams) -> Unit,
     animeOfSeason: StateListWrapper<AnimeLight>,
     onPopularAnime: StateListWrapper<AnimeLight>,
     onUpdatedAnime: StateListWrapper<AnimeLight>,
@@ -132,7 +130,7 @@ private fun HomeContent(
                 onItemClick = onAnimeClick,
                 isMoreVisible = true,
                 onMoreClick = {
-                    onMoreClick(
+                    onCatalogClick(
                         CatalogFilterParams(
                             genres = null,
                             status = AnimeStatus.Ongoing,
@@ -153,7 +151,7 @@ private fun HomeContent(
                 onItemClick = onAnimeClick,
                 isMoreVisible = true,
                 onMoreClick = {
-                    onMoreClick(
+                    onCatalogClick(
                         CatalogFilterParams(
                             order = AnimeOrder.Rating,
                             sort = AnimeSort.Desc,
@@ -170,7 +168,7 @@ private fun HomeContent(
                 onItemClick = onAnimeClick,
                 isMoreVisible = true,
                 onMoreClick = {
-                    onMoreClick(
+                    onCatalogClick(
                         CatalogFilterParams(
                             order = AnimeOrder.Update,
                             sort = AnimeSort.Desc,
@@ -195,7 +193,7 @@ private fun HomeContent(
                 onItemClick = onAnimeClick,
                 isMoreVisible = true,
                 onMoreClick = {
-                    onMoreClick(CatalogFilterParams(genres = null, type = AnimeType.Movie))
+                    onCatalogClick(CatalogFilterParams(genres = null, type = AnimeType.Movie))
                 },
             )
         }
