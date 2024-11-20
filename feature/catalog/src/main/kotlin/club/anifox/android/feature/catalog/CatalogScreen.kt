@@ -37,8 +37,8 @@ import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.catalog.composable.filter.FiltersBar
 import club.anifox.android.feature.catalog.composable.top.CatalogTopBar
-import club.anifox.android.feature.catalog.data.CatalogState
 import club.anifox.android.feature.catalog.model.FilterType
+import club.anifox.android.feature.catalog.model.state.CatalogState
 import kotlinx.coroutines.flow.Flow
 
 @Composable

@@ -25,6 +25,7 @@ internal class HomeViewModel @Inject constructor(
     private val animeUseCase: GetAnimeUseCase,
     private val animeGenresUseCase: GetAnimeGenresUseCase,
 ) : ViewModel() {
+
     private val _animeOfSeason: MutableState<StateListWrapper<AnimeLight>> =
         mutableStateOf(StateListWrapper())
     val animeOfSeason: MutableState<StateListWrapper<AnimeLight>> = _animeOfSeason

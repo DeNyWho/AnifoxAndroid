@@ -13,7 +13,7 @@ import club.anifox.android.domain.usecase.anime.paging.anime.search.AnimeSearchP
 import club.anifox.android.domain.usecase.anime.search.AddAnimeSearchHistoryUseCase
 import club.anifox.android.domain.usecase.anime.search.DeleteAnimeSearchHistoryUseCase
 import club.anifox.android.domain.usecase.anime.search.GetAnimeSearchHistoryUseCase
-import club.anifox.android.feature.search.data.SearchState
+import club.anifox.android.feature.search.state.SearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow

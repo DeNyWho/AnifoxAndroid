@@ -66,7 +66,7 @@ import club.anifox.android.domain.model.common.device.ScreenType
 import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.catalog.R
-import club.anifox.android.feature.catalog.data.CatalogState
+import club.anifox.android.feature.catalog.model.state.CatalogState
 import club.anifox.android.feature.catalog.model.FilterType
 import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.SimpleColorFilter

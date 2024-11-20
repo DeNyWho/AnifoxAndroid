@@ -1,4 +1,4 @@
-package club.anifox.android.feature.search.data
+package club.anifox.android.feature.search.state
 
 internal data class SearchState(
     val query: String = "",

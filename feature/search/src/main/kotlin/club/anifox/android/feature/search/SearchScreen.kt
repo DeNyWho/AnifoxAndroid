@@ -1,6 +1,5 @@
 package club.anifox.android.feature.search
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,10 +11,13 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -34,7 +36,8 @@ import club.anifox.android.feature.search.composable.empty.SearchEmptyContent
 import club.anifox.android.feature.search.composable.item.AnimeSearchItem
 import club.anifox.android.feature.search.composable.item.AnimeSearchItemDefaults
 import club.anifox.android.feature.search.composable.toolbar.ContentSearchScreenToolbar
-import club.anifox.android.feature.search.data.SearchState
+import club.anifox.android.feature.search.state.SearchState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -43,7 +46,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @Composable
 internal fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel(),
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     onAnimeClick: (String) -> Unit,
 ) {
     val searchState by viewModel.searchState.collectAsState()
@@ -51,10 +54,6 @@ internal fun SearchScreen(
     val randomAnime by viewModel.randomAnime.collectAsState()
     val items = viewModel.searchResults.collectAsLazyPagingItems()
     val loadState by viewModel.loadState.collectAsState()
-
-    BackHandler {
-        onBackPressed.invoke()
-    }
 
     LaunchedEffect(items.loadState) {
         viewModel.updateLoadState(items.loadState)
@@ -68,6 +67,7 @@ internal fun SearchScreen(
     }
 
     SearchUI(
+        onBackPressed = onBackPressed,
         searchState = searchState,
         searchResults = viewModel.searchResults,
         searchHistory = searchHistory,
@@ -86,6 +86,7 @@ internal fun SearchScreen(
 @Composable
 private fun SearchUI(
     modifier: Modifier = Modifier,
+    onBackPressed: () -> Unit,
     searchState: SearchState,
     searchHistory: List<String>,
     randomAnime: StateListWrapper<AnimeLight>,
@@ -98,9 +99,20 @@ private fun SearchUI(
     val lazyGridState = rememberLazyGridState()
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
     val focusRequester = remember { FocusRequester() }
+    var shouldRequestFocus by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
+    DisposableEffect(Unit) {
+        shouldRequestFocus = true
+        onDispose {
+            shouldRequestFocus = false
+        }
+    }
+
+    LaunchedEffect(shouldRequestFocus) {
+        if (shouldRequestFocus) {
+            delay(100)
+            focusRequester.requestFocus()
+        }
     }
 
     Box(modifier = modifier.fillMaxSize()) {
@@ -110,7 +122,7 @@ private fun SearchUI(
             scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
             toolbar = {
                 ContentSearchScreenToolbar(
-                    navigateBack = { false },
+                    onBackPressed = onBackPressed,
                     searchQuery = searchState.query,
                     onSearchQueryChanged = onQueryChange,
                     focusRequest = focusRequester,

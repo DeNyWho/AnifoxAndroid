@@ -1,16 +1,16 @@
 package club.anifox.android.feature.home.composable.top
 
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,7 +21,6 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.icon.AnifoxIconOnSurface
 import club.anifox.android.core.uikit.component.textfield.SearchField
@@ -30,7 +29,6 @@ import club.anifox.android.feature.home.R
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.CollapsingToolbarScope
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import kotlin.math.roundToInt
 
 @Composable
 internal fun CollapsingToolbarScope.ContentHomeScreenToolbar(
@@ -39,21 +37,28 @@ internal fun CollapsingToolbarScope.ContentHomeScreenToolbar(
     onCatalogClick: () -> Unit,
     toolbarScaffoldState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
 ) {
-    var isSearchExpanded by remember { mutableStateOf(false) }
+    var hasNavigatedToSearch by remember { mutableStateOf(false) }
+
+    LaunchedEffect(hasNavigatedToSearch) {
+        if (hasNavigatedToSearch) {
+            onSearchClick.invoke()
+            hasNavigatedToSearch = false
+        }
+    }
 
     val searchWidthFraction by animateFloatAsState(
-        targetValue = if (isSearchExpanded) 1f else 0.85f,
+        targetValue = 1f,
         animationSpec = tween(
-            durationMillis = 600,
+            durationMillis = 300,
             easing = FastOutSlowInEasing
         )
     )
 
     val rightIconAlpha by animateFloatAsState(
-        targetValue = if (isSearchExpanded) 0f else 1f,
+        targetValue = 1f,
         animationSpec = tween(
-            durationMillis = 600,
-            easing = FastOutSlowInEasing
+            durationMillis = 200,
+            easing = LinearEasing
         )
     )
 
@@ -76,25 +81,20 @@ internal fun CollapsingToolbarScope.ContentHomeScreenToolbar(
             modifier = Modifier
                 .weight(searchWidthFraction)
                 .clickableWithoutRipple {
-                    if (!isSearchExpanded) {
-                        isSearchExpanded = true
-                        onSearchClick()
-                    }
+                    hasNavigatedToSearch = true
                 },
             placeHolder = stringResource(R.string.feature_home_search_placeholder),
-            isEnabled = isSearchExpanded,
+            isEnabled = false,
         )
 
-        if (!isSearchExpanded) {
-            AnifoxIconOnSurface(
-                modifier = Modifier
-                    .align(Alignment.CenterVertically)
-                    .size(24.dp)
-                    .alpha(rightIconAlpha)
-                    .clickableWithoutRipple { onCatalogClick() },
-                imageVector = ImageVector.vectorResource(R.drawable.browse),
-                contentDescription = null,
-            )
-        }
+        AnifoxIconOnSurface(
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+                .size(24.dp)
+                .alpha(rightIconAlpha)
+                .clickableWithoutRipple { onCatalogClick() },
+            imageVector = ImageVector.vectorResource(R.drawable.browse),
+            contentDescription = null,
+        )
     }
 }

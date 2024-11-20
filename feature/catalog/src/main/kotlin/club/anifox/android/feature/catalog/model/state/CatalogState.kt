@@ -1,4 +1,4 @@
-package club.anifox.android.feature.catalog.data
+package club.anifox.android.feature.catalog.model.state
 
 import club.anifox.android.domain.model.anime.enum.AnimeOrder
 import club.anifox.android.domain.model.anime.enum.AnimeSeason

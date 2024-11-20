@@ -40,6 +40,7 @@ fun AnifoxNavHost(
     isFirstLaunch: Boolean,
 ) {
     val navController = appState.navController
+
     NavHost(
         navController = navController,
         startDestination = if(isFirstLaunch) ONBOARDING_ROUTE else startDestination,

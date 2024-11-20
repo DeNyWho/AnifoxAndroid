@@ -15,8 +15,8 @@ import club.anifox.android.domain.usecase.anime.GetAnimeStudiosUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeTranslationsUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeYearsUseCase
 import club.anifox.android.domain.usecase.anime.paging.anime.catalog.AnimeCatalogPagingUseCase
-import club.anifox.android.feature.catalog.data.CatalogState
 import club.anifox.android.feature.catalog.model.FilterType
+import club.anifox.android.feature.catalog.model.state.CatalogState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
