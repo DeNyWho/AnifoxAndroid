@@ -5,14 +5,13 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import club.anifox.android.feature.search.SearchScreen
-import kotlin.reflect.KFunction2
 
 const val SEARCH_ROUTE = "search_route"
 
 fun NavController.navigateToSearch(navOptions: NavOptions? = null) = navigate(SEARCH_ROUTE, navOptions)
 
 fun NavGraphBuilder.searchScreen(
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     onAnimeClick: (String) -> Unit,
 ) {
     composable(

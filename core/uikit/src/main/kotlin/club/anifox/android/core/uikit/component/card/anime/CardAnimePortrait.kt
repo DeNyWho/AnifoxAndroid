@@ -1,5 +1,6 @@
 package club.anifox.android.core.uikit.component.card.anime
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,7 +25,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.card.anime.param.CardAnimePreviewParam
 import club.anifox.android.core.uikit.component.card.anime.param.CardAnimeProvider
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.AnimeLight
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -66,6 +67,7 @@ fun CardAnimePortrait(
         ) {
             AsyncImage(
                 modifier = Modifier
+                    .background(MaterialTheme.colorScheme.onSurfaceVariant)
                     .fillMaxSize()
                     .clip(MaterialTheme.shapes.medium),
                 model = ImageRequest.Builder(LocalContext.current)
@@ -85,7 +87,7 @@ fun CardAnimePortrait(
             text = data.title,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 6.dp, bottom = 4.dp),
+                .padding(top = 8.dp),
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
             color = MaterialTheme.colorScheme.onBackground.copy(0.8f),
@@ -100,7 +102,7 @@ fun CardAnimePortrait(
 private fun PreviewCardThumbnailPortraitDefault(
     @PreviewParameter(CardAnimeProvider::class) param: CardAnimePreviewParam,
 ) {
-    AnifoxTheme {
+    DefaultPreview {
         CardAnimePortrait (
             modifier = param.modifier,
             data = param.data,

@@ -1,5 +1,6 @@
 package club.anifox.android.feature.detail.components.related.item
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,7 +28,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.chip.AnifoxChipPrimary
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.feature.detail.components.related.item.param.CardRelationItemPreviewParam
 import club.anifox.android.feature.detail.components.related.item.param.CardRelationItemProvider
@@ -64,6 +65,7 @@ internal fun CardRelationItem(
         ) {
             AsyncImage(
                 modifier = Modifier
+                    .background(MaterialTheme.colorScheme.onSurfaceVariant)
                     .fillMaxSize()
                     .clip(MaterialTheme.shapes.medium),
                 model = ImageRequest.Builder(LocalContext.current)
@@ -126,7 +128,7 @@ internal fun CardRelationItem(
 private fun PreviewCardRelationItemDefault(
     @PreviewParameter(CardRelationItemProvider::class) param: CardRelationItemPreviewParam,
 ) {
-    AnifoxTheme {
+    DefaultPreview {
         CardRelationItem (
             modifier = param.modifier,
             data = param.data,

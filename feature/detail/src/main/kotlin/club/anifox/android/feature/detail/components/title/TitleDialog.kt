@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import club.anifox.android.core.uikit.component.button.AnifoxButtonSurface
 import club.anifox.android.core.uikit.component.icon.AnifoxIconOnSurface
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.feature.detail.R
 
 @Composable
@@ -195,7 +195,7 @@ internal fun TitleDialog(
 @PreviewLightDark
 @Composable
 private fun PreviewTitleDialog() {
-    AnifoxTheme {
+    DefaultPreview {
         TitleDialog(
             title = "Title",
             japaneseTitle = "JapaneseTitle",

@@ -5,8 +5,8 @@ enum class AnimeType(private val russianName: String) {
     Ona("Ona"),
     Ova("Ova"),
     Music("Музыка"),
-    Special("Специальный выпуск"),
-    Tv("Сериал");
+    Tv("Сериал"),
+    Special("Специальный выпуск");
 
     override fun toString(): String {
         return russianName

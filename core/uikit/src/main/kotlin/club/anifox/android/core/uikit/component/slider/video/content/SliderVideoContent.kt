@@ -23,7 +23,7 @@ import club.anifox.android.core.uikit.component.slider.header.SliderHeader
 import club.anifox.android.core.uikit.component.slider.header.SliderHeaderShimmer
 import club.anifox.android.core.uikit.component.slider.video.content.param.SliderVideoContentPreviewParam
 import club.anifox.android.core.uikit.component.slider.video.content.param.SliderVideoContentProvider
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.onUpdateShimmerBounds
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.state.StateListWrapper
@@ -108,7 +108,7 @@ fun SliderVideoContent(
 private fun PreviewScrollableHorizontalContentVideo(
     @PreviewParameter(SliderVideoContentProvider::class) param: SliderVideoContentPreviewParam,
 ) {
-    AnifoxTheme {
+    DefaultPreview(true) {
         Column (
             Modifier.background(MaterialTheme.colorScheme.background)
         ) {

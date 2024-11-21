@@ -15,10 +15,6 @@ internal class TitleInformationContentProvider:
         get() = super.count
     override val values: Sequence<TitleInformationContentPreviewParam>
         get() = listOf(
-//            DetailContentPreviewParam(
-//                modifier = Modifier,
-//                detailAnime = StateWrapper.loading(),
-//            ),
             TitleInformationContentPreviewParam(
                 detailAnime = StateWrapper(data = GlobalParams.Data, isLoading = false),
             )

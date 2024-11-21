@@ -1,7 +1,7 @@
 package club.anifox.android.data.network
 
-import club.anifox.android.domain.model.common.ApiError
-import club.anifox.android.domain.model.common.Resource
+import club.anifox.android.domain.model.common.request.ApiError
+import club.anifox.android.domain.model.common.request.Resource
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.ClientRequestException

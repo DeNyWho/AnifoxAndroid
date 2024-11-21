@@ -20,7 +20,6 @@ internal data class DetailContentPreviewParam(
     val similarAnime: StateListWrapper<AnimeLight>,
     val onBackPressed: () -> Boolean = { true },
     val onAnimeClick: (String) -> Unit = { },
-    val onScreenshotClick: (String) -> Unit = { },
     val onMoreScreenshotClick: (String) -> Unit = { },
     val onMoreVideoClick: (String) -> Unit = { },
 )

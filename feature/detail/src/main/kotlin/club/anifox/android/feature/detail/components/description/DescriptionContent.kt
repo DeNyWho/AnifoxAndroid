@@ -96,11 +96,11 @@ internal fun DescriptionContent(
                             textAlign = TextAlign.Justify,
                         )
                         AnifoxIconOnBackground(
-                            imageVector = Filled.KeyboardArrowDown,
-                            contentDescription = "Expand",
                             modifier = Modifier
                                 .size(20.dp)
                                 .align(Alignment.CenterHorizontally),
+                            imageVector = Filled.KeyboardArrowDown,
+                            contentDescription = "Expand",
                         )
                     }
                 }

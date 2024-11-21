@@ -7,11 +7,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 
 @Composable
 fun AnifoxIcon(
@@ -19,7 +20,26 @@ fun AnifoxIcon(
     painter: Painter,
     contentDescription: String? = null,
 ) {
-    Icon(modifier = modifier, painter = painter, contentDescription = contentDescription)
+    Icon(
+        modifier = modifier,
+        painter = painter,
+        contentDescription = contentDescription,
+    )
+}
+
+@Composable
+fun AnifoxIconCustomTintVector(
+    modifier: Modifier = Modifier,
+    imageVector: ImageVector,
+    contentDescription: String? = null,
+    tint: Color,
+) {
+    Icon(
+        modifier = modifier,
+        imageVector = imageVector,
+        contentDescription = contentDescription,
+        tint = tint,
+    )
 }
 
 @Composable
@@ -38,9 +58,14 @@ fun AnifoxIconOnSurface(
 
 @PreviewLightDark
 @Composable
-internal fun PreviewAnifoxIconOnSurface() {
-    AnifoxIconOnSurface(modifier = Modifier.size(40.dp), AutoMirrored.Filled.ArrowBack, contentDescription = "content description")
-
+private fun PreviewAnifoxIconOnSurface() {
+    DefaultPreview {
+        AnifoxIconOnSurface(
+            modifier = Modifier.size(40.dp),
+            AutoMirrored.Filled.ArrowBack,
+            contentDescription = "content description"
+        )
+    }
 }
 
 @Composable
@@ -59,8 +84,8 @@ fun AnifoxIconPrimary(
 
 @PreviewLightDark
 @Composable
-internal fun PreviewAnifoxIconPrimary() {
-    AnifoxTheme {
+private fun PreviewAnifoxIconPrimary() {
+    DefaultPreview {
         AnifoxIconPrimary(modifier = Modifier.size(40.dp), AutoMirrored.Filled.ArrowBack, contentDescription = "content description")
     }
 }
@@ -81,8 +106,8 @@ fun AnifoxIconOnPrimary(
 
 @PreviewLightDark
 @Composable
-internal fun PreviewAnifoxIconOnPrimary() {
-    AnifoxTheme {
+private fun PreviewAnifoxIconOnPrimary() {
+    DefaultPreview {
         AnifoxIconOnPrimary(modifier = Modifier.size(40.dp), AutoMirrored.Filled.ArrowBack, contentDescription = "content description")
     }
 }
@@ -93,20 +118,18 @@ fun AnifoxIconOnBackground(
     imageVector: ImageVector,
     contentDescription: String? = null,
 ) {
-    AnifoxTheme {
-        Icon(
-            modifier = modifier,
-            imageVector = imageVector,
-            contentDescription = contentDescription,
-            tint = MaterialTheme.colorScheme.onBackground,
-        )
-    }
+    Icon(
+        modifier = modifier,
+        imageVector = imageVector,
+        contentDescription = contentDescription,
+        tint = MaterialTheme.colorScheme.onBackground,
+    )
 }
 
 @PreviewLightDark
 @Composable
-internal fun PreviewAnifoxIconOnBackground() {
-    AnifoxTheme {
+private fun PreviewAnifoxIconOnBackground() {
+    DefaultPreview {
         AnifoxIconOnBackground(
             modifier = Modifier.size(40.dp),
             AutoMirrored.Filled.ArrowBack,

@@ -5,4 +5,10 @@
     <string name="feature_search_filter_year_title">Год</string>
     <string name="feature_search_filter_studio_title">Студия</string>
     <string name="feature_search_filter_genre_title">Жанр</string>
+    <string name="feature_search_title_history">История поиска</string>
+    <string name="feature_search_title_history_clear">Очистить историю поиска</string>
+    <string name="feature_search_title_empty">Здесь сейчас ничего нет 🥲</string>
+    <string name="feature_search_title_empty_sub">Введите что-нибудь в 🔍</string>
+    <string name="feature_search_search_placeholder">Поиск...</string>
+    <string name="feature_search_title_empty_try_sub">Введите что-нибудь в 🔍, например</string>
 </resources>

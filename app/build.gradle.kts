@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.anifox.android.application.jacoco)
     alias(libs.plugins.anifox.android.hilt)
     alias(libs.plugins.roborazzi)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -14,8 +15,8 @@ android {
 
     defaultConfig {
         applicationId = "club.anifox.android"
-        versionCode = 1
-        versionName = "0.1.1"
+        versionCode = 2
+        versionName = "0.1.2"
 
         vectorDrawables {
             useSupportLibrary = true
@@ -35,6 +36,12 @@ android {
             // who clones the code to sign and run the release variant, use the debug signing key.
             // TODO: Abstract the signing configuration to a separate file to avoid hardcoding this.
             signingConfig = signingConfigs.named("debug").get()
+        }
+    }
+
+    packaging {
+        resources {
+            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
         }
     }
 
@@ -59,6 +66,10 @@ dependencies {
     implementation(projects.feature.login)
     implementation(projects.feature.registration)
     implementation(projects.feature.onboarding)
+    implementation(projects.feature.genres)
+    implementation(projects.feature.catalog)
+    implementation(projects.feature.translations)
+    implementation(projects.feature.episodes)
 
     implementation(projects.domain)
 
@@ -88,4 +99,8 @@ dependencies {
     androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.androidx.navigation.testing)
     androidTestImplementation(libs.hilt.android.testing)
+}
+
+dependencyGuard {
+    configuration("prodReleaseRuntimeClasspath")
 }

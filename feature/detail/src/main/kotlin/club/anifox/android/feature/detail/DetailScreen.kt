@@ -1,8 +1,6 @@
 package club.anifox.android.feature.detail
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,16 +33,20 @@ import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
 import club.anifox.android.core.uikit.component.slider.screenshots.content.SliderScreenshotsContent
 import club.anifox.android.core.uikit.component.slider.simple.content.SliderContent
 import club.anifox.android.core.uikit.component.slider.video.content.SliderVideoContent
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
+import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
+import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.state.StateWrapper
 import club.anifox.android.feature.detail.components.description.DescriptionContent
-import club.anifox.android.feature.detail.components.genres.GenreContent
+import club.anifox.android.feature.detail.components.genres.GenresContent
+import club.anifox.android.feature.detail.components.information.InformationComponent
 import club.anifox.android.feature.detail.components.related.RelationContent
+import club.anifox.android.feature.detail.components.studios.StudiosContent
 import club.anifox.android.feature.detail.components.title.TitleInformationContent
 import club.anifox.android.feature.detail.components.top.ContentDetailsScreenToolbar
 import club.anifox.android.feature.detail.param.DetailContentPreviewParam
@@ -53,15 +55,20 @@ import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
+/*
+    TODO: redo the information section, implement an adaptive option
+ */
+
 @Composable
 internal fun DetailScreen(
     viewModel: DetailViewModel = hiltViewModel(),
     url: String = "",
     onBackPressed: () -> Boolean,
+    onWatchClick: (String) -> Unit,
     onAnimeClick: (String) -> Unit,
-    onScreenshotClick: (String) -> Unit,
     onMoreScreenshotClick: (String, String) -> Unit,
     onMoreVideoClick: (String, String) -> Unit,
+    onCatalogClick: (CatalogFilterParams) -> Unit,
 ) {
     LaunchedEffect(viewModel) {
         viewModel.getDetailAnime(url)
@@ -72,41 +79,50 @@ internal fun DetailScreen(
     }
 
     DetailUI(
+        url = url,
         detailAnimeState = viewModel.detailAnime.value,
         screenshotAnimeState = viewModel.screenshotsAnime.value,
         videosAnimeState = viewModel.videosAnime.value,
         relationAnimeState = viewModel.relatedAnime.value,
         similarAnimeState = viewModel.similarAnime.value,
         onBackPressed = onBackPressed,
+        onWatchClick = onWatchClick,
         onAnimeClick = onAnimeClick,
-        onScreenshotClick = onScreenshotClick,
         onMoreScreenshotClick = { title ->
             onMoreScreenshotClick(url, title)
         },
         onMoreVideoClick = { title ->
             onMoreVideoClick(url, title)
-        }
+        },
+        onCatalogClick = onCatalogClick,
+        onVideoClick = { youtubeUrl ->
+            viewModel.openYoutube(youtubeUrl)
+        },
     )
 }
 
 @Composable
 internal fun DetailUI(
     modifier: Modifier = Modifier,
+    url: String,
     detailAnimeState: StateWrapper<AnimeDetail>,
     screenshotAnimeState: StateListWrapper<String>,
     videosAnimeState: StateListWrapper<AnimeVideosLight>,
     relationAnimeState: StateListWrapper<AnimeRelatedLight>,
     similarAnimeState: StateListWrapper<AnimeLight>,
     onBackPressed: () -> Boolean,
+    onWatchClick: (String) -> Unit,
     onAnimeClick: (String) -> Unit,
-    onScreenshotClick: (String) -> Unit,
     onMoreScreenshotClick: (String) -> Unit,
     onMoreVideoClick: (String) -> Unit,
+    onCatalogClick: (CatalogFilterParams) -> Unit,
+    onVideoClick: (String) -> Unit,
 ) {
     if(detailAnimeState.isLoading) {
         CircularProgress()
     } else {
         val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
+
         CollapsingToolbarScaffold(
             modifier = modifier
                 .fillMaxSize(),
@@ -116,21 +132,23 @@ internal fun DetailUI(
                 ContentDetailsScreenToolbar(
                     contentDetailState = detailAnimeState,
                     toolbarScaffoldState = toolbarScaffoldState,
-                    navigateBack = onBackPressed,
+                    onBackPressed = onBackPressed,
                 )
             },
             body = {
                 DetailContentUI(
+                    url = url,
                     detailAnimeState = detailAnimeState,
                     screenshotAnimeState = screenshotAnimeState,
                     videosAnimeState = videosAnimeState,
                     relationAnimeState = relationAnimeState,
                     similarAnimeState = similarAnimeState,
+                    onWatchClick = onWatchClick,
                     onAnimeClick = onAnimeClick,
-                    onScreenshotClick = onScreenshotClick,
-                    onVideoClick = { },
                     onMoreScreenshotClick = onMoreScreenshotClick,
                     onMoreVideoClick = onMoreVideoClick,
+                    onCatalogClick = onCatalogClick,
+                    onVideoClick = onVideoClick,
                 )
             }
         )
@@ -139,16 +157,18 @@ internal fun DetailUI(
 
 @Composable
 internal fun DetailContentUI(
+    url: String,
     detailAnimeState: StateWrapper<AnimeDetail>,
     screenshotAnimeState: StateListWrapper<String>,
     videosAnimeState: StateListWrapper<AnimeVideosLight>,
     relationAnimeState: StateListWrapper<AnimeRelatedLight>,
     similarAnimeState: StateListWrapper<AnimeLight>,
+    onWatchClick: (String) -> Unit,
     onAnimeClick: (String) -> Unit,
-    onScreenshotClick: (String) -> Unit,
-    onVideoClick: (String) -> Unit,
     onMoreScreenshotClick: (String) -> Unit,
     onMoreVideoClick: (String) -> Unit,
+    onCatalogClick: (CatalogFilterParams) -> Unit,
+    onVideoClick: (String) -> Unit,
     lazyColumnState: LazyListState = rememberLazyListState(),
 ) {
     var isDescriptionExpanded by remember { mutableStateOf(false) }
@@ -161,7 +181,7 @@ internal fun DetailContentUI(
     ) {
         item {
             TitleInformationContent(
-                modifier = Modifier.padding(start = 16.dp, end =  16.dp),
+                modifier = Modifier.padding(start = 16.dp, end =  16.dp, top = 4.dp),
                 detailAnimeState = detailAnimeState
             )
         }
@@ -175,6 +195,9 @@ internal fun DetailContentUI(
                     defaultElevation = 2.dp
                 ),
                 paddingValues = PaddingValues(0.dp),
+                onClick = {
+                    onWatchClick.invoke(url)
+                },
             ) {
                 AnifoxIconOnPrimary(
                     imageVector = Filled.PlayArrow,
@@ -189,9 +212,24 @@ internal fun DetailContentUI(
             }
         }
         item {
-            GenreContent(
+            InformationComponent(
                 modifier = Modifier.padding(start = 16.dp, end =  16.dp),
                 detailAnimeState = detailAnimeState,
+                onCatalogClick = onCatalogClick,
+            )
+        }
+        item {
+            GenresContent(
+                modifier = Modifier.padding(start = 16.dp, end =  16.dp),
+                detailAnimeState = detailAnimeState,
+                onCatalogClick = onCatalogClick,
+            )
+        }
+        item {
+            StudiosContent(
+                modifier = Modifier.padding(start = 16.dp, end =  16.dp),
+                detailAnimeState = detailAnimeState,
+                onCatalogClick = onCatalogClick,
             )
         }
         item {
@@ -208,7 +246,6 @@ internal fun DetailContentUI(
                 headerModifier = SliderContentDefaults.Default,
                 contentState = screenshotAnimeState,
                 headerTitle = stringResource(R.string.feature_detail_section_screenshots_header_title),
-                onItemClick = onScreenshotClick,
                 onMoreClick = {
                     detailAnimeState.data?.title?.let { title ->
                         onMoreScreenshotClick(title)
@@ -255,23 +292,22 @@ internal fun DetailContentUI(
 private fun PreviewDetailScreenUI(
     @PreviewParameter(DetailContentProvider::class) param: DetailContentPreviewParam,
 ) {
-    AnifoxTheme {
-        Column (
-            Modifier.background(MaterialTheme.colorScheme.background)
-        ) {
-            DetailUI (
-                modifier = param.modifier,
-                detailAnimeState = param.detailAnime,
-                screenshotAnimeState = param.screenshotsAnime,
-                relationAnimeState = param.relationAnime,
-                similarAnimeState = param.similarAnime,
-                onBackPressed = param.onBackPressed,
-                onAnimeClick = param.onAnimeClick,
-                onScreenshotClick = param.onScreenshotClick,
-                onMoreScreenshotClick = param.onMoreScreenshotClick,
-                videosAnimeState = param.videosAnime,
-                onMoreVideoClick = param.onMoreScreenshotClick,
-            )
-        }
+    DefaultPreview(true) {
+        DetailUI (
+            modifier = param.modifier,
+            url = "",
+            detailAnimeState = param.detailAnime,
+            screenshotAnimeState = param.screenshotsAnime,
+            relationAnimeState = param.relationAnime,
+            similarAnimeState = param.similarAnime,
+            videosAnimeState = param.videosAnime,
+            onBackPressed = { false },
+            onWatchClick = { },
+            onAnimeClick = { },
+            onMoreScreenshotClick = { },
+            onMoreVideoClick = { },
+            onCatalogClick = { },
+            onVideoClick = { },
+        )
     }
 }

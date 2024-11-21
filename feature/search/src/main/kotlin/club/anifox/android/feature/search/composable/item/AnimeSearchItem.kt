@@ -1,5 +1,6 @@
 package club.anifox.android.feature.search.composable.item
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.chip.AnifoxChipPrimary
 import club.anifox.android.domain.model.anime.AnimeLight
@@ -29,32 +33,44 @@ import coil.size.Size
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun AnimeSearchItem(
+    thumbnailHeight: Dp = AnimeSearchItemDefaults.Height.Small,
+    thumbnailWidth: Dp = AnimeSearchItemDefaults.Width.Small,
     data: AnimeLight,
-    onClick: (String) -> Unit
+    onClick: (String) -> Unit,
 ) {
     Row(
         modifier = Modifier.clickable {
             onClick.invoke(data.url)
         },
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        AsyncImage(
+        Card(
             modifier = Modifier
-                .width(120.dp)
-                .height(170.dp)
-                .clip(MaterialTheme.shapes.medium),
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(data.image)
-                .crossfade(true)
-                .size(Size.ORIGINAL)
-                .build(),
-            contentDescription = "Content thumbnail",
-            contentScale = ContentScale.Crop,
-            onError = {
-                println(it.result.throwable.message)
-            },
-        )
-        Column (
+                .width(thumbnailWidth)
+                .height(thumbnailHeight),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 4.dp,
+            ),
+            shape = MaterialTheme.shapes.medium,
+        ) {
+            AsyncImage(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.onSurfaceVariant)
+                    .fillMaxSize()
+                    .clip(MaterialTheme.shapes.medium),
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(data.image)
+                    .crossfade(true)
+                    .size(Size.ORIGINAL)
+                    .build(),
+                contentDescription = "Content thumbnail",
+                contentScale = ContentScale.Crop,
+                onError = {
+                    println(it.result.throwable.message)
+                },
+            )
+        }
+        Column(
             modifier = Modifier
                 .padding(top = 8.dp)
                 .fillMaxSize(),

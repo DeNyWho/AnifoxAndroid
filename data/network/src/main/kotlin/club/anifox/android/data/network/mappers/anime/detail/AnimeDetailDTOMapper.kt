@@ -27,6 +27,6 @@ fun AnimeDetailDTO.toDetail(): AnimeDetail = AnimeDetail(
     titleOther = titleOther,
     synonyms = synonyms,
     description = description,
-    genre = genres.map { it.toGenre() },
-    studio = studio.map { it.toStudio() },
+    genres = genres.map { it.toGenre() },
+    studios = studio.map { it.toStudio() },
 )

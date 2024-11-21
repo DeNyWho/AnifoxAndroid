@@ -22,6 +22,7 @@ dependencies {
     
     implementation(libs.youtube.player)
 
+    api(libs.airbnb.lottie)
     api(libs.paging.runtime)
     api(libs.paging.compose)
     api(libs.androidx.compose.foundation)

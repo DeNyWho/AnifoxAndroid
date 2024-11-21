@@ -11,8 +11,8 @@ internal data class VideosContentPreviewParam(
     val openingVideoState: StateListWrapper<AnimeVideosLight>,
     val endingVideoState: StateListWrapper<AnimeVideosLight>,
     val otherVideoState: StateListWrapper<AnimeVideosLight>,
-    val onVideoClick: (String) -> Unit,
-    val onBackPressed: () -> Boolean,
+    val onVideoClick: (String) -> Unit = { },
+    val onBackPressed: () -> Boolean = { false },
     val animeTitle: String? = "",
 )
 
@@ -28,8 +28,6 @@ internal class VideosContentProvider:
                 openingVideoState = StateListWrapper(isLoading = true),
                 endingVideoState = StateListWrapper(isLoading = true),
                 otherVideoState = StateListWrapper(isLoading = true),
-                onVideoClick = { },
-                onBackPressed = { false },
             ),
             VideosContentPreviewParam(
                 modifier = Modifier,
@@ -37,8 +35,6 @@ internal class VideosContentProvider:
                 openingVideoState = StateListWrapper(isLoading = false),
                 endingVideoState = StateListWrapper(isLoading = false),
                 otherVideoState = StateListWrapper(isLoading = false),
-                onVideoClick = { },
-                onBackPressed = { true },
             ),
         ).asSequence()
 }

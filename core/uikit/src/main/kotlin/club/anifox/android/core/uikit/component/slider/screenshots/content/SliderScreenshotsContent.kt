@@ -1,14 +1,15 @@
 package club.anifox.android.core.uikit.component.slider.screenshots.content
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -18,12 +19,13 @@ import club.anifox.android.core.uikit.component.card.screenshot.CardScreenshotLa
 import club.anifox.android.core.uikit.component.card.screenshot.CardScreenshotLandscapeDefaults
 import club.anifox.android.core.uikit.component.card.screenshot.showCardScreenshotLandscapeMoreWhenPastLimit
 import club.anifox.android.core.uikit.component.card.screenshot.showCardScreenshotLandscapeShimmer
+import club.anifox.android.core.uikit.component.dialog.gallery.SwipeableImageDialog
 import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
 import club.anifox.android.core.uikit.component.slider.header.SliderHeader
 import club.anifox.android.core.uikit.component.slider.header.SliderHeaderShimmer
 import club.anifox.android.core.uikit.component.slider.screenshots.content.param.SliderScreenshotsContentPreviewParam
 import club.anifox.android.core.uikit.component.slider.screenshots.content.param.SliderScreenshotsContentProvider
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.onUpdateShimmerBounds
 import club.anifox.android.domain.state.StateListWrapper
 import com.valentinilk.shimmer.Shimmer
@@ -42,9 +44,10 @@ fun SliderScreenshotsContent(
     contentState: StateListWrapper<String>,
     contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
     contentArrangement: Arrangement.Horizontal = CardScreenshotLandscapeDefaults.HorizontalArrangement.Default,
-    onItemClick: (String) -> Unit,
     onMoreClick: () -> Unit,
 ) {
+    var selectedImageIndex by remember { mutableStateOf<Int?>(null) }
+
     // header
     if(contentState.isLoading) {
         SliderHeaderShimmer(
@@ -81,7 +84,9 @@ fun SliderScreenshotsContent(
                     image = imageUrl,
                     thumbnailHeight = thumbnailHeight,
                     thumbnailWidth = thumbnailWidth,
-                    onClick = { onItemClick.invoke(imageUrl) }
+                    onClick = {
+                        selectedImageIndex = contentState.data.indexOf(imageUrl)
+                    }
                 )
             }
             showCardScreenshotLandscapeMoreWhenPastLimit(
@@ -92,6 +97,14 @@ fun SliderScreenshotsContent(
             )
         }
     }
+
+    if (selectedImageIndex != null) {
+        SwipeableImageDialog(
+            images = contentState.data,
+            initialIndex = selectedImageIndex!!,
+            onDismiss = { selectedImageIndex = null },
+        )
+    }
 }
 
 @PreviewLightDark
@@ -99,23 +112,18 @@ fun SliderScreenshotsContent(
 private fun PreviewScrollableHorizontalContentScreenshots(
     @PreviewParameter(SliderScreenshotsContentProvider::class) param: SliderScreenshotsContentPreviewParam,
 ) {
-    AnifoxTheme {
-        Column (
-            Modifier.background(MaterialTheme.colorScheme.background)
-        ) {
-            SliderScreenshotsContent (
-                modifier = param.modifier,
-                headerModifier = param.headerModifier,
-                itemModifier = param.itemModifier,
-                thumbnailHeight = param.thumbnailHeight,
-                thumbnailWidth = param.thumbnailWidth,
-                headerTitle = param.headerTitle,
-                contentState = param.contentState,
-                contentPadding = param.contentPadding,
-                contentArrangement = param.contentArrangement,
-                onItemClick = param.onItemClick,
-                onMoreClick = param.onMoreClick,
-            )
-        }
+    DefaultPreview(true) {
+        SliderScreenshotsContent (
+            modifier = param.modifier,
+            headerModifier = param.headerModifier,
+            itemModifier = param.itemModifier,
+            thumbnailHeight = param.thumbnailHeight,
+            thumbnailWidth = param.thumbnailWidth,
+            headerTitle = param.headerTitle,
+            contentState = param.contentState,
+            contentPadding = param.contentPadding,
+            contentArrangement = param.contentArrangement,
+            onMoreClick = param.onMoreClick,
+        )
     }
 }

@@ -7,8 +7,7 @@ import club.anifox.android.domain.state.StateListWrapper
 internal data class ScreenshotsContentPreviewParam(
     val modifier: Modifier = Modifier,
     val screenshotsAnime: StateListWrapper<String>,
-    val onScreenshotClick: (String) -> Unit,
-    val onBackPressed: () -> Boolean,
+    val onBackPressed: () -> Boolean = { false },
     val animeTitle: String?,
 )
 
@@ -21,15 +20,11 @@ internal class ScreenshotsContentProvider:
             ScreenshotsContentPreviewParam(
                 modifier = Modifier,
                 screenshotsAnime = StateListWrapper(isLoading = false),
-                onScreenshotClick = { },
-                onBackPressed = { true },
                 animeTitle = "Провожающая в последний путь Фрирен",
             ),
             ScreenshotsContentPreviewParam(
                 modifier = Modifier,
                 screenshotsAnime = StateListWrapper(isLoading = true),
-                onScreenshotClick = { },
-                onBackPressed = { true },
                 animeTitle = "Провожающая в последний путь Фрирен",
             ),
         ).asSequence()

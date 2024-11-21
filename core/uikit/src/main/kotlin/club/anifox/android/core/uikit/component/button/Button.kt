@@ -23,9 +23,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import club.anifox.android.core.uikit.component.icon.AnifoxIconOnSurface
 import club.anifox.android.core.uikit.component.icon.AnifoxIconOnPrimary
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.component.icon.AnifoxIconOnSurface
+import club.anifox.android.core.uikit.util.DefaultPreview
 
 @Composable
 fun AnifoxButton(
@@ -56,8 +56,8 @@ fun AnifoxButton(
 
 @PreviewLightDark
 @Composable
-internal fun PreviewAnifoxButton() {
-    AnifoxTheme {
+private fun PreviewAnifoxButton() {
+    DefaultPreview {
         AnifoxButton(
             shape = MaterialTheme.shapes.small,
             elevation = ButtonDefaults.buttonElevation(
@@ -72,8 +72,8 @@ internal fun PreviewAnifoxButton() {
 
 @PreviewLightDark
 @Composable
-internal fun PreviewAnifoxButtonWithIcon() {
-    AnifoxTheme {
+private fun PreviewAnifoxButtonWithIcon() {
+    DefaultPreview {
         AnifoxButton(
             modifier = Modifier.size(40.dp),
             shape = MaterialTheme.shapes.small,
@@ -116,8 +116,8 @@ fun AnifoxButtonPrimary(
 
 @PreviewLightDark
 @Composable
-internal fun PreviewAnifoxButtonPrimaryWithIcon() {
-    AnifoxTheme {
+private fun PreviewAnifoxButtonPrimaryWithIcon() {
+    DefaultPreview {
         AnifoxButtonPrimary(
             modifier = Modifier.fillMaxWidth(),
             shape = MaterialTheme.shapes.small,
@@ -167,8 +167,8 @@ fun AnifoxButtonIconTransparent(
 
 @PreviewLightDark
 @Composable
-internal fun PreviewAnifoxButtonIconTransparent() {
-    AnifoxTheme {
+private fun PreviewAnifoxButtonIconTransparent() {
+    DefaultPreview {
         AnifoxButtonIconTransparent(
             modifier = Modifier.size(20.dp),
             shape = MaterialTheme.shapes.small,
@@ -209,8 +209,8 @@ fun AnifoxButtonSurface(
 
 @PreviewLightDark
 @Composable
-internal fun PreviewAnifoxButtonSurface() {
-    AnifoxTheme {
+private fun PreviewAnifoxButtonSurface() {
+    DefaultPreview {
         AnifoxButtonSurface(
             modifier = Modifier.fillMaxWidth(),
             paddingValues = PaddingValues(0.dp),

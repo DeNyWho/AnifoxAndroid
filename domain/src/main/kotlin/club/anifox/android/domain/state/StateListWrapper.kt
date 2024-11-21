@@ -1,6 +1,6 @@
 package club.anifox.android.domain.state
 
-import club.anifox.android.domain.model.common.ApiError
+import club.anifox.android.domain.model.common.request.ApiError
 
 data class StateListWrapper<T>(
     val data: List<T> = listOf(),

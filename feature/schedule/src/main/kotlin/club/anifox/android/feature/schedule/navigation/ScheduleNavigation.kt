@@ -10,10 +10,14 @@ const val SCHEDULE_ROUTE = "schedule_route"
 
 fun NavController.navigateToSchedule(navOptions: NavOptions) = navigate(SCHEDULE_ROUTE, navOptions)
 
-fun NavGraphBuilder.scheduleScreen() {
+fun NavGraphBuilder.scheduleScreen(
+    onAnimeClick: (String) -> Unit,
+) {
     composable(
         route = SCHEDULE_ROUTE
     ) {
-        ScheduleScreen()
+        ScheduleScreen(
+            onAnimeClick = onAnimeClick,
+        )
     }
 }

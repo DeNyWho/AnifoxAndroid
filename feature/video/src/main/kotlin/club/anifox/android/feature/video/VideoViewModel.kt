@@ -4,6 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import club.anifox.android.core.common.util.deeplink.DeepLink
 import club.anifox.android.domain.model.anime.enum.VideoType
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.state.StateListWrapper
@@ -16,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class VideoViewModel @Inject constructor(
     private val animeVideosUseCase: GetAnimeVideosUseCase,
+    private val deepLink: DeepLink,
 ): ViewModel() {
     private val _trailerVideos: MutableState<StateListWrapper<AnimeVideosLight>> =
         mutableStateOf(StateListWrapper())
@@ -55,5 +57,9 @@ internal class VideoViewModel @Inject constructor(
         animeVideosUseCase.invoke(url = url, videoType = VideoType.Other, null).onEach {
             _otherVideos.value = it
         }.launchIn(viewModelScope)
+    }
+
+    fun openYoutube(youtubeUrl: String) {
+        deepLink.openYouTubeApp(youtubeUrl)
     }
 }

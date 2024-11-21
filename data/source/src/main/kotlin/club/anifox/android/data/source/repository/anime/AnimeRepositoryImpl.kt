@@ -5,31 +5,48 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import club.anifox.android.data.local.cache.dao.anime.search.AnimeSearchDao
+import club.anifox.android.data.local.cache.dao.anime.catalog.AnimeCacheCatalogDao
+import club.anifox.android.data.local.cache.dao.anime.episodes.AnimeCacheEpisodesDao
+import club.anifox.android.data.local.cache.dao.anime.genres.AnimeCacheGenresDao
+import club.anifox.android.data.local.cache.dao.anime.schedule.AnimeCacheScheduleDao
+import club.anifox.android.data.local.cache.dao.anime.search.AnimeCacheSearchDao
 import club.anifox.android.data.local.dao.anime.AnimeDao
+import club.anifox.android.data.local.dao.anime.AnimeSearchHistoryDao
+import club.anifox.android.data.local.mappers.cache.anime.episodes.toLight
+import club.anifox.android.data.local.mappers.cache.anime.schedule.toLight
 import club.anifox.android.data.local.mappers.cache.anime.toLight
+import club.anifox.android.data.local.model.anime.AnimeSearchHistoryEntity
 import club.anifox.android.data.network.mappers.anime.common.toGenre
 import club.anifox.android.data.network.mappers.anime.common.toStudio
 import club.anifox.android.data.network.mappers.anime.detail.toDetail
 import club.anifox.android.data.network.mappers.anime.episodes.toTranslation
+import club.anifox.android.data.network.mappers.anime.episodes.toTranslationsCount
 import club.anifox.android.data.network.mappers.anime.light.toLight
 import club.anifox.android.data.network.mappers.anime.videos.toLight
 import club.anifox.android.data.network.service.AnimeService
-import club.anifox.android.data.source.mapper.toLight
-import club.anifox.android.data.source.paging.anime.AnimeRemoteMediator
+import club.anifox.android.data.source.mapper.anime.toLight
+import club.anifox.android.data.source.paging.anime.catalog.AnimeCatalogRemoteMediator
+import club.anifox.android.data.source.paging.anime.episodes.AnimeEpisodesRemoteMediator
+import club.anifox.android.data.source.paging.anime.genres.AnimeGenresRemoteMediator
+import club.anifox.android.data.source.paging.anime.schedule.AnimeScheduleRemoteMediator
+import club.anifox.android.data.source.paging.anime.search.AnimeSearchRemoteMediator
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
+import club.anifox.android.domain.model.anime.enum.AnimeOrder
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
+import club.anifox.android.domain.model.anime.enum.AnimeSort
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
-import club.anifox.android.domain.model.anime.enum.FilterEnum
 import club.anifox.android.domain.model.anime.enum.VideoType
+import club.anifox.android.domain.model.anime.episodes.AnimeEpisodesLight
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.model.anime.studio.AnimeStudio
 import club.anifox.android.domain.model.anime.translations.AnimeTranslation
+import club.anifox.android.domain.model.anime.translations.AnimeTranslationsCount
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
-import club.anifox.android.domain.model.common.Resource
+import club.anifox.android.domain.model.common.enum.WeekDay
+import club.anifox.android.domain.model.common.request.Resource
 import club.anifox.android.domain.repository.anime.AnimeRepository
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.state.StateWrapper
@@ -43,7 +60,12 @@ import javax.inject.Inject
 internal class AnimeRepositoryImpl @Inject constructor(
     private val animeService: AnimeService,
     private val animeDao: AnimeDao,
-    private val animeSearchDao: AnimeSearchDao,
+    private val animeSearchHistoryDao: AnimeSearchHistoryDao,
+    private val animeCacheSearchDao: AnimeCacheSearchDao,
+    private val animeCacheCatalogDao: AnimeCacheCatalogDao,
+    private val animeCacheGenresDao: AnimeCacheGenresDao,
+    private val animeCacheEpisodesDao: AnimeCacheEpisodesDao,
+    private val animeCacheScheduleDao: AnimeCacheScheduleDao,
 ) : AnimeRepository {
 
     override fun getAnime(
@@ -54,11 +76,12 @@ internal class AnimeRepositoryImpl @Inject constructor(
         searchQuery: String?,
         season: AnimeSeason?,
         ratingMpa: String?,
-        minimalAge: String?,
+        minimalAge: Int?,
         type: AnimeType?,
-        year: Int?,
-        studio: String?,
-        filter: FilterEnum?,
+        years: List<Int>?,
+        studios: List<String>?,
+        order: AnimeOrder?,
+        sort: AnimeSort?,
     ): Flow<StateListWrapper<AnimeLight>> {
         return flow {
             emit(StateListWrapper.loading())
@@ -73,9 +96,10 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 ratingMpa = ratingMpa,
                 minimalAge = minimalAge,
                 type = type,
-                year = year,
-                studio = studio,
-                filter = filter
+                years = years,
+                studios = studios,
+                order = order,
+                sort = sort,
             )
 
             val state = when (animeResult) {
@@ -95,26 +119,58 @@ internal class AnimeRepositoryImpl @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
+    override fun getLastSearchesHistory(): Flow<List<String>> =
+        animeSearchHistoryDao.getLastSearches()
+            .map { entities -> entities.map { it.query } }
+
+    override suspend fun addSearchHistory(query: String) {
+        animeSearchHistoryDao.insertSearch(AnimeSearchHistoryEntity(query = query))
+        animeSearchHistoryDao.keepOnly10LastSearches()
+    }
+
+    override suspend fun deleteSearchHistory() {
+        animeSearchHistoryDao.deleteSearch()
+    }
+
     @OptIn(ExperimentalPagingApi::class)
-    override fun getAnimePaged(
+    override fun getAnimeSearchPaged(
+        limit: Int,
+        searchQuery: String?,
+    ): Flow<PagingData<AnimeLight>> {
+        return Pager(
+            config = PagingConfig(pageSize = limit),
+            remoteMediator = AnimeSearchRemoteMediator(
+                animeService = animeService,
+                animeCacheSearchDao = animeCacheSearchDao,
+                searchQuery = searchQuery,
+            ),
+            pagingSourceFactory = { animeCacheSearchDao.pagingSource() }
+        ).flow.map { pagingData ->
+            pagingData.map { it.toLight() }
+        }
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getAnimeCatalogPaged(
         limit: Int,
         status: AnimeStatus?,
         genres: List<String>?,
         searchQuery: String?,
         season: AnimeSeason?,
         ratingMpa: String?,
-        minimalAge: String?,
+        minimalAge: Int?,
         type: AnimeType?,
-        year: Int?,
-        studio: String?,
+        years: List<Int>?,
+        studios: List<String>?,
         translation: List<Int>?,
-        filter: FilterEnum?,
+        order: AnimeOrder?,
+        sort: AnimeSort?,
     ): Flow<PagingData<AnimeLight>> {
         return Pager(
             config = PagingConfig(pageSize = limit),
-            remoteMediator = AnimeRemoteMediator(
+            remoteMediator = AnimeCatalogRemoteMediator(
                 animeService = animeService,
-                animeSearchDao = animeSearchDao,
+                animeCacheCatalogDao = animeCacheCatalogDao,
                 status = status,
                 genres = genres,
                 searchQuery = searchQuery,
@@ -122,12 +178,74 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 ratingMpa = ratingMpa,
                 minimalAge = minimalAge,
                 type = type,
-                year = year,
-                studio = studio,
+                years = years,
+                studios = studios,
                 translation = translation,
-                filter = filter,
+                order = order,
+                sort = sort,
             ),
-            pagingSourceFactory = { animeSearchDao.pagingSource() }
+            pagingSourceFactory = { animeCacheCatalogDao.pagingSource() }
+        ).flow.map { pagingData ->
+            pagingData.map { it.toLight() }
+        }
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getAnimeGenresPaged(
+        limit: Int,
+        genre: String,
+        minimalAge: Int?,
+    ): Flow<PagingData<AnimeLight>> {
+        return Pager(
+            config = PagingConfig(pageSize = limit),
+            remoteMediator = AnimeGenresRemoteMediator(
+                animeService = animeService,
+                animeCacheGenresDao = animeCacheGenresDao,
+                genre = genre,
+                minimalAge = minimalAge,
+            ),
+            pagingSourceFactory = { animeCacheGenresDao.pagingSource() }
+        ).flow.map { pagingData ->
+            pagingData.map { it.toLight() }
+        }
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getAnimeEpisodesPaged(
+        limit: Int,
+        url: String,
+        translationId: Int,
+    ): Flow<PagingData<AnimeEpisodesLight>> {
+        return Pager(
+            config = PagingConfig(pageSize = limit),
+            remoteMediator = AnimeEpisodesRemoteMediator(
+                animeService = animeService,
+                animeCacheEpisodesDao = animeCacheEpisodesDao,
+                url = url,
+                translationId = translationId,
+            ),
+            pagingSourceFactory = { animeCacheEpisodesDao.getPagedEpisodes() }
+        ).flow.map { pagingData ->
+            pagingData.map { it.toLight() }
+        }
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getAnimeScheduleForDayPaged(
+        dayOfWeek: WeekDay,
+    ): Flow<PagingData<AnimeLight>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 100,
+                enablePlaceholders = false,
+                initialLoadSize = 100,
+            ),
+            remoteMediator = AnimeScheduleRemoteMediator(
+                dayOfWeek = dayOfWeek,
+                animeService = animeService,
+                animeCacheScheduleDao = animeCacheScheduleDao
+            ),
+            pagingSourceFactory = { animeCacheScheduleDao.getPagedAnimeForDay(dayOfWeek.name) }
         ).flow.map { pagingData ->
             pagingData.map { it.toLight() }
         }
@@ -207,6 +325,27 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 }
                 is Resource.Error -> {
                     StateListWrapper(error = translationsResult.error)
+                }
+                is Resource.Loading -> {
+                    StateListWrapper.loading()
+                }
+            }
+
+            emit(state)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun getAnimeTranslationsCount(url: String): Flow<StateListWrapper<AnimeTranslationsCount>> {
+        return flow {
+            emit(StateListWrapper.loading())
+
+            val state = when(val translationsCountResult = animeService.getAnimeTranslationsCount(url)) {
+                is Resource.Success -> {
+                    val data = translationsCountResult.data.map { it.toTranslationsCount() }
+                    StateListWrapper(data)
+                }
+                is Resource.Error -> {
+                    StateListWrapper(error = translationsCountResult.error)
                 }
                 is Resource.Loading -> {
                     StateListWrapper.loading()

@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 
 /**
  * Anifox ChipSurface (chip with surface colors) [AnifoxChipSurface].
@@ -35,7 +35,7 @@ fun AnifoxChipSurface(
 @PreviewLightDark
 @Composable
 private fun PreviewAnifoxChipSurface() {
-    AnifoxTheme {
+    DefaultPreview {
         AnifoxChipSurface(
             title = "2024",
         )
@@ -67,7 +67,7 @@ fun AnifoxChipPrimary(
 @PreviewLightDark
 @Composable
 private fun PreviewAnifoxChipPrimary() {
-    AnifoxTheme {
+    DefaultPreview {
         AnifoxChipPrimary(
             title = "Жанр",
         )

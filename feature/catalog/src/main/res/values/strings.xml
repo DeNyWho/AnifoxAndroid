@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_catalog_filter_genre_title">Жанр</string>
+    <string name="feature_catalog_filter_year_title">Год</string>
+    <string name="feature_catalog_filter_type_title">Тип</string>
+    <string name="feature_catalog_filter_status_title">Статус</string>
+    <string name="feature_catalog_filter_translation_title">Озвучка</string>
+    <string name="feature_catalog_filter_studio_title">Студия</string>
+    <string name="feature_catalog_filter_studio_search_placeholder">Поиск студии...</string>
+    <string name="feature_catalog_filter_season_title">Сезон</string>
+    <string name="feature_catalog_filter_order_title">Фильтр</string>
+    <string name="feature_catalog_filter_sort_title">Сортировка</string>
+    <string name="feature_catalog_title">Каталог</string>
+</resources>

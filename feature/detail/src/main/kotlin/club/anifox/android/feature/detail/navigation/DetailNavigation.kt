@@ -7,28 +7,23 @@ import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.feature.detail.DetailScreen
 
-const val ANIME_URL = "anime_url"
 const val DETAIL_ROUTE_BASE = "detail_route"
 
-fun NavController.navigateToDetail(url: String? = null, navOptions: NavOptions? = null) {
-    val route = if (url != null) {
-        "${DETAIL_ROUTE_BASE}/${ANIME_URL}=$url"
-    } else {
-        DETAIL_ROUTE_BASE
-    }
-    navigate(route, navOptions)
-}
+fun NavController.navigateToDetail(url: String, navOptions: NavOptions? = null) = navigate("${DETAIL_ROUTE_BASE}/url=$url", navOptions)
 
 fun NavGraphBuilder.detailScreen(
     onBackPressed: () -> Boolean,
+    onWatchClick: (String) -> Unit,
     onAnimeClick: (String) -> Unit,
+    onCatalogClick: (CatalogFilterParams) -> Unit,
     onMoreScreenshotClick: (String, String) -> Unit,
     onMoreVideoClick: (String, String) -> Unit,
 ) {
     composable(
-        "$DETAIL_ROUTE_BASE/${ANIME_URL}={url}",
+        "$DETAIL_ROUTE_BASE/url={url}",
         arguments = listOf(
             navArgument("url") { type = NavType.StringType },
         ),
@@ -38,10 +33,11 @@ fun NavGraphBuilder.detailScreen(
         DetailScreen(
             url = url ?: "",
             onBackPressed = onBackPressed,
+            onWatchClick = onWatchClick,
             onAnimeClick = onAnimeClick,
-            onScreenshotClick = { },
             onMoreScreenshotClick = onMoreScreenshotClick,
             onMoreVideoClick = onMoreVideoClick,
+            onCatalogClick = onCatalogClick,
         )
     }
 }

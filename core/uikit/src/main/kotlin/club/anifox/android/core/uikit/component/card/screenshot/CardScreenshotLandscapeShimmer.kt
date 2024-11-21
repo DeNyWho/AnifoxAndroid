@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.Card
@@ -17,7 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
@@ -32,7 +31,6 @@ fun CardScreenshotLandscapeShimmer(
 ) {
     Column(
         modifier = modifier
-            .padding(bottom = 8.dp)
             .shimmer(shimmerInstance),
     ) {
         Card(
@@ -74,7 +72,7 @@ fun LazyListScope.showCardScreenshotLandscapeShimmer(
 @PreviewLightDark
 @Composable
 private fun PreviewCardScreenshotLandscapeShimmer() {
-    AnifoxTheme {
+    DefaultPreview {
         CardScreenshotLandscapeShimmer(
             Modifier.width(CardScreenshotLandscapeDefaults.Width.Default),
             rememberShimmer(shimmerBounds = ShimmerBounds.Custom),

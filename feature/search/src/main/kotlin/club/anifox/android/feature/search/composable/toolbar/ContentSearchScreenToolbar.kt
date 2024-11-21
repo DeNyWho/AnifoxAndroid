@@ -1,11 +1,30 @@
 package club.anifox.android.feature.search.composable.toolbar
 
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateIntAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons.AutoMirrored.Filled
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import club.anifox.android.core.uikit.component.icon.AnifoxIconOnSurface
 import club.anifox.android.core.uikit.component.textfield.SearchField
+import club.anifox.android.core.uikit.util.clickableWithoutRipple
+import club.anifox.android.feature.search.R
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.CollapsingToolbarScope
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -13,17 +32,49 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @Composable
 internal fun CollapsingToolbarScope.ContentSearchScreenToolbar(
     toolbarScaffoldState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
-    navigateBack: () -> Boolean,
+    onBackPressed: () -> Unit,
     searchQuery: String,
     onSearchQueryChanged: (String) -> Unit,
     focusRequest: FocusRequester = FocusRequester(),
 ) {
-    SearchField(
-        modifier = Modifier
-            .padding(vertical = 8.dp, horizontal = 16.dp),
-        isEnabled = true,
-        searchQuery = searchQuery,
-        onSearchQueryChanged = onSearchQueryChanged,
-        focusRequest = focusRequest,
+    var isAnimatingBack by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+
+    val searchEndPadding by animateIntAsState(
+        targetValue = if (isAnimatingBack) 32 else 0,
+        animationSpec = tween(
+            durationMillis = 300,
+            easing = LinearOutSlowInEasing
+        )
     )
+
+    Row(
+        modifier = Modifier
+            .padding(vertical = 8.dp, horizontal = 16.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        AnifoxIconOnSurface(
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+                .size(24.dp)
+                .clickableWithoutRipple {
+                    isAnimatingBack = true
+                    onBackPressed.invoke()
+                },
+            imageVector = Filled.ArrowBack,
+            contentDescription = null,
+        )
+
+        SearchField(
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = searchEndPadding.dp),
+            isEnabled = true,
+            searchQuery = searchQuery,
+            onSearchQueryChanged = onSearchQueryChanged,
+            placeHolder = stringResource(R.string.feature_search_search_placeholder),
+            focusRequest = focusRequest,
+        )
+    }
 }

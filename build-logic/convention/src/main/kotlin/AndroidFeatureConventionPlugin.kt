@@ -11,12 +11,9 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             pluginManager.apply {
                 apply("anifox.android.library")
                 apply("anifox.android.hilt")
+                apply("org.jetbrains.kotlin.plugin.serialization")
             }
             extensions.configure<LibraryExtension> {
-                defaultConfig {
-//                    testInstrumentationRunner =
-//                        "com.google.samples.apps.ani.core.testing.NiaTestRunner"
-                }
                 testOptions.animationsDisabled = true
             }
 
@@ -30,6 +27,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
                 add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
                 add("implementation", libs.findLibrary("androidx.tracing.ktx").get())
+                add("implementation", libs.findLibrary("kotlinx.serialization.json").get())
 
                 add("androidTestImplementation", libs.findLibrary("androidx.lifecycle.runtimeTesting").get())
             }

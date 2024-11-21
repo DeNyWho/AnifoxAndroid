@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.R
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 
 @Composable
 fun CardVideoLandscapeMore(
@@ -32,7 +32,7 @@ fun CardVideoLandscapeMore(
 ) {
     Column {
         Card(
-            modifier = Modifier
+            modifier = modifier
                 .clickable {
                     onClick.invoke()
                 }
@@ -80,7 +80,7 @@ fun LazyListScope.showCardVideoLandscapeMoreWhenPastLimit(
 @PreviewLightDark
 @Composable
 private fun PreviewCardVideoLandscapeMore() {
-    AnifoxTheme {
+    DefaultPreview {
         CardVideoLandscapeMore(
             onClick = { },
         )

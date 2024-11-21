@@ -9,12 +9,21 @@ import club.anifox.android.domain.usecase.anime.GetAnimeRelatedUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeScreenshotUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeSimilarUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeStudiosUseCase
+import club.anifox.android.domain.usecase.anime.GetAnimeTranslationsCountUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeTranslationsUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeVideosUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeYearsUseCase
-import club.anifox.android.domain.usecase.anime.paging.GetAnimePagingUseCase
+import club.anifox.android.domain.usecase.anime.paging.anime.catalog.AnimeCatalogPagingUseCase
+import club.anifox.android.domain.usecase.anime.paging.anime.episodes.AnimeEpisodesPagingUseCase
+import club.anifox.android.domain.usecase.anime.paging.anime.genres.AnimeGenresPagingUseCase
+import club.anifox.android.domain.usecase.anime.paging.anime.schedule.AnimeSchedulePagingUseCase
+import club.anifox.android.domain.usecase.anime.paging.anime.search.AnimeSearchPagingUseCase
+import club.anifox.android.domain.usecase.anime.search.AddAnimeSearchHistoryUseCase
+import club.anifox.android.domain.usecase.anime.search.DeleteAnimeSearchHistoryUseCase
+import club.anifox.android.domain.usecase.anime.search.GetAnimeSearchHistoryUseCase
 import club.anifox.android.domain.usecase.user.UserFirstLaunchUseCase
+import club.anifox.android.domain.usecase.user.UserSettingsUseCase
 import club.anifox.android.domain.usecase.user.UserTokensUseCase
 import dagger.Module
 import dagger.Provides
@@ -34,6 +43,12 @@ internal object UseCaseModule {
 
     @Provides
     @Singleton
+    fun provideUserSettingsUseCase(userRepository: UserRepository): UserSettingsUseCase {
+        return UserSettingsUseCase(userRepository)
+    }
+
+    @Provides
+    @Singleton
     fun provideUserTokensUseCase(userSecurityRepository: UserSecurityRepository): UserTokensUseCase {
         return UserTokensUseCase(userSecurityRepository)
     }
@@ -46,8 +61,50 @@ internal object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideGetAnimePagingUseCase(animeRepository: AnimeRepository): GetAnimePagingUseCase {
-        return GetAnimePagingUseCase(animeRepository)
+    fun provideAnimeSearchPagingUseCase(animeRepository: AnimeRepository): AnimeSearchPagingUseCase {
+        return AnimeSearchPagingUseCase(animeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAddAnimeSearchHistoryUseCase(animeRepository: AnimeRepository): AddAnimeSearchHistoryUseCase {
+        return AddAnimeSearchHistoryUseCase(animeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDeleteAnimeSearchHistoryUseCase(animeRepository: AnimeRepository): DeleteAnimeSearchHistoryUseCase {
+        return DeleteAnimeSearchHistoryUseCase(animeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAnimeSearchHistoryUseCase(animeRepository: AnimeRepository): GetAnimeSearchHistoryUseCase {
+        return GetAnimeSearchHistoryUseCase(animeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAnimeCatalogPagingUseCase(animeRepository: AnimeRepository): AnimeCatalogPagingUseCase {
+        return AnimeCatalogPagingUseCase(animeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAnimeGenresPagingUseCase(animeRepository: AnimeRepository): AnimeGenresPagingUseCase {
+        return AnimeGenresPagingUseCase(animeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAnimeSchedulePagingUseCase(animeRepository: AnimeRepository): AnimeSchedulePagingUseCase {
+        return AnimeSchedulePagingUseCase(animeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAnimeEpisodesPagingUseCase(animeRepository: AnimeRepository): AnimeEpisodesPagingUseCase {
+        return AnimeEpisodesPagingUseCase(animeRepository)
     }
 
     @Provides
@@ -72,6 +129,12 @@ internal object UseCaseModule {
     @Singleton
     fun provideGetAnimeTranslationsUseCase(animeRepository: AnimeRepository): GetAnimeTranslationsUseCase {
         return GetAnimeTranslationsUseCase(animeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAnimeTranslationsCountUseCase(animeRepository: AnimeRepository): GetAnimeTranslationsCountUseCase {
+        return GetAnimeTranslationsCountUseCase(animeRepository)
     }
 
     @Provides

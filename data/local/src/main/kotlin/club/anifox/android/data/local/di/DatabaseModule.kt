@@ -21,5 +21,7 @@ internal object DatabaseModule {
         context,
         AnifoxDatabase::class.java,
         "anifox-database",
-    ).build()
+    )
+        .fallbackToDestructiveMigration() // Use only until the application is released in the release version
+        .build()
 }

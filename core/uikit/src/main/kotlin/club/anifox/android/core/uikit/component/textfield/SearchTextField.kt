@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
 import club.anifox.android.core.uikit.icon.AnifoxIcons
-import club.anifox.android.core.uikit.theme.AnifoxTheme
+import club.anifox.android.core.uikit.util.DefaultPreview
 
 @Composable
 fun SearchField(
@@ -65,7 +65,7 @@ fun SearchField(
 @PreviewLightDark
 @Composable
 private fun PreviewSearchField() {
-    AnifoxTheme {
+    DefaultPreview {
         SearchField(
             placeHolder = "Поиск"
         )
