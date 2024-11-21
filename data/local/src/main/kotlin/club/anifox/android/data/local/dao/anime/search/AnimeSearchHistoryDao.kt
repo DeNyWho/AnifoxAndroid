@@ -1,10 +1,10 @@
-package club.anifox.android.data.local.dao.anime
+package club.anifox.android.data.local.dao.anime.search
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import club.anifox.android.data.local.model.anime.AnimeSearchHistoryEntity
+import club.anifox.android.data.local.model.anime.search.AnimeSearchHistoryEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

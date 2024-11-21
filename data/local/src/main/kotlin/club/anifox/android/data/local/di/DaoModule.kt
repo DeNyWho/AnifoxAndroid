@@ -7,7 +7,8 @@ import club.anifox.android.data.local.cache.dao.anime.genres.AnimeCacheGenresDao
 import club.anifox.android.data.local.cache.dao.anime.schedule.AnimeCacheScheduleDao
 import club.anifox.android.data.local.cache.dao.anime.search.AnimeCacheSearchDao
 import club.anifox.android.data.local.dao.anime.AnimeDao
-import club.anifox.android.data.local.dao.anime.AnimeSearchHistoryDao
+import club.anifox.android.data.local.dao.anime.favourite.AnimeFavouriteDao
+import club.anifox.android.data.local.dao.anime.search.AnimeSearchHistoryDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,6 +21,11 @@ internal object DaoModule {
     fun provideAnimeDao(
         database: AnifoxDatabase,
     ): AnimeDao = database.animeDao()
+
+    @Provides
+    fun provideAnimeFavouriteStatusDao(
+        database: AnifoxDatabase,
+    ): AnimeFavouriteDao = database.animeFavouriteStatusDao()
 
     @Provides
     fun provideAnimeSearchHistoryDao(

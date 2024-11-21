@@ -8,7 +8,7 @@ import club.anifox.android.data.local.cache.dao.anime.genres.AnimeCacheGenresDao
 import club.anifox.android.data.local.cache.dao.anime.schedule.AnimeCacheScheduleDao
 import club.anifox.android.data.local.cache.dao.anime.search.AnimeCacheSearchDao
 import club.anifox.android.data.local.dao.anime.AnimeDao
-import club.anifox.android.data.local.dao.anime.AnimeSearchHistoryDao
+import club.anifox.android.data.local.dao.anime.search.AnimeSearchHistoryDao
 import club.anifox.android.data.network.service.AnimeService
 import club.anifox.android.data.source.repository.anime.AnimeRepositoryImpl
 import club.anifox.android.data.source.repository.user.UserRepositoryImpl

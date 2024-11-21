@@ -1,4 +1,4 @@
-package club.anifox.android.data.local.model.anime
+package club.anifox.android.data.local.model.anime.search
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
