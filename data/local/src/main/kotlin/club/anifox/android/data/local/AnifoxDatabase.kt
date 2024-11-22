@@ -14,7 +14,8 @@ import club.anifox.android.data.local.cache.model.anime.genres.AnimeCacheGenresE
 import club.anifox.android.data.local.cache.model.anime.schedule.AnimeCacheScheduleEntity
 import club.anifox.android.data.local.cache.model.anime.search.AnimeCacheSearchEntity
 import club.anifox.android.data.local.cache.model.anime.translation.AnimeCacheEpisodesTranslationsEntity
-import club.anifox.android.data.local.converters.Converters
+import club.anifox.android.data.local.converters.LocalDateConverter
+import club.anifox.android.data.local.converters.LocalDateTimeConverter
 import club.anifox.android.data.local.dao.anime.AnimeDao
 import club.anifox.android.data.local.dao.anime.favourite.AnimeFavouriteDao
 import club.anifox.android.data.local.dao.anime.search.AnimeSearchHistoryDao
@@ -34,10 +35,10 @@ import club.anifox.android.data.local.model.anime.search.AnimeSearchHistoryEntit
         AnimeCacheScheduleEntity::class,
         AnimeCacheEpisodesTranslationsEntity::class,
                ],
-    version = 9,
+    version = 10,
     exportSchema = true,
 )
-@TypeConverters(Converters::class)
+@TypeConverters(LocalDateConverter::class, LocalDateTimeConverter::class)
 internal abstract class AnifoxDatabase: RoomDatabase() {
     abstract fun animeDao(): AnimeDao
     abstract fun animeFavouriteStatusDao(): AnimeFavouriteDao

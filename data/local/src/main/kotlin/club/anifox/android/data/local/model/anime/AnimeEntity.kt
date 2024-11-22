@@ -16,5 +16,6 @@ data class AnimeEntity(
     val year: Int,
     val status: AnimeStatus,
     val season: AnimeSeason,
+    val description: String = "",
     val lastWatchedEpisode: Int = 0,
 )

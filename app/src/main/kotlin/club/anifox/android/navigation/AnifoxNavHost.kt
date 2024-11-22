@@ -85,8 +85,7 @@ fun AnifoxNavHost(
             onRegistrationClick = navController::navigateToRegistration,
         )
         favouriteScreen(
-            onLoginClick = navController::navigateToLogin,
-            onRegistrationClick = navController::navigateToRegistration,
+            onAnimeClick = navController::navigateToDetail,
         )
         loginScreen()
         registrationScreen()

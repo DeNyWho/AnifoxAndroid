@@ -11,15 +11,13 @@ const val FAVOURITE_ROUTE = "favourite_route"
 fun NavController.navigateToFavourite(navOptions: NavOptions) = navigate(FAVOURITE_ROUTE, navOptions)
 
 fun NavGraphBuilder.favouriteScreen(
-    onLoginClick: () -> Unit,
-    onRegistrationClick: () -> Unit,
+    onAnimeClick: (String) -> Unit,
 ) {
     composable(
         route = FAVOURITE_ROUTE
     ) {
         FavouriteScreen(
-            onLoginClick = onLoginClick,
-            onRegistrationClick = onRegistrationClick,
+            onAnimeClick = onAnimeClick,
         )
     }
 }

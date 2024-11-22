@@ -8,11 +8,14 @@ import club.anifox.android.data.local.cache.dao.anime.genres.AnimeCacheGenresDao
 import club.anifox.android.data.local.cache.dao.anime.schedule.AnimeCacheScheduleDao
 import club.anifox.android.data.local.cache.dao.anime.search.AnimeCacheSearchDao
 import club.anifox.android.data.local.dao.anime.AnimeDao
+import club.anifox.android.data.local.dao.anime.favourite.AnimeFavouriteDao
 import club.anifox.android.data.local.dao.anime.search.AnimeSearchHistoryDao
 import club.anifox.android.data.network.service.AnimeService
 import club.anifox.android.data.source.repository.anime.AnimeRepositoryImpl
+import club.anifox.android.data.source.repository.anime.favourite.AnimeFavouriteRepositoryImpl
 import club.anifox.android.data.source.repository.user.UserRepositoryImpl
 import club.anifox.android.data.source.repository.user.UserSecurityRepositoryImpl
+import club.anifox.android.domain.repository.anime.AnimeFavouriteRepository
 import club.anifox.android.domain.repository.anime.AnimeRepository
 import club.anifox.android.domain.repository.user.UserRepository
 import club.anifox.android.domain.repository.user.UserSecurityRepository
@@ -47,6 +50,16 @@ internal object SourceModule {
             animeCacheCatalogDao = animeCacheCatalogDao,
             animeCacheEpisodesDao = animeCacheEpisodesDao,
             animeCacheScheduleDao = animeCacheScheduleDao,
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavouriteRepository(
+        favouriteDao: AnimeFavouriteDao,
+    ): AnimeFavouriteRepository {
+        return AnimeFavouriteRepositoryImpl(
+            favouriteDao = favouriteDao,
         )
     }
 
