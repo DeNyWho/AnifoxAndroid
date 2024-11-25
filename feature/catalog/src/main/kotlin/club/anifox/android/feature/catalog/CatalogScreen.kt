@@ -8,13 +8,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -27,6 +25,7 @@ import club.anifox.android.core.uikit.component.card.anime.CardAnimePortrait
 import club.anifox.android.core.uikit.component.card.anime.CardAnimePortraitDefaults
 import club.anifox.android.core.uikit.component.error.NoSearchResultsError
 import club.anifox.android.core.uikit.component.grid.GridContentDefaults
+import club.anifox.android.core.uikit.component.progress.CircularProgress
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
@@ -38,7 +37,7 @@ import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.catalog.composable.filter.FiltersBar
 import club.anifox.android.feature.catalog.composable.top.CatalogTopBar
 import club.anifox.android.feature.catalog.model.FilterType
-import club.anifox.android.feature.catalog.model.state.CatalogState
+import club.anifox.android.feature.catalog.model.state.CatalogUiState
 import kotlinx.coroutines.flow.Flow
 
 @Composable
@@ -49,9 +48,8 @@ internal fun CatalogScreen(
     onAnimeClick: (String) -> Unit,
     initialParams: CatalogFilterParams,
 ) {
-    val catalogState by viewModel.catalogState.collectAsState()
-    val items = viewModel.searchResults.collectAsLazyPagingItems()
-    val loadState by viewModel.loadState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
+    val searchResults = viewModel.searchResults
     val animeYears by viewModel.animeYears.collectAsState()
     val animeGenres by viewModel.animeGenres.collectAsState()
     val animeStudios by viewModel.animeStudios.collectAsState()
@@ -61,26 +59,15 @@ internal fun CatalogScreen(
         onBackPressed.invoke()
     }
 
-    LaunchedEffect(initialParams) {
-        viewModel.initializeParams(initialParams)
-    }
-
-    LaunchedEffect(items.loadState) {
-        viewModel.updateLoadState(items.loadState)
-    }
-
-    LaunchedEffect(loadState) {
-        val currentLoadState = loadState
-        if (currentLoadState?.refresh is LoadState.NotLoading) {
-            viewModel.updateLoadingState(false)
-        }
+    LaunchedEffect(initialParams, uiState.isInitialized) {
+        viewModel.initializeFilters(initialParams)
     }
 
     CatalogUI(
         onBackPressed = onBackPressed,
         onSearchClick = onSearchClick,
-        catalogState = catalogState,
-        searchResults = viewModel.searchResults,
+        uiState = uiState,
+        searchResults = searchResults,
         onAnimeClick = onAnimeClick,
         animeGenres = animeGenres,
         animeYears = animeYears,
@@ -94,8 +81,7 @@ internal fun CatalogScreen(
 
 @Composable
 private fun CatalogUI(
-    modifier: Modifier = Modifier,
-    catalogState: CatalogState,
+    uiState: CatalogUiState,
     onAnimeClick: (String) -> Unit,
     onBackPressed: () -> Boolean,
     onSearchClick: () -> Unit,
@@ -108,6 +94,10 @@ private fun CatalogUI(
 ) {
     val lazyGridState = rememberLazyGridState()
     val items = searchResults.collectAsLazyPagingItems()
+
+    LaunchedEffect(uiState) {
+        lazyGridState.scrollToItem(0)
+    }
 
     val screenInfo = LocalScreenInfo.current
 
@@ -134,12 +124,6 @@ private fun CatalogUI(
 
     val minColumnSize = (screenInfo.portraitWidthDp.dp / (if (screenInfo.portraitWidthDp.dp < 600.dp) 4 else 6)).coerceAtLeast(if(screenInfo.portraitWidthDp.dp < 600.dp) CardAnimePortraitDefaults.Width.Min else width )
 
-    LaunchedEffect(catalogState) {
-        if (!catalogState.isLoading) {
-            items.refresh()
-        }
-    }
-
     Scaffold (
         topBar = {
             CatalogTopBar(
@@ -155,49 +139,56 @@ private fun CatalogUI(
             animeGenres = animeGenres,
             animeStudios = animeStudios,
             animeTranslations = animeTranslations,
-            catalogState = catalogState,
+            catalogState = uiState,
             updateFilter = updateFilter,
         )
-        Box(
-            modifier = Modifier
-                .padding(top = 40.dp)
-                .padding(padding)
-                .zIndex(-1f)
-                .fillMaxSize(),
-        ) {
-            when {
-                catalogState.isLoading -> {
-                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-                }
-                items.itemCount == 0 && !catalogState.isLoading -> {
-                    NoSearchResultsError()
-                }
-                else -> {
-                    LazyVerticalGrid(
-                        modifier = GridContentDefaults.Default.fillMaxSize(),
-                        columns = GridCells.Adaptive(minSize = minColumnSize),
-                        state = lazyGridState,
-                        horizontalArrangement = CardAnimePortraitDefaults.HorizontalArrangement.Grid,
-                        verticalArrangement = CardAnimePortraitDefaults.VerticalArrangement.Grid,
-                    ) {
-                        items(
-                            count = items.itemCount,
-                            key = items.itemKey { it.url }
-                        ) { index ->
-                            val item = items[index]
-                            if (item != null) {
-                                CardAnimePortrait(
-                                    modifier = Modifier.width(width),
-                                    data = item,
-                                    onClick = { onAnimeClick.invoke(item.url) },
-                                    thumbnailHeight = height,
-                                    thumbnailWidth = width,
-                                )
-                            }
-                        }
 
-                        if(items.loadState.append is LoadState.Loading) {
-                            item { CircularProgressIndicator() }
+        if (items.loadState.refresh is LoadState.Loading) {
+            CircularProgress()
+        } else {
+            Box(
+                modifier = Modifier
+                    .padding(top = 40.dp)
+                    .padding(padding)
+                    .zIndex(-1f)
+                    .fillMaxSize(),
+            ) {
+                LazyVerticalGrid(
+                    modifier = GridContentDefaults.Default.fillMaxSize(),
+                    columns = GridCells.Adaptive(minSize = minColumnSize),
+                    state = lazyGridState,
+                    horizontalArrangement = CardAnimePortraitDefaults.HorizontalArrangement.Grid,
+                    verticalArrangement = CardAnimePortraitDefaults.VerticalArrangement.Grid,
+                ) {
+                    items(
+                        count = items.itemCount,
+                        key = items.itemKey { it.url }
+                    ) { index ->
+                        val item = items[index]
+                        if (item != null) {
+                            CardAnimePortrait(
+                                modifier = Modifier.width(width),
+                                data = item,
+                                onClick = { onAnimeClick.invoke(item.url) },
+                                thumbnailHeight = height,
+                                thumbnailWidth = width,
+                            )
+                        }
+                    }
+
+                    items.apply {
+                        when (loadState.append) {
+                            is LoadState.Loading -> {
+
+                            }
+
+                            is LoadState.Error -> {
+                                item { NoSearchResultsError() }
+                            }
+
+                            is LoadState.NotLoading -> {
+
+                            }
                         }
                     }
                 }
