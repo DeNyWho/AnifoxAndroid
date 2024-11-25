@@ -7,12 +7,10 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -27,11 +25,9 @@ import club.anifox.android.core.uikit.component.grid.GridContentDefaults
 import club.anifox.android.core.uikit.component.progress.CircularProgress
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.AnimeLight
-import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.common.device.ScreenType
-import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.genres.composable.top.GenreTopBar
-import club.anifox.android.feature.genres.data.SearchState
+import club.anifox.android.feature.genres.data.GenreUiState
 import kotlinx.coroutines.flow.Flow
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -44,51 +40,34 @@ internal fun GenresScreen(
     onAnimeClick: (String) -> Unit,
     onBackPressed: () -> Boolean,
 ) {
-    val searchState by viewModel.searchState.collectAsState()
-    val items = viewModel.searchResults.collectAsLazyPagingItems()
-    val loadState by viewModel.loadState.collectAsState()
-    val animeGenres by viewModel.animeGenres.collectAsState()
-    val selectedGenre by viewModel.selectedGenre.collectAsState()
+    val searchResults = viewModel.searchResults
+    val uiState by viewModel.uiState.collectAsState()
 
-    LaunchedEffect(genreID) {
-        viewModel.initializeFilter(genreID)
-    }
-
-    LaunchedEffect(items.loadState) {
-        viewModel.updateLoadState(items.loadState)
-    }
-
-    LaunchedEffect(loadState) {
-        val currentLoadState = loadState
-        if (currentLoadState?.refresh is LoadState.NotLoading) {
-            viewModel.updateLoadingState(false)
+    LaunchedEffect(genreID, uiState.isGenresLoaded) {
+        if (uiState.isGenresLoaded && uiState.genres.isNotEmpty()) {
+            viewModel.initializeFilter(genreID)
         }
     }
 
     GenresUI(
-        searchState = searchState,
-        searchResults = viewModel.searchResults,
+        uiState = uiState,
+        searchResults = searchResults,
         onAnimeClick = onAnimeClick,
         onBackPressed = onBackPressed,
-        animeGenres = animeGenres,
-        selectedGenre = selectedGenre,
     )
 }
 
 @Composable
 private fun GenresUI(
-    modifier: Modifier = Modifier,
-    searchState: SearchState,
+    uiState: GenreUiState,
     onAnimeClick: (String) -> Unit,
     onBackPressed: () -> Boolean,
     searchResults: Flow<PagingData<AnimeLight>>,
-    animeGenres: StateListWrapper<AnimeGenre>,
-    selectedGenre: AnimeGenre,
 ) {
     val lazyGridState = rememberLazyGridState()
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
 
-    if(animeGenres.isLoading) {
+    if(uiState.isLoading || uiState.isContentLoading) {
         CircularProgress()
     } else {
         CollapsingToolbarScaffold(
@@ -97,14 +76,14 @@ private fun GenresUI(
             scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
             toolbar = {
                 GenreTopBar(
-                    selectedGenre = selectedGenre,
+                    selectedGenre = uiState.selectedGenre,
                     toolbarScaffoldState = toolbarScaffoldState,
                     onBackPressed = onBackPressed,
                 )
             },
             body = {
                 GenresContent(
-                    searchState = searchState,
+//                    searchState = searchState,
                     searchResults = searchResults,
                     lazyGridState = lazyGridState,
                     onAnimeClick = onAnimeClick,
@@ -118,12 +97,10 @@ private fun GenresUI(
 private fun GenresContent(
     modifier: Modifier = Modifier,
     searchResults: Flow<PagingData<AnimeLight>>,
-    searchState: SearchState,
     lazyGridState: LazyGridState,
     onAnimeClick: (String) -> Unit,
 ) {
     val items = searchResults.collectAsLazyPagingItems()
-
     val screenInfo = LocalScreenInfo.current
 
     val (width, height) = when (screenInfo.screenType) {
@@ -149,46 +126,48 @@ private fun GenresContent(
 
     val minColumnSize = (screenInfo.portraitWidthDp.dp / (if (screenInfo.portraitWidthDp.dp < 600.dp) 4 else 6)).coerceAtLeast(if(screenInfo.portraitWidthDp.dp < 600.dp) CardAnimePortraitDefaults.Width.Min else width )
 
-    LaunchedEffect(searchState) {
-        if (!searchState.isLoading) {
-            items.refresh()
-        }
-    }
 
-    Box(modifier = modifier.fillMaxSize()) {
-        when {
-            searchState.isLoading -> {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-            }
-            items.itemCount == 0 && !searchState.isLoading -> {
-                NoSearchResultsError()
-            }
-            else -> {
-                LazyVerticalGrid(
-                    modifier = GridContentDefaults.Default.fillMaxSize(),
-                    columns = GridCells.Adaptive(minSize = minColumnSize),
-                    state = lazyGridState,
-                    horizontalArrangement = CardAnimePortraitDefaults.HorizontalArrangement.Grid,
-                    verticalArrangement = CardAnimePortraitDefaults.VerticalArrangement.Grid,
-                ) {
-                    items(
-                        count = items.itemCount,
-                        key = items.itemKey { it.url }
-                    ) { index ->
-                        val item = items[index]
-                        if (item != null) {
-                            CardAnimePortrait(
-                                modifier = Modifier.width(width),
-                                data = item,
-                                onClick = { onAnimeClick.invoke(item.url) },
-                                thumbnailHeight = height,
-                                thumbnailWidth = width,
-                            )
-                        }
+    // Проверяем состояние загрузки
+    if (items.loadState.refresh is LoadState.Loading) {
+        CircularProgress() // Показываем индикатор загрузки, если данные еще обновляются
+    } else {
+        Box(modifier = modifier.fillMaxSize()) {
+            LazyVerticalGrid(
+                modifier = GridContentDefaults.Default.fillMaxSize(),
+                columns = GridCells.Adaptive(minSize = minColumnSize),
+                state = lazyGridState,
+                horizontalArrangement = CardAnimePortraitDefaults.HorizontalArrangement.Grid,
+                verticalArrangement = CardAnimePortraitDefaults.VerticalArrangement.Grid,
+            ) {
+                items(
+                    count = items.itemCount,
+                    key = items.itemKey { it.url }
+                ) { index ->
+                    val item = items[index]
+                    if (item != null) {
+                        CardAnimePortrait(
+                            modifier = Modifier.width(width),
+                            data = item,
+                            onClick = { onAnimeClick.invoke(item.url) },
+                            thumbnailHeight = height,
+                            thumbnailWidth = width,
+                        )
                     }
+                }
 
-                    if(items.loadState.append is LoadState.Loading) {
-                        item { CircularProgressIndicator() }
+                items.apply {
+                    when (loadState.append) {
+                        is LoadState.Loading -> {
+                            // Отображаем индикатор загрузки в конце списка при догрузке данных
+                        }
+
+                        is LoadState.Error -> {
+                            item { NoSearchResultsError() }
+                        }
+
+                        is LoadState.NotLoading -> {
+
+                        }
                     }
                 }
             }

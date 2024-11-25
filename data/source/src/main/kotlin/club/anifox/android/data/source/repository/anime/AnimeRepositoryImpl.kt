@@ -13,7 +13,6 @@ import club.anifox.android.data.local.cache.dao.anime.search.AnimeCacheSearchDao
 import club.anifox.android.data.local.dao.anime.AnimeDao
 import club.anifox.android.data.local.dao.anime.search.AnimeSearchHistoryDao
 import club.anifox.android.data.local.mappers.cache.anime.episodes.toLight
-import club.anifox.android.data.local.mappers.cache.anime.schedule.toLight
 import club.anifox.android.data.local.mappers.cache.anime.toLight
 import club.anifox.android.data.local.model.anime.search.AnimeSearchHistoryEntity
 import club.anifox.android.data.network.mappers.anime.common.toGenre

@@ -13,6 +13,8 @@ dependencies {
     implementation(libs.toolbar.compose)
     testImplementation(libs.hilt.android.testing)
     testDemoImplementation(libs.roborazzi)
+    implementation(libs.paging.runtime)
+    implementation(libs.paging.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

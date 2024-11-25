@@ -2,26 +2,20 @@ package club.anifox.android.feature.genres
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.CombinedLoadStates
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import club.anifox.android.domain.model.anime.AnimeLight
-import club.anifox.android.domain.model.anime.genre.AnimeGenre
-import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.usecase.anime.GetAnimeGenresUseCase
 import club.anifox.android.domain.usecase.anime.paging.anime.genres.AnimeGenresPagingUseCase
-import club.anifox.android.feature.genres.data.SearchState
+import club.anifox.android.feature.genres.data.GenreUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,77 +25,60 @@ internal class GenresViewModel @Inject constructor(
     private val getAnimeGenresUseCase: GetAnimeGenresUseCase,
     private val animeGenresPagingUseCase: AnimeGenresPagingUseCase,
 ): ViewModel() {
-    private val _searchState = MutableStateFlow(SearchState())
-    val searchState = _searchState.asStateFlow()
+    private val _uiState = MutableStateFlow(GenreUiState())
+    val uiState: StateFlow<GenreUiState> = _uiState.asStateFlow()
 
-    private val _selectedGenre = MutableStateFlow(AnimeGenre())
-    val selectedGenre: StateFlow<AnimeGenre> = _selectedGenre.asStateFlow()
-
-    val loadState = MutableStateFlow<CombinedLoadStates?>(null)
-
-    private val _animeGenres = MutableStateFlow<StateListWrapper<AnimeGenre>>(StateListWrapper.loading())
-    val animeGenres = _animeGenres.asStateFlow()
-
-    init {
-        viewModelScope.launch {
-            getAnimeGenresUseCase().collect { _animeGenres.value = it }
+    val searchResults: Flow<PagingData<AnimeLight>> = _uiState
+        .filter { it.isReadyToLoad }
+        .distinctUntilChanged { old, new ->
+            old.selectedGenre == new.selectedGenre &&
+                    old.minimalAge == new.minimalAge
         }
-    }
-
-    fun updateLoadingState(isLoading: Boolean) {
-        _searchState.update { it.copy(isLoading = isLoading) }
-    }
-
-    @OptIn(FlowPreview::class)
-    val searchResults: Flow<PagingData<AnimeLight>> = _searchState
-        .onStart { _searchState.update { it.copy(isLoading = true) } }
-        .debounce(0)
-        .filter { it.isInitialized }
-        .distinctUntilChanged()
         .flatMapLatest { state ->
-            animeGenresPagingUseCase(
+            animeGenresPagingUseCase.invoke(
                 limit = 20,
-                genre = state.genre,
+                genre = state.selectedGenre.id,
                 minimalAge = state.minimalAge,
             )
         }
+        .cachedIn(viewModelScope)
 
-    fun updateLoadState(loadState: CombinedLoadStates) {
-        this.loadState.value = loadState
+    init {
+        loadGenres()
     }
 
-    fun initializeFilter(genreId: String) {
+    private fun loadGenres() {
         viewModelScope.launch {
-            _animeGenres
-                .onStart { _searchState.update { it.copy(isLoading = true) } }
-                .filter { !it.isLoading && it.data.isNotEmpty() }
-                .first()
-                .let { stateListWrapper ->
-                    if (!_searchState.value.isInitialized) {
-                        val selected = stateListWrapper.data.find { it.id == genreId }
-                        if(selected != null) _selectedGenre.update { selected }
+            getAnimeGenresUseCase.invoke().collect { genresResult ->
+                val genres = genresResult.data
 
-                        _searchState.update { state ->
-                            state.copy(
-                                genre = genreId,
-                                minimalAge = state.minimalAge,
-                                isInitialized = true,
-                                isLoading = state.isLoading,
-                            )
-                        }
-                    }
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        genres = genres,
+                        isLoading = false,
+                        isGenresLoaded = genres.isNotEmpty(),
+                    )
                 }
+            }
         }
     }
 
-    fun updateFilter(genre: String) {
-        _searchState.update {
-            it.copy(
-                genre = genre,
-                minimalAge = it.minimalAge,
-                isInitialized = it.isInitialized,
-                isLoading = it.isLoading,
-            )
+    fun initializeFilter(genreId: String, minimalAge: Int? = null) {
+        viewModelScope.launch {
+            // Setting the download status before filtering starts
+            _uiState.update { it.copy(isContentLoading = true) }
+            val genre = _uiState.value.genres
+                .find { it.id == genreId } ?: return@launch
+
+            _uiState.update { currentState ->
+                currentState.copy(
+                    selectedGenre = genre,
+                    minimalAge = minimalAge,
+                    isReadyToLoad = true,
+                    // delete the download status only after updating the data
+                    isContentLoading = false,
+                )
+            }
         }
     }
 }
