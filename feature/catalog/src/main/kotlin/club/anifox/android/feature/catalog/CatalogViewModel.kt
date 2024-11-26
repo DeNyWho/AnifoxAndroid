@@ -18,6 +18,7 @@ import club.anifox.android.domain.usecase.anime.paging.anime.catalog.AnimeCatalo
 import club.anifox.android.feature.catalog.model.FilterType
 import club.anifox.android.feature.catalog.model.state.CatalogUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -53,17 +54,33 @@ internal class CatalogViewModel @Inject constructor(
     val animeTranslations = _animeTranslations.asStateFlow()
 
     init {
+        loadInitialData()
+    }
+
+    private fun loadInitialData() {
         viewModelScope.launch {
-            getAnimeGenresUseCase().collect { _animeGenres.value = it }
-        }
-        viewModelScope.launch {
-            getAnimeYearsUseCase().collect { _animeYears.value = it }
-        }
-        viewModelScope.launch {
-            getAnimeStudiosUseCase().collect { _animeStudios.value = it }
-        }
-        viewModelScope.launch {
-            getAnimeTranslationsUseCase().collect { _animeTranslations.value = it }
+            coroutineScope {
+                launch {
+                    getAnimeGenresUseCase.invoke().collect {
+                        _animeGenres.value = it
+                    }
+                }
+                launch {
+                    getAnimeYearsUseCase.invoke().collect {
+                        _animeYears.value = it
+                    }
+                }
+                launch {
+                    getAnimeStudiosUseCase.invoke().collect {
+                        _animeStudios.value = it
+                    }
+                }
+                launch {
+                    getAnimeTranslationsUseCase.invoke().collect {
+                        _animeTranslations.value = it
+                    }
+                }
+            }
         }
     }
 

@@ -41,7 +41,7 @@ import club.anifox.android.domain.model.common.device.ScreenType
 import club.anifox.android.domain.model.common.enum.WeekDay
 import club.anifox.android.feature.schedule.composable.item.AnimeScheduleItem
 import club.anifox.android.feature.schedule.composable.item.AnimeScheduleItemDefaults
-import club.anifox.android.feature.schedule.state.ScheduleState
+import club.anifox.android.feature.schedule.model.state.ScheduleUiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -51,7 +51,7 @@ internal fun ScheduleScreen(
     viewModel: ScheduleViewModel = hiltViewModel(),
     onAnimeClick: (String) -> Unit,
 ) {
-    val scheduleState by viewModel.scheduleState.collectAsState()
+    val uiState by viewModel.scheduleUiState.collectAsState()
     val daysOfWeek = WeekDay.entries.toTypedArray()
     val localWeek = LocalDate.now().dayOfWeek.value - 1
     val pagerState = rememberPagerState(initialPage = localWeek, pageCount = { daysOfWeek.size })
@@ -77,7 +77,7 @@ internal fun ScheduleScreen(
     }
 
     ScheduleUI(
-        scheduleState = scheduleState,
+        uiState = uiState,
         pagerState = pagerState,
         daysOfWeek = daysOfWeek,
         scheduleResults = scheduleResults,
@@ -87,7 +87,7 @@ internal fun ScheduleScreen(
 
 @Composable
 private fun ScheduleUI(
-    scheduleState: ScheduleState,
+    uiState: ScheduleUiState,
     pagerState: PagerState,
     daysOfWeek: Array<WeekDay>,
     scheduleResults: Map<WeekDay, Flow<PagingData<AnimeLight>>>,
@@ -131,7 +131,7 @@ private fun ScheduleUI(
                                 val currentDayItems = currentDayFlow.collectAsLazyPagingItems()
 
                                 // Проверяем состояния загрузки
-                                val isLoading = scheduleState.isLoading ||
+                                val isLoading = uiState.isLoading ||
                                         currentDayItems.loadState.refresh is LoadState.Loading ||
                                         currentDayItems.loadState.append is LoadState.Loading
 

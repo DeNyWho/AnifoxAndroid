@@ -27,7 +27,7 @@ import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.common.device.ScreenType
 import club.anifox.android.feature.genres.composable.top.GenreTopBar
-import club.anifox.android.feature.genres.data.GenreUiState
+import club.anifox.android.feature.genres.model.state.GenreUiState
 import kotlinx.coroutines.flow.Flow
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -83,7 +83,6 @@ private fun GenresUI(
             },
             body = {
                 GenresContent(
-//                    searchState = searchState,
                     searchResults = searchResults,
                     lazyGridState = lazyGridState,
                     onAnimeClick = onAnimeClick,
@@ -127,9 +126,8 @@ private fun GenresContent(
     val minColumnSize = (screenInfo.portraitWidthDp.dp / (if (screenInfo.portraitWidthDp.dp < 600.dp) 4 else 6)).coerceAtLeast(if(screenInfo.portraitWidthDp.dp < 600.dp) CardAnimePortraitDefaults.Width.Min else width )
 
 
-    // Проверяем состояние загрузки
     if (items.loadState.refresh is LoadState.Loading) {
-        CircularProgress() // Показываем индикатор загрузки, если данные еще обновляются
+        CircularProgress()
     } else {
         Box(modifier = modifier.fillMaxSize()) {
             LazyVerticalGrid(
@@ -158,7 +156,7 @@ private fun GenresContent(
                 items.apply {
                     when (loadState.append) {
                         is LoadState.Loading -> {
-                            // Отображаем индикатор загрузки в конце списка при догрузке данных
+
                         }
 
                         is LoadState.Error -> {

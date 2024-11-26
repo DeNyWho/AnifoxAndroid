@@ -139,7 +139,7 @@ private fun CatalogUI(
             animeGenres = animeGenres,
             animeStudios = animeStudios,
             animeTranslations = animeTranslations,
-            catalogState = uiState,
+            uiState = uiState,
             updateFilter = updateFilter,
         )
 

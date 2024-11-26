@@ -3,10 +3,11 @@ package club.anifox.android.feature.favourite
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import club.anifox.android.domain.usecase.anime.GetFavouriteAnimeUseCase
-import club.anifox.android.feature.favourite.model.state.FavouriteState
+import club.anifox.android.feature.favourite.model.state.FavouriteUiState
 import club.anifox.android.feature.favourite.model.tab.FavouriteTabType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
@@ -17,8 +18,8 @@ import javax.inject.Inject
 internal class FavouriteViewModel @Inject constructor(
     private val getFavouriteAnimeUseCase: GetFavouriteAnimeUseCase,
 ) : ViewModel() {
-    private val _state = MutableStateFlow(FavouriteState())
-    val state = _state.asStateFlow()
+    private val _uiState = MutableStateFlow(FavouriteUiState())
+    val uiState: StateFlow<FavouriteUiState> = _uiState.asStateFlow()
 
     init {
         loadData()
@@ -26,14 +27,14 @@ internal class FavouriteViewModel @Inject constructor(
 
     private fun loadData() {
         viewModelScope.launch {
-            state.value.tabs.forEach { tab ->
+            uiState.value.tabs.forEach { tab ->
                 launch {
                     getFavouriteAnimeUseCase(tab.toAnimeListType())
                         .catch { e ->
-                            _state.update { it.copy(error = e.message) }
+                            _uiState.update { it.copy(error = e.message) }
                         }
                         .collect { items ->
-                            _state.update { currentState ->
+                            _uiState.update { currentState ->
                                 currentState.copy(
                                     items = currentState.items + (tab to items),
                                     loading = false
@@ -46,7 +47,7 @@ internal class FavouriteViewModel @Inject constructor(
     }
 
     fun onTabSelected(tab: FavouriteTabType) {
-        _state.update { it.copy(currentTab = tab) }
+        _uiState.update { it.copy(currentTab = tab) }
     }
 
 

@@ -7,13 +7,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -24,13 +22,14 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import club.anifox.android.core.uikit.component.error.NoSearchResultsError
 import club.anifox.android.core.uikit.component.grid.GridContentDefaults
+import club.anifox.android.core.uikit.component.progress.CircularProgress
 import club.anifox.android.core.uikit.component.topbar.SimpleTopBar
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.episodes.AnimeEpisodesLight
 import club.anifox.android.domain.model.common.device.ScreenType
 import club.anifox.android.feature.episodes.composable.grid.item.CardEpisodeGridItem
 import club.anifox.android.feature.episodes.composable.grid.item.CardEpisodeGridItemDefaults
-import club.anifox.android.feature.episodes.data.EpisodesState
+import club.anifox.android.feature.episodes.model.state.EpisodesUiState
 import kotlinx.coroutines.flow.Flow
 
 @Composable
@@ -41,38 +40,23 @@ internal fun EpisodesScreen(
     translationId: Int,
 //    onEpisodeClick: (String) -> Unit,
 ) {
-    val episodesState by viewModel.episodesState.collectAsState()
-    val items = viewModel.episodesResults.collectAsLazyPagingItems()
-    val loadState by viewModel.loadState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(url, translationId) {
         viewModel.initializeFilter(url, translationId)
     }
 
-    LaunchedEffect(items.loadState) {
-        viewModel.updateLoadState(items.loadState)
-    }
-
-    LaunchedEffect(loadState) {
-        val currentLoadState = loadState
-        if (currentLoadState?.refresh is LoadState.NotLoading) {
-            viewModel.updateLoadingState(false)
-        }
-    }
-
-
     EpisodesUI(
         onBackPressed = onBackPressed,
-        episodesState = episodesState,
+        uiState = uiState,
         episodesResults = viewModel.episodesResults,
-
     )
 }
 
 @Composable
 private fun EpisodesUI(
     onBackPressed: () -> Boolean,
-    episodesState: EpisodesState,
+    uiState: EpisodesUiState,
     episodesResults: Flow<PagingData<AnimeEpisodesLight>>,
 ) {
     Scaffold(
@@ -90,7 +74,7 @@ private fun EpisodesUI(
         EpisodesContent(
             modifier = Modifier
                 .padding(padding),
-            episodesState = episodesState,
+            uiState = uiState,
             episodesResults = episodesResults,
         )
     }
@@ -99,7 +83,7 @@ private fun EpisodesUI(
 @Composable
 private fun EpisodesContent(
     modifier: Modifier,
-    episodesState: EpisodesState,
+    uiState: EpisodesUiState,
     episodesResults: Flow<PagingData<AnimeEpisodesLight>>,
 ) {
     val items = episodesResults.collectAsLazyPagingItems()
@@ -120,24 +104,13 @@ private fun EpisodesContent(
     }
     val minColumnSize = (screenInfo.portraitWidthDp.dp / (if (screenInfo.portraitWidthDp.dp < 600.dp) 4 else 6)).coerceAtLeast(if(screenInfo.portraitWidthDp.dp < 600.dp) CardEpisodeGridItemDefaults.Width.Min else width )
 
-    LaunchedEffect(episodesState) {
-        if (!episodesState.isLoading) {
-            items.refresh()
-        }
-    }
-
-    Box(
-        modifier = modifier
-            .fillMaxSize(),
-    ) {
-        when {
-            episodesState.isLoading -> {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-            }
-            items.itemCount == 0 && !episodesState.isLoading -> {
-                NoSearchResultsError()
-            }
-            else -> {
+    if (items.loadState.refresh is LoadState.Loading) {
+        CircularProgress()
+    } else {
+        if(items.itemCount == 0) {
+            NoSearchResultsError()
+        } else {
+            Box(modifier = modifier.fillMaxSize()) {
                 LazyVerticalGrid(
                     modifier = GridContentDefaults.Default.fillMaxSize(),
                     columns = GridCells.Adaptive(minSize = minColumnSize),
@@ -151,29 +124,31 @@ private fun EpisodesContent(
                     ) { index ->
                         val item = items[index]
                         if (item != null) {
-                            CardEpisodeGridItem (
+                            CardEpisodeGridItem(
                                 modifier = Modifier.width(width),
                                 data = item,
-                                onClick = {  },
+                                onClick = { },
                             )
                         }
                     }
 
-                    if(items.loadState.append is LoadState.Loading) {
-                        /*
-                            TODO Shimmer
-                         */
+                    items.apply {
+                        when (loadState.append) {
+                            is LoadState.Loading -> {
+
+                            }
+
+                            is LoadState.Error -> {
+                                item { NoSearchResultsError() }
+                            }
+
+                            is LoadState.NotLoading -> {
+
+                            }
+                        }
                     }
                 }
             }
         }
     }
 }
-
-//@PreviewScreenSizes
-//@Composable
-//private fun PreviewEpisodesUI() {
-//    DefaultPreview(true) {
-//        EpisodesUI()
-//    }
-//}

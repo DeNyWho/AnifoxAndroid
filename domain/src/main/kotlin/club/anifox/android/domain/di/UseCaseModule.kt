@@ -1,4 +1,4 @@
-package club.anifox.android.data.source.di
+package club.anifox.android.domain.di
 
 import club.anifox.android.domain.repository.anime.AnimeFavouriteRepository
 import club.anifox.android.domain.repository.anime.AnimeRepository

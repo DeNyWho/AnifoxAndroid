@@ -6,7 +6,7 @@ import androidx.paging.PagingData
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.common.enum.WeekDay
 import club.anifox.android.domain.usecase.anime.paging.anime.schedule.AnimeSchedulePagingUseCase
-import club.anifox.android.feature.schedule.state.ScheduleState
+import club.anifox.android.feature.schedule.model.state.ScheduleUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,11 +19,11 @@ import javax.inject.Inject
 internal class ScheduleViewModel @Inject constructor(
     private val animeSchedulePagingUseCase: AnimeSchedulePagingUseCase,
 ) : ViewModel() {
-    private val _scheduleState = MutableStateFlow(ScheduleState())
-    val scheduleState = _scheduleState.asStateFlow()
+    private val _scheduleUiState = MutableStateFlow(ScheduleUiState())
+    val scheduleUiState = _scheduleUiState.asStateFlow()
 
     private fun updateLoadingState(dayOfWeek: WeekDay, isLoading: Boolean) {
-        _scheduleState.update {
+        _scheduleUiState.update {
             val updatedLoadingMap = it.loadingMap.toMutableMap().apply {
                 this[dayOfWeek] = isLoading
             }

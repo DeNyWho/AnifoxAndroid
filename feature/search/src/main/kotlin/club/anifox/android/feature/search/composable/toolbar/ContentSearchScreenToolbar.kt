@@ -35,6 +35,7 @@ internal fun CollapsingToolbarScope.ContentSearchScreenToolbar(
     onBackPressed: () -> Unit,
     searchQuery: String,
     onSearchQueryChanged: (String) -> Unit,
+    onTrailingIconClick: () -> Unit,
     focusRequest: FocusRequester = FocusRequester(),
 ) {
     var isAnimatingBack by remember { mutableStateOf(false) }
@@ -73,6 +74,7 @@ internal fun CollapsingToolbarScope.ContentSearchScreenToolbar(
             isEnabled = true,
             searchQuery = searchQuery,
             onSearchQueryChanged = onSearchQueryChanged,
+            onTrailingIconClick = onTrailingIconClick,
             placeHolder = stringResource(R.string.feature_search_search_placeholder),
             focusRequest = focusRequest,
         )

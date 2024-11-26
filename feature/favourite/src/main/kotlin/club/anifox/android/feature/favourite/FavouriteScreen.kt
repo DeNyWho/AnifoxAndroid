@@ -10,7 +10,7 @@ internal fun FavouriteScreen(
     viewModel: FavouriteViewModel = hiltViewModel(),
     onAnimeClick: (String) -> Unit,
 ) {
-    val state by viewModel.state.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
 }
 

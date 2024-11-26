@@ -1,4 +1,4 @@
-package club.anifox.android.feature.genres.data
+package club.anifox.android.feature.genres.model.state
 
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 

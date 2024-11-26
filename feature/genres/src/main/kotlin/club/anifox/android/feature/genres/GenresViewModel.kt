@@ -7,7 +7,7 @@ import androidx.paging.cachedIn
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.usecase.anime.GetAnimeGenresUseCase
 import club.anifox.android.domain.usecase.anime.paging.anime.genres.AnimeGenresPagingUseCase
-import club.anifox.android.feature.genres.data.GenreUiState
+import club.anifox.android.feature.genres.model.state.GenreUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
