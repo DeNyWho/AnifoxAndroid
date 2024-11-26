@@ -12,6 +12,6 @@ object AnifoxIcons {
     val search = Icons.Default.Search
 
     object Animated {
-        val arrowUpDown = R.raw.ic_arrow_up_down
+        val arrowUpDown = R.raw.core_uikit_ic_arrow_up_down
     }
 }

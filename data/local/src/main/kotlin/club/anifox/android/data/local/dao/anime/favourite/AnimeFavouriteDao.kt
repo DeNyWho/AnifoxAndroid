@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.RewriteQueriesToDropUnusedColumns
 import androidx.room.Transaction
 import club.anifox.android.data.local.model.anime.favourite.AnimeFavouriteEntity
 import club.anifox.android.domain.model.anime.AnimeLightFavourite
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface AnimeFavouriteDao {
     @Transaction
+    @RewriteQueriesToDropUnusedColumns
     @Query("""
         SELECT 
             a.title,
@@ -25,10 +27,7 @@ interface AnimeFavouriteDao {
             a.season,
             a.description,
             a.lastWatchedEpisode,
-            COALESCE(af.addedAt, CURRENT_TIMESTAMP) as addedAt,
-            COALESCE(af.isFavourite, 0) as isFavourite,
-            COALESCE(af.isInHistory, 0) as isInHistory,
-            af.watchStatus
+            COALESCE(af.addedAt, CURRENT_TIMESTAMP) as addedAt
         FROM anime a
         LEFT JOIN anime_favourite af ON a.url = af .animeUrl
         WHERE af.isFavourite = 1 OR af.isInHistory = 1 OR af.watchStatus IS NOT NULL
@@ -36,6 +35,7 @@ interface AnimeFavouriteDao {
     """)
     fun getAllAnimeLightFavourites(): Flow<List<AnimeLightFavourite>>
 
+    @RewriteQueriesToDropUnusedColumns
     @Query("""
         SELECT 
             a.title,
@@ -48,10 +48,7 @@ interface AnimeFavouriteDao {
             a.season,
             a.description,
             a.lastWatchedEpisode,
-            COALESCE(af.addedAt, CURRENT_TIMESTAMP) as addedAt,
-            COALESCE(af.isFavourite, 0) as isFavourite,
-            COALESCE(af.isInHistory, 0) as isInHistory,
-            af.watchStatus
+            COALESCE(af.addedAt, CURRENT_TIMESTAMP) as addedAt
         FROM anime a
         LEFT JOIN anime_favourite af ON a.url = af.animeUrl
         WHERE af.isFavourite = 1
@@ -59,6 +56,7 @@ interface AnimeFavouriteDao {
     """)
     fun getFavouriteAnime(): Flow<List<AnimeLightFavourite>>
 
+    @RewriteQueriesToDropUnusedColumns
     @Query("""
         SELECT 
             a.title,
@@ -71,10 +69,7 @@ interface AnimeFavouriteDao {
             a.season,
             a.description,
             a.lastWatchedEpisode,
-            COALESCE(af.addedAt, CURRENT_TIMESTAMP) as addedAt,
-            COALESCE(af.isFavourite, 0) as isFavourite,
-            COALESCE(af.isInHistory, 0) as isInHistory,
-            af.watchStatus
+            COALESCE(af.addedAt, CURRENT_TIMESTAMP) as addedAt
         FROM anime a
         LEFT JOIN anime_favourite af ON a.url = af.animeUrl
         WHERE af.isInHistory = 1
@@ -82,6 +77,7 @@ interface AnimeFavouriteDao {
     """)
     fun getHistoryAnime(): Flow<List<AnimeLightFavourite>>
 
+    @RewriteQueriesToDropUnusedColumns
     @Query("""
         SELECT 
             a.title,
@@ -94,10 +90,7 @@ interface AnimeFavouriteDao {
             a.season,
             a.description,
             a.lastWatchedEpisode,
-            COALESCE(af.addedAt, CURRENT_TIMESTAMP) as addedAt,
-            COALESCE(af.isFavourite, 0) as isFavourite,
-            COALESCE(af.isInHistory, 0) as isInHistory,
-            af.watchStatus
+            COALESCE(af.addedAt, CURRENT_TIMESTAMP) as addedAt
         FROM anime a
         LEFT JOIN anime_favourite af ON a.url = af.animeUrl
         WHERE af.watchStatus = :status

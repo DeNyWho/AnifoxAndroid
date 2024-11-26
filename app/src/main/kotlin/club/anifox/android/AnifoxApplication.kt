@@ -1,16 +1,32 @@
 package club.anifox.android
 
 import android.app.Application
+import coil.ImageLoader
+import coil.ImageLoaderFactory
+import coil.disk.DiskCache
+import coil.memory.MemoryCache
 import dagger.hilt.android.HiltAndroidApp
-
-//@HiltAndroidApp
-//class AnifoxApplication : Application(), ImageLoaderFactory {
-//
-//    @Inject
-//    lateinit var imageLoader: dagger.Lazy<ImageLoader>
-//
-//    override fun newImageLoader(): ImageLoader = imageLoader.get()
-//}
+import kotlinx.coroutines.Dispatchers
 
 @HiltAndroidApp
-class AnifoxApplication : Application()
+class AnifoxApplication : Application(), ImageLoaderFactory {
+
+    override fun newImageLoader(): ImageLoader {
+        return ImageLoader.Builder(this)
+            .crossfade(true)
+            .memoryCache {
+                MemoryCache.Builder(this)
+                    .maxSizePercent(0.25)
+                    .build()
+            }
+            .diskCache {
+                DiskCache.Builder()
+                    .directory(this.cacheDir.resolve("image_cache"))
+                    .maxSizePercent(0.02)
+                    .build()
+            }
+            .fetcherDispatcher(Dispatchers.IO.limitedParallelism(8))
+            .decoderDispatcher(Dispatchers.IO.limitedParallelism(2))
+            .build()
+    }
+}

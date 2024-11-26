@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 12,
-    "identityHash": "b2e212fe577b658ad74bfa47e1784b30",
+    "identityHash": "f002412c2c18c652ebcce7f60c046b69",
     "entities": [
       {
         "tableName": "anime",
@@ -529,7 +529,17 @@
             "id"
           ]
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_cache_anime_episodes_translations_episodeNumber",
+            "unique": false,
+            "columnNames": [
+              "episodeNumber"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_cache_anime_episodes_translations_episodeNumber` ON `${TABLE_NAME}` (`episodeNumber`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "cache_anime_episodes",
@@ -548,7 +558,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b2e212fe577b658ad74bfa47e1784b30')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f002412c2c18c652ebcce7f60c046b69')"
     ]
   }
 }

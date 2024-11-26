@@ -73,7 +73,7 @@ internal fun CollapsingToolbarScope.ContentHomeScreenToolbar(
                 .align(Alignment.CenterVertically)
                 .size(24.dp)
                 .clickableWithoutRipple { onHistoryClick() },
-            imageVector = ImageVector.vectorResource(R.drawable.history),
+            imageVector = ImageVector.vectorResource(R.drawable.feature_home_history),
             contentDescription = null,
         )
 
@@ -93,7 +93,7 @@ internal fun CollapsingToolbarScope.ContentHomeScreenToolbar(
                 .size(24.dp)
                 .alpha(rightIconAlpha)
                 .clickableWithoutRipple { onCatalogClick() },
-            imageVector = ImageVector.vectorResource(R.drawable.browse),
+            imageVector = ImageVector.vectorResource(R.drawable.feature_home_browse),
             contentDescription = null,
         )
     }
