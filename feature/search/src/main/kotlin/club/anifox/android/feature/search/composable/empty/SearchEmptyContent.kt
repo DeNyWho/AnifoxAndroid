@@ -111,7 +111,7 @@ internal fun SearchEmptyContent(
                     .size(48.dp)
                     .padding(top = 16.dp)
                     .align(Alignment.CenterHorizontally)
-                    .clickableWithoutRipple {
+                    .clickableWithoutRipple(enabled = !randomAnime.isLoading) {
                         onRefreshRandomAnimeClick.invoke()
                     }
                     .rotate(rotationState.value),

@@ -11,12 +11,19 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.unclippedBoundsInWindow
 
-fun Modifier.clickableWithoutRipple(onClick: () -> Unit): Modifier = composed {
-    this.clickable(
-        indication = null,
-        interactionSource = remember { MutableInteractionSource() }) {
-        onClick()
-    }
+fun Modifier.clickableWithoutRipple(enabled: Boolean = true, onClick: () -> Unit): Modifier = composed {
+    this.then(
+        if (enabled) {
+            clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ) {
+                onClick()
+            }
+        } else {
+            this
+        }
+    )
 }
 
 @Stable

@@ -130,7 +130,6 @@ private fun ScheduleUI(
                             key(currentDayOfWeek) {
                                 val currentDayItems = currentDayFlow.collectAsLazyPagingItems()
 
-                                // Проверяем состояния загрузки
                                 val isLoading = uiState.isLoading ||
                                         currentDayItems.loadState.refresh is LoadState.Loading ||
                                         currentDayItems.loadState.append is LoadState.Loading
