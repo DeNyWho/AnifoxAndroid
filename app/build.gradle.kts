@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.anifox.android.application.compose)
     alias(libs.plugins.anifox.android.application.flavors)
     alias(libs.plugins.anifox.android.application.jacoco)
+    alias(libs.plugins.anifox.android.application.firebase)
     alias(libs.plugins.anifox.android.hilt)
     alias(libs.plugins.roborazzi)
     alias(libs.plugins.kotlin.serialization)

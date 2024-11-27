@@ -18,6 +18,7 @@ kotlin {
 }
 
 dependencies {
+    compileOnly(libs.firebase.crashlytics.gradlePlugin)
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.android.tools.common)
     compileOnly(libs.compose.gradlePlugin)
@@ -74,6 +75,10 @@ gradlePlugin {
         register("androidRoom") {
             id = "anifox.android.room"
             implementationClass = "AndroidRoomConventionPlugin"
+        }
+        register("androidFirebase") {
+            id = "anifox.android.application.firebase"
+            implementationClass = "AndroidApplicationFirebaseConventionPlugin"
         }
         register("androidFlavors") {
             id = "anifox.android.application.flavors"

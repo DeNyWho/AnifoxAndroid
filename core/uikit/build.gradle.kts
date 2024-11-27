@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.anifox.android.library)
     alias(libs.plugins.anifox.android.library.jacoco)
     alias(libs.plugins.anifox.android.hilt)
-    id("kotlinx-serialization")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
