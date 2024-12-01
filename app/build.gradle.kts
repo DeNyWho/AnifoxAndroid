@@ -1,18 +1,25 @@
-import club.anifox.buildlogic.convention.AnifoxBuildType
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
     alias(libs.plugins.anifox.android.application)
     alias(libs.plugins.anifox.android.application.compose)
-    alias(libs.plugins.anifox.android.application.flavors)
     alias(libs.plugins.anifox.android.application.jacoco)
     alias(libs.plugins.anifox.android.application.firebase)
     alias(libs.plugins.anifox.android.hilt)
-    alias(libs.plugins.roborazzi)
     alias(libs.plugins.kotlin.serialization)
 }
 
 android {
     namespace = "club.anifox.android"
+
+    signingConfigs {
+        create("release") {
+            storeFile = file(gradleLocalProperties(rootDir, providers).getProperty("keystore_path"))
+            storePassword = gradleLocalProperties(rootDir, providers).getProperty("keystore_password")
+            keyAlias = gradleLocalProperties(rootDir, providers).getProperty("key_alias")
+            keyPassword = gradleLocalProperties(rootDir, providers).getProperty("key_password")
+        }
+    }
 
     defaultConfig {
         applicationId = "club.anifox.android"
@@ -26,17 +33,12 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix = AnifoxBuildType.DEBUG.applicationIdSuffix
+            extra["enableCrashlytics"] = false
         }
         release {
             isMinifyEnabled = true
-            applicationIdSuffix = AnifoxBuildType.RELEASE.applicationIdSuffix
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-
-            // To publish on the Play store a private signing key is required, but to allow anyone
-            // who clones the code to sign and run the release variant, use the debug signing key.
-            // TODO: Abstract the signing configuration to a separate file to avoid hardcoding this.
-            signingConfig = signingConfigs.named("debug").get()
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 
@@ -94,8 +96,6 @@ dependencies {
     kspTest(libs.hilt.compiler)
 
     testImplementation(libs.hilt.android.testing)
-
-    testDemoImplementation(libs.roborazzi)
 
     androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.androidx.navigation.testing)

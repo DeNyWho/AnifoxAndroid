@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.anifox.android.feature)
     alias(libs.plugins.anifox.android.library.compose)
     alias(libs.plugins.anifox.android.library.jacoco)
-    alias(libs.plugins.roborazzi)
 }
 
 android {
@@ -12,7 +11,6 @@ android {
 dependencies {
     implementation(libs.toolbar.compose)
     testImplementation(libs.hilt.android.testing)
-    testDemoImplementation(libs.roborazzi)
     implementation(libs.paging.runtime)
     implementation(libs.paging.compose)
 

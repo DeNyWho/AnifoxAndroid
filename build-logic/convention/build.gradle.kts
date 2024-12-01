@@ -80,10 +80,6 @@ gradlePlugin {
             id = "anifox.android.application.firebase"
             implementationClass = "AndroidApplicationFirebaseConventionPlugin"
         }
-        register("androidFlavors") {
-            id = "anifox.android.application.flavors"
-            implementationClass = "AndroidApplicationFlavorsConventionPlugin"
-        }
         register("androidLint") {
             id = "anifox.android.lint"
             implementationClass = "AndroidLintConventionPlugin"

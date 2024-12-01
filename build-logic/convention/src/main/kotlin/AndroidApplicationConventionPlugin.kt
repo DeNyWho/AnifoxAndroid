@@ -19,6 +19,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             extensions.configure<ApplicationExtension> {
                 configureKotlinAndroid(this)
                 defaultConfig.targetSdk = 35
+                defaultConfig.minSdk = 26
                 @Suppress("UnstableApiUsage")
                 testOptions.animationsDisabled = true
             }
