@@ -16,6 +16,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -24,6 +26,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import club.anifox.android.core.uikit.component.error.NoSearchResultsError
 import club.anifox.android.core.uikit.component.progress.CircularProgress
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.common.device.ScreenType
@@ -33,6 +36,8 @@ import club.anifox.android.feature.search.composable.item.AnimeSearchItem
 import club.anifox.android.feature.search.composable.item.AnimeSearchItemDefaults
 import club.anifox.android.feature.search.composable.toolbar.ContentSearchScreenToolbar
 import club.anifox.android.feature.search.model.state.SearchUiState
+import club.anifox.android.feature.search.param.SearchUiPreviewParam
+import club.anifox.android.feature.search.param.SearchUiProvider
 import kotlinx.coroutines.flow.Flow
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -234,5 +239,29 @@ private fun SearchContent(
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewSearchScreenUI(
+    @PreviewParameter(SearchUiProvider::class) param: SearchUiPreviewParam,
+) {
+    DefaultPreview(true) {
+        SearchUI(
+            modifier = param.modifier,
+            onBackPressed = param.onBackPressed,
+            uiState = param.uiState,
+            searchHistory = param.searchHistory,
+            randomAnime = param.randomAnime,
+            onQueryChange = param.onQueryChange,
+            onTrailingIconClick = param.onTrailingIconClick,
+            onAnimeClick = param.onAnimeClick,
+            searchResults = param.searchResults,
+            onHistoryItemClick = param.onHistoryItemClick,
+            onDeleteHistoryClick = param.onDeleteHistoryClick,
+            onRandomAnimeClick = param.onRandomAnimeClick,
+            onRefreshRandomAnimeClick = param.onRefreshRandomAnimeClick,
+        )
     }
 }

@@ -17,4 +17,6 @@ data class AnimeCacheSearchEntity(
     val status: AnimeStatus,
     val season: AnimeSeason,
     val description: String,
+    val episodes: Int,
+    val episodesAired: Int,
 )

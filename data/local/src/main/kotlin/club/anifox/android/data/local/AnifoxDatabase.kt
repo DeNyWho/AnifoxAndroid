@@ -35,7 +35,7 @@ import club.anifox.android.data.local.model.anime.search.AnimeSearchHistoryEntit
         AnimeCacheScheduleEntity::class,
         AnimeCacheEpisodesTranslationsEntity::class,
                ],
-    version = 12,
+    version = 13,
     exportSchema = true,
 )
 @TypeConverters(LocalDateConverter::class, LocalDateTimeConverter::class)

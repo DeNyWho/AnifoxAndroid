@@ -7,14 +7,16 @@ import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 
 fun AnimeRelatedDTO.toLight(): AnimeRelatedLight = AnimeRelatedLight(
     anime = AnimeLight(
-        anime.title,
-        anime.image.toImage().medium,
-        anime.url,
-        anime.type,
-        anime.rating,
-        anime.year,
-        anime.status,
-        anime.season,
+        title = anime.title,
+        image = anime.image.toImage().medium,
+        url = anime.url,
+        type = anime.type,
+        rating = anime.rating,
+        year = anime.year,
+        status = anime.status,
+        season = anime.season,
+        episodes = anime.episodes,
+        episodesAired = anime.episodesAired,
     ),
     type = relation.type,
 )

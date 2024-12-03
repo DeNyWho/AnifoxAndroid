@@ -21,11 +21,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.chip.AnifoxChipPrimary
 import club.anifox.android.domain.model.anime.AnimeLight
+import club.anifox.android.feature.search.R
+import club.anifox.android.feature.search.composable.item.param.AnimeSearchItemPreviewParam
+import club.anifox.android.feature.search.composable.item.param.AnimeSearchItemProvider
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Size
@@ -33,8 +39,8 @@ import coil.size.Size
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun AnimeSearchItem(
-    thumbnailHeight: Dp = AnimeSearchItemDefaults.Height.Small,
-    thumbnailWidth: Dp = AnimeSearchItemDefaults.Width.Small,
+    thumbnailHeight: Dp,
+    thumbnailWidth: Dp,
     data: AnimeLight,
     onClick: (String) -> Unit,
 ) {
@@ -73,7 +79,7 @@ internal fun AnimeSearchItem(
         Column(
             modifier = Modifier
                 .padding(top = 8.dp)
-                .fillMaxSize(),
+                .weight(1f),
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             Text(
@@ -85,7 +91,6 @@ internal fun AnimeSearchItem(
             )
             FlowRow (
                 modifier = Modifier
-                    .padding(top = 8.dp)
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
@@ -95,9 +100,9 @@ internal fun AnimeSearchItem(
                 AnifoxChipPrimary(
                     title = data.type.toString(),
                 )
-                if(data.rating != null) {
+                if(data.episodes > 1) {
                     AnifoxChipPrimary(
-                        title = data.rating.toString(),
+                        title = "${data.episodes} ${stringResource(R.string.feature_search_item_episodes)}",
                     )
                 }
             }
@@ -111,4 +116,17 @@ internal fun AnimeSearchItem(
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewAnimeSearchItem(
+    @PreviewParameter(AnimeSearchItemProvider::class) param: AnimeSearchItemPreviewParam,
+) {
+    AnimeSearchItem(
+        thumbnailHeight = param.thumbnailHeight,
+        thumbnailWidth = param.thumbnailWidth,
+        data = param.data,
+        onClick = param.onClick,
+    )
 }

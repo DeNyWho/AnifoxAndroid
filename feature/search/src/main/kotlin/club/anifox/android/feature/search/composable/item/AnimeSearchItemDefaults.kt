@@ -5,15 +5,15 @@ import androidx.compose.ui.unit.dp
 
 internal object AnimeSearchItemDefaults {
     object Width {
-        val Small = 140.dp
-        val Medium = 140.dp
-        val Large = 180.dp
+        val Small = 90.dp
+        val Medium = 100.dp
+        val Large = 120.dp
     }
 
     object Height {
-        val Small = 170.dp
-        val Medium = 190.dp
-        val Large = 240.dp
+        val Small = 120.dp
+        val Medium = 130.dp
+        val Large = 160.dp
     }
 
     object HorizontalArrangement {

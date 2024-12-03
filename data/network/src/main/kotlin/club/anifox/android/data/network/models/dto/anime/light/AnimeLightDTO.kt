@@ -27,4 +27,8 @@ data class AnimeLightDTO(
     val season: AnimeSeason = AnimeSeason.Fall,
     @SerialName("description")
     val description: String = "",
+    @SerialName("episodes")
+    val episodes: Int = 0,
+    @SerialName("episodes_aired")
+    val episodesAired: Int = 0,
 )

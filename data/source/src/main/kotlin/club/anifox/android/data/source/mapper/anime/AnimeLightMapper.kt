@@ -11,14 +11,17 @@ import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.common.enum.WeekDay
 
 fun AnimeLightDTO.toLight(): AnimeLight = AnimeLight(
-    title,
-    image.toImage().medium,
-    url,
-    type,
-    rating,
-    year,
-    status,
-    season
+    title = title,
+    image = image.toImage().medium,
+    url = url,
+    type = type,
+    rating = rating,
+    year = year,
+    status = status,
+    season = season,
+    description = description,
+    episodes = episodes,
+    episodesAired = episodesAired,
 )
 
 fun AnimeLightDTO.toEntityLight(): AnimeEntity = AnimeEntity(
@@ -30,6 +33,9 @@ fun AnimeLightDTO.toEntityLight(): AnimeEntity = AnimeEntity(
     year = year,
     status = status,
     season = season,
+    description = description,
+    episodes = episodes,
+    episodesAired = episodesAired,
 )
 
 fun AnimeLightDTO.toEntityCacheSearchLight(): AnimeCacheSearchEntity = AnimeCacheSearchEntity(
@@ -41,7 +47,9 @@ fun AnimeLightDTO.toEntityCacheSearchLight(): AnimeCacheSearchEntity = AnimeCach
     year = year,
     status = status,
     season = season,
-    description = description
+    description = description,
+    episodes = episodes,
+    episodesAired = episodesAired,
 )
 
 fun AnimeLightDTO.toEntityCacheCatalogLight(): AnimeCacheCatalogEntity = AnimeCacheCatalogEntity(
@@ -53,7 +61,9 @@ fun AnimeLightDTO.toEntityCacheCatalogLight(): AnimeCacheCatalogEntity = AnimeCa
     year = year,
     status = status,
     season = season,
-    description = description
+    description = description,
+    episodes = episodes,
+    episodesAired = episodesAired,
 )
 
 fun AnimeLightDTO.toEntityCacheGenresLight(): AnimeCacheGenresEntity = AnimeCacheGenresEntity(
@@ -65,7 +75,9 @@ fun AnimeLightDTO.toEntityCacheGenresLight(): AnimeCacheGenresEntity = AnimeCach
     year = year,
     status = status,
     season = season,
-    description = description
+    description = description,
+    episodes = episodes,
+    episodesAired = episodesAired,
 )
 
 fun AnimeLightDTO.toEntityCacheScheduleLight(dayOfWeek: WeekDay): AnimeCacheScheduleEntity = AnimeCacheScheduleEntity(
@@ -79,4 +91,6 @@ fun AnimeLightDTO.toEntityCacheScheduleLight(dayOfWeek: WeekDay): AnimeCacheSche
     status = status,
     season = season,
     description = description,
+    episodes = episodes,
+    episodesAired = episodesAired,
 )

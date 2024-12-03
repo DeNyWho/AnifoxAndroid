@@ -11,15 +11,17 @@ import club.anifox.android.domain.model.anime.episodes.AnimeEpisodesLight
 import club.anifox.android.domain.model.anime.translations.AnimeEpisodeTranslation
 
 fun AnimeCacheSearchEntity.toLight(): AnimeLight = AnimeLight(
-    title,
-    image,
-    url,
-    type,
-    rating,
-    year,
-    status,
-    season,
-    description,
+    title = title,
+    image = image,
+    url = url,
+    type = type,
+    rating = rating,
+    year = year,
+    status = status,
+    season = season,
+    description = description,
+    episodes = episodes,
+    episodesAired = episodesAired,
 )
 
 fun AnimeCacheScheduleEntity.toLight(): AnimeLight = AnimeLight(
@@ -31,31 +33,38 @@ fun AnimeCacheScheduleEntity.toLight(): AnimeLight = AnimeLight(
     year = year,
     status = status,
     season = season,
-    description = description
+    description = description,
+    episodes = episodes,
+    episodesAired = episodesAired,
 )
 
 fun AnimeCacheCatalogEntity.toLight(): AnimeLight = AnimeLight(
-    title,
-    image,
-    url,
-    type,
-    rating,
-    year,
-    status,
-    season,
-    description,
+    title = title,
+    image = image,
+    url = url,
+    type = type,
+    rating = rating,
+    year = year,
+    status = status,
+    season = season,
+    description = description,
+    episodes = episodes,
+    episodesAired = episodesAired,
 )
 
 fun AnimeCacheGenresEntity.toLight(): AnimeLight = AnimeLight(
-    title,
-    image,
-    url,
-    type,
-    rating,
-    year,
-    status,
-    season,
-    description,
+    title = title,
+    image = image,
+    url = url,
+    type = type,
+    rating = rating,
+    year = year,
+    status = status,
+    season = season,
+    description = description,
+    episodes = episodes,
+    episodesAired = episodesAired,
+
 )
 
 fun AnimeCacheEpisodeWithTranslations.toLight(): AnimeEpisodesLight = AnimeEpisodesLight(

@@ -11,4 +11,5 @@
     <string name="feature_search_title_empty_sub">Введите что-нибудь в 🔍</string>
     <string name="feature_search_search_placeholder">Поиск...</string>
     <string name="feature_search_title_empty_try_sub">Введите что-нибудь в 🔍, например</string>
+    <string name="feature_search_item_episodes">Эпизодов</string>
 </resources>

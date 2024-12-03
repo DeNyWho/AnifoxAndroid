@@ -88,7 +88,7 @@ internal fun SearchEmptyContent(
                 style = MaterialTheme.typography.titleMedium,
             )
             Box(
-                modifier = Modifier.height(24.dp)
+                modifier = Modifier.height(30.dp)
             ) {
                 if(randomAnimeData != null) {
                     Text(
