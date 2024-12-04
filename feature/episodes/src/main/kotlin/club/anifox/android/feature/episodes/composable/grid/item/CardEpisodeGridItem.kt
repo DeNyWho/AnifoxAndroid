@@ -22,6 +22,7 @@ import club.anifox.android.domain.model.anime.episodes.AnimeEpisodesLight
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Size
+import java.net.URLEncoder
 
 @Composable
 internal fun CardEpisodeGridItem(
@@ -35,7 +36,7 @@ internal fun CardEpisodeGridItem(
                 .fillMaxWidth()
                 .aspectRatio(16 / 9f)
                 .clip(MaterialTheme.shapes.medium)
-                .clickable { onClick.invoke(data.translation.first().link) },
+                .clickable { onClick.invoke(URLEncoder.encode("https:${data.translation.first().link}", "UTF-8")) },
             elevation = CardDefaults.elevatedCardElevation(
                 defaultElevation = 2.dp,
             )

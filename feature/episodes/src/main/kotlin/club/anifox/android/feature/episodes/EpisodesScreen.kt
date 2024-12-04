@@ -38,7 +38,7 @@ internal fun EpisodesScreen(
     onBackPressed: () -> Boolean,
     url: String,
     translationId: Int,
-//    onEpisodeClick: (String) -> Unit,
+    onEpisodeClick: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -50,6 +50,7 @@ internal fun EpisodesScreen(
         onBackPressed = onBackPressed,
         uiState = uiState,
         episodesResults = viewModel.episodesResults,
+        onEpisodeClick = onEpisodeClick,
     )
 }
 
@@ -58,6 +59,7 @@ private fun EpisodesUI(
     onBackPressed: () -> Boolean,
     uiState: EpisodesUiState,
     episodesResults: Flow<PagingData<AnimeEpisodesLight>>,
+    onEpisodeClick: (String) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier
@@ -76,6 +78,7 @@ private fun EpisodesUI(
                 .padding(padding),
             uiState = uiState,
             episodesResults = episodesResults,
+            onEpisodeClick = onEpisodeClick,
         )
     }
 }
@@ -85,6 +88,7 @@ private fun EpisodesContent(
     modifier: Modifier,
     uiState: EpisodesUiState,
     episodesResults: Flow<PagingData<AnimeEpisodesLight>>,
+    onEpisodeClick: (String) -> Unit,
 ) {
     val items = episodesResults.collectAsLazyPagingItems()
     val lazyGridState = rememberLazyGridState()
@@ -127,7 +131,7 @@ private fun EpisodesContent(
                             CardEpisodeGridItem(
                                 modifier = Modifier.width(width),
                                 data = item,
-                                onClick = { },
+                                onClick = onEpisodeClick,
                             )
                         }
                     }

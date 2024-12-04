@@ -18,6 +18,8 @@ import club.anifox.android.feature.login.navigation.loginScreen
 import club.anifox.android.feature.login.navigation.navigateToLogin
 import club.anifox.android.feature.onboarding.navigation.ONBOARDING_ROUTE
 import club.anifox.android.feature.onboarding.navigation.onboardingScreen
+import club.anifox.android.feature.player.navigation.navigateToPlayer
+import club.anifox.android.feature.player.navigation.playerScreen
 import club.anifox.android.feature.profile.navigation.profileScreen
 import club.anifox.android.feature.registration.navigation.navigateToRegistration
 import club.anifox.android.feature.registration.navigation.registrationScreen
@@ -65,6 +67,10 @@ fun AnifoxNavHost(
             onTranslationClick = navController::navigateToEpisodes,
         )
         episodesScreen(
+            onBackPressed = navController::popBackStack,
+            onEpisodeClick = navController::navigateToPlayer,
+        )
+        playerScreen(
             onBackPressed = navController::popBackStack,
         )
         searchScreen(
