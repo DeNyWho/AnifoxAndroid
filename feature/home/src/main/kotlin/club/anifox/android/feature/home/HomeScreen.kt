@@ -30,8 +30,9 @@ import java.time.LocalDate
 @Composable
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
-    onAnimeClick: (String) -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
+    onAnimeClick: (String) -> Unit,
+    onHistoryClick: () -> Unit,
     onSearchClick: () -> Unit,
     onGenresClick: (String) -> Unit,
     onCatalogClick: (CatalogFilterParams) -> Unit,
@@ -47,14 +48,15 @@ internal fun HomeScreen(
     HomeUI(
         modifier = modifier,
         onAnimeClick = onAnimeClick,
+        onHistoryClick = onHistoryClick,
+        onSearchClick = onSearchClick,
+        onGenresClick = onGenresClick,
+        onCatalogClick = onCatalogClick,
         animeOfSeason = viewModel.animeOfSeason.value,
         onPopularAnime = viewModel.onPopularAnime.value,
         onUpdatedAnime = viewModel.onUpdatedAnime.value,
         filmsAnime = viewModel.filmsAnime.value,
         genresAnime = viewModel.genresAnime.value,
-        onSearchClick = onSearchClick,
-        onGenresClick = onGenresClick,
-        onCatalogClick = onCatalogClick,
     )
 }
 
@@ -62,6 +64,7 @@ internal fun HomeScreen(
 private fun HomeUI(
     modifier: Modifier = Modifier,
     onAnimeClick: (String) -> Unit,
+    onHistoryClick: () -> Unit,
     onSearchClick: () -> Unit,
     onGenresClick: (String) -> Unit,
     onCatalogClick: (CatalogFilterParams) -> Unit,
@@ -81,7 +84,7 @@ private fun HomeUI(
             ContentHomeScreenToolbar(
                 toolbarScaffoldState = toolbarScaffoldState,
                 onSearchClick = onSearchClick,
-                onHistoryClick = { },
+                onHistoryClick = onHistoryClick,
                 onCatalogClick = {
                     onCatalogClick(
                         CatalogFilterParams()
