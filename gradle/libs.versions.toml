@@ -174,3 +174,4 @@ anifox-android-lint = { id = "anifox.android.lint" }
 anifox-android-room = { id = "anifox.android.room" }
 anifox-android-test = { id = "anifox.android.test" }
 anifox-jvm-library = { id = "anifox.jvm.library" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
