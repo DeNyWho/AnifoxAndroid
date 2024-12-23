@@ -6,6 +6,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -33,7 +34,6 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @Composable
 internal fun CollapsingToolbarScope.ContentHomeScreenToolbar(
     onSearchClick: () -> Unit,
-    onHistoryClick: () -> Unit,
     onCatalogClick: () -> Unit,
     toolbarScaffoldState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
 ) {
@@ -68,14 +68,7 @@ internal fun CollapsingToolbarScope.ContentHomeScreenToolbar(
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        AnifoxIconOnSurface(
-            modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .size(24.dp)
-                .clickableWithoutRipple { onHistoryClick() },
-            imageVector = ImageVector.vectorResource(R.drawable.feature_home_history),
-            contentDescription = null,
-        )
+        Spacer(modifier = Modifier.size(24.dp))
 
         SearchField(
             modifier = Modifier

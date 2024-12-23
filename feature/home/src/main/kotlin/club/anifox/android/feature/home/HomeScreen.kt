@@ -32,7 +32,6 @@ internal fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
     onAnimeClick: (String) -> Unit,
-    onHistoryClick: () -> Unit,
     onSearchClick: () -> Unit,
     onGenresClick: (String) -> Unit,
     onCatalogClick: (CatalogFilterParams) -> Unit,
@@ -48,7 +47,6 @@ internal fun HomeScreen(
     HomeUI(
         modifier = modifier,
         onAnimeClick = onAnimeClick,
-        onHistoryClick = onHistoryClick,
         onSearchClick = onSearchClick,
         onGenresClick = onGenresClick,
         onCatalogClick = onCatalogClick,
@@ -64,7 +62,6 @@ internal fun HomeScreen(
 private fun HomeUI(
     modifier: Modifier = Modifier,
     onAnimeClick: (String) -> Unit,
-    onHistoryClick: () -> Unit,
     onSearchClick: () -> Unit,
     onGenresClick: (String) -> Unit,
     onCatalogClick: (CatalogFilterParams) -> Unit,
@@ -84,7 +81,6 @@ private fun HomeUI(
             ContentHomeScreenToolbar(
                 toolbarScaffoldState = toolbarScaffoldState,
                 onSearchClick = onSearchClick,
-                onHistoryClick = onHistoryClick,
                 onCatalogClick = {
                     onCatalogClick(
                         CatalogFilterParams()

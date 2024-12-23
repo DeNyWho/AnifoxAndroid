@@ -73,7 +73,6 @@ dependencies {
     implementation(projects.feature.catalog)
     implementation(projects.feature.translations)
     implementation(projects.feature.episodes)
-    implementation(projects.feature.history)
 
     implementation(projects.domain)
 

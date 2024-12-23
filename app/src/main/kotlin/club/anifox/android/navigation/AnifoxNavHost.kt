@@ -12,8 +12,6 @@ import club.anifox.android.feature.episodes.navigation.navigateToEpisodes
 import club.anifox.android.feature.favourite.navigation.favouriteScreen
 import club.anifox.android.feature.genres.navigation.genresScreen
 import club.anifox.android.feature.genres.navigation.navigateToGenres
-import club.anifox.android.feature.history.navigation.historyScreen
-import club.anifox.android.feature.history.navigation.navigateToHistory
 import club.anifox.android.feature.home.navigation.HOME_ROUTE
 import club.anifox.android.feature.home.navigation.homeScreen
 import club.anifox.android.feature.login.navigation.loginScreen
@@ -52,14 +50,9 @@ fun AnifoxNavHost(
     ) {
         homeScreen(
             onAnimeClick = navController::navigateToDetail,
-            onHistoryClick = navController::navigateToHistory,
             onSearchClick = navController::navigateToSearch,
             onGenresClick = navController::navigateToGenres,
             onCatalogClick = navController::navigateToCatalog,
-        )
-        historyScreen(
-            onBackPressed = navController::popBackStack,
-            onAnimeClick = navController::navigateToDetail,
         )
         detailScreen(
             onBackPressed = navController::popBackStack,

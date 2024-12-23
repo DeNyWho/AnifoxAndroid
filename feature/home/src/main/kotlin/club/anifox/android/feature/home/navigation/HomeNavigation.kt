@@ -13,7 +13,6 @@ fun NavController.navigateToHome(navOptions: NavOptions? = null) = navigate(HOME
 
 fun NavGraphBuilder.homeScreen(
     onAnimeClick: (String) -> Unit,
-    onHistoryClick: () -> Unit,
     onSearchClick: () -> Unit,
     onGenresClick: (String) -> Unit,
     onCatalogClick: (CatalogFilterParams) -> Unit,
@@ -23,7 +22,6 @@ fun NavGraphBuilder.homeScreen(
     ) {
         HomeScreen(
             onAnimeClick = onAnimeClick,
-            onHistoryClick = onHistoryClick,
             onSearchClick = onSearchClick,
             onGenresClick = onGenresClick,
             onCatalogClick = onCatalogClick,

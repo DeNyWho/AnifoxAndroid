@@ -44,7 +44,6 @@ include(":feature:genres")
 include(":feature:catalog")
 include(":feature:translations")
 include(":feature:episodes")
-include(":feature:history")
 
 include(":core:testing")
 include(":core:uikit")
