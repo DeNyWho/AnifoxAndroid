@@ -5,15 +5,15 @@ import androidx.compose.ui.unit.dp
 
 internal object AnimeScheduleItemDefaults {
     object Width {
-        val Small = 140.dp
-        val Medium = 140.dp
-        val Large = 180.dp
+        val Small = 110.dp
+        val Medium = 120.dp
+        val Large = 140.dp
     }
 
     object Height {
-        val Small = 170.dp
-        val Medium = 190.dp
-        val Large = 240.dp
+        val Small = 150.dp
+        val Medium = 160.dp
+        val Large = 190.dp
     }
 
     object HorizontalArrangement {

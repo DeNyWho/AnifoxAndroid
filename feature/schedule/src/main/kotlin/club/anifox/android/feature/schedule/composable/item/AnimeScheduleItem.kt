@@ -19,9 +19,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import club.anifox.android.core.uikit.component.chip.AnifoxChipPrimary
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.AnimeLight
+import club.anifox.android.feature.schedule.composable.item.param.AnimeScheduleItemPreviewParam
+import club.anifox.android.feature.schedule.composable.item.param.AnimeScheduleProvider
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Size
@@ -74,9 +80,11 @@ internal fun AnimeScheduleItem(
             Text(
                 text = data.title,
                 overflow = TextOverflow.Ellipsis,
-                maxLines = 2,
+                maxLines = 1,
                 style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier,
+            )
+            AnifoxChipPrimary(
+                title = "${data.episodesAired} из ${data.episodes}"
             )
             Text(
                 text = data.description,
@@ -84,8 +92,22 @@ internal fun AnimeScheduleItem(
                 maxLines = 4,
                 color = MaterialTheme.colorScheme.onBackground.copy(0.7f),
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier,
             )
         }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun PreviewAnimeScheduleItem(
+    @PreviewParameter(AnimeScheduleProvider::class) param: AnimeScheduleItemPreviewParam,
+) {
+    DefaultPreview {
+        AnimeScheduleItem(
+            thumbnailHeight = param.thumbnailHeight,
+            thumbnailWidth = param.thumbnailWidth,
+            data = param.data,
+            onClick = param.onClick,
+        )
     }
 }
