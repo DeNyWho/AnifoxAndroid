@@ -61,8 +61,10 @@ internal fun CatalogScreen(
         onBackPressed.invoke()
     }
 
-    LaunchedEffect(initialParams, uiState.isInitialized) {
-        viewModel.initializeFilters(initialParams)
+    LaunchedEffect(initialParams, uiState) {
+        if (!uiState.isInitialized) {
+            viewModel.initializeFilters(initialParams)
+        }
     }
 
     CatalogUI(
