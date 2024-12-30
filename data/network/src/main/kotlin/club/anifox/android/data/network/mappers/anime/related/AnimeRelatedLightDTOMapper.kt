@@ -1,4 +1,4 @@
-package club.anifox.android.data.network.mappers.anime.light
+package club.anifox.android.data.network.mappers.anime.related
 
 import club.anifox.android.data.network.mappers.anime.common.toImage
 import club.anifox.android.data.network.models.dto.anime.related.AnimeRelatedDTO

@@ -14,12 +14,13 @@ import club.anifox.android.data.local.dao.anime.AnimeDao
 import club.anifox.android.data.local.dao.anime.search.AnimeSearchHistoryDao
 import club.anifox.android.data.local.mappers.cache.anime.toLight
 import club.anifox.android.data.local.model.anime.search.AnimeSearchHistoryEntity
+import club.anifox.android.data.network.mappers.anime.characters.toLight
 import club.anifox.android.data.network.mappers.anime.common.toGenre
 import club.anifox.android.data.network.mappers.anime.common.toStudio
 import club.anifox.android.data.network.mappers.anime.detail.toDetail
 import club.anifox.android.data.network.mappers.anime.episodes.toTranslation
 import club.anifox.android.data.network.mappers.anime.episodes.toTranslationsCount
-import club.anifox.android.data.network.mappers.anime.light.toLight
+import club.anifox.android.data.network.mappers.anime.related.toLight
 import club.anifox.android.data.network.mappers.anime.videos.toLight
 import club.anifox.android.data.network.service.AnimeService
 import club.anifox.android.data.source.mapper.anime.toLight
@@ -30,6 +31,7 @@ import club.anifox.android.data.source.paging.anime.schedule.AnimeScheduleRemote
 import club.anifox.android.data.source.paging.anime.search.AnimeSearchRemoteMediator
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
+import club.anifox.android.domain.model.anime.characters.AnimeCharactersLight
 import club.anifox.android.domain.model.anime.enum.AnimeOrder
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeSort
@@ -437,6 +439,37 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 is Resource.Error -> {
                     StateListWrapper(error = animeScreenshotsResult.error)
                 }
+                is Resource.Loading -> {
+                    StateListWrapper.loading()
+                }
+            }
+
+            emit(state)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun getAnimeCharacters(
+        url: String,
+        page: Int,
+        limit: Int,
+    ): Flow<StateListWrapper<AnimeCharactersLight>> {
+        return flow {
+            emit(StateListWrapper.loading())
+
+            val state = when (val animeCharactersResult = animeService.getAnimeCharacters(
+                page = page,
+                limit = limit,
+                url = url,
+            )) {
+                is Resource.Success -> {
+                    val data = animeCharactersResult.data.map { it.toLight() }
+                    StateListWrapper(data)
+                }
+
+                is Resource.Error -> {
+                    StateListWrapper(error = animeCharactersResult.error)
+                }
+
                 is Resource.Loading -> {
                     StateListWrapper.loading()
                 }

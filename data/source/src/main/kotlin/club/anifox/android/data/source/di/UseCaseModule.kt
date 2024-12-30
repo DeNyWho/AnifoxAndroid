@@ -1,4 +1,4 @@
-package club.anifox.android.domain.di
+package club.anifox.android.data.source.di
 
 import club.anifox.android.domain.repository.anime.AnimeFavouriteRepository
 import club.anifox.android.domain.repository.anime.AnimeRepository
@@ -16,6 +16,7 @@ import club.anifox.android.domain.usecase.anime.GetAnimeUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeVideosUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeYearsUseCase
 import club.anifox.android.domain.usecase.anime.GetFavouriteAnimeUseCase
+import club.anifox.android.domain.usecase.anime.characters.GetAnimeCharactersUseCase
 import club.anifox.android.domain.usecase.anime.paging.anime.catalog.AnimeCatalogPagingUseCase
 import club.anifox.android.domain.usecase.anime.paging.anime.episodes.AnimeEpisodesPagingUseCase
 import club.anifox.android.domain.usecase.anime.paging.anime.genres.AnimeGenresPagingUseCase
@@ -161,6 +162,12 @@ internal object UseCaseModule {
     @Singleton
     fun provideGetAnimeRelatedUseCase(animeRepository: AnimeRepository): GetAnimeRelatedUseCase {
         return GetAnimeRelatedUseCase(animeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAnimeCharactersUseCase(animeRepository: AnimeRepository): GetAnimeCharactersUseCase {
+        return GetAnimeCharactersUseCase(animeRepository)
     }
 
     @Provides

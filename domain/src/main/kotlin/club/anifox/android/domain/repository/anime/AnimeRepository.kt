@@ -3,6 +3,7 @@ package club.anifox.android.domain.repository.anime
 import androidx.paging.PagingData
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
+import club.anifox.android.domain.model.anime.characters.AnimeCharactersLight
 import club.anifox.android.domain.model.anime.enum.AnimeOrder
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeSort
@@ -90,4 +91,9 @@ interface AnimeRepository {
     fun getLastSearchesHistory(): Flow<List<String>>
     suspend fun addSearchHistory(query: String)
     suspend fun deleteSearchHistory()
+    fun getAnimeCharacters(
+        url: String,
+        page: Int,
+        limit: Int
+    ): Flow<StateListWrapper<AnimeCharactersLight>>
 }

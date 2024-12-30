@@ -14,6 +14,7 @@ object ApiEndpoints {
     const val ANIME_SCREENSHOTS = "screenshots"
     const val ANIME_SCHEDULE = "schedules"
     const val ANIME_VIDEOS = "videos"
+    const val ANIME_CHARACTERS = "characters"
 
     // USER PATH
     const val AUTH = "auth"
