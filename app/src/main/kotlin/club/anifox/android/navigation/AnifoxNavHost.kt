@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import club.anifox.android.feature.catalog.navigation.catalogScreen
 import club.anifox.android.feature.catalog.navigation.navigateToCatalog
+import club.anifox.android.feature.characters.navigation.charactersScreen
 import club.anifox.android.feature.detail.navigation.detailScreen
 import club.anifox.android.feature.detail.navigation.navigateToDetail
 import club.anifox.android.feature.episodes.navigation.episodesScreen
@@ -61,6 +62,9 @@ fun AnifoxNavHost(
             onMoreScreenshotClick = navController::navigateToScreenshots,
             onMoreVideoClick = navController::navigateToVideo,
             onCatalogClick = navController::navigateToCatalog,
+        )
+        charactersScreen(
+            onBackPressed = navController::popBackStack,
         )
         translationsScreen(
             onBackPressed = navController::popBackStack,
