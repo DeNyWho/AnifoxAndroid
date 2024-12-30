@@ -34,14 +34,15 @@ import club.anifox.android.core.uikit.component.slider.screenshots.content.Slide
 import club.anifox.android.core.uikit.component.slider.simple.content.SliderContent
 import club.anifox.android.core.uikit.component.slider.video.content.SliderVideoContent
 import club.anifox.android.core.uikit.util.DefaultPreview
-import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
+import club.anifox.android.domain.model.anime.characters.AnimeCharactersLight
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.state.StateWrapper
+import club.anifox.android.feature.detail.components.characters.CharactersContent
 import club.anifox.android.feature.detail.components.description.DescriptionContent
 import club.anifox.android.feature.detail.components.genres.GenresContent
 import club.anifox.android.feature.detail.components.information.InformationComponent
@@ -70,12 +71,8 @@ internal fun DetailScreen(
     onMoreVideoClick: (String, String) -> Unit,
     onCatalogClick: (CatalogFilterParams) -> Unit,
 ) {
-    LaunchedEffect(viewModel) {
-        viewModel.getDetailAnime(url)
-        viewModel.getScreenshotAnime(url)
-        viewModel.getVideosAnime(url)
-        viewModel.getRelatedAnime(url)
-        viewModel.getSimilarAnime(url)
+    LaunchedEffect(viewModel, url) {
+        viewModel.loadData(url)
     }
 
     DetailUI(
@@ -85,6 +82,7 @@ internal fun DetailScreen(
         videosAnimeState = viewModel.videosAnime.value,
         relationAnimeState = viewModel.relatedAnime.value,
         similarAnimeState = viewModel.similarAnime.value,
+        charactersAnimeState = viewModel.charactersAnime.value,
         onBackPressed = onBackPressed,
         onWatchClick = onWatchClick,
         onAnimeClick = onAnimeClick,
@@ -98,6 +96,9 @@ internal fun DetailScreen(
         onVideoClick = { youtubeUrl ->
             viewModel.openYoutube(youtubeUrl)
         },
+        onCharacterClick = {
+
+        },
     )
 }
 
@@ -110,6 +111,7 @@ internal fun DetailUI(
     videosAnimeState: StateListWrapper<AnimeVideosLight>,
     relationAnimeState: StateListWrapper<AnimeRelatedLight>,
     similarAnimeState: StateListWrapper<AnimeLight>,
+    charactersAnimeState: StateListWrapper<AnimeCharactersLight>,
     onBackPressed: () -> Boolean,
     onWatchClick: (String) -> Unit,
     onAnimeClick: (String) -> Unit,
@@ -117,6 +119,7 @@ internal fun DetailUI(
     onMoreVideoClick: (String) -> Unit,
     onCatalogClick: (CatalogFilterParams) -> Unit,
     onVideoClick: (String) -> Unit,
+    onCharacterClick: (String) -> Unit,
 ) {
     if(detailAnimeState.isLoading) {
         CircularProgress()
@@ -143,12 +146,14 @@ internal fun DetailUI(
                     videosAnimeState = videosAnimeState,
                     relationAnimeState = relationAnimeState,
                     similarAnimeState = similarAnimeState,
+                    charactersAnimeState = charactersAnimeState,
                     onWatchClick = onWatchClick,
                     onAnimeClick = onAnimeClick,
                     onMoreScreenshotClick = onMoreScreenshotClick,
                     onMoreVideoClick = onMoreVideoClick,
                     onCatalogClick = onCatalogClick,
                     onVideoClick = onVideoClick,
+                    onCharacterClick = onCharacterClick,
                 )
             }
         )
@@ -163,12 +168,14 @@ internal fun DetailContentUI(
     videosAnimeState: StateListWrapper<AnimeVideosLight>,
     relationAnimeState: StateListWrapper<AnimeRelatedLight>,
     similarAnimeState: StateListWrapper<AnimeLight>,
+    charactersAnimeState: StateListWrapper<AnimeCharactersLight>,
     onWatchClick: (String) -> Unit,
     onAnimeClick: (String) -> Unit,
     onMoreScreenshotClick: (String) -> Unit,
     onMoreVideoClick: (String) -> Unit,
     onCatalogClick: (CatalogFilterParams) -> Unit,
     onVideoClick: (String) -> Unit,
+    onCharacterClick: (String) -> Unit,
     lazyColumnState: LazyListState = rememberLazyListState(),
 ) {
     var isDescriptionExpanded by remember { mutableStateOf(false) }
@@ -267,8 +274,16 @@ internal fun DetailContentUI(
             )
         }
         item {
+            CharactersContent(
+                headerModifier = SliderContentDefaults.Default,
+                headerTitle = stringResource(R.string.feature_detail_section_header_title_characters),
+                contentState = charactersAnimeState,
+                onItemClick = onCharacterClick,
+            )
+        }
+        item {
             RelationContent(
-                modifier = Modifier.padding(start = 8.dp),
+                modifier = Modifier.padding(start = 16.dp),
                 headerModifier = SliderContentDefaults.Default,
                 headerTitle = stringResource(R.string.feature_detail_section_header_title_relation),
                 contentState = relationAnimeState,
@@ -298,9 +313,10 @@ private fun PreviewDetailScreenUI(
             url = "",
             detailAnimeState = param.detailAnime,
             screenshotAnimeState = param.screenshotsAnime,
+            videosAnimeState = param.videosAnime,
             relationAnimeState = param.relationAnime,
             similarAnimeState = param.similarAnime,
-            videosAnimeState = param.videosAnime,
+            charactersAnimeState = param.charactersAnime,
             onBackPressed = { false },
             onWatchClick = { },
             onAnimeClick = { },
@@ -308,6 +324,7 @@ private fun PreviewDetailScreenUI(
             onMoreVideoClick = { },
             onCatalogClick = { },
             onVideoClick = { },
+            onCharacterClick = { },
         )
     }
 }

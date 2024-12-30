@@ -5,6 +5,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import club.anifox.android.core.uikit.param.GlobalParams
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
+import club.anifox.android.domain.model.anime.characters.AnimeCharactersLight
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.state.StateListWrapper
@@ -18,6 +19,7 @@ internal data class DetailContentPreviewParam(
     val videosAnime: StateListWrapper<AnimeVideosLight>,
     val relationAnime: StateListWrapper<AnimeRelatedLight>,
     val similarAnime: StateListWrapper<AnimeLight>,
+    val charactersAnime: StateListWrapper<AnimeCharactersLight>,
     val onBackPressed: () -> Boolean = { true },
     val onAnimeClick: (String) -> Unit = { },
     val onMoreScreenshotClick: (String) -> Unit = { },
@@ -37,6 +39,7 @@ internal class DetailContentProvider:
                 screenshotsAnime = StateListWrapper.loading(),
                 videosAnime = StateListWrapper.loading(),
                 similarAnime = StateListWrapper.loading(),
+                charactersAnime = StateListWrapper.loading()
             ),
             DetailContentPreviewParam(
                 modifier = Modifier,
@@ -45,6 +48,7 @@ internal class DetailContentProvider:
                 screenshotsAnime = StateListWrapper(isLoading = false),
                 videosAnime = StateListWrapper(isLoading = false),
                 similarAnime = StateListWrapper(data = GlobalParams.DataSetAnimeLight, isLoading = false),
+                charactersAnime = StateListWrapper(data = GlobalParams.DataSetCharactersLight, isLoading = false)
             )
         ).asSequence()
 }

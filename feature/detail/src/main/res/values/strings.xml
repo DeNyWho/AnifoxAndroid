@@ -11,6 +11,7 @@
     <string name="feature_detail_dialog_button_close_title">Закрыть</string>
     <string name="feature_detail_section_header_title_similar">Похожие</string>
     <string name="feature_detail_section_header_title_relation">Связанные релизы</string>
+    <string name="feature_detail_section_header_title_characters">Герои</string>
     <string name="feature_detail_section_header_title_description">Описание</string>
     <string name="feature_detail_section_screenshots_header_title">Кадры</string>
     <string name="feature_detail_section_video_header_title">Видео</string>
