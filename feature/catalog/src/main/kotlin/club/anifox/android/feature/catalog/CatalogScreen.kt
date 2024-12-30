@@ -13,6 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -95,8 +97,49 @@ private fun CatalogUI(
     val lazyGridState = rememberLazyGridState()
     val items = searchResults.collectAsLazyPagingItems()
 
-    LaunchedEffect(uiState) {
-        lazyGridState.scrollToItem(0)
+    val previousFilters = remember {
+        mutableStateOf(
+            CatalogFilterParams(
+                genres = uiState.selectedGenres,
+                status = uiState.selectedStatus,
+                type = uiState.selectedType,
+                years = uiState.selectedYears,
+                season = uiState.selectedSeason,
+                studios = uiState.selectedStudios,
+                translation = uiState.selectedTranslation,
+                order = uiState.selectedOrder,
+                sort = uiState.selectedSort
+            )
+        )
+    }
+
+    LaunchedEffect(
+        uiState.selectedGenres,
+        uiState.selectedStatus,
+        uiState.selectedType,
+        uiState.selectedYears,
+        uiState.selectedSeason,
+        uiState.selectedStudios,
+        uiState.selectedTranslation,
+        uiState.selectedOrder,
+        uiState.selectedSort
+    ) {
+        val currentFilters = CatalogFilterParams(
+            genres = uiState.selectedGenres,
+            status = uiState.selectedStatus,
+            type = uiState.selectedType,
+            years = uiState.selectedYears,
+            season = uiState.selectedSeason,
+            studios = uiState.selectedStudios,
+            translation = uiState.selectedTranslation,
+            order = uiState.selectedOrder,
+            sort = uiState.selectedSort
+        )
+
+        if (previousFilters.value != currentFilters) {
+            lazyGridState.scrollToItem(0)
+            previousFilters.value = currentFilters
+        }
     }
 
     val screenInfo = LocalScreenInfo.current
