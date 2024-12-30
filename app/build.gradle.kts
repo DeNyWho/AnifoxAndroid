@@ -59,6 +59,7 @@ dependencies {
     implementation(projects.feature.home)
     implementation(projects.feature.detail)
     implementation(projects.feature.characters)
+    implementation(projects.feature.character)
     implementation(projects.feature.player)
     implementation(projects.feature.search)
     implementation(projects.feature.schedule)
