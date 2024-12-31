@@ -2,6 +2,7 @@ package club.anifox.android.data.source.di
 
 import club.anifox.android.domain.repository.anime.AnimeFavouriteRepository
 import club.anifox.android.domain.repository.anime.AnimeRepository
+import club.anifox.android.domain.repository.character.CharacterRepository
 import club.anifox.android.domain.repository.user.UserRepository
 import club.anifox.android.domain.repository.user.UserSecurityRepository
 import club.anifox.android.domain.usecase.anime.GetAnimeDetailUseCase
@@ -25,6 +26,7 @@ import club.anifox.android.domain.usecase.anime.paging.anime.search.AnimeSearchP
 import club.anifox.android.domain.usecase.anime.search.AddAnimeSearchHistoryUseCase
 import club.anifox.android.domain.usecase.anime.search.DeleteAnimeSearchHistoryUseCase
 import club.anifox.android.domain.usecase.anime.search.GetAnimeSearchHistoryUseCase
+import club.anifox.android.domain.usecase.character.GetCharacterFullUseCase
 import club.anifox.android.domain.usecase.user.UserFirstLaunchUseCase
 import club.anifox.android.domain.usecase.user.UserSettingsUseCase
 import club.anifox.android.domain.usecase.user.UserTokensUseCase
@@ -168,6 +170,12 @@ internal object UseCaseModule {
     @Singleton
     fun provideGetAnimeCharactersUseCase(animeRepository: AnimeRepository): GetAnimeCharactersUseCase {
         return GetAnimeCharactersUseCase(animeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetCharacterFullUseCase(characterRepository: CharacterRepository): GetCharacterFullUseCase {
+        return GetCharacterFullUseCase(characterRepository)
     }
 
     @Provides

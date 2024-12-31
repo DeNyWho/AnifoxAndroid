@@ -3,6 +3,8 @@ package club.anifox.android.data.network.di
 import club.anifox.android.data.datastore.source.UserSecurityDataSource
 import club.anifox.android.data.network.BuildConfig
 import club.anifox.android.data.network.interceptor.AuthInterceptor
+import club.anifox.android.data.network.service.AnimeService
+import club.anifox.android.data.network.service.CharacterService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,6 +45,18 @@ internal object NetworkModule {
     fun providesAuthInterceptor(
         userSecurityDataSource: UserSecurityDataSource,
     ): AuthInterceptor = AuthInterceptor(userSecurityDataSource)
+
+    @Provides
+    @Singleton
+    fun provideAnimeService(client: HttpClient): AnimeService {
+        return AnimeService(client)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCharacterService(client: HttpClient): CharacterService {
+        return CharacterService(client)
+    }
 
     @Provides
     @Singleton

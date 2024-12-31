@@ -11,12 +11,15 @@ import club.anifox.android.data.local.dao.anime.AnimeDao
 import club.anifox.android.data.local.dao.anime.favourite.AnimeFavouriteDao
 import club.anifox.android.data.local.dao.anime.search.AnimeSearchHistoryDao
 import club.anifox.android.data.network.service.AnimeService
+import club.anifox.android.data.network.service.CharacterService
 import club.anifox.android.data.source.repository.anime.AnimeRepositoryImpl
 import club.anifox.android.data.source.repository.anime.favourite.AnimeFavouriteRepositoryImpl
+import club.anifox.android.data.source.repository.character.CharacterRepositoryImpl
 import club.anifox.android.data.source.repository.user.UserRepositoryImpl
 import club.anifox.android.data.source.repository.user.UserSecurityRepositoryImpl
 import club.anifox.android.domain.repository.anime.AnimeFavouriteRepository
 import club.anifox.android.domain.repository.anime.AnimeRepository
+import club.anifox.android.domain.repository.character.CharacterRepository
 import club.anifox.android.domain.repository.user.UserRepository
 import club.anifox.android.domain.repository.user.UserSecurityRepository
 import dagger.Module
@@ -60,6 +63,16 @@ internal object SourceModule {
     ): AnimeFavouriteRepository {
         return AnimeFavouriteRepositoryImpl(
             favouriteDao = favouriteDao,
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideCharacterRepository(
+        characterService: CharacterService,
+    ): CharacterRepository {
+        return CharacterRepositoryImpl(
+            characterService = characterService,
         )
     }
 

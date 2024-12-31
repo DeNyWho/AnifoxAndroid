@@ -20,10 +20,10 @@ import club.anifox.android.data.network.mappers.anime.common.toStudio
 import club.anifox.android.data.network.mappers.anime.detail.toDetail
 import club.anifox.android.data.network.mappers.anime.episodes.toTranslation
 import club.anifox.android.data.network.mappers.anime.episodes.toTranslationsCount
+import club.anifox.android.data.network.mappers.anime.light.toLight
 import club.anifox.android.data.network.mappers.anime.related.toLight
 import club.anifox.android.data.network.mappers.anime.videos.toLight
 import club.anifox.android.data.network.service.AnimeService
-import club.anifox.android.data.source.mapper.anime.toLight
 import club.anifox.android.data.source.paging.anime.catalog.AnimeCatalogRemoteMediator
 import club.anifox.android.data.source.paging.anime.episodes.AnimeEpisodesRemoteMediator
 import club.anifox.android.data.source.paging.anime.genres.AnimeGenresRemoteMediator
