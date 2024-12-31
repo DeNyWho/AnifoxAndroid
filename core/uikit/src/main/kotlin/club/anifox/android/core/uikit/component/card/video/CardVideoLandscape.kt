@@ -20,10 +20,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import club.anifox.android.core.uikit.R
+import club.anifox.android.core.uikit.component.card.video.param.CardVideoLandscapePreviewParam
+import club.anifox.android.core.uikit.component.card.video.param.CardVideoLandscapeProvider
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -101,5 +106,22 @@ fun CardVideoLandscape(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewCardVideoLandscapeDefault(
+    @PreviewParameter(CardVideoLandscapeProvider::class) param: CardVideoLandscapePreviewParam,
+) {
+    DefaultPreview {
+        CardVideoLandscape (
+            modifier = param.modifier,
+            data = param.data,
+            thumbnailHeight = param.thumbnailHeight,
+            thumbnailWidth = param.thumbnailWidth,
+            onClick = param.onClick,
+            isTypeVisible = param.isTypeVisible,
+        )
     }
 }

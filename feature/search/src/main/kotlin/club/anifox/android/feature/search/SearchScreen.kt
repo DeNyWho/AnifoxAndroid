@@ -191,7 +191,7 @@ private fun SearchContent(
 
     Box(
         modifier = modifier
-            .padding(vertical = 8.dp, horizontal = 16.dp)
+            .padding(horizontal = 16.dp)
             .fillMaxSize(),
     ) {
         when {

@@ -7,7 +7,6 @@ import club.anifox.android.data.local.cache.model.anime.search.AnimeCacheSearchE
 import club.anifox.android.data.local.model.anime.AnimeEntity
 import club.anifox.android.data.network.mappers.anime.common.toImage
 import club.anifox.android.data.network.models.dto.anime.light.AnimeLightDTO
-import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.common.enum.WeekDay
 
 fun AnimeLightDTO.toEntityLight(): AnimeEntity = AnimeEntity(

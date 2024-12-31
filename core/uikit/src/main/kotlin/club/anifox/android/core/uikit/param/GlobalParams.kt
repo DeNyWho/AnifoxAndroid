@@ -6,11 +6,13 @@ import club.anifox.android.domain.model.anime.characters.AnimeCharactersLight
 import club.anifox.android.domain.model.anime.enum.AnimeSeason.Fall
 import club.anifox.android.domain.model.anime.enum.AnimeStatus.Ongoing
 import club.anifox.android.domain.model.anime.enum.AnimeType.Tv
+import club.anifox.android.domain.model.anime.enum.VideoType
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.model.anime.studio.AnimeStudio
 import club.anifox.android.domain.model.anime.translations.AnimeTranslation
 import club.anifox.android.domain.model.anime.translations.AnimeTranslationsCount
+import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.model.character.full.CharacterFull
 import club.anifox.android.domain.model.character.role.CharacterRole
 import java.util.UUID
@@ -59,6 +61,14 @@ object GlobalParams {
         title = "Провожающая в последний путь Фрирен",
         image = "https://cdn.anifox.club/images/anime/large/provozhaiushchaia-v-poslednii-put-friren/08f43e5054966f85ed4bcdbe7dc77b7b.png",
         url = "provozhaiushchaia-v-poslednii-put-friren",
+    )
+
+    val DataAnimeVideosLightSingle = AnimeVideosLight(
+        url = "https://...",
+        imageUrl = "https://...",
+        playerUrl = "https://...",
+        name = "video",
+        type = VideoType.Trailer,
     )
 
     val DataSetAnimeLight = List(10) {

@@ -12,4 +12,6 @@
     <string name="core_uikit_not_authenticated_sub_title">Войдите или создайте профиль, чтобы открыть для себя большое количество новых возможностей!</string>
     <string name="core_uikit_not_authenticated_button_auth">Войти</string>
     <string name="core_uikit_not_authenticated_button_reg">Создать профиль</string>
+
+    <string name="core_uikit_component_preview_top_bar">TopBar title</string>
 </resources>

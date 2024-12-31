@@ -9,7 +9,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.toolbar.compose)
     testImplementation(libs.hilt.android.testing)
 
     testImplementation(libs.junit)

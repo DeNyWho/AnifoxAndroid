@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.R
+import club.anifox.android.core.uikit.util.DefaultPreview
 
 @Composable
 fun NoSearchResultsError() {
@@ -32,5 +33,7 @@ fun NoSearchResultsError() {
 @PreviewLightDark
 @Composable
 private fun PreviewNoSearchResultsError() {
-    NoSearchResultsError()
+    DefaultPreview {
+        NoSearchResultsError()
+    }
 }

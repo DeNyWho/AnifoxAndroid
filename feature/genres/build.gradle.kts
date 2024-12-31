@@ -9,7 +9,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.toolbar.compose)
     testImplementation(libs.hilt.android.testing)
     implementation(libs.paging.runtime)
     implementation(libs.paging.compose)

@@ -242,7 +242,7 @@ internal fun DetailContentUI(
         item {
             DescriptionContent(
                 headerModifier = SliderContentDefaults.Default,
-                modifier = Modifier.padding(start = 16.dp, end =  16.dp),
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                 detailAnimeState = detailAnimeState,
                 isExpanded = isDescriptionExpanded,
                 onExpandedChanged = { isDescriptionExpanded = it },

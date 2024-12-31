@@ -9,7 +9,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.toolbar.compose)
     implementation(libs.paging.runtime)
     implementation(libs.paging.compose)
 

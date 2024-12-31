@@ -53,7 +53,6 @@ fun CardScreenshotLandscapeShimmer(
 }
 
 fun LazyListScope.showCardScreenshotLandscapeShimmer(
-    modifier: Modifier,
     shimmerInstance: Shimmer,
     count: Int = 11,
     thumbnailHeight: Dp = CardScreenshotLandscapeDefaults.Height.Default,
@@ -61,7 +60,6 @@ fun LazyListScope.showCardScreenshotLandscapeShimmer(
 ) {
     items(count) {
         CardScreenshotLandscapeShimmer(
-            modifier = modifier,
             shimmerInstance = shimmerInstance,
             thumbnailHeight = thumbnailHeight,
             thumbnailWidth = thumbnailWidth,

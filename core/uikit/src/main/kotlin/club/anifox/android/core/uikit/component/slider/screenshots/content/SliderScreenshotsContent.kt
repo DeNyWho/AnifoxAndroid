@@ -2,7 +2,6 @@ package club.anifox.android.core.uikit.component.slider.screenshots.content
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -36,7 +35,6 @@ import com.valentinilk.shimmer.rememberShimmer
 fun SliderScreenshotsContent(
     modifier: Modifier = Modifier,
     headerModifier: Modifier = SliderContentDefaults.BottomOnly,
-    itemModifier: Modifier = Modifier.width(CardScreenshotLandscapeDefaults.Width.Default),
     shimmer: Shimmer = rememberShimmer(ShimmerBounds.Custom),
     thumbnailHeight: Dp = CardScreenshotLandscapeDefaults.Height.Default,
     thumbnailWidth: Dp = CardScreenshotLandscapeDefaults.Width.Default,
@@ -69,7 +67,6 @@ fun SliderScreenshotsContent(
     ) {
         if(contentState.isLoading) {
             showCardScreenshotLandscapeShimmer(
-                modifier = itemModifier,
                 shimmerInstance = shimmer,
                 thumbnailHeight = thumbnailHeight,
                 thumbnailWidth = thumbnailWidth,
@@ -80,7 +77,6 @@ fun SliderScreenshotsContent(
                 key = { it },
             ) { imageUrl ->
                 CardScreenshotLandscape(
-                    modifier = itemModifier,
                     image = imageUrl,
                     thumbnailHeight = thumbnailHeight,
                     thumbnailWidth = thumbnailWidth,
@@ -116,7 +112,6 @@ private fun PreviewScrollableHorizontalContentScreenshots(
         SliderScreenshotsContent (
             modifier = param.modifier,
             headerModifier = param.headerModifier,
-            itemModifier = param.itemModifier,
             thumbnailHeight = param.thumbnailHeight,
             thumbnailWidth = param.thumbnailWidth,
             headerTitle = param.headerTitle,

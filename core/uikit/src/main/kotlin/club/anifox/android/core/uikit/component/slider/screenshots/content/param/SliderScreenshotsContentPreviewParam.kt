@@ -2,7 +2,6 @@ package club.anifox.android.core.uikit.component.slider.screenshots.content.para
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.width
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
@@ -16,7 +15,6 @@ import java.util.UUID
 internal data class SliderScreenshotsContentPreviewParam(
     val modifier: Modifier = Modifier,
     val headerModifier: Modifier = SliderContentDefaults.Default,
-    val itemModifier: Modifier = Modifier.width(CardScreenshotLandscapeDefaults.Width.Default),
     val thumbnailHeight: Dp = CardScreenshotLandscapeDefaults.Height.Default,
     val thumbnailWidth: Dp = CardScreenshotLandscapeDefaults.Width.Default,
     val headerTitle: String = "Title",
