@@ -16,7 +16,7 @@ internal class InformationContentProvider:
     override val values: Sequence<InformationContentPreviewParam>
         get() = listOf(
             InformationContentPreviewParam(
-                detailAnime = StateWrapper(data = GlobalParams.Data, isLoading = false),
+                detailAnime = StateWrapper(data = GlobalParams.DataAnimeDetail, isLoading = false),
             )
         ).asSequence()
 }

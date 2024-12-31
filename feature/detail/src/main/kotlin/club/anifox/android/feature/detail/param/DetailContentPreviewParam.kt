@@ -43,7 +43,7 @@ internal class DetailContentProvider:
             ),
             DetailContentPreviewParam(
                 modifier = Modifier,
-                detailAnime = StateWrapper(data = GlobalParams.Data, isLoading = false),
+                detailAnime = StateWrapper(data = GlobalParams.DataAnimeDetail, isLoading = false),
                 relationAnime = StateListWrapper(data = GlobalParams.DataSetRelationLight, isLoading = false),
                 screenshotsAnime = StateListWrapper(isLoading = false),
                 videosAnime = StateListWrapper(isLoading = false),

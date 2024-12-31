@@ -16,7 +16,7 @@ internal class StudiosContentProvider:
     override val values: Sequence<StudiosContentPreviewParam>
         get() = listOf(
             StudiosContentPreviewParam(
-                detailAnime = StateWrapper(data = GlobalParams.Data, isLoading = false),
+                detailAnime = StateWrapper(data = GlobalParams.DataAnimeDetail, isLoading = false),
             )
         ).asSequence()
 }

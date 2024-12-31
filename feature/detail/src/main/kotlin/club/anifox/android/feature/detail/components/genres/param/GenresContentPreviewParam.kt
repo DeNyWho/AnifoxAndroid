@@ -16,7 +16,7 @@ internal class GenresContentProvider:
     override val values: Sequence<GenresContentPreviewParam>
         get() = listOf(
             GenresContentPreviewParam(
-                detailAnime = StateWrapper(data = GlobalParams.Data, isLoading = false),
+                detailAnime = StateWrapper(data = GlobalParams.DataAnimeDetail, isLoading = false),
             )
         ).asSequence()
 }

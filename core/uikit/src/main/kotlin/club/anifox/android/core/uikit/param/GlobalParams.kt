@@ -11,6 +11,8 @@ import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.model.anime.studio.AnimeStudio
 import club.anifox.android.domain.model.anime.translations.AnimeTranslation
 import club.anifox.android.domain.model.anime.translations.AnimeTranslationsCount
+import club.anifox.android.domain.model.character.full.CharacterFull
+import club.anifox.android.domain.model.character.role.CharacterRole
 import java.util.UUID
 
 object GlobalParams {
@@ -35,7 +37,7 @@ object GlobalParams {
         ),
     )
 
-    val Data = AnimeDetail(
+    val DataAnimeDetail = AnimeDetail(
         title = "Провожающая в последний путь Фрирен",
         url = "provozhaiushchaia-v-poslednii-put-friren",
         titleEnglish = listOf("Frieren: Beyond Journey's End"),
@@ -86,4 +88,20 @@ object GlobalParams {
             image = "https://cdn.anifox.club/images/anime/large/provozhaiushchaia-v-poslednii-put-friren/08f43e5054966f85ed4bcdbe7dc77b7b.png",
         )
     }
+
+    val DataCharacterFull = CharacterFull(
+        id = UUID.randomUUID().toString(),
+        name = "",
+        nameEn = "Frieren",
+        nameKanji = "フリーレン",
+        about = "Фрирен был магом в отряде Героя Химмеля. Они вместе со жрецом Хейтером и воином Эйзеном отправились в десятилетнее путешествие, чтобы победить Короля демонов. Она была последней, кого завербовали в отряд, и, несмотря на первоначальное впечатление Хайтера о том, что у нее средняя мана, Химмель подозревал, что она была самым могущественным магом, которого он когда-либо встречал.\\n\\n Будучи эльфийкой, прожившей более тысячи лет, Фрирен с трудом формировалась значимые отношения с людьми из-за разницы в продолжительности их жизни и в том, как они воспринимают течение времени. Обычно это проявляется как лень, поскольку пропуск важного события не имеет значения, поскольку у нее будет масса возможностей пережить его заново в будущем, или как почти социопатическая неспособность понять чувства человека. Например, она склонна не замечать, как отсутствие у нее нетерпения или холодные высказывания могут повлиять на окружающих ее людей. Члены ее партии также часто заявляли, что не могут понять ее чувств или прочитать, что происходит у нее в голове.\\n\\nНесмотря на то, что Фрирен является чрезвычайно могущественным магом, он имеет привычку собирать редкую магию, ориентированную на ежедневное использование, например, магию, которая может отполировать бронзовую статую или заставить распуститься цветы. Она всегда просит гримуар в качестве награды, даже если уже знает его содержимое, или, когда речь заходит о потерянных гримуарах Великого мага Фламме, знает, что они подделки.После смерти Героя Химмеля и священника Хайтера Фрирен решила, что хочет узнать больше о людях. В настоящее время она путешествует со своей ученицей Ферн, беженкой с войны, оставленной на ее попечение священником Хейтером, в поисках Энде, места, где обитают души на самой северной оконечности континента, и где был построен замок Короля демонов, чтобы попытаться поговорить с душой Химмеля. В своем новом путешествии Фрирен посещает многие места, где в прошлом побывала ее бывшая группа, и вновь переживает воспоминания, постепенно все больше понимая их значение и свои чувства.\\n\\nПо иронии судьбы, Ферн, как правило, заботится о Фрирен в повседневной жизни, несмотря на то, что она намного моложе.\\n\\n\\n(Источник: Frieren: Beyond Journey's End Wiki)",
+        roles = listOf(
+            CharacterRole(
+                role = "Главная",
+                anime = DataAnimeLightSingle,
+            ),
+        ),
+        image = "https://cdn.anifox.club/images/anime/large/provozhaiushchaia-v-poslednii-put-friren/08f43e5054966f85ed4bcdbe7dc77b7b.png",
+        pictures = listOf("")
+    )
 }
