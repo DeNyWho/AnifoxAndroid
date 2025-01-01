@@ -17,7 +17,7 @@ data class CharacterFullDTO(
     @SerialName("image")
     val image: String,
     @SerialName("about")
-    val about: String,
+    val about: String?,
     @SerialName("pictures")
     val pictures: List<String>,
     @SerialName("roles")

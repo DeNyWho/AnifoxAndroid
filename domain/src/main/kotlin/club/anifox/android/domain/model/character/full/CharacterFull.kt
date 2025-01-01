@@ -8,7 +8,7 @@ data class CharacterFull(
     val nameEn: String,
     val nameKanji: String?,
     val image: String,
-    val about: String,
+    val about: String?,
     val pictures: List<String>,
     val roles: List<CharacterRole>,
 )
