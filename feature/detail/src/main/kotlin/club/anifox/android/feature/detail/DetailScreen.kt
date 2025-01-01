@@ -70,6 +70,7 @@ internal fun DetailScreen(
     onMoreScreenshotClick: (String, String) -> Unit,
     onMoreVideoClick: (String, String) -> Unit,
     onCatalogClick: (CatalogFilterParams) -> Unit,
+    onCharacterClick: (String) -> Unit,
 ) {
     LaunchedEffect(viewModel, url) {
         viewModel.loadData(url)
@@ -96,9 +97,7 @@ internal fun DetailScreen(
         onVideoClick = { youtubeUrl ->
             viewModel.openYoutube(youtubeUrl)
         },
-        onCharacterClick = {
-
-        },
+        onCharacterClick = onCharacterClick,
     )
 }
 

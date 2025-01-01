@@ -21,6 +21,7 @@ fun NavGraphBuilder.detailScreen(
     onCatalogClick: (CatalogFilterParams) -> Unit,
     onMoreScreenshotClick: (String, String) -> Unit,
     onMoreVideoClick: (String, String) -> Unit,
+    onCharacterClick: (String) -> Unit,
 ) {
     composable(
         "$DETAIL_ROUTE_BASE/url={url}",
@@ -38,6 +39,7 @@ fun NavGraphBuilder.detailScreen(
             onMoreScreenshotClick = onMoreScreenshotClick,
             onMoreVideoClick = onMoreVideoClick,
             onCatalogClick = onCatalogClick,
+            onCharacterClick = onCharacterClick,
         )
     }
 }
