@@ -9,8 +9,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
-import club.anifox.android.core.uikit.component.slider.simple.content.SliderContent
+import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
+import club.anifox.android.core.uikit.component.slider.simple.SliderComponent
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeOrder
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
@@ -122,9 +122,9 @@ private fun HomeContent(
         state = lazyColumnState,
     ) {
         item {
-            SliderContent(
+            SliderComponent(
                 headerTitle = stringResource(R.string.feature_home_section_header_title_anime_of_season),
-                headerModifier = SliderContentDefaults.Default,
+                headerModifier = SliderComponentDefaults.Default,
                 contentState = animeOfSeason,
                 onItemClick = onAnimeClick,
                 isMoreVisible = true,
@@ -143,9 +143,9 @@ private fun HomeContent(
             )
         }
         item {
-            SliderContent(
+            SliderComponent(
                 headerTitle = stringResource(R.string.feature_home_section_header_title_popular),
-                headerModifier = SliderContentDefaults.Default,
+                headerModifier = SliderComponentDefaults.Default,
                 contentState = onPopularAnime,
                 onItemClick = onAnimeClick,
                 isMoreVisible = true,
@@ -160,9 +160,9 @@ private fun HomeContent(
             )
         }
         item {
-            SliderContent(
+            SliderComponent(
                 headerTitle = stringResource(R.string.feature_home_section_header_title_updated),
-                headerModifier = SliderContentDefaults.Default,
+                headerModifier = SliderComponentDefaults.Default,
                 contentState = onUpdatedAnime,
                 onItemClick = onAnimeClick,
                 isMoreVisible = true,
@@ -179,15 +179,15 @@ private fun HomeContent(
         item {
             GenreContent(
                 headerTitle = stringResource(R.string.feature_home_section_header_title_genres),
-                headerModifier = SliderContentDefaults.Default,
+                headerModifier = SliderComponentDefaults.Default,
                 genresAnime = genresAnime,
                 onItemClick = onGenresClick,
             )
         }
         item {
-            SliderContent(
+            SliderComponent(
                 headerTitle = stringResource(R.string.feature_home_section_header_title_films),
-                headerModifier = SliderContentDefaults.Default,
+                headerModifier = SliderComponentDefaults.Default,
                 contentState = filmsAnime,
                 onItemClick = onAnimeClick,
                 isMoreVisible = true,

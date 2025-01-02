@@ -1,21 +1,21 @@
-package club.anifox.android.feature.detail.components.genres.param
+package club.anifox.android.feature.detail.components.studios.param
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import club.anifox.android.core.uikit.param.GlobalParams
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.state.StateWrapper
 
-internal data class GenresContentPreviewParam(
+internal data class StudiosComponentPreviewParam(
     val detailAnime: StateWrapper<AnimeDetail>,
 )
 
-internal class GenresContentProvider:
-    PreviewParameterProvider<GenresContentPreviewParam> {
+internal class StudiosComponentProvider:
+    PreviewParameterProvider<StudiosComponentPreviewParam> {
     override val count: Int
         get() = super.count
-    override val values: Sequence<GenresContentPreviewParam>
+    override val values: Sequence<StudiosComponentPreviewParam>
         get() = listOf(
-            GenresContentPreviewParam(
+            StudiosComponentPreviewParam(
                 detailAnime = StateWrapper(data = GlobalParams.DataAnimeDetail, isLoading = false),
             )
         ).asSequence()

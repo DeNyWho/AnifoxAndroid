@@ -33,7 +33,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
-import club.anifox.android.core.uikit.component.grid.GridContentDefaults
+import club.anifox.android.core.uikit.component.grid.GridComponentDefaults
 import club.anifox.android.core.uikit.component.tab.simple.AnifoxScrollableTabRow
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.AnimeLight
@@ -191,7 +191,7 @@ private fun ScheduleContent(
         contentAlignment = Alignment.Center
     ) {
         LazyVerticalGrid(
-            modifier = GridContentDefaults.Default
+            modifier = GridComponentDefaults.Default
                 .fillMaxSize()
                 .animateContentSize(),
             columns = GridCells.Adaptive(minSize = minColumnSize),

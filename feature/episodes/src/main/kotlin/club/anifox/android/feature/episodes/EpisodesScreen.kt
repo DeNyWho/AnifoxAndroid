@@ -21,7 +21,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import club.anifox.android.core.uikit.component.error.NoSearchResultsError
-import club.anifox.android.core.uikit.component.grid.GridContentDefaults
+import club.anifox.android.core.uikit.component.grid.GridComponentDefaults
 import club.anifox.android.core.uikit.component.progress.CircularProgress
 import club.anifox.android.core.uikit.component.topbar.SimpleTopBar
 import club.anifox.android.core.uikit.util.LocalScreenInfo
@@ -116,7 +116,7 @@ private fun EpisodesContent(
         } else {
             Box(modifier = modifier.fillMaxSize()) {
                 LazyVerticalGrid(
-                    modifier = GridContentDefaults.Default.fillMaxSize(),
+                    modifier = GridComponentDefaults.Default.fillMaxSize(),
                     columns = GridCells.Adaptive(minSize = minColumnSize),
                     state = lazyGridState,
                     horizontalArrangement = CardEpisodeGridItemDefaults.HorizontalArrangement.Grid,

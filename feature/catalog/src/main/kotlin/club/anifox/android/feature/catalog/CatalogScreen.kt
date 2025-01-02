@@ -29,7 +29,7 @@ import androidx.paging.compose.itemKey
 import club.anifox.android.core.uikit.component.card.anime.CardAnimePortrait
 import club.anifox.android.core.uikit.component.card.anime.CardAnimePortraitDefaults
 import club.anifox.android.core.uikit.component.error.NoSearchResultsError
-import club.anifox.android.core.uikit.component.grid.GridContentDefaults
+import club.anifox.android.core.uikit.component.grid.GridComponentDefaults
 import club.anifox.android.core.uikit.component.progress.CircularProgress
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.AnimeLight
@@ -202,7 +202,7 @@ private fun CatalogUI(
                     .fillMaxSize(),
             ) {
                 LazyVerticalGrid(
-                    modifier = GridContentDefaults.Default.fillMaxSize(),
+                    modifier = GridComponentDefaults.Default.fillMaxSize(),
                     columns = GridCells.Adaptive(minSize = minColumnSize),
                     state = lazyGridState,
                     horizontalArrangement = CardAnimePortraitDefaults.HorizontalArrangement.Grid,

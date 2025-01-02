@@ -25,11 +25,11 @@ import club.anifox.android.core.uikit.component.icon.AnifoxIconOnSurface
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.state.StateWrapper
 import club.anifox.android.feature.detail.R
-import club.anifox.android.feature.detail.components.title.param.TitleInformationContentPreviewParam
-import club.anifox.android.feature.detail.components.title.param.TitleInformationContentProvider
+import club.anifox.android.feature.detail.components.title.param.TitleInformationComponentPreviewParam
+import club.anifox.android.feature.detail.components.title.param.TitleInformationComponentProvider
 
 @Composable
-internal fun TitleInformationContent(
+internal fun TitleInformationComponent(
     modifier: Modifier = Modifier,
     detailAnimeState: StateWrapper<AnimeDetail>,
 ) {
@@ -86,9 +86,9 @@ internal fun TitleInformationContent(
 @Preview
 @Composable
 private fun PreviewTitleInformationContent(
-    @PreviewParameter(TitleInformationContentProvider::class) param: TitleInformationContentPreviewParam,
+    @PreviewParameter(TitleInformationComponentProvider::class) param: TitleInformationComponentPreviewParam,
 ) {
-    TitleInformationContent(
+    TitleInformationComponent(
         detailAnimeState = param.detailAnime,
     )
 }

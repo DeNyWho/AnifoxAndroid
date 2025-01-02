@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import club.anifox.android.core.uikit.component.progress.CircularProgress
-import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
+import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
 import club.anifox.android.core.uikit.component.topbar.SimpleTopBarCollapse
 import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.toolbarShadow
@@ -128,7 +128,7 @@ private fun CharacterContent(
                 AboutComponent(
                     modifier = Modifier
                         .padding(horizontal = 16.dp),
-                    headerModifier = SliderContentDefaults.Default,
+                    headerModifier = SliderComponentDefaults.Default,
                     character = character,
                     isExpanded = isDescriptionExpanded,
                     onExpandedChanged = { isDescriptionExpanded = it },
@@ -139,7 +139,7 @@ private fun CharacterContent(
         if(character.roles.isNotEmpty()) {
             item {
                 AnimeComponent(
-                    headerModifier = SliderContentDefaults.Default,
+                    headerModifier = SliderComponentDefaults.Default,
                     roles = character.roles,
                     onItemClick = onAnimeClick,
                 )
@@ -151,7 +151,7 @@ private fun CharacterContent(
                 PicturesComponent(
                     modifier = Modifier
                         .padding(horizontal = 16.dp),
-                    headerModifier = SliderContentDefaults.BottomOnly,
+                    headerModifier = SliderComponentDefaults.BottomOnly,
                     pictures = character.pictures,
                 )
             }

@@ -13,8 +13,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
-import club.anifox.android.core.uikit.component.slider.video.content.SliderVideoContent
+import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
+import club.anifox.android.core.uikit.component.slider.video.SliderVideoComponent
 import club.anifox.android.core.uikit.component.topbar.SimpleTopBar
 import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
@@ -101,8 +101,8 @@ internal fun VideoContent(
             .padding(start = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        SliderVideoContent(
-            headerModifier = SliderContentDefaults.VerticalOnly,
+        SliderVideoComponent(
+            headerModifier = SliderComponentDefaults.VerticalOnly,
             contentState = trailerVideoState,
             headerTitle = stringResource(R.string.feature_video_section_trailer),
             onItemClick = onVideoClick,
@@ -110,8 +110,8 @@ internal fun VideoContent(
             showCardMoreWhenPastLimit = false,
             isTypeVisible = false,
         )
-        SliderVideoContent(
-            headerModifier = SliderContentDefaults.VerticalOnly,
+        SliderVideoComponent(
+            headerModifier = SliderComponentDefaults.VerticalOnly,
             contentState = openingVideoState,
             headerTitle = stringResource(R.string.feature_video_section_opening),
             onItemClick = onVideoClick,
@@ -119,8 +119,8 @@ internal fun VideoContent(
             showCardMoreWhenPastLimit = false,
             isTypeVisible = false,
         )
-        SliderVideoContent(
-            headerModifier = SliderContentDefaults.VerticalOnly,
+        SliderVideoComponent(
+            headerModifier = SliderComponentDefaults.VerticalOnly,
             contentState = endingVideoState,
             headerTitle = stringResource(R.string.feature_video_section_ending),
             onItemClick = onVideoClick,
@@ -128,8 +128,8 @@ internal fun VideoContent(
             showCardMoreWhenPastLimit = false,
             isTypeVisible = false,
         )
-        SliderVideoContent(
-            headerModifier = SliderContentDefaults.VerticalOnly,
+        SliderVideoComponent(
+            headerModifier = SliderComponentDefaults.VerticalOnly,
             contentState = otherVideoState,
             headerTitle = stringResource(R.string.feature_video_section_other),
             onItemClick = onVideoClick,

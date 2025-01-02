@@ -1,4 +1,4 @@
-package club.anifox.android.feature.detail.components.genres
+package club.anifox.android.feature.detail.components.studios
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,47 +12,53 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.R
 import club.anifox.android.core.uikit.component.chip.AnifoxChipPrimary
-import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
+import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
 import club.anifox.android.core.uikit.component.slider.header.SliderHeader
 import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.domain.state.StateWrapper
-import club.anifox.android.feature.detail.components.genres.param.GenresContentPreviewParam
-import club.anifox.android.feature.detail.components.genres.param.GenresContentProvider
+import club.anifox.android.feature.detail.components.studios.param.StudiosComponentPreviewParam
+import club.anifox.android.feature.detail.components.studios.param.StudiosComponentProvider
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-internal fun GenresContent(
+internal fun StudiosComponent(
     modifier: Modifier = Modifier,
-    headerModifier: Modifier = SliderContentDefaults.BottomOnly,
+    headerModifier: Modifier = SliderComponentDefaults.BottomOnly,
     detailAnimeState: StateWrapper<AnimeDetail>,
     onCatalogClick: (CatalogFilterParams) -> Unit,
 ) {
-    if(!detailAnimeState.isLoading) {
-        Column(
-            modifier = modifier,
-        ) {
+    val studios = detailAnimeState.data?.studios.orEmpty()
+
+    if (!detailAnimeState.isLoading && studios.isNotEmpty()) {
+        Column(modifier = modifier) {
+            val headerTitle = if (studios.size > 1) {
+                stringResource(R.string.core_uikit_header_title_studios)
+            } else {
+                stringResource(R.string.core_uikit_header_title_studio)
+            }
+
             SliderHeader(
                 modifier = headerModifier,
-                title = stringResource(R.string.core_uikit_header_title_genres),
+                title = headerTitle
             )
 
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                detailAnimeState.data?.genres?.forEach { genre ->
+                studios.forEach { studio ->
                     AnifoxChipPrimary(
                         modifier = Modifier.clickableWithoutRipple {
-                            onCatalogClick.invoke(
+                            onCatalogClick(
                                 CatalogFilterParams(
-                                    genres = listOf(genre),
+                                    studios = listOf(studio),
                                 )
                             )
                         },
-                        title = genre.name,
+                        title = studio.name,
                     )
                 }
             }
@@ -62,11 +68,11 @@ internal fun GenresContent(
 
 @PreviewLightDark
 @Composable
-private fun PreviewGenresContent(
-    @PreviewParameter(GenresContentProvider::class) param: GenresContentPreviewParam,
+private fun PreviewStudiosContent(
+    @PreviewParameter(StudiosComponentProvider::class) param: StudiosComponentPreviewParam,
 ) {
     DefaultPreview {
-        GenresContent(
+        StudiosComponent (
             detailAnimeState = param.detailAnime,
             onCatalogClick = { },
         )

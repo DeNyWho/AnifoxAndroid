@@ -1,4 +1,4 @@
-package club.anifox.android.core.uikit.component.slider.screenshots.content
+package club.anifox.android.core.uikit.component.slider.screenshots
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,11 +19,11 @@ import club.anifox.android.core.uikit.component.card.screenshot.CardScreenshotLa
 import club.anifox.android.core.uikit.component.card.screenshot.showCardScreenshotLandscapeMoreWhenPastLimit
 import club.anifox.android.core.uikit.component.card.screenshot.showCardScreenshotLandscapeShimmer
 import club.anifox.android.core.uikit.component.dialog.gallery.SwipeableImageDialog
-import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
+import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
 import club.anifox.android.core.uikit.component.slider.header.SliderHeader
 import club.anifox.android.core.uikit.component.slider.header.SliderHeaderShimmer
-import club.anifox.android.core.uikit.component.slider.screenshots.content.param.SliderScreenshotsContentPreviewParam
-import club.anifox.android.core.uikit.component.slider.screenshots.content.param.SliderScreenshotsContentProvider
+import club.anifox.android.core.uikit.component.slider.screenshots.param.SliderScreenshotsComponentPreviewParam
+import club.anifox.android.core.uikit.component.slider.screenshots.param.SliderScreenshotsComponentProvider
 import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.onUpdateShimmerBounds
 import club.anifox.android.domain.state.StateListWrapper
@@ -32,14 +32,14 @@ import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
 
 @Composable
-fun SliderScreenshotsContent(
+fun SliderScreenshotsComponent(
     modifier: Modifier = Modifier,
-    headerModifier: Modifier = SliderContentDefaults.BottomOnly,
+    headerModifier: Modifier = SliderComponentDefaults.BottomOnly,
     shimmer: Shimmer = rememberShimmer(ShimmerBounds.Custom),
     thumbnailHeight: Dp = CardScreenshotLandscapeDefaults.Height.Default,
     thumbnailWidth: Dp = CardScreenshotLandscapeDefaults.Width.Default,
     headerTitle: String,
-    contentState: StateListWrapper<String>,
+    screenshotsState: StateListWrapper<String>,
     contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
     contentArrangement: Arrangement.Horizontal = CardScreenshotLandscapeDefaults.HorizontalArrangement.Default,
     onMoreClick: () -> Unit,
@@ -47,12 +47,12 @@ fun SliderScreenshotsContent(
     var selectedImageIndex by remember { mutableStateOf<Int?>(null) }
 
     // header
-    if(contentState.isLoading) {
+    if(screenshotsState.isLoading) {
         SliderHeaderShimmer(
             modifier = headerModifier,
             shimmerInstance = shimmer,
         )
-    } else if (contentState.data.isNotEmpty()) {
+    } else if (screenshotsState.data.isNotEmpty()) {
         SliderHeader(
             modifier = headerModifier,
             title = headerTitle,
@@ -65,15 +65,15 @@ fun SliderScreenshotsContent(
         contentPadding = contentPadding,
         horizontalArrangement = contentArrangement,
     ) {
-        if(contentState.isLoading) {
+        if(screenshotsState.isLoading) {
             showCardScreenshotLandscapeShimmer(
                 shimmerInstance = shimmer,
                 thumbnailHeight = thumbnailHeight,
                 thumbnailWidth = thumbnailWidth,
             )
-        } else if(contentState.data.isNotEmpty()) {
+        } else if(screenshotsState.data.isNotEmpty()) {
             items(
-                contentState.data,
+                screenshotsState.data,
                 key = { it },
             ) { imageUrl ->
                 CardScreenshotLandscape(
@@ -81,12 +81,12 @@ fun SliderScreenshotsContent(
                     thumbnailHeight = thumbnailHeight,
                     thumbnailWidth = thumbnailWidth,
                     onClick = {
-                        selectedImageIndex = contentState.data.indexOf(imageUrl)
+                        selectedImageIndex = screenshotsState.data.indexOf(imageUrl)
                     }
                 )
             }
             showCardScreenshotLandscapeMoreWhenPastLimit(
-                size = contentState.data.size,
+                size = screenshotsState.data.size,
                 onClick = {
                     onMoreClick.invoke()
                 },
@@ -96,7 +96,7 @@ fun SliderScreenshotsContent(
 
     if (selectedImageIndex != null) {
         SwipeableImageDialog(
-            images = contentState.data,
+            images = screenshotsState.data,
             initialIndex = selectedImageIndex!!,
             onDismiss = { selectedImageIndex = null },
         )
@@ -106,16 +106,16 @@ fun SliderScreenshotsContent(
 @PreviewLightDark
 @Composable
 private fun PreviewScrollableHorizontalContentScreenshots(
-    @PreviewParameter(SliderScreenshotsContentProvider::class) param: SliderScreenshotsContentPreviewParam,
+    @PreviewParameter(SliderScreenshotsComponentProvider::class) param: SliderScreenshotsComponentPreviewParam,
 ) {
     DefaultPreview(true) {
-        SliderScreenshotsContent (
+        SliderScreenshotsComponent (
             modifier = param.modifier,
             headerModifier = param.headerModifier,
             thumbnailHeight = param.thumbnailHeight,
             thumbnailWidth = param.thumbnailWidth,
             headerTitle = param.headerTitle,
-            contentState = param.contentState,
+            screenshotsState = param.contentState,
             contentPadding = param.contentPadding,
             contentArrangement = param.contentArrangement,
             onMoreClick = param.onMoreClick,

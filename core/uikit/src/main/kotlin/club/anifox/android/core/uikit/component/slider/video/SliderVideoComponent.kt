@@ -1,4 +1,4 @@
-package club.anifox.android.core.uikit.component.slider.video.content
+package club.anifox.android.core.uikit.component.slider.video
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,11 +18,11 @@ import club.anifox.android.core.uikit.component.card.video.CardVideoLandscape
 import club.anifox.android.core.uikit.component.card.video.CardVideoLandscapeDefaults
 import club.anifox.android.core.uikit.component.card.video.showCardVideoLandscapeMoreWhenPastLimit
 import club.anifox.android.core.uikit.component.card.video.showCardVideoLandscapeShimmer
-import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
+import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
 import club.anifox.android.core.uikit.component.slider.header.SliderHeader
 import club.anifox.android.core.uikit.component.slider.header.SliderHeaderShimmer
-import club.anifox.android.core.uikit.component.slider.video.content.param.SliderVideoContentPreviewParam
-import club.anifox.android.core.uikit.component.slider.video.content.param.SliderVideoContentProvider
+import club.anifox.android.core.uikit.component.slider.video.param.SliderVideoComponentPreviewParam
+import club.anifox.android.core.uikit.component.slider.video.param.SliderVideoComponentProvider
 import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.onUpdateShimmerBounds
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
@@ -32,9 +32,9 @@ import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
 
 @Composable
-fun SliderVideoContent(
+fun SliderVideoComponent(
     modifier: Modifier = Modifier,
-    headerModifier: Modifier = SliderContentDefaults.BottomOnly,
+    headerModifier: Modifier = SliderComponentDefaults.BottomOnly,
     itemModifier: Modifier = Modifier.width(CardVideoLandscapeDefaults.Width.Default),
     shimmer: Shimmer = rememberShimmer(ShimmerBounds.Custom),
     thumbnailHeight: Dp = CardVideoLandscapeDefaults.Height.Default,
@@ -106,13 +106,13 @@ fun SliderVideoContent(
 @PreviewLightDark
 @Composable
 private fun PreviewScrollableHorizontalContentVideo(
-    @PreviewParameter(SliderVideoContentProvider::class) param: SliderVideoContentPreviewParam,
+    @PreviewParameter(SliderVideoComponentProvider::class) param: SliderVideoComponentPreviewParam,
 ) {
     DefaultPreview(true) {
         Column (
             Modifier.background(MaterialTheme.colorScheme.background)
         ) {
-            SliderVideoContent (
+            SliderVideoComponent (
                 modifier = param.modifier,
                 headerModifier = param.headerModifier,
                 itemModifier = param.itemModifier,

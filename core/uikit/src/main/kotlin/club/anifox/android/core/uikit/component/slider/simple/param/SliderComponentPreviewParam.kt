@@ -1,4 +1,4 @@
-package club.anifox.android.core.uikit.component.slider.simple.content.param
+package club.anifox.android.core.uikit.component.slider.simple.param
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,14 +10,14 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.card.anime.CardAnimePortraitDefaults
 import club.anifox.android.core.uikit.component.card.anime.CardAnimePortraitDefaults.HorizontalArrangement
-import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
+import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
 import club.anifox.android.core.uikit.param.GlobalParams
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.state.StateListWrapper
 
-internal data class SliderContentPreviewParam(
+internal data class SliderComponentPreviewParam(
     val modifier: Modifier = Modifier,
-    val headerModifier: Modifier = SliderContentDefaults.Default,
+    val headerModifier: Modifier = SliderComponentDefaults.Default,
     val itemModifier: Modifier = Modifier.width(CardAnimePortraitDefaults.Width.Default),
     val thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.Default,
     val thumbnailWidth: Dp = CardAnimePortraitDefaults.Width.Default,
@@ -31,22 +31,22 @@ internal data class SliderContentPreviewParam(
     val isMoreVisible: Boolean = true,
 )
 
-internal class SliderContentProvider:
-    PreviewParameterProvider<SliderContentPreviewParam> {
+internal class SliderComponentProvider:
+    PreviewParameterProvider<SliderComponentPreviewParam> {
     override val count: Int
         get() = super.count
-    override val values: Sequence<SliderContentPreviewParam>
+    override val values: Sequence<SliderComponentPreviewParam>
         get() = listOf(
-            SliderContentPreviewParam(
+            SliderComponentPreviewParam(
                 modifier = Modifier,
-                headerModifier = SliderContentDefaults.Default,
+                headerModifier = SliderComponentDefaults.Default,
                 headerTitle = "Scrollable Default",
                 contentArrangement = HorizontalArrangement.Default,
                 contentState = StateListWrapper.loading()
             ),
-            SliderContentPreviewParam(
+            SliderComponentPreviewParam(
                 modifier = Modifier,
-                headerModifier = SliderContentDefaults.Default,
+                headerModifier = SliderComponentDefaults.Default,
                 headerTitle = "Scrollable Default",
                 contentArrangement = HorizontalArrangement.Default,
                 contentState = StateListWrapper(data = GlobalParams.DataSetAnimeLight, isLoading = false)

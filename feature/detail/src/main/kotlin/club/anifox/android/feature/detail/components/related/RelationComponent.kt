@@ -1,39 +1,38 @@
-package club.anifox.android.feature.detail.components.characters
+package club.anifox.android.feature.detail.components.related
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.Arrangement.Vertical
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
-import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
+import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
 import club.anifox.android.core.uikit.component.slider.header.SliderHeader
 import club.anifox.android.core.uikit.component.slider.header.SliderHeaderShimmer
 import club.anifox.android.core.uikit.util.onUpdateShimmerBounds
-import club.anifox.android.domain.model.anime.characters.AnimeCharactersLight
+import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.state.StateListWrapper
-import club.anifox.android.feature.detail.components.characters.item.CardCharactersItem
-import club.anifox.android.feature.detail.components.characters.item.CardCharactersItemDefaults
-import club.anifox.android.feature.detail.components.characters.item.showCardCharactersItemShimmer
+import club.anifox.android.feature.detail.components.related.item.CardRelationItem
+import club.anifox.android.feature.detail.components.related.item.CardRelationItemDefaults.Height
+import club.anifox.android.feature.detail.components.related.item.CardRelationItemDefaults.VerticalArrangement
+import club.anifox.android.feature.detail.components.related.item.CardRelationItemDefaults.Width
+import club.anifox.android.feature.detail.components.related.item.ShowCardRelationItemShimmer
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds.Custom
 import com.valentinilk.shimmer.rememberShimmer
 
 @Composable
-internal fun CharactersContent(
+internal fun RelationComponent(
     modifier: Modifier = Modifier,
-    headerModifier: Modifier = SliderContentDefaults.BottomOnly,
+    headerModifier: Modifier = SliderComponentDefaults.BottomOnly,
     itemModifier: Modifier = Modifier,
     shimmer: Shimmer = rememberShimmer(Custom),
-    thumbnailHeight: Dp = CardCharactersItemDefaults.Height.Default,
-    thumbnailWidth: Dp = CardCharactersItemDefaults.Width.Default,
+    thumbnailHeight: Dp = Height.Default,
+    thumbnailWidth: Dp = Width.Default,
     headerTitle: String,
-    contentState: StateListWrapper<AnimeCharactersLight>,
-    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
-    contentArrangement: Arrangement.Horizontal = CardCharactersItemDefaults.HorizontalArrangement.Default,
+    contentState: StateListWrapper<AnimeRelatedLight>,
+    contentArrangement: Vertical = VerticalArrangement.Default,
     onItemClick: (String) -> Unit,
+    countContent: Int,
 ) {
     // header
     if(contentState.isLoading) {
@@ -49,29 +48,25 @@ internal fun CharactersContent(
     }
 
     // content
-    LazyRow (
+    Column(
         modifier = modifier.onUpdateShimmerBounds(shimmer),
-        contentPadding = contentPadding,
-        horizontalArrangement = contentArrangement,
+        verticalArrangement = contentArrangement,
     ) {
         if(contentState.isLoading) {
-            showCardCharactersItemShimmer(
+            ShowCardRelationItemShimmer(
                 modifier = itemModifier,
                 shimmerInstance = shimmer,
                 thumbnailHeight = thumbnailHeight,
                 thumbnailWidth = thumbnailWidth,
             )
         } else if(contentState.data.isNotEmpty()) {
-            items(
-                contentState.data,
-                key = { it.id },
-            ) { character ->
-                CardCharactersItem(
+            contentState.data.take(countContent).forEach { data ->
+                CardRelationItem(
                     modifier = itemModifier,
-                    data = character,
+                    data = data,
                     thumbnailHeight = thumbnailHeight,
                     thumbnailWidth = thumbnailWidth,
-                    onClick = { onItemClick.invoke(character.id) },
+                    onClick = { onItemClick.invoke(data.anime.url) }
                 )
             }
         }

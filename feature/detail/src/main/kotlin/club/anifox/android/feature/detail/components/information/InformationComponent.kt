@@ -12,21 +12,21 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.R
 import club.anifox.android.core.uikit.component.chip.AnifoxChipPrimary
-import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
+import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
 import club.anifox.android.core.uikit.component.slider.header.SliderHeader
 import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.domain.state.StateWrapper
-import club.anifox.android.feature.detail.components.information.param.InformationContentPreviewParam
-import club.anifox.android.feature.detail.components.information.param.InformationContentProvider
+import club.anifox.android.feature.detail.components.information.param.InformationComponentPreviewParam
+import club.anifox.android.feature.detail.components.information.param.InformationComponentProvider
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun InformationComponent(
     modifier: Modifier = Modifier,
-    headerModifier: Modifier = SliderContentDefaults.BottomOnly,
+    headerModifier: Modifier = SliderComponentDefaults.BottomOnly,
     detailAnimeState: StateWrapper<AnimeDetail>,
     onCatalogClick: (CatalogFilterParams) -> Unit,
 ) {
@@ -93,7 +93,7 @@ internal fun InformationComponent(
 @PreviewLightDark
 @Composable
 private fun PreviewInformationContent(
-    @PreviewParameter(InformationContentProvider::class) param: InformationContentPreviewParam,
+    @PreviewParameter(InformationComponentProvider::class) param: InformationComponentPreviewParam,
 ) {
     DefaultPreview(true) {
         InformationComponent(

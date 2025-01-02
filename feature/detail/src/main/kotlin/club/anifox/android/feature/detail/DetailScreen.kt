@@ -29,10 +29,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import club.anifox.android.core.uikit.component.button.AnifoxButtonPrimary
 import club.anifox.android.core.uikit.component.icon.AnifoxIconOnPrimary
 import club.anifox.android.core.uikit.component.progress.CircularProgress
-import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
-import club.anifox.android.core.uikit.component.slider.screenshots.content.SliderScreenshotsContent
-import club.anifox.android.core.uikit.component.slider.simple.content.SliderContent
-import club.anifox.android.core.uikit.component.slider.video.content.SliderVideoContent
+import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
+import club.anifox.android.core.uikit.component.slider.screenshots.SliderScreenshotsComponent
+import club.anifox.android.core.uikit.component.slider.simple.SliderComponent
+import club.anifox.android.core.uikit.component.slider.video.SliderVideoComponent
 import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
@@ -42,13 +42,13 @@ import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.state.StateWrapper
-import club.anifox.android.feature.detail.components.characters.CharactersContent
-import club.anifox.android.feature.detail.components.description.DescriptionContent
-import club.anifox.android.feature.detail.components.genres.GenresContent
+import club.anifox.android.feature.detail.components.characters.CharactersComponent
+import club.anifox.android.feature.detail.components.description.DescriptionComponent
+import club.anifox.android.feature.detail.components.genres.GenresComponent
 import club.anifox.android.feature.detail.components.information.InformationComponent
-import club.anifox.android.feature.detail.components.related.RelationContent
-import club.anifox.android.feature.detail.components.studios.StudiosContent
-import club.anifox.android.feature.detail.components.title.TitleInformationContent
+import club.anifox.android.feature.detail.components.related.RelationComponent
+import club.anifox.android.feature.detail.components.studios.StudiosComponent
+import club.anifox.android.feature.detail.components.title.TitleInformationComponent
 import club.anifox.android.feature.detail.components.top.ContentDetailsScreenToolbar
 import club.anifox.android.feature.detail.param.DetailContentPreviewParam
 import club.anifox.android.feature.detail.param.DetailContentProvider
@@ -186,7 +186,7 @@ internal fun DetailContentUI(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         item {
-            TitleInformationContent(
+            TitleInformationComponent(
                 modifier = Modifier.padding(start = 16.dp, end =  16.dp, top = 4.dp),
                 detailAnimeState = detailAnimeState
             )
@@ -225,22 +225,22 @@ internal fun DetailContentUI(
             )
         }
         item {
-            GenresContent(
+            GenresComponent(
                 modifier = Modifier.padding(start = 16.dp, end =  16.dp),
                 detailAnimeState = detailAnimeState,
                 onCatalogClick = onCatalogClick,
             )
         }
         item {
-            StudiosContent(
+            StudiosComponent(
                 modifier = Modifier.padding(start = 16.dp, end =  16.dp),
                 detailAnimeState = detailAnimeState,
                 onCatalogClick = onCatalogClick,
             )
         }
         item {
-            DescriptionContent(
-                headerModifier = SliderContentDefaults.Default,
+            DescriptionComponent(
+                headerModifier = SliderComponentDefaults.Default,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                 detailAnimeState = detailAnimeState,
                 isExpanded = isDescriptionExpanded,
@@ -248,9 +248,9 @@ internal fun DetailContentUI(
             )
         }
         item {
-            SliderScreenshotsContent(
-                headerModifier = SliderContentDefaults.Default,
-                contentState = screenshotAnimeState,
+            SliderScreenshotsComponent(
+                headerModifier = SliderComponentDefaults.Default,
+                screenshotsState = screenshotAnimeState,
                 headerTitle = stringResource(R.string.feature_detail_section_screenshots_header_title),
                 onMoreClick = {
                     detailAnimeState.data?.title?.let { title ->
@@ -260,8 +260,8 @@ internal fun DetailContentUI(
             )
         }
         item {
-            SliderVideoContent(
-                headerModifier = SliderContentDefaults.Default,
+            SliderVideoComponent(
+                headerModifier = SliderComponentDefaults.Default,
                 contentState = videosAnimeState,
                 headerTitle = stringResource(R.string.feature_detail_section_video_header_title),
                 onItemClick = onVideoClick,
@@ -273,17 +273,17 @@ internal fun DetailContentUI(
             )
         }
         item {
-            CharactersContent(
-                headerModifier = SliderContentDefaults.Default,
+            CharactersComponent(
+                headerModifier = SliderComponentDefaults.Default,
                 headerTitle = stringResource(R.string.feature_detail_section_header_title_characters),
                 contentState = charactersAnimeState,
                 onItemClick = onCharacterClick,
             )
         }
         item {
-            RelationContent(
+            RelationComponent(
                 modifier = Modifier.padding(start = 16.dp),
-                headerModifier = SliderContentDefaults.Default,
+                headerModifier = SliderComponentDefaults.Default,
                 headerTitle = stringResource(R.string.feature_detail_section_header_title_relation),
                 contentState = relationAnimeState,
                 onItemClick = onAnimeClick,
@@ -291,8 +291,8 @@ internal fun DetailContentUI(
             )
         }
         item {
-            SliderContent(
-                headerModifier = SliderContentDefaults.Default,
+            SliderComponent(
+                headerModifier = SliderComponentDefaults.Default,
                 headerTitle = stringResource(R.string.feature_detail_section_header_title_similar),
                 contentState = similarAnimeState,
                 onItemClick = onAnimeClick,

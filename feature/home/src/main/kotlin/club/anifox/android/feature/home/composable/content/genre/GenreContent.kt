@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
+import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
 import club.anifox.android.core.uikit.component.slider.header.SliderHeader
 import club.anifox.android.core.uikit.component.slider.header.SliderHeaderShimmer
 import club.anifox.android.core.uikit.util.DefaultPreview
@@ -26,7 +26,7 @@ import com.valentinilk.shimmer.rememberShimmer
 @Composable
 internal fun GenreContent(
     modifier: Modifier = Modifier,
-    headerModifier: Modifier = SliderContentDefaults.BottomOnly,
+    headerModifier: Modifier = SliderComponentDefaults.BottomOnly,
     headerTitle: String,
     shimmer: Shimmer = rememberShimmer(ShimmerBounds.Custom),
     genresAnime: StateListWrapper<AnimeGenre>,

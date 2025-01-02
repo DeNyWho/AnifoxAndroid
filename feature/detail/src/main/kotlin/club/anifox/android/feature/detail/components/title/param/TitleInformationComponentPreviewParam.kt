@@ -1,21 +1,21 @@
-package club.anifox.android.feature.detail.components.information.param
+package club.anifox.android.feature.detail.components.title.param
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import club.anifox.android.core.uikit.param.GlobalParams
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.state.StateWrapper
 
-internal data class InformationContentPreviewParam(
+internal data class TitleInformationComponentPreviewParam(
     val detailAnime: StateWrapper<AnimeDetail>,
 )
 
-internal class InformationContentProvider:
-    PreviewParameterProvider<InformationContentPreviewParam> {
+internal class TitleInformationComponentProvider:
+    PreviewParameterProvider<TitleInformationComponentPreviewParam> {
     override val count: Int
         get() = super.count
-    override val values: Sequence<InformationContentPreviewParam>
+    override val values: Sequence<TitleInformationComponentPreviewParam>
         get() = listOf(
-            InformationContentPreviewParam(
+            TitleInformationComponentPreviewParam(
                 detailAnime = StateWrapper(data = GlobalParams.DataAnimeDetail, isLoading = false),
             )
         ).asSequence()

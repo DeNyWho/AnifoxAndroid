@@ -14,8 +14,8 @@ import androidx.compose.ui.unit.Dp
 import club.anifox.android.core.uikit.component.card.anime.CardAnimePortrait
 import club.anifox.android.core.uikit.component.card.anime.CardAnimePortraitDefaults
 import club.anifox.android.core.uikit.component.card.anime.showCardAnimePortraitShimmer
-import club.anifox.android.core.uikit.component.grid.param.GridContentPreviewParam
-import club.anifox.android.core.uikit.component.grid.param.GridContentProvider
+import club.anifox.android.core.uikit.component.grid.param.GridComponentPreviewParam
+import club.anifox.android.core.uikit.component.grid.param.GridComponentProvider
 import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.state.StateListWrapper
@@ -24,7 +24,7 @@ import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
 
 @Composable
-fun GridContent(
+fun GridComponent(
     modifier: Modifier = Modifier,
     itemModifier: Modifier = Modifier.width(CardAnimePortraitDefaults.Width.GridSmall),
     shimmer: Shimmer = rememberShimmer(ShimmerBounds.Custom),
@@ -69,10 +69,10 @@ fun GridContent(
 @PreviewLightDark
 @Composable
 private fun PreviewGridContent(
-    @PreviewParameter(GridContentProvider::class) param: GridContentPreviewParam,
+    @PreviewParameter(GridComponentProvider::class) param: GridComponentPreviewParam,
 ) {
     DefaultPreview(true) {
-        GridContent(
+        GridComponent(
             modifier = param.modifier,
             itemModifier = param.itemModifier,
             thumbnailHeight = param.thumbnailHeight,

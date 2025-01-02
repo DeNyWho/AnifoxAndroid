@@ -10,7 +10,7 @@ import club.anifox.android.core.uikit.param.GlobalParams
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.state.StateListWrapper
 
-internal data class GridContentPreviewParam(
+internal data class GridComponentPreviewParam(
     val modifier: Modifier = Modifier,
     val itemModifier: Modifier = Modifier.width(CardAnimePortraitDefaults.Width.GridSmall),
     val thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.GridSmall,
@@ -20,16 +20,16 @@ internal data class GridContentPreviewParam(
     val onItemClick: (String) -> Unit = { },
 )
 
-internal class GridContentProvider:
-    PreviewParameterProvider<GridContentPreviewParam> {
+internal class GridComponentProvider:
+    PreviewParameterProvider<GridComponentPreviewParam> {
     override val count: Int
         get() = super.count
-    override val values: Sequence<GridContentPreviewParam>
+    override val values: Sequence<GridComponentPreviewParam>
         get() = listOf(
-            GridContentPreviewParam(
+            GridComponentPreviewParam(
                 contentState = StateListWrapper.loading(),
             ),
-            GridContentPreviewParam(
+            GridComponentPreviewParam(
                 contentState = StateListWrapper(data = GlobalParams.DataSetAnimeLight, isLoading = false),
             ),
         ).asSequence()

@@ -13,14 +13,14 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.card.anime.CardAnimePortrait
 import club.anifox.android.core.uikit.component.card.anime.CardAnimePortraitDefaults
-import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
+import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
 import club.anifox.android.core.uikit.component.slider.header.SliderHeader
 import club.anifox.android.domain.model.character.role.CharacterRole
 import club.anifox.android.feature.character.R
 
 @Composable
 internal fun AnimeComponent(
-    headerModifier: Modifier = SliderContentDefaults.BottomOnly,
+    headerModifier: Modifier = SliderComponentDefaults.BottomOnly,
     itemModifier: Modifier = Modifier.width(CardAnimePortraitDefaults.Width.Default),
     thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.Default,
     thumbnailWidth: Dp = CardAnimePortraitDefaults.Width.Default,

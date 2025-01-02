@@ -1,4 +1,4 @@
-package club.anifox.android.core.uikit.component.slider.simple.content
+package club.anifox.android.core.uikit.component.slider.simple
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,11 +16,11 @@ import club.anifox.android.core.uikit.component.card.anime.CardAnimePortrait
 import club.anifox.android.core.uikit.component.card.anime.CardAnimePortraitDefaults
 import club.anifox.android.core.uikit.component.card.anime.showCardAnimePortraitMoreWhenPastLimit
 import club.anifox.android.core.uikit.component.card.anime.showCardAnimePortraitShimmer
-import club.anifox.android.core.uikit.component.slider.SliderContentDefaults
+import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
 import club.anifox.android.core.uikit.component.slider.header.SliderHeader
 import club.anifox.android.core.uikit.component.slider.header.SliderHeaderShimmer
-import club.anifox.android.core.uikit.component.slider.simple.content.param.SliderContentPreviewParam
-import club.anifox.android.core.uikit.component.slider.simple.content.param.SliderContentProvider
+import club.anifox.android.core.uikit.component.slider.simple.param.SliderComponentPreviewParam
+import club.anifox.android.core.uikit.component.slider.simple.param.SliderComponentProvider
 import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.onUpdateShimmerBounds
 import club.anifox.android.domain.model.anime.AnimeLight
@@ -30,9 +30,9 @@ import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
 
 @Composable
-fun SliderContent(
+fun SliderComponent(
     modifier: Modifier = Modifier,
-    headerModifier: Modifier = SliderContentDefaults.BottomOnly,
+    headerModifier: Modifier = SliderComponentDefaults.BottomOnly,
     itemModifier: Modifier = Modifier.width(CardAnimePortraitDefaults.Width.Default),
     shimmer: Shimmer = rememberShimmer(ShimmerBounds.Custom),
     thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.Default,
@@ -102,10 +102,10 @@ fun SliderContent(
 @PreviewLightDark
 @Composable
 private fun PreviewScrollableHorizontalContentDefault(
-    @PreviewParameter(SliderContentProvider::class) param: SliderContentPreviewParam,
+    @PreviewParameter(SliderComponentProvider::class) param: SliderComponentPreviewParam,
 ) {
     DefaultPreview(true) {
-        SliderContent (
+        SliderComponent (
             modifier = param.modifier,
             headerModifier = param.headerModifier,
             itemModifier = param.itemModifier,
