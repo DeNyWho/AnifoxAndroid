@@ -1,7 +1,6 @@
 package club.anifox.android
 
 import android.os.Bundle
-import android.util.DisplayMetrics
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -70,25 +69,35 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun getScreenInfo(): ScreenInfo {
-        val displayMetrics: DisplayMetrics = resources.displayMetrics
-        val density: Float = displayMetrics.density
+        val displayMetrics = resources.displayMetrics
+        val density = displayMetrics.density
 
-        val widthDp: Float = displayMetrics.widthPixels / density
-        val heightDp: Float = displayMetrics.heightPixels / density
+        val widthDp = displayMetrics.widthPixels / density
+        val heightDp = displayMetrics.heightPixels / density
 
-        val (portraitWidthDp: Float, portraitHeightDp: Float) = if (widthDp < heightDp) {
+        val (portraitWidthDp, portraitHeightDp) = if (widthDp < heightDp) {
             widthDp to heightDp
         } else {
             heightDp to widthDp
         }
 
-        val screenType: ScreenType = when {
-            portraitWidthDp < 360 -> ScreenType.SMALL
-            portraitWidthDp in 360.0..480.0 -> ScreenType.DEFAULT
-            portraitWidthDp in 480.0..600.0 -> ScreenType.LARGE
+        val (landscapeWidthDp, landscapeHeightDp) = portraitHeightDp to portraitWidthDp
+
+        val screenType = when (portraitWidthDp) {
+            in 0.0..360.0 -> ScreenType.SMALL
+            in 360.0..480.0 -> ScreenType.DEFAULT
+            in 480.0..600.0 -> ScreenType.LARGE
             else -> ScreenType.EXTRA_LARGE
         }
 
-        return ScreenInfo(screenType, FontSizePrefs.DEFAULT, portraitWidthDp.toInt(), portraitHeightDp.toInt())
+        return ScreenInfo(
+            screenType = screenType,
+            fontSizePrefs = FontSizePrefs.DEFAULT,
+            portraitWidthDp = portraitWidthDp.toInt(),
+            portraitHeightDp = portraitHeightDp.toInt(),
+            landscapeWidthDp = landscapeWidthDp.toInt(),
+            landscapeHeightDp = landscapeHeightDp.toInt()
+        )
     }
+
 }

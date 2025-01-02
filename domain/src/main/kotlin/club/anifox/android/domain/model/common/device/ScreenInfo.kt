@@ -5,4 +5,6 @@ data class ScreenInfo(
     val fontSizePrefs: FontSizePrefs = FontSizePrefs.DEFAULT,
     val portraitWidthDp: Int = 400,
     val portraitHeightDp: Int = 800,
+    val landscapeWidthDp: Int = 800,
+    val landscapeHeightDp: Int = 400,
 )
