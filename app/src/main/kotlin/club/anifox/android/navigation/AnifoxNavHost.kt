@@ -68,6 +68,7 @@ fun AnifoxNavHost(
         )
         characterScreen(
             onBackPressed = navController::popBackStack,
+            onAnimeClick = navController::navigateToDetail,
         )
         charactersScreen(
             onBackPressed = navController::popBackStack,

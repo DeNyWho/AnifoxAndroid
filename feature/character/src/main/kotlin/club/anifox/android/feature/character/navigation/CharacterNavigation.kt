@@ -15,6 +15,7 @@ fun NavController.navigateToCharacter(id: String, navOptions: NavOptions? = null
 
 fun NavGraphBuilder.characterScreen(
     onBackPressed: () -> Boolean,
+    onAnimeClick: (String) -> Unit,
 ) {
     composable(
         route = "${CHARACTER_ROUTE}?id={id}",
@@ -26,6 +27,7 @@ fun NavGraphBuilder.characterScreen(
 
         CharacterScreen(
             onBackPressed = onBackPressed,
+            onAnimeClick = onAnimeClick,
             id = id ?: throw IllegalArgumentException("CharacterScreen requires a non-null ID"),
         )
     }

@@ -29,7 +29,9 @@ import club.anifox.android.core.uikit.util.toolbarShadow
 import club.anifox.android.domain.model.character.full.CharacterFull
 import club.anifox.android.domain.state.StateWrapper
 import club.anifox.android.feature.character.components.about.AboutComponent
+import club.anifox.android.feature.character.components.anime.AnimeComponent
 import club.anifox.android.feature.character.components.overview.OverviewComponent
+import club.anifox.android.feature.character.components.pictures.PicturesComponent
 import club.anifox.android.feature.character.param.CharacterContentPreviewParam
 import club.anifox.android.feature.character.param.CharacterContentProvider
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -40,6 +42,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 internal fun CharacterScreen(
     viewModel: CharacterViewModel = hiltViewModel(),
     onBackPressed: () -> Boolean,
+    onAnimeClick: (String) -> Unit,
     id: String,
 ) {
     LaunchedEffect(viewModel, id) {
@@ -48,6 +51,7 @@ internal fun CharacterScreen(
 
     CharacterUI(
         onBackPressed = onBackPressed,
+        onAnimeClick = onAnimeClick,
         characterState = viewModel.character.value,
     )
 }
@@ -55,6 +59,7 @@ internal fun CharacterScreen(
 @Composable
 private fun CharacterUI(
     onBackPressed: () -> Boolean,
+    onAnimeClick: (String) -> Unit,
     characterState: StateWrapper<CharacterFull>,
 ) {
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
@@ -83,6 +88,7 @@ private fun CharacterUI(
                     ),
                     body = {
                         CharacterContent(
+                            onAnimeClick = onAnimeClick,
                             character = character,
                         )
                     }
@@ -94,6 +100,7 @@ private fun CharacterUI(
 
 @Composable
 private fun CharacterContent(
+    onAnimeClick: (String) -> Unit,
     character: CharacterFull,
 ) {
     var isDescriptionExpanded by remember { mutableStateOf(false) }
@@ -101,7 +108,6 @@ private fun CharacterContent(
 
     LazyColumn(
         modifier = Modifier
-            .padding(horizontal = 16.dp)
             .fillMaxSize(),
         state = lazyColumnState,
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -111,20 +117,42 @@ private fun CharacterContent(
         }
         item {
             OverviewComponent(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp),
                 character = character,
             )
-        }
-        item {
-            Spacer(modifier = Modifier.height(8.dp))
         }
 
         if(character.about?.isNotEmpty() == true) {
             item {
                 AboutComponent(
-                    headerModifier = SliderContentDefaults.BottomOnly,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp),
+                    headerModifier = SliderContentDefaults.Default,
                     character = character,
                     isExpanded = isDescriptionExpanded,
                     onExpandedChanged = { isDescriptionExpanded = it },
+                )
+            }
+        }
+
+        if(character.roles.isNotEmpty()) {
+            item {
+                AnimeComponent(
+                    headerModifier = SliderContentDefaults.Default,
+                    roles = character.roles,
+                    onItemClick = onAnimeClick,
+                )
+            }
+        }
+
+        if(character.pictures.isNotEmpty()) {
+            item {
+                PicturesComponent(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp),
+                    headerModifier = SliderContentDefaults.BottomOnly,
+                    pictures = character.pictures,
                 )
             }
         }
@@ -139,6 +167,7 @@ private fun PreviewCharacterUI(
     DefaultPreview {
         CharacterUI(
             onBackPressed = param.onBackPressed,
+            onAnimeClick = param.onAnimeClick,
             characterState = param.characterState,
         )
     }

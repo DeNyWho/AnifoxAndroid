@@ -37,6 +37,7 @@ import coil.size.Size
 
 @Composable
 internal fun OverviewComponent(
+    modifier: Modifier,
     character: CharacterFull,
 ) {
     val screenInfo = LocalScreenInfo.current
@@ -73,7 +74,7 @@ internal fun OverviewComponent(
     }
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(height),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
