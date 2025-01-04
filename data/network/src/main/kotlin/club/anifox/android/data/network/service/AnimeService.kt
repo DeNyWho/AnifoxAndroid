@@ -2,7 +2,7 @@ package club.anifox.android.data.network.service
 
 import club.anifox.android.data.network.api.ApiEndpoints
 import club.anifox.android.data.network.api.ApiEndpoints.ANIME_EPISODES
-import club.anifox.android.data.network.models.dto.anime.characters.AnimeCharactersLightDTO
+import club.anifox.android.data.network.models.dto.anime.characters.AnimeCharactersWithRolesDTO
 import club.anifox.android.data.network.models.dto.anime.common.AnimeGenreDTO
 import club.anifox.android.data.network.models.dto.anime.common.AnimeStudioDTO
 import club.anifox.android.data.network.models.dto.anime.detail.AnimeDetailDTO
@@ -206,7 +206,8 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
         page: Int,
         limit: Int,
         url: String,
-    ): Resource<List<AnimeCharactersLightDTO>> {
+        role: String?,
+    ): Resource<AnimeCharactersWithRolesDTO> {
         val request = HttpRequestBuilder().apply {
             method = HttpMethod.Get
             url {
@@ -214,9 +215,11 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
             }
             parameter("page", page)
             parameter("limit", limit)
+
+            if(role != null) parameter("role", role)
         }
 
-        return safeApiCall<List<AnimeCharactersLightDTO>>(client, request)
+        return safeApiCall<AnimeCharactersWithRolesDTO>(client, request)
     }
 
     suspend fun getAnimeSchedule(

@@ -91,6 +91,12 @@ interface AnimeRepository {
     fun getLastSearchesHistory(): Flow<List<String>>
     suspend fun addSearchHistory(query: String)
     suspend fun deleteSearchHistory()
+    fun getAnimeCharactersPaged(
+        limit: Int,
+        url: String,
+        role: String?
+    ): Flow<PagingData<AnimeCharactersLight>>
+
     fun getAnimeCharacters(
         url: String,
         page: Int,

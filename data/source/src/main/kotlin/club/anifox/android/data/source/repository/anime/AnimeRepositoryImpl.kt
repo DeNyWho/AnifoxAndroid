@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import club.anifox.android.data.local.cache.dao.anime.catalog.AnimeCacheCatalogDao
+import club.anifox.android.data.local.cache.dao.anime.characters.AnimeCacheCharactersAvailableRolesDao
 import club.anifox.android.data.local.cache.dao.anime.characters.AnimeCacheCharactersDao
 import club.anifox.android.data.local.cache.dao.anime.episodes.AnimeCacheEpisodesDao
 import club.anifox.android.data.local.cache.dao.anime.genres.AnimeCacheGenresDao
@@ -26,6 +27,7 @@ import club.anifox.android.data.network.mappers.anime.related.toLight
 import club.anifox.android.data.network.mappers.anime.videos.toLight
 import club.anifox.android.data.network.service.AnimeService
 import club.anifox.android.data.source.paging.anime.catalog.AnimeCatalogRemoteMediator
+import club.anifox.android.data.source.paging.anime.characters.AnimeCharactersRemoteMediator
 import club.anifox.android.data.source.paging.anime.episodes.AnimeEpisodesRemoteMediator
 import club.anifox.android.data.source.paging.anime.genres.AnimeGenresRemoteMediator
 import club.anifox.android.data.source.paging.anime.schedule.AnimeScheduleRemoteMediator
@@ -68,6 +70,7 @@ internal class AnimeRepositoryImpl @Inject constructor(
     private val animeCacheEpisodesDao: AnimeCacheEpisodesDao,
     private val animeCacheScheduleDao: AnimeCacheScheduleDao,
     private val animeCacheCharactersDao: AnimeCacheCharactersDao,
+    private val animeCacheCharactersAvailableRolesDao: AnimeCacheCharactersAvailableRolesDao,
 ) : AnimeRepository {
 
     override fun getAnime(
@@ -233,6 +236,27 @@ internal class AnimeRepositoryImpl @Inject constructor(
     }
 
     @OptIn(ExperimentalPagingApi::class)
+    override fun getAnimeCharactersPaged(
+        limit: Int,
+        url: String,
+        role: String?,
+    ): Flow<PagingData<AnimeCharactersLight>> {
+        return Pager(
+            config = PagingConfig(pageSize = limit),
+            remoteMediator = AnimeCharactersRemoteMediator(
+                animeService = animeService,
+                animeCacheCharactersDao = animeCacheCharactersDao,
+                animeCacheCharactersAvailableRolesDao = animeCacheCharactersAvailableRolesDao,
+                url = url,
+                role = role,
+            ),
+            pagingSourceFactory = { animeCacheCharactersDao.pagingSource() }
+        ).flow.map { pagingData ->
+            pagingData.map { it.toLight() }
+        }
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
     override fun getAnimeScheduleForDayPaged(
         dayOfWeek: WeekDay,
     ): Flow<PagingData<AnimeLight>> {
@@ -383,6 +407,38 @@ internal class AnimeRepositoryImpl @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
+    override fun getAnimeCharacters(
+        url: String,
+        page: Int,
+        limit: Int,
+    ): Flow<StateListWrapper<AnimeCharactersLight>> {
+        return flow {
+            emit(StateListWrapper.loading())
+
+            val state = when (val animeCharactersResult = animeService.getAnimeCharacters(
+                page = page,
+                limit = limit,
+                url = url,
+                role = null,
+            )) {
+                is Resource.Success -> {
+                    val data = animeCharactersResult.data.characters.map { it.toLight() }
+                    StateListWrapper(data)
+                }
+
+                is Resource.Error -> {
+                    StateListWrapper(error = animeCharactersResult.error)
+                }
+
+                is Resource.Loading -> {
+                    StateListWrapper.loading()
+                }
+            }
+
+            emit(state)
+        }.flowOn(Dispatchers.IO)
+    }
+
     override fun getAnimeSimilar(url: String): Flow<StateListWrapper<AnimeLight>> {
         return flow {
             emit(StateListWrapper.loading())
@@ -441,37 +497,6 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 is Resource.Error -> {
                     StateListWrapper(error = animeScreenshotsResult.error)
                 }
-                is Resource.Loading -> {
-                    StateListWrapper.loading()
-                }
-            }
-
-            emit(state)
-        }.flowOn(Dispatchers.IO)
-    }
-
-    override fun getAnimeCharacters(
-        url: String,
-        page: Int,
-        limit: Int,
-    ): Flow<StateListWrapper<AnimeCharactersLight>> {
-        return flow {
-            emit(StateListWrapper.loading())
-
-            val state = when (val animeCharactersResult = animeService.getAnimeCharacters(
-                page = page,
-                limit = limit,
-                url = url,
-            )) {
-                is Resource.Success -> {
-                    val data = animeCharactersResult.data.map { it.toLight() }
-                    StateListWrapper(data)
-                }
-
-                is Resource.Error -> {
-                    StateListWrapper(error = animeCharactersResult.error)
-                }
-
                 is Resource.Loading -> {
                     StateListWrapper.loading()
                 }
