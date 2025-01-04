@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import club.anifox.android.data.local.cache.dao.anime.catalog.AnimeCacheCatalogDao
+import club.anifox.android.data.local.cache.dao.anime.characters.AnimeCacheCharactersDao
 import club.anifox.android.data.local.cache.dao.anime.episodes.AnimeCacheEpisodesDao
 import club.anifox.android.data.local.cache.dao.anime.genres.AnimeCacheGenresDao
 import club.anifox.android.data.local.cache.dao.anime.schedule.AnimeCacheScheduleDao
@@ -66,6 +67,7 @@ internal class AnimeRepositoryImpl @Inject constructor(
     private val animeCacheGenresDao: AnimeCacheGenresDao,
     private val animeCacheEpisodesDao: AnimeCacheEpisodesDao,
     private val animeCacheScheduleDao: AnimeCacheScheduleDao,
+    private val animeCacheCharactersDao: AnimeCacheCharactersDao,
 ) : AnimeRepository {
 
     override fun getAnime(

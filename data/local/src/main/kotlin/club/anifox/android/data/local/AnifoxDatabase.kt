@@ -4,11 +4,13 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import club.anifox.android.data.local.cache.dao.anime.catalog.AnimeCacheCatalogDao
+import club.anifox.android.data.local.cache.dao.anime.characters.AnimeCacheCharactersDao
 import club.anifox.android.data.local.cache.dao.anime.episodes.AnimeCacheEpisodesDao
 import club.anifox.android.data.local.cache.dao.anime.genres.AnimeCacheGenresDao
 import club.anifox.android.data.local.cache.dao.anime.schedule.AnimeCacheScheduleDao
 import club.anifox.android.data.local.cache.dao.anime.search.AnimeCacheSearchDao
 import club.anifox.android.data.local.cache.model.anime.catalog.AnimeCacheCatalogEntity
+import club.anifox.android.data.local.cache.model.anime.characters.AnimeCacheCharactersEntity
 import club.anifox.android.data.local.cache.model.anime.episodes.AnimeCacheEpisodesEntity
 import club.anifox.android.data.local.cache.model.anime.genres.AnimeCacheGenresEntity
 import club.anifox.android.data.local.cache.model.anime.schedule.AnimeCacheScheduleEntity
@@ -33,9 +35,10 @@ import club.anifox.android.data.local.model.anime.search.AnimeSearchHistoryEntit
         AnimeCacheCatalogEntity::class,
         AnimeCacheEpisodesEntity::class,
         AnimeCacheScheduleEntity::class,
+        AnimeCacheCharactersEntity::class,
         AnimeCacheEpisodesTranslationsEntity::class,
                ],
-    version = 15,
+    version = 16,
     exportSchema = true,
 )
 @TypeConverters(LocalDateConverter::class, LocalDateTimeConverter::class)
@@ -48,4 +51,5 @@ internal abstract class AnifoxDatabase: RoomDatabase() {
     abstract fun animeCacheCatalogDao(): AnimeCacheCatalogDao
     abstract fun animeCacheEpisodesDao(): AnimeCacheEpisodesDao
     abstract fun animeCacheScheduleDao(): AnimeCacheScheduleDao
+    abstract fun animeCacheCharactersDao(): AnimeCacheCharactersDao
 }

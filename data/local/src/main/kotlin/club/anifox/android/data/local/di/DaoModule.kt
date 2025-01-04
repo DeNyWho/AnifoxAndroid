@@ -2,6 +2,7 @@ package club.anifox.android.data.local.di
 
 import club.anifox.android.data.local.AnifoxDatabase
 import club.anifox.android.data.local.cache.dao.anime.catalog.AnimeCacheCatalogDao
+import club.anifox.android.data.local.cache.dao.anime.characters.AnimeCacheCharactersDao
 import club.anifox.android.data.local.cache.dao.anime.episodes.AnimeCacheEpisodesDao
 import club.anifox.android.data.local.cache.dao.anime.genres.AnimeCacheGenresDao
 import club.anifox.android.data.local.cache.dao.anime.schedule.AnimeCacheScheduleDao
@@ -56,4 +57,9 @@ internal object DaoModule {
     fun provideAnimeCacheEpisodesDao(
         database: AnifoxDatabase,
     ): AnimeCacheEpisodesDao = database.animeCacheEpisodesDao()
+
+    @Provides
+    fun provideAnimeCacheCharactersDao(
+        database: AnifoxDatabase,
+    ): AnimeCacheCharactersDao = database.animeCacheCharactersDao()
 }

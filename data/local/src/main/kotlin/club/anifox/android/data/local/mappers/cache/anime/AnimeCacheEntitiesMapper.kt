@@ -2,11 +2,13 @@ package club.anifox.android.data.local.mappers.cache.anime
 
 import club.anifox.android.data.local.cache.dao.anime.episodes.AnimeCacheEpisodeWithTranslations
 import club.anifox.android.data.local.cache.model.anime.catalog.AnimeCacheCatalogEntity
+import club.anifox.android.data.local.cache.model.anime.characters.AnimeCacheCharactersEntity
 import club.anifox.android.data.local.cache.model.anime.genres.AnimeCacheGenresEntity
 import club.anifox.android.data.local.cache.model.anime.schedule.AnimeCacheScheduleEntity
 import club.anifox.android.data.local.cache.model.anime.search.AnimeCacheSearchEntity
 import club.anifox.android.data.local.cache.model.anime.translation.AnimeCacheEpisodesTranslationsEntity
 import club.anifox.android.domain.model.anime.AnimeLight
+import club.anifox.android.domain.model.anime.characters.AnimeCharactersLight
 import club.anifox.android.domain.model.anime.episodes.AnimeEpisodesLight
 import club.anifox.android.domain.model.anime.translations.AnimeEpisodeTranslation
 
@@ -64,7 +66,6 @@ fun AnimeCacheGenresEntity.toLight(): AnimeLight = AnimeLight(
     description = description,
     episodes = episodes,
     episodesAired = episodesAired,
-
 )
 
 fun AnimeCacheEpisodeWithTranslations.toLight(): AnimeEpisodesLight = AnimeEpisodesLight(
@@ -81,4 +82,11 @@ fun AnimeCacheEpisodesTranslationsEntity.toTranslation(): AnimeEpisodeTranslatio
     id = translationId,
     link = link,
     title = translationTitle,
+)
+
+fun AnimeCacheCharactersEntity.toLight(): AnimeCharactersLight = AnimeCharactersLight(
+    id = id,
+    role = role,
+    image = image,
+    name = name,
 )
