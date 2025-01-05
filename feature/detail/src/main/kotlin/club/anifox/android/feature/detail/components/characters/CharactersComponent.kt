@@ -34,6 +34,7 @@ internal fun CharactersComponent(
     contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
     contentArrangement: Arrangement.Horizontal = CardCharactersItemDefaults.HorizontalArrangement.Default,
     onItemClick: (String) -> Unit,
+    onMoreClick: () -> Unit,
 ) {
     // header
     if(contentState.isLoading) {
@@ -45,6 +46,8 @@ internal fun CharactersComponent(
         SliderHeader(
             modifier = headerModifier,
             title = headerTitle,
+            isMoreVisible = true,
+            onMoreClick = onMoreClick,
         )
     }
 

@@ -19,6 +19,7 @@ fun NavController.navigateToCharacters(url: String, title: String, navOptions: N
 }
 
 fun NavGraphBuilder.charactersScreen(
+    onCharacterClick: (String) -> Unit,
     onBackPressed: () -> Boolean,
 ) {
     composable(
@@ -34,6 +35,7 @@ fun NavGraphBuilder.charactersScreen(
         CharactersScreen(
             url = url ?: throw IllegalArgumentException("CharactersScreen requires a non-null URL"),
             animeTitle = animeTitle ?: throw IllegalArgumentException("CharactersScreen requires a non-null title"),
+            onCharacterClick = onCharacterClick,
             onBackPressed = onBackPressed,
         )
     }

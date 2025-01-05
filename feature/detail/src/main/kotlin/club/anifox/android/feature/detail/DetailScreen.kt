@@ -71,6 +71,7 @@ internal fun DetailScreen(
     onMoreVideoClick: (String, String) -> Unit,
     onCatalogClick: (CatalogFilterParams) -> Unit,
     onCharacterClick: (String) -> Unit,
+    onMoreCharactersClick: (String, String) -> Unit,
 ) {
     LaunchedEffect(viewModel, url) {
         viewModel.loadData(url)
@@ -88,16 +89,19 @@ internal fun DetailScreen(
         onWatchClick = onWatchClick,
         onAnimeClick = onAnimeClick,
         onMoreScreenshotClick = { title ->
-            onMoreScreenshotClick(url, title)
+            onMoreScreenshotClick.invoke(url, title)
         },
         onMoreVideoClick = { title ->
-            onMoreVideoClick(url, title)
+            onMoreVideoClick.invoke(url, title)
         },
         onCatalogClick = onCatalogClick,
         onVideoClick = { youtubeUrl ->
             viewModel.openYoutube(youtubeUrl)
         },
         onCharacterClick = onCharacterClick,
+        onMoreCharactersClick = { title ->
+            onMoreCharactersClick.invoke(url, title)
+        },
     )
 }
 
@@ -119,6 +123,7 @@ internal fun DetailUI(
     onCatalogClick: (CatalogFilterParams) -> Unit,
     onVideoClick: (String) -> Unit,
     onCharacterClick: (String) -> Unit,
+    onMoreCharactersClick: (String) -> Unit,
 ) {
     if(detailAnimeState.isLoading) {
         CircularProgress()
@@ -153,6 +158,7 @@ internal fun DetailUI(
                     onCatalogClick = onCatalogClick,
                     onVideoClick = onVideoClick,
                     onCharacterClick = onCharacterClick,
+                    onMoreCharactersClick = onMoreCharactersClick,
                 )
             }
         )
@@ -175,6 +181,7 @@ internal fun DetailContentUI(
     onCatalogClick: (CatalogFilterParams) -> Unit,
     onVideoClick: (String) -> Unit,
     onCharacterClick: (String) -> Unit,
+    onMoreCharactersClick: (String) -> Unit,
     lazyColumnState: LazyListState = rememberLazyListState(),
 ) {
     var isDescriptionExpanded by remember { mutableStateOf(false) }
@@ -254,7 +261,7 @@ internal fun DetailContentUI(
                 headerTitle = stringResource(R.string.feature_detail_section_screenshots_header_title),
                 onMoreClick = {
                     detailAnimeState.data?.title?.let { title ->
-                        onMoreScreenshotClick(title)
+                        onMoreScreenshotClick.invoke(title)
                     }
                 },
             )
@@ -267,7 +274,7 @@ internal fun DetailContentUI(
                 onItemClick = onVideoClick,
                 onMoreClick = {
                     detailAnimeState.data?.title?.let { title ->
-                        onMoreVideoClick(title)
+                        onMoreVideoClick.invoke(title)
                     }
                 },
             )
@@ -278,6 +285,11 @@ internal fun DetailContentUI(
                 headerTitle = stringResource(R.string.feature_detail_section_header_title_characters),
                 contentState = charactersAnimeState,
                 onItemClick = onCharacterClick,
+                onMoreClick = {
+                    detailAnimeState.data?.title?.let { title ->
+                        onMoreCharactersClick.invoke(title)
+                    }
+                },
             )
         }
         item {
@@ -324,6 +336,7 @@ private fun PreviewDetailScreenUI(
             onCatalogClick = { },
             onVideoClick = { },
             onCharacterClick = { },
+            onMoreCharactersClick = { },
         )
     }
 }

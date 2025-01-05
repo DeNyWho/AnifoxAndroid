@@ -8,6 +8,7 @@ import club.anifox.android.feature.catalog.navigation.navigateToCatalog
 import club.anifox.android.feature.character.navigation.characterScreen
 import club.anifox.android.feature.character.navigation.navigateToCharacter
 import club.anifox.android.feature.characters.navigation.charactersScreen
+import club.anifox.android.feature.characters.navigation.navigateToCharacters
 import club.anifox.android.feature.detail.navigation.detailScreen
 import club.anifox.android.feature.detail.navigation.navigateToDetail
 import club.anifox.android.feature.episodes.navigation.episodesScreen
@@ -65,6 +66,7 @@ fun AnifoxNavHost(
             onMoreVideoClick = navController::navigateToVideo,
             onCatalogClick = navController::navigateToCatalog,
             onCharacterClick = navController::navigateToCharacter,
+            onMoreCharactersClick = navController::navigateToCharacters,
         )
         characterScreen(
             onBackPressed = navController::popBackStack,
@@ -72,6 +74,7 @@ fun AnifoxNavHost(
         )
         charactersScreen(
             onBackPressed = navController::popBackStack,
+            onCharacterClick = navController::navigateToCharacter,
         )
         translationsScreen(
             onBackPressed = navController::popBackStack,

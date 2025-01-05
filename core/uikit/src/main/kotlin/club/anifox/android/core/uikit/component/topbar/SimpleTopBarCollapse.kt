@@ -52,7 +52,7 @@ fun SimpleTopBarCollapse(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(start = 16.dp, top = 16.dp, bottom = 16.dp, end = 0.dp)
                 .statusBarsPadding(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -106,7 +106,9 @@ fun SimpleTopBarCollapse(
                 )
             }
 
-            Spacer(Modifier.size(24.dp))
+            if(titleAlign == TextAlign.Center) {
+                Spacer(Modifier.size(24.dp))
+            }
         }
     }
 }
