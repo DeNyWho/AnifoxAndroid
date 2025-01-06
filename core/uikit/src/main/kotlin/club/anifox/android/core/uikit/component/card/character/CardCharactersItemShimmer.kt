@@ -1,4 +1,4 @@
-package club.anifox.android.feature.detail.components.characters.item
+package club.anifox.android.core.uikit.component.card.character
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -26,7 +26,7 @@ import com.valentinilk.shimmer.rememberShimmer
 import com.valentinilk.shimmer.shimmer
 
 @Composable
-internal fun CardCharactersItemShimmer(
+fun CardCharactersItemShimmer(
     modifier: Modifier = Modifier,
     shimmerInstance: Shimmer,
     thumbnailHeight: Dp = CardCharactersItemDefaults.Height.Default,
@@ -69,7 +69,7 @@ internal fun CardCharactersItemShimmer(
     }
 }
 
-internal fun LazyListScope.showCardCharactersItemShimmer(
+fun LazyListScope.showCardCharactersItemShimmer(
     modifier: Modifier,
     shimmerInstance: Shimmer,
     count: Int = 12,

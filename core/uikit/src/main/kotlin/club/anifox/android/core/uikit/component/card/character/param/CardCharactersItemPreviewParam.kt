@@ -1,11 +1,11 @@
-package club.anifox.android.feature.detail.components.characters.item.param
+package club.anifox.android.core.uikit.component.card.character.param
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
+import club.anifox.android.core.uikit.component.card.character.CardCharactersItemDefaults
 import club.anifox.android.core.uikit.param.GlobalParams
 import club.anifox.android.domain.model.anime.characters.AnimeCharactersLight
-import club.anifox.android.feature.detail.components.characters.item.CardCharactersItemDefaults
 
 internal data class CardCharactersItemPreviewParam(
     val modifier: Modifier,

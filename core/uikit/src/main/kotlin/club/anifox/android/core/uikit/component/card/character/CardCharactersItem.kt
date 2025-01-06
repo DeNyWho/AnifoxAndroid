@@ -1,4 +1,4 @@
-package club.anifox.android.feature.detail.components.characters.item
+package club.anifox.android.core.uikit.component.card.character
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -23,19 +23,19 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import club.anifox.android.core.uikit.component.card.character.param.CardCharactersItemPreviewParam
+import club.anifox.android.core.uikit.component.card.character.param.CardCharactersItemProvider
 import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.core.uikit.util.limitTo
 import club.anifox.android.domain.model.anime.characters.AnimeCharactersLight
-import club.anifox.android.feature.detail.components.characters.item.param.CardCharactersItemPreviewParam
-import club.anifox.android.feature.detail.components.characters.item.param.CardCharactersItemProvider
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Size
 
 @Composable
-internal fun CardCharactersItem(
-    modifier: Modifier,
+fun CardCharactersItem(
+    modifier: Modifier = Modifier,
     data: AnimeCharactersLight,
     thumbnailHeight: Dp = CardCharactersItemDefaults.Height.Default,
     thumbnailWidth: Dp = CardCharactersItemDefaults.Width.Default,

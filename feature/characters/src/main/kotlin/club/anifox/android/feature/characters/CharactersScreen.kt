@@ -1,19 +1,37 @@
 package club.anifox.android.feature.characters
 
-import androidx.compose.foundation.layout.Column
+import android.content.res.Configuration
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.LoadState
 import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
+import club.anifox.android.core.uikit.component.card.character.CardCharactersItem
+import club.anifox.android.core.uikit.component.card.character.CardCharactersItemDefaults
+import club.anifox.android.core.uikit.component.error.NoSearchResultsError
+import club.anifox.android.core.uikit.component.grid.GridComponentDefaults
+import club.anifox.android.core.uikit.component.progress.CircularProgress
 import club.anifox.android.core.uikit.component.topbar.SimpleTopBarCollapse
+import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.core.uikit.util.toolbarShadow
 import club.anifox.android.domain.model.anime.characters.AnimeCharactersLight
 import club.anifox.android.feature.characters.model.state.CharactersUiState
@@ -81,10 +99,9 @@ private fun CharactersUI(
         body = {
             CharactersContentUI(
                 uiState = uiState,
-                onCharacterClick = onCharacterClick,
-                onBackPressed = onBackPressed,
                 charactersResults = charactersResults,
                 updateFilter = updateFilter,
+                onCharacterClick = onCharacterClick,
             )
         }
     )
@@ -94,15 +111,62 @@ private fun CharactersUI(
 private fun CharactersContentUI(
     modifier: Modifier = Modifier,
     uiState: CharactersUiState,
-    onCharacterClick: (String) -> Unit,
-    onBackPressed: () -> Boolean,
     charactersResults: Flow<PagingData<AnimeCharactersLight>>,
     updateFilter: (String?) -> Unit,
+    onCharacterClick: (String) -> Unit,
 ) {
-    Column(
-        modifier = modifier
-            .padding(start = 16.dp, end = 16.dp),
-    ) {
+    val lazyGridState = rememberLazyGridState()
+    val items = charactersResults.collectAsLazyPagingItems()
 
+    val screenInfo = LocalScreenInfo.current
+    val configuration = LocalConfiguration.current
+    val isPortrait = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+
+    val currentWidth = if (isPortrait) {
+        screenInfo.portraitWidthDp
+    } else {
+        screenInfo.landscapeWidthDp
+    }
+
+    val minColumnSize = (if (isPortrait) {
+        currentWidth.dp / 4
+    } else {
+        currentWidth.dp / 8
+    }).coerceAtLeast(CardCharactersItemDefaults.Width.Default.times(1.1f))
+
+    if (items.loadState.refresh is LoadState.Loading) {
+        CircularProgress()
+    } else {
+        LazyVerticalGrid(
+            modifier = GridComponentDefaults.Default.fillMaxSize(),
+            columns = GridCells.Adaptive(minSize = minColumnSize),
+            state = lazyGridState,
+            horizontalArrangement = CardCharactersItemDefaults.HorizontalArrangement.Grid,
+            verticalArrangement = CardCharactersItemDefaults.VerticalArrangement.Grid,
+        ) {
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Spacer(modifier = Modifier.height(CardCharactersItemDefaults.GridItemSpan.Default))
+            }
+
+            items(
+                count = items.itemCount,
+                key = items.itemKey { it.id }
+            ) { index ->
+                val character = items[index]
+                if (character != null) {
+                    Box(
+                        modifier = Modifier.width(minColumnSize),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        CardCharactersItem(
+                            data = character,
+                            thumbnailHeight = CardCharactersItemDefaults.Height.Default,
+                            thumbnailWidth = CardCharactersItemDefaults.Width.Default,
+                            onClick = { onCharacterClick.invoke(character.id) }
+                        )
+                    }
+                }
+            }
+        }
     }
 }

@@ -93,7 +93,7 @@ object GlobalParams {
     val DataSetCharactersLight = List(10) {
         AnimeCharactersLight(
             id = UUID.randomUUID().toString(),
-            role = "Главная",
+            role = "Второстепенная",
             name = "Фрирен",
             image = "https://cdn.anifox.club/images/anime/large/provozhaiushchaia-v-poslednii-put-friren/08f43e5054966f85ed4bcdbe7dc77b7b.png",
         )
