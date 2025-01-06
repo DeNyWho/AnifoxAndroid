@@ -1,10 +1,13 @@
 package club.anifox.android.core.uikit.component.dialog.gallery
 
+import android.content.res.Configuration
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.gestures.detectTransformGestures
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheetDefaults.properties
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -24,9 +27,9 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
@@ -34,6 +37,7 @@ import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SwipeableImageDialog(
     images: List<String>,
@@ -45,6 +49,10 @@ fun SwipeableImageDialog(
     var offsetX by remember { mutableFloatStateOf(0f) }
     var zoomScale by remember { mutableFloatStateOf(1f) }
     var imageSize by remember { mutableStateOf(IntSize.Zero) }
+
+    // Get the current configuration to handle orientation
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
     val scope = rememberCoroutineScope()
 
@@ -71,55 +79,59 @@ fun SwipeableImageDialog(
         properties = DialogProperties(
             usePlatformDefaultWidth = false,
             decorFitsSystemWindows = false,
+            securePolicy = properties.securePolicy,
             dismissOnBackPress = true,
             dismissOnClickOutside = true,
         ),
     ) {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            shape = RoundedCornerShape(0.dp),
-            color = Color.Black.copy(alpha = backgroundAlpha),
+            color = Color.Black,
         ) {
-            AsyncImage(
-                model = images[currentIndex],
-                contentDescription = "Full screen image",
-                modifier = Modifier
-                    .fillMaxSize()
-                    .onSizeChanged { imageSize = it }
-                    // The offset will only be applied by Y if the image is zoomed in
-                    .offset { IntOffset(if (zoomScale > 1f) offsetX.roundToInt() else 0, offsetY.roundToInt()) }
-                    .graphicsLayer(
-                        scaleX = zoomScale,
-                        scaleY = zoomScale,
-                    )
-                    .pointerInput(Unit) {
-                        detectTransformGestures { _, pan, zoom, _ ->
-                            // use panning only when zoom in
-                            if (zoomScale > 1f || zoom > 1f) {
-                                zoomScale = (zoomScale * zoom).coerceIn(1f, 5f)
-                                if (zoomScale > 1f) {
-                                    val offset = constrainOffset(Offset(offsetX + pan.x, offsetY + pan.y))
-                                    offsetX = offset.x
-                                    offsetY = offset.y
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                AsyncImage(
+                    model = images[currentIndex],
+                    contentDescription = "Full screen image",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .onSizeChanged { imageSize = it }
+                        .offset {
+                            IntOffset(
+                                if (zoomScale > 1f) offsetX.roundToInt().toFloat().toInt() else 0,
+                                offsetY.roundToInt().toFloat().toInt()
+                            )
+                        }
+                        .graphicsLayer(
+                            scaleX = zoomScale,
+                            scaleY = zoomScale,
+                        )
+                        .pointerInput(Unit) {
+                            detectTransformGestures { _, pan, zoom, _ ->
+                                if (zoomScale > 1f || zoom > 1f) {
+                                    zoomScale = (zoomScale * zoom).coerceIn(1f, 5f)
+                                    if (zoomScale > 1f) {
+                                        val offset = constrainOffset(Offset(offsetX + pan.x, offsetY + pan.y))
+                                        offsetX = offset.x.roundToInt().toFloat()
+                                        offsetY = offset.y.roundToInt().toFloat()
+                                    } else {
+                                        offsetX = 0f
+                                        offsetY = 0f
+                                    }
                                 } else {
-                                    // Reset the offset if the zoom is <= 1
-                                    offsetX = 0f
-                                    offsetY = 0f
-                                }
-                            } else {
-                                // Swipe horizontally to change the image, and vertically to close
-                                offsetX += pan.x
-
-                                // The Y offset is taken into account only for vertical swipes
-                                if (pan.x.absoluteValue < pan.y.absoluteValue) {
-                                    offsetY += pan.y
+                                    offsetX += pan.x
+                                    if (pan.x.absoluteValue < pan.y.absoluteValue) {
+                                        offsetY += pan.y
+                                    }
                                 }
                             }
-                        }
-                    },
-                contentScale = ContentScale.FillWidth,
-                alignment = Alignment.Center,
-            )
+                        },
+                    contentScale = if (isLandscape) ContentScale.FillHeight else ContentScale.FillWidth,
+                    alignment = Alignment.Center,
+                )
+            }
         }
     }
 
@@ -127,9 +139,7 @@ fun SwipeableImageDialog(
         if (zoomScale <= 1f) {
             if (offsetY.absoluteValue > swipeThresholdY) {
                 onDismiss()
-            }
-
-            else if (offsetX.absoluteValue > swipeThresholdX) {
+            } else if (offsetX.absoluteValue > swipeThresholdX) {
                 val nextIndex = if (offsetX > 0) {
                     (currentIndex - 1 + images.size) % images.size
                 } else {
@@ -140,6 +150,13 @@ fun SwipeableImageDialog(
                 offsetY = 0f
             }
         }
+    }
+
+    // Reset values when orientation changes
+    LaunchedEffect(configuration.orientation) {
+        zoomScale = 1f
+        offsetX = 0f
+        offsetY = 0f
     }
 
     DisposableEffect(Unit) {
