@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="feature_character_top_bar_title">Персонаж</string>
+    <string name="feature_character_top_bar_title">Персонаж </string>
     <string name="feature_character_about_header_title">Описание</string>
     <string name="feature_character_anime_header_title">Аниме</string>
     <string name="feature_character_pictures_header_title">Картинки</string>

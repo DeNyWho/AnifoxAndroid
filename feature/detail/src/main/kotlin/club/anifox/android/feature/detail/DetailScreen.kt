@@ -21,6 +21,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
@@ -34,6 +35,7 @@ import club.anifox.android.core.uikit.component.slider.screenshots.SliderScreens
 import club.anifox.android.core.uikit.component.slider.simple.SliderComponent
 import club.anifox.android.core.uikit.component.slider.video.SliderVideoComponent
 import club.anifox.android.core.uikit.util.DefaultPreview
+import club.anifox.android.core.uikit.util.toolbarShadow
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.characters.AnimeCharactersLight

@@ -1,7 +1,10 @@
 package club.anifox.android.feature.screenshots.composable.grid.content
 
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
@@ -45,6 +48,10 @@ internal fun ScreenshotsGridContent(
         horizontalArrangement = CardScreenshotLandscapeDefaults.HorizontalArrangement.Grid,
         verticalArrangement = CardScreenshotLandscapeDefaults.VerticalArrangement.Grid,
     ) {
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+
         if(contentState.isLoading) {
             showCardScreenshotGridItemShimmer(shimmerInstance = shimmer)
         } else if(contentState.data.isNotEmpty()) {

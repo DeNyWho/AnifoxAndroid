@@ -34,7 +34,7 @@ internal class DetailViewModel @Inject constructor(
     private val deepLink: DeepLink,
 ) : ViewModel() {
     private val _detailAnime: MutableState<StateWrapper<AnimeDetail>> =
-        mutableStateOf(StateWrapper())
+        mutableStateOf(StateWrapper.loading())
     val detailAnime: MutableState<StateWrapper<AnimeDetail>> = _detailAnime
 
     private val _similarAnime: MutableState<StateListWrapper<AnimeLight>> =

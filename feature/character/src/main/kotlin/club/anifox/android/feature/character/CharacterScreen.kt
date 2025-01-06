@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -75,8 +74,7 @@ private fun CharacterUI(
                     scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
                     toolbar = {
                         SimpleTopBarCollapse(
-                            title = stringResource(R.string.feature_character_top_bar_title),
-                            titleStyle = MaterialTheme.typography.titleLarge,
+                            title = "${stringResource(R.string.feature_character_top_bar_title)} ${character.name}",
                             toolbarScaffoldState = toolbarScaffoldState,
                             onBackPressed = onBackPressed,
                         )

@@ -3,11 +3,14 @@ package club.anifox.android.feature.video
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
@@ -15,8 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
 import club.anifox.android.core.uikit.component.slider.video.SliderVideoComponent
-import club.anifox.android.core.uikit.component.topbar.SimpleTopBar
+import club.anifox.android.core.uikit.component.topbar.SimpleTopBarCollapse
 import club.anifox.android.core.uikit.util.DefaultPreview
+import club.anifox.android.core.uikit.util.toolbarShadow
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.video.param.VideosContentPreviewParam
@@ -70,21 +74,28 @@ private fun VideoUI(
         state = toolbarScaffoldState,
         scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
         toolbar = {
-            SimpleTopBar(
-                onBackPressed = onBackPressed,
+            SimpleTopBarCollapse(
                 title = if(animeTitle == null) "" else "${stringResource(R.string.feature_video_top_bar_title)} $animeTitle",
+                toolbarScaffoldState = toolbarScaffoldState,
+                onBackPressed = onBackPressed,
             )
         },
-    ) {
-        VideoContent(
-            modifier = Modifier,
-            trailerVideoState = trailerVideoState,
-            openingVideoState = openingVideoState,
-            endingVideoState = endingVideoState,
-            otherVideoState = otherVideoState,
-            onVideoClick = onVideoClick,
-        )
-    }
+        toolbarModifier = Modifier.toolbarShadow(
+            shadowElevation = 4.dp,
+            tonalElevation = 4.dp,
+            shape = RectangleShape,
+        ),
+        body = {
+            VideoContent(
+                modifier = Modifier,
+                trailerVideoState = trailerVideoState,
+                openingVideoState = openingVideoState,
+                endingVideoState = endingVideoState,
+                otherVideoState = otherVideoState,
+                onVideoClick = onVideoClick,
+            )
+        },
+    )
 }
 
 @Composable
@@ -101,6 +112,8 @@ internal fun VideoContent(
             .padding(start = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
+        Spacer(modifier = Modifier.height(8.dp))
+
         SliderVideoComponent(
             headerModifier = SliderComponentDefaults.VerticalOnly,
             contentState = trailerVideoState,
@@ -110,6 +123,7 @@ internal fun VideoContent(
             showCardMoreWhenPastLimit = false,
             isTypeVisible = false,
         )
+
         SliderVideoComponent(
             headerModifier = SliderComponentDefaults.VerticalOnly,
             contentState = openingVideoState,
@@ -119,6 +133,7 @@ internal fun VideoContent(
             showCardMoreWhenPastLimit = false,
             isTypeVisible = false,
         )
+
         SliderVideoComponent(
             headerModifier = SliderComponentDefaults.VerticalOnly,
             contentState = endingVideoState,
@@ -128,6 +143,7 @@ internal fun VideoContent(
             showCardMoreWhenPastLimit = false,
             isTypeVisible = false,
         )
+
         SliderVideoComponent(
             headerModifier = SliderComponentDefaults.VerticalOnly,
             contentState = otherVideoState,

@@ -3,17 +3,20 @@ package club.anifox.android.feature.screenshots
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import club.anifox.android.core.uikit.component.progress.CircularProgress
-import club.anifox.android.core.uikit.component.topbar.SimpleTopBar
+import club.anifox.android.core.uikit.component.topbar.SimpleTopBarCollapse
 import club.anifox.android.core.uikit.util.DefaultPreview
+import club.anifox.android.core.uikit.util.toolbarShadow
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.screenshots.composable.grid.content.ScreenshotsGridContent
 import club.anifox.android.feature.screenshots.param.ScreenshotsContentPreviewParam
@@ -57,16 +60,23 @@ private fun ScreenshotsUI(
             state = toolbarScaffoldState,
             scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
             toolbar = {
-                SimpleTopBar(
-                    onBackPressed = onBackPressed,
+                SimpleTopBarCollapse(
                     title = if(animeTitle == null) "" else "${stringResource(R.string.feature_screenshots_top_bar_title)} $animeTitle",
+                    toolbarScaffoldState = toolbarScaffoldState,
+                    onBackPressed = onBackPressed,
                 )
             },
-        ) {
-            ScreenshotsContent(
-                screenshotAnimeState = screenshotAnimeState,
-            )
-        }
+            toolbarModifier = Modifier.toolbarShadow(
+                shadowElevation = 4.dp,
+                tonalElevation = 4.dp,
+                shape = RectangleShape,
+            ),
+            body = {
+                ScreenshotsContent(
+                    screenshotAnimeState = screenshotAnimeState,
+                )
+            },
+        )
     }
 }
 
