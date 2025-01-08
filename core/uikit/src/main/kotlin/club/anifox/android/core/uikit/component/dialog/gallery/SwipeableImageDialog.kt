@@ -1,6 +1,11 @@
 package club.anifox.android.core.uikit.component.dialog.gallery
 
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.res.Configuration
+import android.view.Window
+import android.view.WindowManager
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Box
@@ -12,6 +17,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -28,10 +34,12 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.window.DialogWindowProvider
 import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
@@ -77,16 +85,34 @@ fun SwipeableImageDialog(
     Dialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties(
-            usePlatformDefaultWidth = false,
+            // The new measurement specification is not used here and cannot be set to false.
+            usePlatformDefaultWidth = true,
             decorFitsSystemWindows = false,
             securePolicy = properties.securePolicy,
             dismissOnBackPress = true,
             dismissOnClickOutside = true,
         ),
     ) {
+        val activityWindow = getActivityWindow()
+        val dialogWindow = getDialogWindow()
+
+        SideEffect {
+            if (activityWindow != null && dialogWindow != null) {
+                val attributes = WindowManager.LayoutParams()
+                attributes.copyFrom(activityWindow.attributes)
+                attributes.type = dialogWindow.attributes.type
+                dialogWindow.attributes = attributes
+
+                dialogWindow.setLayout(
+                    activityWindow.decorView.width,
+                    activityWindow.decorView.height
+                )
+            }
+        }
+
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = Color.Black,
+            color = Color.Black.copy(alpha = backgroundAlpha),
         ) {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -169,3 +195,16 @@ fun SwipeableImageDialog(
         }
     }
 }
+
+
+@Composable
+private fun getActivityWindow(): Window? = LocalView.current.context.getActivityWindow()
+
+private tailrec fun Context.getActivityWindow(): Window? = when (this) {
+    is Activity -> window
+    is ContextWrapper -> baseContext.getActivityWindow()
+    else -> null
+}
+
+@Composable
+private fun getDialogWindow(): Window? = (LocalView.current.parent as? DialogWindowProvider)?.window
