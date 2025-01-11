@@ -58,6 +58,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import java.time.LocalDate
 import javax.inject.Inject
 
 internal class AnimeRepositoryImpl @Inject constructor(
@@ -259,6 +260,7 @@ internal class AnimeRepositoryImpl @Inject constructor(
     @OptIn(ExperimentalPagingApi::class)
     override fun getAnimeScheduleForDayPaged(
         dayOfWeek: WeekDay,
+        date: LocalDate,
     ): Flow<PagingData<AnimeLight>> {
         return Pager(
             config = PagingConfig(
@@ -268,6 +270,7 @@ internal class AnimeRepositoryImpl @Inject constructor(
             ),
             remoteMediator = AnimeScheduleRemoteMediator(
                 dayOfWeek = dayOfWeek,
+                date = date,
                 animeService = animeService,
                 animeCacheScheduleDao = animeCacheScheduleDao
             ),

@@ -26,6 +26,7 @@ import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.parameter
 import io.ktor.http.HttpMethod
 import io.ktor.http.encodedPath
+import java.time.LocalDate
 import javax.inject.Inject
 
 class AnimeService @Inject constructor (private val client: HttpClient) {
@@ -225,6 +226,7 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
     suspend fun getAnimeSchedule(
         page: Int,
         limit: Int,
+        date: LocalDate,
     ): Resource<AnimeScheduleDTO> {
         val request = HttpRequestBuilder().apply {
             method = HttpMethod.Get
@@ -232,6 +234,7 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
                 encodedPath = "${ApiEndpoints.ANIME}/${ApiEndpoints.ANIME_SCHEDULE}"
                 parameter("page", page)
                 parameter("limit", limit)
+                parameter("date", date)
             }
         }
 

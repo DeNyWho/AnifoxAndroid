@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,7 +39,10 @@ internal class ScheduleViewModel @Inject constructor(
 
     fun getScheduleForDay(dayOfWeek: WeekDay): Flow<PagingData<AnimeLight>> {
         return scheduleCache.getOrPut(dayOfWeek) {
-            animeSchedulePagingUseCase(dayOfWeek = dayOfWeek)
+            animeSchedulePagingUseCase.invoke(
+                dayOfWeek = dayOfWeek,
+                date = LocalDate.now(),
+            )
         }
     }
 
@@ -46,7 +50,10 @@ internal class ScheduleViewModel @Inject constructor(
         viewModelScope.launch {
             if (!scheduleCache.containsKey(dayOfWeek)) {
                 updateLoadingState(dayOfWeek, true)
-                scheduleCache[dayOfWeek] = animeSchedulePagingUseCase(dayOfWeek = dayOfWeek).also {
+                scheduleCache[dayOfWeek] = animeSchedulePagingUseCase.invoke(
+                    dayOfWeek = dayOfWeek,
+                    date = LocalDate.now(),
+                ).also {
                     updateLoadingState(dayOfWeek, false)
                 }
             }

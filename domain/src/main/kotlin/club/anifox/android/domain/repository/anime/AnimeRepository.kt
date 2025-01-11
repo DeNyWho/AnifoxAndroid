@@ -21,6 +21,7 @@ import club.anifox.android.domain.model.common.enum.WeekDay
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.state.StateWrapper
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
 interface AnimeRepository {
     fun getAnime(
@@ -87,7 +88,10 @@ interface AnimeRepository {
         translationId: Int
     ): Flow<PagingData<AnimeEpisodesLight>>
 
-    fun getAnimeScheduleForDayPaged(dayOfWeek: WeekDay): Flow<PagingData<AnimeLight>>
+    fun getAnimeScheduleForDayPaged(
+        dayOfWeek: WeekDay,
+        date: LocalDate,
+    ): Flow<PagingData<AnimeLight>>
     fun getLastSearchesHistory(): Flow<List<String>>
     suspend fun addSearchHistory(query: String)
     suspend fun deleteSearchHistory()

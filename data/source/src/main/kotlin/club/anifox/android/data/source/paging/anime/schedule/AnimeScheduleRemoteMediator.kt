@@ -12,15 +12,19 @@ import club.anifox.android.domain.model.common.enum.WeekDay
 import club.anifox.android.domain.model.common.request.Resource
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 @OptIn(ExperimentalPagingApi::class)
 internal class AnimeScheduleRemoteMediator(
     private val animeService: AnimeService,
     private val animeCacheScheduleDao: AnimeCacheScheduleDao,
-    private var dayOfWeek: WeekDay
+    private var dayOfWeek: WeekDay,
+    private val date: LocalDate,
 ) : RemoteMediator<Int, AnimeCacheScheduleEntity>() {
 
     private var currentDay: WeekDay = dayOfWeek
+    private var currentDate: LocalDate = date
+
     private var lastUpdateTime: Long = 0
 
     companion object {
@@ -49,8 +53,9 @@ internal class AnimeScheduleRemoteMediator(
 
         // Check if the day has changed
         val dayChanged = currentDay != dayOfWeek
+        val dateChanged = currentDate != date
 
-        return cacheTimeout || cacheEmpty || dayChanged
+        return cacheTimeout || cacheEmpty || dayChanged || dateChanged
     }
 
     // Loads data from the network or cache based on the current load type
@@ -59,8 +64,13 @@ internal class AnimeScheduleRemoteMediator(
         state: PagingState<Int, AnimeCacheScheduleEntity>
     ): MediatorResult {
         try {
-            if (currentDay != dayOfWeek) {
-                currentDay = dayOfWeek
+            when {
+                currentDay != dayOfWeek -> {
+                    currentDay = dayOfWeek
+                }
+                currentDate != date -> {
+                    currentDate = date
+                }
             }
 
             // For APPEND and PREPEND, we always return success because we load everything at once
@@ -76,7 +86,8 @@ internal class AnimeScheduleRemoteMediator(
             // Perform a single request with a large limit
             val response = animeService.getAnimeSchedule(
                 page = 0,
-                limit = PAGE_SIZE
+                limit = PAGE_SIZE,
+                date = currentDate,
             )
 
             return when (response) {
