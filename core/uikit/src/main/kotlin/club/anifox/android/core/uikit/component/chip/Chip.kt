@@ -53,7 +53,7 @@ fun AnifoxChipPrimary(
     Surface(
         modifier = modifier,
         shape = MaterialTheme.shapes.large,
-        contentColor = MaterialTheme.colorScheme.surfaceVariant,
+        contentColor = MaterialTheme.colorScheme.onPrimary,
         color = MaterialTheme.colorScheme.primaryContainer,
     ) {
         Text(

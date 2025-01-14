@@ -1,7 +1,10 @@
 package club.anifox.android.feature.detail
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -9,7 +12,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons.AutoMirrored
 import androidx.compose.material.icons.Icons.Filled
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -20,22 +25,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import club.anifox.android.core.uikit.component.button.AnifoxButtonPrimary
+import club.anifox.android.core.uikit.component.button.AnifoxButtonSurface
 import club.anifox.android.core.uikit.component.icon.AnifoxIconOnPrimary
+import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
 import club.anifox.android.core.uikit.component.progress.CircularProgress
 import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
 import club.anifox.android.core.uikit.component.slider.screenshots.SliderScreenshotsComponent
 import club.anifox.android.core.uikit.component.slider.simple.SliderComponent
 import club.anifox.android.core.uikit.component.slider.video.SliderVideoComponent
 import club.anifox.android.core.uikit.util.DefaultPreview
-import club.anifox.android.core.uikit.util.toolbarShadow
+import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.characters.AnimeCharactersLight
@@ -48,15 +56,12 @@ import club.anifox.android.feature.detail.components.characters.CharactersCompon
 import club.anifox.android.feature.detail.components.description.DescriptionComponent
 import club.anifox.android.feature.detail.components.genres.GenresComponent
 import club.anifox.android.feature.detail.components.information.InformationComponent
+import club.anifox.android.feature.detail.components.poster.PosterComponent
 import club.anifox.android.feature.detail.components.related.RelationComponent
 import club.anifox.android.feature.detail.components.studios.StudiosComponent
 import club.anifox.android.feature.detail.components.title.TitleInformationComponent
-import club.anifox.android.feature.detail.components.top.ContentDetailsScreenToolbar
 import club.anifox.android.feature.detail.param.DetailContentPreviewParam
 import club.anifox.android.feature.detail.param.DetailContentProvider
-import me.onebone.toolbar.CollapsingToolbarScaffold
-import me.onebone.toolbar.ScrollStrategy
-import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 /*
     TODO: redo the information section, implement an adaptive option
@@ -130,40 +135,54 @@ internal fun DetailUI(
     if(detailAnimeState.isLoading) {
         CircularProgress()
     } else {
-        val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
-
-        CollapsingToolbarScaffold(
-            modifier = modifier
-                .fillMaxSize(),
-            state = toolbarScaffoldState,
-            scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
-            toolbar = {
-                ContentDetailsScreenToolbar(
-                    contentDetailState = detailAnimeState,
-                    toolbarScaffoldState = toolbarScaffoldState,
-                    onBackPressed = onBackPressed,
-                )
-            },
-            body = {
-                DetailContentUI(
-                    url = url,
-                    detailAnimeState = detailAnimeState,
-                    screenshotAnimeState = screenshotAnimeState,
-                    videosAnimeState = videosAnimeState,
-                    relationAnimeState = relationAnimeState,
-                    similarAnimeState = similarAnimeState,
-                    charactersAnimeState = charactersAnimeState,
-                    onWatchClick = onWatchClick,
-                    onAnimeClick = onAnimeClick,
-                    onMoreScreenshotClick = onMoreScreenshotClick,
-                    onMoreVideoClick = onMoreVideoClick,
-                    onCatalogClick = onCatalogClick,
-                    onVideoClick = onVideoClick,
-                    onCharacterClick = onCharacterClick,
-                    onMoreCharactersClick = onMoreCharactersClick,
-                )
+        Box {
+            Row (
+                modifier = Modifier
+                    .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+                    .align(Alignment.TopCenter)
+                    .zIndex(1f)
+                    .fillMaxWidth(),
+            ) {
+                AnifoxButtonSurface(
+                    modifier = Modifier.size(32.dp),
+                    paddingValues = PaddingValues(4.dp),
+                    shape = MaterialTheme.shapes.small,
+                    onClick = {
+                        onBackPressed.invoke()
+                    },
+                    elevation = ButtonDefaults.elevatedButtonElevation(),
+                ) {
+                    AnifoxIconPrimary(
+                        modifier = Modifier
+                            .clickableWithoutRipple {
+                                onBackPressed.invoke()
+                            }
+                            .size(28.dp),
+                        imageVector = AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "back",
+                    )
+                }
+                Spacer(modifier.weight(1f))
             }
-        )
+
+            DetailContentUI(
+                url = url,
+                detailAnimeState = detailAnimeState,
+                screenshotAnimeState = screenshotAnimeState,
+                videosAnimeState = videosAnimeState,
+                relationAnimeState = relationAnimeState,
+                similarAnimeState = similarAnimeState,
+                charactersAnimeState = charactersAnimeState,
+                onWatchClick = onWatchClick,
+                onAnimeClick = onAnimeClick,
+                onMoreScreenshotClick = onMoreScreenshotClick,
+                onMoreVideoClick = onMoreVideoClick,
+                onCatalogClick = onCatalogClick,
+                onVideoClick = onVideoClick,
+                onCharacterClick = onCharacterClick,
+                onMoreCharactersClick = onMoreCharactersClick,
+            )
+        }
     }
 }
 
@@ -195,9 +214,14 @@ internal fun DetailContentUI(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         item {
+            PosterComponent(
+                detailAnimeState = detailAnimeState,
+            )
+        }
+        item {
             TitleInformationComponent(
                 modifier = Modifier.padding(start = 16.dp, end =  16.dp, top = 4.dp),
-                detailAnimeState = detailAnimeState
+                detailAnimeState = detailAnimeState,
             )
         }
         item {

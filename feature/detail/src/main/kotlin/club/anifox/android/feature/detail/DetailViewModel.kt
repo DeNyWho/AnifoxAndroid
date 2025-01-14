@@ -38,23 +38,23 @@ internal class DetailViewModel @Inject constructor(
     val detailAnime: MutableState<StateWrapper<AnimeDetail>> = _detailAnime
 
     private val _similarAnime: MutableState<StateListWrapper<AnimeLight>> =
-        mutableStateOf(StateListWrapper())
+        mutableStateOf(StateListWrapper.loading())
     val similarAnime: MutableState<StateListWrapper<AnimeLight>> = _similarAnime
 
     private val _relatedAnime: MutableState<StateListWrapper<AnimeRelatedLight>> =
-        mutableStateOf(StateListWrapper())
+        mutableStateOf(StateListWrapper.loading())
     val relatedAnime: MutableState<StateListWrapper<AnimeRelatedLight>> = _relatedAnime
 
     private val _screenshotsAnime: MutableState<StateListWrapper<String>> =
-        mutableStateOf(StateListWrapper())
+        mutableStateOf(StateListWrapper.loading())
     val screenshotsAnime: MutableState<StateListWrapper<String>> = _screenshotsAnime
 
     private val _videosAnime: MutableState<StateListWrapper<AnimeVideosLight>> =
-        mutableStateOf(StateListWrapper())
+        mutableStateOf(StateListWrapper.loading())
     val videosAnime: MutableState<StateListWrapper<AnimeVideosLight>> = _videosAnime
 
     private val _charactersAnime: MutableState<StateListWrapper<AnimeCharactersLight>> =
-        mutableStateOf(StateListWrapper())
+        mutableStateOf(StateListWrapper.loading())
     val charactersAnime: MutableState<StateListWrapper<AnimeCharactersLight>> = _charactersAnime
 
     fun loadData(url: String) {

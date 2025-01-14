@@ -74,6 +74,7 @@ internal fun TitleDialog(
                         Text(
                             text = title,
                             style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.onSurface,
                         )
                     }
                 }
@@ -101,6 +102,7 @@ internal fun TitleDialog(
                             Text(
                                 text = engTitle,
                                 style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onSurface,
                             )
                         }
                     }
@@ -129,6 +131,7 @@ internal fun TitleDialog(
                             Text(
                                 text = japaneseTitle,
                                 style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onSurface,
                             )
                         }
                     }
@@ -157,6 +160,7 @@ internal fun TitleDialog(
                             Text(
                                 text = synonymsTitle,
                                 style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onSurface,
                             )
                         }
                     }
