@@ -10,15 +10,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons.AutoMirrored
-import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -33,9 +29,7 @@ import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
-import club.anifox.android.core.uikit.component.button.AnifoxButtonPrimary
 import club.anifox.android.core.uikit.component.button.AnifoxButtonSurface
-import club.anifox.android.core.uikit.component.icon.AnifoxIconOnPrimary
 import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
 import club.anifox.android.core.uikit.component.progress.CircularProgress
 import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
@@ -54,12 +48,14 @@ import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.state.StateWrapper
 import club.anifox.android.feature.detail.components.characters.CharactersComponent
 import club.anifox.android.feature.detail.components.description.DescriptionComponent
+import club.anifox.android.feature.detail.components.favourite.FavouriteComponent
 import club.anifox.android.feature.detail.components.genres.GenresComponent
 import club.anifox.android.feature.detail.components.information.InformationComponent
 import club.anifox.android.feature.detail.components.poster.PosterComponent
 import club.anifox.android.feature.detail.components.related.RelationComponent
 import club.anifox.android.feature.detail.components.studios.StudiosComponent
 import club.anifox.android.feature.detail.components.title.TitleInformationComponent
+import club.anifox.android.feature.detail.components.watch.WatchComponent
 import club.anifox.android.feature.detail.param.DetailContentPreviewParam
 import club.anifox.android.feature.detail.param.DetailContentProvider
 
@@ -203,9 +199,12 @@ internal fun DetailContentUI(
     onVideoClick: (String) -> Unit,
     onCharacterClick: (String) -> Unit,
     onMoreCharactersClick: (String) -> Unit,
-    lazyColumnState: LazyListState = rememberLazyListState(),
 ) {
     var isDescriptionExpanded by remember { mutableStateOf(false) }
+    val lazyColumnState = rememberLazyListState(
+        initialFirstVisibleItemIndex = 0,
+        initialFirstVisibleItemScrollOffset = 0
+    )
 
     LazyColumn(
         modifier = Modifier
@@ -213,65 +212,53 @@ internal fun DetailContentUI(
         state = lazyColumnState,
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        item {
+        item(key = "poster") {
             PosterComponent(
                 detailAnimeState = detailAnimeState,
             )
         }
-        item {
+        item(key = "title") {
             TitleInformationComponent(
                 modifier = Modifier.padding(start = 16.dp, end =  16.dp, top = 4.dp),
                 detailAnimeState = detailAnimeState,
             )
         }
-        item {
-            AnifoxButtonPrimary(
-                modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp)
-                    .fillMaxWidth(),
-                shape = MaterialTheme.shapes.small,
-                elevation = ButtonDefaults.buttonElevation(
-                    defaultElevation = 2.dp
-                ),
-                paddingValues = PaddingValues(0.dp),
-                onClick = {
+        item(key = "favourite") {
+            FavouriteComponent(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+            )
+        }
+        item(key = "watch") {
+            WatchComponent(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                detailAnimeState = detailAnimeState,
+                onWatchClick = {
                     onWatchClick.invoke(url)
                 },
-            ) {
-                AnifoxIconOnPrimary(
-                    imageVector = Filled.PlayArrow,
-                    contentDescription = stringResource(R.string.feature_detail_content_description_button_watch),
-                    modifier = Modifier.size(40.dp),
-                )
-                Text(
-                    modifier = Modifier.padding(start = 8.dp),
-                    text = stringResource(R.string.feature_detail_button_watch_title),
-                    style = MaterialTheme.typography.labelLarge,
-                )
-            }
+            )
         }
-        item {
+        item(key = "information") {
             InformationComponent(
-                modifier = Modifier.padding(start = 16.dp, end =  16.dp),
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                 detailAnimeState = detailAnimeState,
                 onCatalogClick = onCatalogClick,
             )
         }
-        item {
+        item(key = "genres") {
             GenresComponent(
-                modifier = Modifier.padding(start = 16.dp, end =  16.dp),
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                 detailAnimeState = detailAnimeState,
                 onCatalogClick = onCatalogClick,
             )
         }
-        item {
+        item(key = "studios") {
             StudiosComponent(
-                modifier = Modifier.padding(start = 16.dp, end =  16.dp),
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                 detailAnimeState = detailAnimeState,
                 onCatalogClick = onCatalogClick,
             )
         }
-        item {
+        item(key = "description") {
             DescriptionComponent(
                 headerModifier = SliderComponentDefaults.Default,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
@@ -280,7 +267,7 @@ internal fun DetailContentUI(
                 onExpandedChanged = { isDescriptionExpanded = it },
             )
         }
-        item {
+        item(key = "screenshots") {
             SliderScreenshotsComponent(
                 headerModifier = SliderComponentDefaults.Default,
                 screenshotsState = screenshotAnimeState,
@@ -292,7 +279,7 @@ internal fun DetailContentUI(
                 },
             )
         }
-        item {
+        item(key = "video") {
             SliderVideoComponent(
                 headerModifier = SliderComponentDefaults.Default,
                 contentState = videosAnimeState,
@@ -305,7 +292,7 @@ internal fun DetailContentUI(
                 },
             )
         }
-        item {
+        item(key = "characters") {
             CharactersComponent(
                 headerModifier = SliderComponentDefaults.Default,
                 headerTitle = stringResource(R.string.feature_detail_section_header_title_characters),
@@ -318,7 +305,7 @@ internal fun DetailContentUI(
                 },
             )
         }
-        item {
+        item(key = "relation") {
             RelationComponent(
                 modifier = Modifier.padding(start = 16.dp),
                 headerModifier = SliderComponentDefaults.Default,
@@ -328,7 +315,7 @@ internal fun DetailContentUI(
                 countContent = 3,
             )
         }
-        item {
+        item(key = "similar") {
             SliderComponent(
                 headerModifier = SliderComponentDefaults.Default,
                 headerTitle = stringResource(R.string.feature_detail_section_header_title_similar),
