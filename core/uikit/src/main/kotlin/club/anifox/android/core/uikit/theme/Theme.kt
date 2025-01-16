@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import org.jetbrains.annotations.VisibleForTesting
 
@@ -25,6 +26,7 @@ val DarkColorScheme = darkColorScheme(
     surfaceContainer = blue900,
     primaryContainer = orange800,
     onPrimaryContainer = grey50,
+    error = grey50,
 )
 
 /**
@@ -44,6 +46,7 @@ val LightColorScheme = lightColorScheme(
     surfaceContainer = grey50,
     primaryContainer = orange800,
     onPrimaryContainer = grey50,
+    error = Color.Red,
 )
 
 /**

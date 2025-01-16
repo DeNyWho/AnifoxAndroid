@@ -41,6 +41,7 @@ import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.characters.AnimeCharactersLight
+import club.anifox.android.domain.model.anime.enum.AnimeFavouriteStatus
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
@@ -88,6 +89,8 @@ internal fun DetailScreen(
         relationAnimeState = viewModel.relatedAnime.value,
         similarAnimeState = viewModel.similarAnime.value,
         charactersAnimeState = viewModel.charactersAnime.value,
+        selectedFavouriteState = viewModel.selectedFavouriteStatus.value,
+        isInFavouriteState = viewModel.isInFavourite.value,
         onBackPressed = onBackPressed,
         onWatchClick = onWatchClick,
         onAnimeClick = onAnimeClick,
@@ -105,6 +108,12 @@ internal fun DetailScreen(
         onMoreCharactersClick = { title ->
             onMoreCharactersClick.invoke(url, title)
         },
+        onUpdateFavouriteStatus = { status ->
+            viewModel.updateFavouriteStatus(status)
+        },
+        onUpdateIsInFavourite = {
+            viewModel.updateIsInFavourite()
+        },
     )
 }
 
@@ -118,6 +127,8 @@ internal fun DetailUI(
     relationAnimeState: StateListWrapper<AnimeRelatedLight>,
     similarAnimeState: StateListWrapper<AnimeLight>,
     charactersAnimeState: StateListWrapper<AnimeCharactersLight>,
+    selectedFavouriteState: AnimeFavouriteStatus?,
+    isInFavouriteState: Boolean,
     onBackPressed: () -> Boolean,
     onWatchClick: (String) -> Unit,
     onAnimeClick: (String) -> Unit,
@@ -127,6 +138,8 @@ internal fun DetailUI(
     onVideoClick: (String) -> Unit,
     onCharacterClick: (String) -> Unit,
     onMoreCharactersClick: (String) -> Unit,
+    onUpdateFavouriteStatus: (AnimeFavouriteStatus?) -> Unit,
+    onUpdateIsInFavourite: () -> Unit,
 ) {
     if(detailAnimeState.isLoading) {
         CircularProgress()
@@ -169,6 +182,8 @@ internal fun DetailUI(
                 relationAnimeState = relationAnimeState,
                 similarAnimeState = similarAnimeState,
                 charactersAnimeState = charactersAnimeState,
+                selectedFavouriteState = selectedFavouriteState,
+                isInFavouriteState = isInFavouriteState,
                 onWatchClick = onWatchClick,
                 onAnimeClick = onAnimeClick,
                 onMoreScreenshotClick = onMoreScreenshotClick,
@@ -177,6 +192,8 @@ internal fun DetailUI(
                 onVideoClick = onVideoClick,
                 onCharacterClick = onCharacterClick,
                 onMoreCharactersClick = onMoreCharactersClick,
+                onUpdateFavouriteStatus = onUpdateFavouriteStatus,
+                onUpdateIsInFavourite = onUpdateIsInFavourite,
             )
         }
     }
@@ -191,6 +208,8 @@ internal fun DetailContentUI(
     relationAnimeState: StateListWrapper<AnimeRelatedLight>,
     similarAnimeState: StateListWrapper<AnimeLight>,
     charactersAnimeState: StateListWrapper<AnimeCharactersLight>,
+    selectedFavouriteState: AnimeFavouriteStatus?,
+    isInFavouriteState: Boolean,
     onWatchClick: (String) -> Unit,
     onAnimeClick: (String) -> Unit,
     onMoreScreenshotClick: (String) -> Unit,
@@ -199,6 +218,8 @@ internal fun DetailContentUI(
     onVideoClick: (String) -> Unit,
     onCharacterClick: (String) -> Unit,
     onMoreCharactersClick: (String) -> Unit,
+    onUpdateFavouriteStatus: (AnimeFavouriteStatus?) -> Unit,
+    onUpdateIsInFavourite: () -> Unit,
 ) {
     var isDescriptionExpanded by remember { mutableStateOf(false) }
     val lazyColumnState = rememberLazyListState(
@@ -225,7 +246,11 @@ internal fun DetailContentUI(
         }
         item(key = "favourite") {
             FavouriteComponent(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                selectedFavouriteState = selectedFavouriteState,
+                isInFavouriteState = isInFavouriteState,
+                onUpdateFavouriteStatus = onUpdateFavouriteStatus,
+                onUpdateIsInFavourite = onUpdateIsInFavourite,
             )
         }
         item(key = "watch") {
@@ -341,6 +366,8 @@ private fun PreviewDetailScreenUI(
             relationAnimeState = param.relationAnime,
             similarAnimeState = param.similarAnime,
             charactersAnimeState = param.charactersAnime,
+            selectedFavouriteState = param.selectedFavouriteState,
+            isInFavouriteState = false,
             onBackPressed = { false },
             onWatchClick = { },
             onAnimeClick = { },
@@ -350,6 +377,8 @@ private fun PreviewDetailScreenUI(
             onVideoClick = { },
             onCharacterClick = { },
             onMoreCharactersClick = { },
+            onUpdateFavouriteStatus = { },
+            onUpdateIsInFavourite = { },
         )
     }
 }

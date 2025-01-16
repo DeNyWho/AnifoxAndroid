@@ -6,6 +6,7 @@ import club.anifox.android.core.uikit.param.GlobalParams
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.characters.AnimeCharactersLight
+import club.anifox.android.domain.model.anime.enum.AnimeFavouriteStatus
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.state.StateListWrapper
@@ -20,6 +21,7 @@ internal data class DetailContentPreviewParam(
     val relationAnime: StateListWrapper<AnimeRelatedLight>,
     val similarAnime: StateListWrapper<AnimeLight>,
     val charactersAnime: StateListWrapper<AnimeCharactersLight>,
+    val selectedFavouriteState: AnimeFavouriteStatus = AnimeFavouriteStatus.WATCHING,
     val onBackPressed: () -> Boolean = { true },
     val onAnimeClick: (String) -> Unit = { },
     val onMoreScreenshotClick: (String) -> Unit = { },

@@ -8,6 +8,7 @@ import club.anifox.android.core.common.util.deeplink.DeepLink
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.characters.AnimeCharactersLight
+import club.anifox.android.domain.model.anime.enum.AnimeFavouriteStatus
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.state.StateListWrapper
@@ -57,6 +58,12 @@ internal class DetailViewModel @Inject constructor(
         mutableStateOf(StateListWrapper.loading())
     val charactersAnime: MutableState<StateListWrapper<AnimeCharactersLight>> = _charactersAnime
 
+    private val _selectedFavouriteStatus = mutableStateOf<AnimeFavouriteStatus?>(null)
+    val selectedFavouriteStatus: MutableState<AnimeFavouriteStatus?> = _selectedFavouriteStatus
+
+    private val _isInFavourite: MutableState<Boolean> = mutableStateOf(false)
+    val isInFavourite: MutableState<Boolean> = _isInFavourite
+
     fun loadData(url: String) {
         getDetailAnime(url)
         getScreenshotAnime(url)
@@ -100,6 +107,14 @@ internal class DetailViewModel @Inject constructor(
         animeVideosUseCase.invoke(url = url, videoType = null, 5).onEach {
             _videosAnime.value = it
         }.launchIn(viewModelScope)
+    }
+
+    fun updateFavouriteStatus(status: AnimeFavouriteStatus?) {
+        _selectedFavouriteStatus.value = status
+    }
+
+    fun updateIsInFavourite() {
+        _isInFavourite.value = !_isInFavourite.value
     }
 
     fun openYoutube(youtubeUrl: String) {

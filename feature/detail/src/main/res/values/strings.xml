@@ -15,4 +15,8 @@
     <string name="feature_detail_section_header_title_description">Описание</string>
     <string name="feature_detail_section_screenshots_header_title">Кадры</string>
     <string name="feature_detail_section_video_header_title">Видео</string>
+    <string name="feature_detail_section_watch_next_episode_title">Следующий эпизод выйдет</string>
+    <string name="feature_detail_section_favourite_dialog_title">Выберите статус просмотра</string>
+    <string name="feature_detail_section_favourite_dialog_close">Отмена</string>
+    <string name="feature_detail_section_favourite_chip_title">Избранное</string>
 </resources>
