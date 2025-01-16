@@ -22,15 +22,18 @@ import club.anifox.android.data.local.converters.AnimeConverters
 import club.anifox.android.data.local.converters.LocalDateConverter
 import club.anifox.android.data.local.converters.LocalDateTimeConverter
 import club.anifox.android.data.local.dao.anime.AnimeDao
+import club.anifox.android.data.local.dao.anime.common.AnimeImageDao
 import club.anifox.android.data.local.dao.anime.favourite.AnimeFavouriteDao
 import club.anifox.android.data.local.dao.anime.search.AnimeSearchHistoryDao
 import club.anifox.android.data.local.model.anime.AnimeEntity
+import club.anifox.android.data.local.model.anime.common.AnimeImageEntity
 import club.anifox.android.data.local.model.anime.favourite.AnimeFavouriteEntity
 import club.anifox.android.data.local.model.anime.search.AnimeSearchHistoryEntity
 
 @Database(
     entities = [
         AnimeEntity::class,
+        AnimeImageEntity::class,
         AnimeFavouriteEntity::class,
         AnimeSearchHistoryEntity::class,
         AnimeCacheSearchEntity::class,
@@ -42,12 +45,13 @@ import club.anifox.android.data.local.model.anime.search.AnimeSearchHistoryEntit
         AnimeCacheCharactersAvailableRolesEntity::class,
         AnimeCacheEpisodesTranslationsEntity::class,
                ],
-    version = 18,
+    version = 19,
     exportSchema = true,
 )
 @TypeConverters(LocalDateConverter::class, LocalDateTimeConverter::class, AnimeConverters::class)
 internal abstract class AnifoxDatabase: RoomDatabase() {
     abstract fun animeDao(): AnimeDao
+    abstract fun animeImageDao(): AnimeImageDao
     abstract fun animeFavouriteStatusDao(): AnimeFavouriteDao
     abstract fun animeSearchHistoryDao(): AnimeSearchHistoryDao
     abstract fun animeCacheSearchDao(): AnimeCacheSearchDao

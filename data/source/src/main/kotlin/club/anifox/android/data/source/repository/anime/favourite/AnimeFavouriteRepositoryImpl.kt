@@ -1,5 +1,8 @@
 package club.anifox.android.data.source.repository.anime.favourite
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import club.anifox.android.data.local.dao.anime.AnimeDao
 import club.anifox.android.data.local.dao.anime.favourite.AnimeFavouriteDao
 import club.anifox.android.data.local.model.anime.favourite.AnimeFavouriteEntity
@@ -10,34 +13,52 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
 
 class AnimeFavouriteRepositoryImpl(
-    private val favouriteDao: AnimeFavouriteDao,
+    private val animeFavouriteDao: AnimeFavouriteDao,
     private val animeDao: AnimeDao,
 ) : AnimeFavouriteRepository {
 
-    override fun getHistoryAnime(): Flow<List<AnimeLightFavourite>> =
-        favouriteDao.getHistoryAnime()
+    override fun getHistoryAnime(): Flow<PagingData<AnimeLightFavourite>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { animeFavouriteDao.getHistoryAnimePaging() }
+        ).flow
+    }
 
-    override fun getFavouriteAnime(): Flow<List<AnimeLightFavourite>> =
-        favouriteDao.getFavouriteAnime()
+    override fun getFavouriteAnime(): Flow<PagingData<AnimeLightFavourite>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { animeFavouriteDao.getFavouriteAnimePaging() }
+        ).flow
+    }
 
-    override fun getAnimeByStatus(status: AnimeFavouriteStatus): Flow<List<AnimeLightFavourite>> =
-        favouriteDao.getAnimeByStatus(status)
-
-    override fun getAllAnimeLightFavourites(): Flow<List<AnimeLightFavourite>> =
-        favouriteDao.getAllAnimeLightFavourites()
+    override fun getAnimeByStatus(status: AnimeFavouriteStatus): Flow<PagingData<AnimeLightFavourite>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { animeFavouriteDao.getAnimeByStatusPaging(status) }
+        ).flow
+    }
 
     override suspend fun isAnimeInFavourite(url: String): Boolean =
-        favouriteDao.isAnimeInFavourite(url)
+        animeFavouriteDao.isAnimeInFavourite(url)
 
     override suspend fun getAnimeStatus(url: String): AnimeFavouriteStatus? =
-        favouriteDao.getAnimeStatus(url)
+        animeFavouriteDao.getAnimeStatus(url)
 
     override suspend fun updateAnimeStatus(url: String, status: AnimeFavouriteStatus?) {
-        val favourite = favouriteDao.getStatusById(url) ?: AnimeFavouriteEntity(
+        val favourite = animeFavouriteDao.getStatusById(url) ?: AnimeFavouriteEntity(
             animeUrl = url,
             addedAt = LocalDateTime.now()
         )
-        favouriteDao.insertStatusIfAnimeExists(
+        animeFavouriteDao.insertStatusIfAnimeExists(
             animeUrl = url,
             status = favourite.copy(
                 watchStatus = status,
@@ -48,11 +69,11 @@ class AnimeFavouriteRepositoryImpl(
     }
 
     override suspend fun updateAnimeFavourite(url: String, isFavourite: Boolean) {
-        val favourite = favouriteDao.getStatusById(url) ?: AnimeFavouriteEntity(
+        val favourite = animeFavouriteDao.getStatusById(url) ?: AnimeFavouriteEntity(
             animeUrl = url,
             addedAt = LocalDateTime.now()
         )
-        favouriteDao.insertStatusIfAnimeExists(
+        animeFavouriteDao.insertStatusIfAnimeExists(
             animeUrl = url,
             status = favourite.copy(
                 isFavourite = isFavourite,
@@ -63,11 +84,11 @@ class AnimeFavouriteRepositoryImpl(
     }
 
     override suspend fun updateAnimeHistory(url: String, isInHistory: Boolean) {
-        val favourite = favouriteDao.getStatusById(url) ?: AnimeFavouriteEntity(
+        val favourite = animeFavouriteDao.getStatusById(url) ?: AnimeFavouriteEntity(
             animeUrl = url,
             addedAt = LocalDateTime.now()
         )
-        favouriteDao.insertStatusIfAnimeExists(
+        animeFavouriteDao.insertStatusIfAnimeExists(
             animeUrl = url,
             status = favourite.copy(
                 isInHistory = isInHistory,

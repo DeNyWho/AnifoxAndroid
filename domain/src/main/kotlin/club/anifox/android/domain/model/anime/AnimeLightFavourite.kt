@@ -17,4 +17,6 @@ data class AnimeLightFavourite(
     val description: String = "",
     val lastWatchedEpisode: Int = 0,
     val addedAt: LocalDateTime = LocalDateTime.now(),
+    val episodes: Int = 0,
+    val episodesAired: Int = 0,
 )

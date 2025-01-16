@@ -79,7 +79,7 @@ internal object SourceModule {
         animeDao: AnimeDao,
     ): AnimeFavouriteRepository {
         return AnimeFavouriteRepositoryImpl(
-            favouriteDao = favouriteDao,
+            animeFavouriteDao = favouriteDao,
             animeDao = animeDao,
         )
     }

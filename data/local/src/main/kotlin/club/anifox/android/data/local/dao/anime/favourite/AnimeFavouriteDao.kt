@@ -1,5 +1,6 @@
 package club.anifox.android.data.local.dao.anime.favourite
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -10,37 +11,15 @@ import club.anifox.android.data.local.dao.anime.AnimeDao
 import club.anifox.android.data.local.model.anime.favourite.AnimeFavouriteEntity
 import club.anifox.android.domain.model.anime.AnimeLightFavourite
 import club.anifox.android.domain.model.anime.enum.AnimeFavouriteStatus
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AnimeFavouriteDao {
-    @Transaction
-    @RewriteQueriesToDropUnusedColumns
-    @Query("""
-        SELECT 
-            a.title,
-            a.image,
-            a.url,
-            a.type,
-            a.rating,
-            a.year,
-            a.status,
-            a.season,
-            a.description,
-            a.lastWatchedEpisode,
-            COALESCE(af.addedAt, CURRENT_TIMESTAMP) as addedAt
-        FROM anime a
-        LEFT JOIN anime_favourite af ON a.url = af .animeUrl
-        WHERE af.isFavourite = 1 OR af.isInHistory = 1 OR af.watchStatus IS NOT NULL
-        ORDER BY af.lastUpdatedAt DESC
-    """)
-    fun getAllAnimeLightFavourites(): Flow<List<AnimeLightFavourite>>
 
     @RewriteQueriesToDropUnusedColumns
     @Query("""
         SELECT 
             a.title,
-            a.image,
+            ai.medium as image,
             a.url,
             a.type,
             a.rating,
@@ -49,19 +28,22 @@ interface AnimeFavouriteDao {
             a.season,
             a.description,
             a.lastWatchedEpisode,
-            COALESCE(af.addedAt, CURRENT_TIMESTAMP) as addedAt
+            COALESCE(af.addedAt, CURRENT_TIMESTAMP) as addedAt,
+            a.episodes,
+            a.episodesAired
         FROM anime a
         LEFT JOIN anime_favourite af ON a.url = af.animeUrl
+        LEFT JOIN anime_images ai ON a.url = ai.animeUrl
         WHERE af.isFavourite = 1
         ORDER BY af.lastUpdatedAt DESC
     """)
-    fun getFavouriteAnime(): Flow<List<AnimeLightFavourite>>
+    fun getFavouriteAnimePaging(): PagingSource<Int, AnimeLightFavourite>
 
     @RewriteQueriesToDropUnusedColumns
     @Query("""
         SELECT 
             a.title,
-            a.image,
+            ai.medium as image,
             a.url,
             a.type,
             a.rating,
@@ -70,19 +52,22 @@ interface AnimeFavouriteDao {
             a.season,
             a.description,
             a.lastWatchedEpisode,
-            COALESCE(af.addedAt, CURRENT_TIMESTAMP) as addedAt
+            COALESCE(af.addedAt, CURRENT_TIMESTAMP) as addedAt,
+            a.episodes,
+            a.episodesAired
         FROM anime a
         LEFT JOIN anime_favourite af ON a.url = af.animeUrl
+        LEFT JOIN anime_images ai ON a.url = ai.animeUrl
         WHERE af.isInHistory = 1
         ORDER BY af.lastUpdatedAt DESC
     """)
-    fun getHistoryAnime(): Flow<List<AnimeLightFavourite>>
+    fun getHistoryAnimePaging(): PagingSource<Int, AnimeLightFavourite>
 
     @RewriteQueriesToDropUnusedColumns
     @Query("""
         SELECT 
             a.title,
-            a.image,
+            ai.medium as image,
             a.url,
             a.type,
             a.rating,
@@ -91,13 +76,16 @@ interface AnimeFavouriteDao {
             a.season,
             a.description,
             a.lastWatchedEpisode,
-            COALESCE(af.addedAt, CURRENT_TIMESTAMP) as addedAt
+            COALESCE(af.addedAt, CURRENT_TIMESTAMP) as addedAt,
+            a.episodes,
+            a.episodesAired
         FROM anime a
         LEFT JOIN anime_favourite af ON a.url = af.animeUrl
+        LEFT JOIN anime_images ai ON a.url = ai.animeUrl
         WHERE af.watchStatus = :status
         ORDER BY af.lastUpdatedAt DESC
     """)
-    fun getAnimeByStatus(status: AnimeFavouriteStatus): Flow<List<AnimeLightFavourite>>
+    fun getAnimeByStatusPaging(status: AnimeFavouriteStatus): PagingSource<Int, AnimeLightFavourite>
 
     @Query("""
         SELECT EXISTS(

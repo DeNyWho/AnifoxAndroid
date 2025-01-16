@@ -2,6 +2,7 @@ package club.anifox.android.core.uikit.param
 
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.model.anime.AnimeLight
+import club.anifox.android.domain.model.anime.AnimeLightFavourite
 import club.anifox.android.domain.model.anime.characters.AnimeCharactersLight
 import club.anifox.android.domain.model.anime.enum.AnimeSeason.Fall
 import club.anifox.android.domain.model.anime.enum.AnimeStatus.Ongoing
@@ -58,6 +59,12 @@ object GlobalParams {
     )
 
     val DataAnimeLightSingle = AnimeLight(
+        title = "Провожающая в последний путь Фрирен",
+        image = "https://cdn.anifox.club/images/anime/large/provozhaiushchaia-v-poslednii-put-friren/08f43e5054966f85ed4bcdbe7dc77b7b.png",
+        url = "provozhaiushchaia-v-poslednii-put-friren",
+    )
+
+    val DataAnimeLightFavouriteSingle = AnimeLightFavourite(
         title = "Провожающая в последний путь Фрирен",
         image = "https://cdn.anifox.club/images/anime/large/provozhaiushchaia-v-poslednii-put-friren/08f43e5054966f85ed4bcdbe7dc77b7b.png",
         url = "provozhaiushchaia-v-poslednii-put-friren",

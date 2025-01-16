@@ -14,7 +14,7 @@ fun <T> AnifoxScrollableTabRow(
     items: List<T>,
     selectedIndex: Int,
     onTabSelected: (Int) -> Unit,
-    itemToText: (T) -> String,
+    itemToText: @Composable (T) -> String,
     edgePadding: Int = 16,
     selectedColor: Color,
     unSelectedColor: Color,

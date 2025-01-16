@@ -13,4 +13,16 @@ sealed class FavouriteTabType {
         FAVOURITE -> AnimeListType.Favourite
         is STATUS -> AnimeListType.Status(status)
     }
+
+    companion object {
+        fun getAllStatuses(): List<FavouriteTabType> {
+            return AnimeFavouriteStatus.entries
+                .map { STATUS(it) }
+        }
+
+        fun getAllEntries(): List<FavouriteTabType> {
+            return listOf(FavouriteTabType.FAVOURITE) + AnimeFavouriteStatus.entries
+                .map { STATUS(it) }
+        }
+    }
 }
