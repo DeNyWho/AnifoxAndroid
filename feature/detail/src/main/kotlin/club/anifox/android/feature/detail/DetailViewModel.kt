@@ -23,6 +23,7 @@ import club.anifox.android.domain.usecase.anime.favourite.CheckAnimeFavouriteUse
 import club.anifox.android.domain.usecase.anime.favourite.UpdateAnimeUseCase
 import club.anifox.android.domain.usecase.anime.local.CheckAnimeLocalUseCase
 import club.anifox.android.domain.usecase.anime.local.InsertAnimeLocalUseCase
+import club.anifox.android.domain.usecase.anime.local.ObserveAnimeExistsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -39,6 +40,7 @@ internal class DetailViewModel @Inject constructor(
     private val animeCharactersUseCase: GetAnimeCharactersUseCase,
     private val updateAnimeUseCase: UpdateAnimeUseCase,
     private val checkAnimeFavouriteUseCase: CheckAnimeFavouriteUseCase,
+    private val observeAnimeExistsUseCase: ObserveAnimeExistsUseCase,
     private val insertAnimeLocalUseCase: InsertAnimeLocalUseCase,
     private val checkAnimeLocalUseCase: CheckAnimeLocalUseCase,
     private val deepLink: DeepLink,
@@ -132,23 +134,25 @@ internal class DetailViewModel @Inject constructor(
     fun updateFavouriteStatus(status: AnimeFavouriteStatus?) {
         _selectedFavouriteStatus.value = status
         viewModelScope.launch {
-            if(_currentUrl.value.isNotEmpty()) {
-                updateAnimeUseCase.updateAnimeStatus(url = _currentUrl.value, status = status)
-            }
-        }
-        viewModelScope.launch {
             if (_currentUrl.value.isNotEmpty()) {
+                val animeDetail = _detailAnime.value.data
+                if (animeDetail != null) {
+                    val animeExists = checkAnimeLocalUseCase.invoke(_currentUrl.value)
 
-                val animeExists = checkAnimeLocalUseCase.invoke(_currentUrl.value)
-
-                if (!animeExists) {
-                    val animeDetail = _detailAnime.value.data
-                    if (animeDetail != null) {
+                    if (!animeExists) {
                         insertAnimeLocalUseCase(animeDetail)
+
+                        observeAnimeExistsUseCase.invoke(_currentUrl.value)
+                            .collect { exists ->
+                                if (exists) {
+                                    updateAnimeUseCase.updateAnimeStatus(
+                                        url = _currentUrl.value,
+                                        status = status
+                                    )
+                                }
+                            }
                     }
                 }
-
-                updateAnimeUseCase.updateAnimeStatus(url = _currentUrl.value, status = status)
             }
         }
     }
@@ -156,21 +160,25 @@ internal class DetailViewModel @Inject constructor(
     fun updateIsInFavourite() {
         _isInFavourite.value = !_isInFavourite.value
         viewModelScope.launch {
-            if(_currentUrl.value.isNotEmpty()) {
+            if (_currentUrl.value.isNotEmpty()) {
+                val animeDetail = _detailAnime.value.data
+                if (animeDetail != null) {
+                    val animeExists = checkAnimeLocalUseCase.invoke(_currentUrl.value)
 
-                val animeExists = checkAnimeLocalUseCase.invoke(_currentUrl.value)
-
-                if (!animeExists) {
-                    val animeDetail = _detailAnime.value.data
-                    if (animeDetail != null) {
+                    if (!animeExists) {
                         insertAnimeLocalUseCase(animeDetail)
+
+                        observeAnimeExistsUseCase.invoke(_currentUrl.value)
+                            .collect { exists ->
+                                if (exists) {
+                                    updateAnimeUseCase.updateAnimeFavourite(
+                                        url = _currentUrl.value,
+                                        isFavourite = _isInFavourite.value
+                                    )
+                                }
+                            }
                     }
                 }
-
-                updateAnimeUseCase.updateAnimeFavourite(
-                    url = _currentUrl.value,
-                    isFavourite = _isInFavourite.value
-                )
             }
         }
     }

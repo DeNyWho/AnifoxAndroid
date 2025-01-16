@@ -23,6 +23,7 @@ import club.anifox.android.domain.usecase.anime.favourite.GetFavouriteAnimeUseCa
 import club.anifox.android.domain.usecase.anime.favourite.UpdateAnimeUseCase
 import club.anifox.android.domain.usecase.anime.local.CheckAnimeLocalUseCase
 import club.anifox.android.domain.usecase.anime.local.InsertAnimeLocalUseCase
+import club.anifox.android.domain.usecase.anime.local.ObserveAnimeExistsUseCase
 import club.anifox.android.domain.usecase.anime.paging.anime.catalog.AnimeCatalogPagingUseCase
 import club.anifox.android.domain.usecase.anime.paging.anime.characters.AnimeCharactersPagingUseCase
 import club.anifox.android.domain.usecase.anime.paging.anime.episodes.AnimeEpisodesPagingUseCase
@@ -80,6 +81,12 @@ internal object UseCaseModule {
     @Singleton
     fun provideCheckAnimeLocalUseCase(animeLocalRepository: AnimeLocalRepository): CheckAnimeLocalUseCase {
         return CheckAnimeLocalUseCase(animeLocalRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideObserveAnimeExistsUseCase(animeLocalRepository: AnimeLocalRepository): ObserveAnimeExistsUseCase {
+        return ObserveAnimeExistsUseCase(animeLocalRepository)
     }
 
     @Provides

@@ -8,6 +8,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import club.anifox.android.data.local.model.anime.AnimeEntity
 import club.anifox.android.data.local.model.anime.common.AnimeImageEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AnimeDao {
@@ -16,6 +17,15 @@ interface AnimeDao {
 
     @Query("SELECT COUNT(*) FROM anime WHERE url = :animeUrl")
     suspend fun doesAnimeExist(animeUrl: String): Int
+
+    @Query("""
+        SELECT EXISTS(
+            SELECT 1 
+            FROM anime 
+            WHERE url = :animeUrl
+        )
+    """)
+    fun observeAnimeExists(animeUrl: String): Flow<Boolean>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(anime: AnimeEntity)
