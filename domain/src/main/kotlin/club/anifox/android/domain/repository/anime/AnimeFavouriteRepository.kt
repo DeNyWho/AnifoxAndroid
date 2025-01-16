@@ -12,4 +12,6 @@ interface AnimeFavouriteRepository {
     suspend fun updateAnimeStatus(url: String, status: AnimeFavouriteStatus?)
     suspend fun updateAnimeFavourite(url: String, isFavourite: Boolean)
     suspend fun updateAnimeHistory(url: String, isInHistory: Boolean)
+    suspend fun isAnimeInFavourite(url: String): Boolean
+    suspend fun getAnimeStatus(url: String): AnimeFavouriteStatus?
 }

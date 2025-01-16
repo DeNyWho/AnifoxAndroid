@@ -1,6 +1,7 @@
 package club.anifox.android.data.source.di
 
 import club.anifox.android.domain.repository.anime.AnimeFavouriteRepository
+import club.anifox.android.domain.repository.anime.AnimeLocalRepository
 import club.anifox.android.domain.repository.anime.AnimeRepository
 import club.anifox.android.domain.repository.character.CharacterRepository
 import club.anifox.android.domain.repository.user.UserRepository
@@ -16,8 +17,12 @@ import club.anifox.android.domain.usecase.anime.GetAnimeTranslationsUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeVideosUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeYearsUseCase
-import club.anifox.android.domain.usecase.anime.GetFavouriteAnimeUseCase
 import club.anifox.android.domain.usecase.anime.characters.GetAnimeCharactersUseCase
+import club.anifox.android.domain.usecase.anime.favourite.CheckAnimeFavouriteUseCase
+import club.anifox.android.domain.usecase.anime.favourite.GetFavouriteAnimeUseCase
+import club.anifox.android.domain.usecase.anime.favourite.UpdateAnimeUseCase
+import club.anifox.android.domain.usecase.anime.local.CheckAnimeLocalUseCase
+import club.anifox.android.domain.usecase.anime.local.InsertAnimeLocalUseCase
 import club.anifox.android.domain.usecase.anime.paging.anime.catalog.AnimeCatalogPagingUseCase
 import club.anifox.android.domain.usecase.anime.paging.anime.characters.AnimeCharactersPagingUseCase
 import club.anifox.android.domain.usecase.anime.paging.anime.episodes.AnimeEpisodesPagingUseCase
@@ -67,8 +72,32 @@ internal object UseCaseModule {
 
     @Provides
     @Singleton
+    fun provideInsertAnimeLocalUseCase(animeLocalRepository: AnimeLocalRepository): InsertAnimeLocalUseCase {
+        return InsertAnimeLocalUseCase(animeLocalRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCheckAnimeLocalUseCase(animeLocalRepository: AnimeLocalRepository): CheckAnimeLocalUseCase {
+        return CheckAnimeLocalUseCase(animeLocalRepository)
+    }
+
+    @Provides
+    @Singleton
     fun provideGetFavouriteAnimeUseCase(animeFavouriteRepository: AnimeFavouriteRepository): GetFavouriteAnimeUseCase {
         return GetFavouriteAnimeUseCase(animeFavouriteRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpdateAnimeUseCase(animeFavouriteRepository: AnimeFavouriteRepository): UpdateAnimeUseCase {
+        return UpdateAnimeUseCase(animeFavouriteRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCheckAnimeFavouriteUseCase(animeFavouriteRepository: AnimeFavouriteRepository): CheckAnimeFavouriteUseCase {
+        return CheckAnimeFavouriteUseCase(animeFavouriteRepository)
     }
 
     @Provides

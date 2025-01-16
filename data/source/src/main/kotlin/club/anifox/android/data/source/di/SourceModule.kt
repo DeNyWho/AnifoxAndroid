@@ -16,10 +16,12 @@ import club.anifox.android.data.network.service.AnimeService
 import club.anifox.android.data.network.service.CharacterService
 import club.anifox.android.data.source.repository.anime.AnimeRepositoryImpl
 import club.anifox.android.data.source.repository.anime.favourite.AnimeFavouriteRepositoryImpl
+import club.anifox.android.data.source.repository.anime.local.AnimeLocalRepositoryImpl
 import club.anifox.android.data.source.repository.character.CharacterRepositoryImpl
 import club.anifox.android.data.source.repository.user.UserRepositoryImpl
 import club.anifox.android.data.source.repository.user.UserSecurityRepositoryImpl
 import club.anifox.android.domain.repository.anime.AnimeFavouriteRepository
+import club.anifox.android.domain.repository.anime.AnimeLocalRepository
 import club.anifox.android.domain.repository.anime.AnimeRepository
 import club.anifox.android.domain.repository.character.CharacterRepository
 import club.anifox.android.domain.repository.user.UserRepository
@@ -38,7 +40,6 @@ internal object SourceModule {
     @Singleton
     fun provideAnimeRepository(
         animeService: AnimeService,
-        animeDao: AnimeDao,
         animeSearchHistoryDao: AnimeSearchHistoryDao,
         animeCacheSearchDao: AnimeCacheSearchDao,
         animeCacheGenresDao: AnimeCacheGenresDao,
@@ -50,7 +51,6 @@ internal object SourceModule {
     ): AnimeRepository {
         return AnimeRepositoryImpl(
             animeService = animeService,
-            animeDao = animeDao,
             animeSearchHistoryDao = animeSearchHistoryDao,
             animeCacheSearchDao = animeCacheSearchDao,
             animeCacheGenresDao = animeCacheGenresDao,
@@ -64,11 +64,23 @@ internal object SourceModule {
 
     @Provides
     @Singleton
+    fun provideAnimeLocalRepository(
+        animeDao: AnimeDao,
+    ): AnimeLocalRepository {
+        return AnimeLocalRepositoryImpl(
+            animeDao = animeDao,
+        )
+    }
+
+    @Provides
+    @Singleton
     fun provideFavouriteRepository(
         favouriteDao: AnimeFavouriteDao,
+        animeDao: AnimeDao,
     ): AnimeFavouriteRepository {
         return AnimeFavouriteRepositoryImpl(
             favouriteDao = favouriteDao,
+            animeDao = animeDao,
         )
     }
 

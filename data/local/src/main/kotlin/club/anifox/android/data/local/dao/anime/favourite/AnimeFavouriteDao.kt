@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.RewriteQueriesToDropUnusedColumns
 import androidx.room.Transaction
+import club.anifox.android.data.local.dao.anime.AnimeDao
 import club.anifox.android.data.local.model.anime.favourite.AnimeFavouriteEntity
 import club.anifox.android.domain.model.anime.AnimeLightFavourite
 import club.anifox.android.domain.model.anime.enum.AnimeFavouriteStatus
@@ -98,10 +99,35 @@ interface AnimeFavouriteDao {
     """)
     fun getAnimeByStatus(status: AnimeFavouriteStatus): Flow<List<AnimeLightFavourite>>
 
+    @Query("""
+        SELECT EXISTS(
+            SELECT 1 
+            FROM anime_favourite 
+            WHERE animeUrl = :animeUrl AND isFavourite = 1
+        )
+    """)
+    suspend fun isAnimeInFavourite(animeUrl: String): Boolean
+
+    @Query("""
+        SELECT watchStatus
+        FROM anime_favourite
+        WHERE animeUrl = :animeUrl
+    """)
+    suspend fun getAnimeStatus(animeUrl: String): AnimeFavouriteStatus?
+
     @Query("SELECT * FROM anime_favourite WHERE animeUrl = :animeUrl")
     suspend fun getStatusById(animeUrl: String): AnimeFavouriteEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertStatus(status: AnimeFavouriteEntity)
 
+    @Transaction
+    suspend fun insertStatusIfAnimeExists(animeUrl: String, status: AnimeFavouriteEntity, animeDao: AnimeDao) {
+        val animeExists = animeDao.doesAnimeExist(animeUrl) > 0
+        if (animeExists) {
+            insertStatus(status)
+        } else {
+            throw IllegalArgumentException("Anime with url $animeUrl does not exist")
+        }
+    }
 }

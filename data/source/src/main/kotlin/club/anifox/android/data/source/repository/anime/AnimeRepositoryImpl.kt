@@ -12,7 +12,6 @@ import club.anifox.android.data.local.cache.dao.anime.episodes.AnimeCacheEpisode
 import club.anifox.android.data.local.cache.dao.anime.genres.AnimeCacheGenresDao
 import club.anifox.android.data.local.cache.dao.anime.schedule.AnimeCacheScheduleDao
 import club.anifox.android.data.local.cache.dao.anime.search.AnimeCacheSearchDao
-import club.anifox.android.data.local.dao.anime.AnimeDao
 import club.anifox.android.data.local.dao.anime.search.AnimeSearchHistoryDao
 import club.anifox.android.data.local.mappers.cache.anime.toLight
 import club.anifox.android.data.local.model.anime.search.AnimeSearchHistoryEntity
@@ -63,7 +62,6 @@ import javax.inject.Inject
 
 internal class AnimeRepositoryImpl @Inject constructor(
     private val animeService: AnimeService,
-    private val animeDao: AnimeDao,
     private val animeSearchHistoryDao: AnimeSearchHistoryDao,
     private val animeCacheSearchDao: AnimeCacheSearchDao,
     private val animeCacheCatalogDao: AnimeCacheCatalogDao,

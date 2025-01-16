@@ -1,6 +1,9 @@
 package club.anifox.android.data.local.model.anime.favourite
 
+import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.Relation
+import club.anifox.android.data.local.model.anime.AnimeEntity
 import club.anifox.android.domain.model.anime.enum.AnimeFavouriteStatus
 import java.time.LocalDateTime
 
@@ -15,4 +18,13 @@ data class AnimeFavouriteEntity(
     val watchStatus: AnimeFavouriteStatus? = null,
     val addedAt: LocalDateTime = LocalDateTime.now(),
     val lastUpdatedAt: LocalDateTime = LocalDateTime.now()
+)
+
+data class AnimeWithFavourite(
+    @Embedded val anime: AnimeEntity,
+    @Relation(
+        parentColumn = "url",
+        entityColumn = "animeUrl"
+    )
+    val animeFavourite: AnimeFavouriteEntity?
 )

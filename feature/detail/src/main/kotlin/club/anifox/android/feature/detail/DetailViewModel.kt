@@ -19,9 +19,14 @@ import club.anifox.android.domain.usecase.anime.GetAnimeScreenshotUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeSimilarUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeVideosUseCase
 import club.anifox.android.domain.usecase.anime.characters.GetAnimeCharactersUseCase
+import club.anifox.android.domain.usecase.anime.favourite.CheckAnimeFavouriteUseCase
+import club.anifox.android.domain.usecase.anime.favourite.UpdateAnimeUseCase
+import club.anifox.android.domain.usecase.anime.local.CheckAnimeLocalUseCase
+import club.anifox.android.domain.usecase.anime.local.InsertAnimeLocalUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,6 +37,10 @@ internal class DetailViewModel @Inject constructor(
     private val animeScreenshotUseCase: GetAnimeScreenshotUseCase,
     private val animeVideosUseCase: GetAnimeVideosUseCase,
     private val animeCharactersUseCase: GetAnimeCharactersUseCase,
+    private val updateAnimeUseCase: UpdateAnimeUseCase,
+    private val checkAnimeFavouriteUseCase: CheckAnimeFavouriteUseCase,
+    private val insertAnimeLocalUseCase: InsertAnimeLocalUseCase,
+    private val checkAnimeLocalUseCase: CheckAnimeLocalUseCase,
     private val deepLink: DeepLink,
 ) : ViewModel() {
     private val _detailAnime: MutableState<StateWrapper<AnimeDetail>> =
@@ -64,13 +73,24 @@ internal class DetailViewModel @Inject constructor(
     private val _isInFavourite: MutableState<Boolean> = mutableStateOf(false)
     val isInFavourite: MutableState<Boolean> = _isInFavourite
 
+    private val _currentUrl: MutableState<String> = mutableStateOf("")
+
     fun loadData(url: String) {
+        _currentUrl.value = url
         getDetailAnime(url)
         getScreenshotAnime(url)
         getVideosAnime(url)
         getRelatedAnime(url)
         getSimilarAnime(url)
         getCharactersAnime(url)
+        checkFavouriteAnime(url)
+    }
+
+    private fun checkFavouriteAnime(url: String) {
+        viewModelScope.launch {
+            _isInFavourite.value = checkAnimeFavouriteUseCase.isAnimeInFavourite(url)
+            _selectedFavouriteStatus.value = checkAnimeFavouriteUseCase.getAnimeStatus(url)
+        }
     }
 
     private fun getCharactersAnime(url: String) {
@@ -111,10 +131,48 @@ internal class DetailViewModel @Inject constructor(
 
     fun updateFavouriteStatus(status: AnimeFavouriteStatus?) {
         _selectedFavouriteStatus.value = status
+        viewModelScope.launch {
+            if(_currentUrl.value.isNotEmpty()) {
+                updateAnimeUseCase.updateAnimeStatus(url = _currentUrl.value, status = status)
+            }
+        }
+        viewModelScope.launch {
+            if (_currentUrl.value.isNotEmpty()) {
+
+                val animeExists = checkAnimeLocalUseCase.invoke(_currentUrl.value)
+
+                if (!animeExists) {
+                    val animeDetail = _detailAnime.value.data
+                    if (animeDetail != null) {
+                        insertAnimeLocalUseCase(animeDetail)
+                    }
+                }
+
+                updateAnimeUseCase.updateAnimeStatus(url = _currentUrl.value, status = status)
+            }
+        }
     }
 
     fun updateIsInFavourite() {
         _isInFavourite.value = !_isInFavourite.value
+        viewModelScope.launch {
+            if(_currentUrl.value.isNotEmpty()) {
+
+                val animeExists = checkAnimeLocalUseCase.invoke(_currentUrl.value)
+
+                if (!animeExists) {
+                    val animeDetail = _detailAnime.value.data
+                    if (animeDetail != null) {
+                        insertAnimeLocalUseCase(animeDetail)
+                    }
+                }
+
+                updateAnimeUseCase.updateAnimeFavourite(
+                    url = _currentUrl.value,
+                    isFavourite = _isInFavourite.value
+                )
+            }
+        }
     }
 
     fun openYoutube(youtubeUrl: String) {

@@ -1,4 +1,4 @@
-package club.anifox.android.domain.usecase.anime
+package club.anifox.android.domain.usecase.anime.favourite
 
 import club.anifox.android.domain.model.anime.AnimeLightFavourite
 import club.anifox.android.domain.model.anime.enum.AnimeListType

@@ -2,7 +2,7 @@ package club.anifox.android.feature.favourite
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import club.anifox.android.domain.usecase.anime.GetFavouriteAnimeUseCase
+import club.anifox.android.domain.usecase.anime.favourite.GetFavouriteAnimeUseCase
 import club.anifox.android.feature.favourite.model.state.FavouriteUiState
 import club.anifox.android.feature.favourite.model.tab.FavouriteTabType
 import dagger.hilt.android.lifecycle.HiltViewModel
