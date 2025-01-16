@@ -33,7 +33,7 @@ internal fun FavouriteDialog(
     selectedFavouriteState: AnimeFavouriteStatus?,
     updateFavouriteStatus: (AnimeFavouriteStatus?) -> Unit,
 ) {
-    Dialog(onDismissRequest = { setShowDialog(false) }) {
+    Dialog(onDismissRequest = { setShowDialog.invoke(false) }) {
         Surface(
             modifier = Modifier.fillMaxWidth(),
             shape = MaterialTheme.shapes.small,
@@ -65,6 +65,7 @@ internal fun FavouriteDialog(
                                         updateFavouriteStatus.invoke(
                                             AnimeFavouriteStatus.fromString(statusString)
                                         )
+                                        setShowDialog.invoke(false)
                                     },
                                     role = Role.RadioButton,
                                     indication = null,
