@@ -3,11 +3,13 @@ package club.anifox.android.feature.favourite
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.pager.HorizontalPager
@@ -35,10 +37,12 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import club.anifox.android.core.uikit.component.grid.GridComponentDefaults
+import club.anifox.android.core.uikit.component.progress.CircularProgress
 import club.anifox.android.core.uikit.component.tab.simple.AnifoxScrollableTabRow
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.AnimeLightFavourite
 import club.anifox.android.domain.model.common.device.ScreenType
+import club.anifox.android.feature.favourite.composable.empty.FavouriteEmptyContent
 import club.anifox.android.feature.favourite.composable.item.AnimeFavouriteItem
 import club.anifox.android.feature.favourite.composable.item.AnimeFavouriteItemDefaults
 import club.anifox.android.feature.favourite.model.state.FavouriteUiState
@@ -96,8 +100,6 @@ private fun FavouriteUI(
         Box(modifier = Modifier.padding(padding)) {
             Column {
                 AnifoxScrollableTabRow(
-                    modifier = Modifier
-                        .padding(bottom = 20.dp),
                     itemModifier = Modifier.height(48.dp),
                     items = tabs,
                     selectedIndex = pagerState.currentPage,
@@ -193,6 +195,15 @@ private fun FavouriteContent(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
+        when {
+            favouriteResults.loadState.refresh is LoadState.Loading -> {
+                CircularProgress()
+            }
+            favouriteResults.itemCount == 0 && favouriteResults.loadState.refresh is LoadState.NotLoading -> {
+                FavouriteEmptyContent()
+            }
+        }
+
         LazyVerticalGrid(
             modifier = GridComponentDefaults.Default
                 .fillMaxSize()
@@ -202,44 +213,34 @@ private fun FavouriteContent(
             horizontalArrangement = AnimeFavouriteItemDefaults.HorizontalArrangement.Grid,
             verticalArrangement = AnimeFavouriteItemDefaults.VerticalArrangement.Grid,
         ) {
-            when {
-                favouriteResults.loadState.refresh is LoadState.Loading -> {
-                    item {
-                        // Loading state
-                    }
-                }
-                favouriteResults.itemCount == 0 -> {
-                    item {
-                        // Empty state
-                    }
-                }
-                else -> {
-                    items(
-                        count = favouriteResults.itemCount,
-                        key = favouriteResults.itemKey { it.url }
-                    ) { index ->
-                        val item = favouriteResults[index]
-                        if (item != null) {
-                            AnimeFavouriteItem(
-                                thumbnailWidth = width,
-                                thumbnailHeight = height,
-                                data = item,
-                                onClick = onAnimeClick,
-                            )
-                        }
-                    }
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Spacer(modifier = Modifier.height(0.dp))
+            }
 
-                    if (favouriteResults.loadState.append is LoadState.Loading) {
-                        item {
-                            Box(
-                                modifier = Modifier.fillMaxWidth(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                CircularProgressIndicator(
-                                    modifier = Modifier.padding(16.dp)
-                                )
-                            }
-                        }
+            items(
+                count = favouriteResults.itemCount,
+                key = favouriteResults.itemKey { it.url }
+            ) { index ->
+                val item = favouriteResults[index]
+                if (item != null) {
+                    AnimeFavouriteItem(
+                        thumbnailWidth = width,
+                        thumbnailHeight = height,
+                        data = item,
+                        onClick = onAnimeClick,
+                    )
+                }
+            }
+
+            if (favouriteResults.loadState.append is LoadState.Loading) {
+                item {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.padding(16.dp)
+                        )
                     }
                 }
             }
