@@ -141,17 +141,17 @@ internal class DetailViewModel @Inject constructor(
 
                     if (!animeExists) {
                         insertAnimeLocalUseCase(animeDetail)
-
-                        observeAnimeExistsUseCase.invoke(_currentUrl.value)
-                            .collect { exists ->
-                                if (exists) {
-                                    updateAnimeUseCase.updateAnimeStatus(
-                                        url = _currentUrl.value,
-                                        status = status
-                                    )
-                                }
-                            }
                     }
+
+                    observeAnimeExistsUseCase.invoke(_currentUrl.value)
+                        .collect { exists ->
+                            if (exists) {
+                                updateAnimeUseCase.updateAnimeStatus(
+                                    url = _currentUrl.value,
+                                    status = status
+                                )
+                            }
+                        }
                 }
             }
         }
@@ -167,17 +167,17 @@ internal class DetailViewModel @Inject constructor(
 
                     if (!animeExists) {
                         insertAnimeLocalUseCase(animeDetail)
-
-                        observeAnimeExistsUseCase.invoke(_currentUrl.value)
-                            .collect { exists ->
-                                if (exists) {
-                                    updateAnimeUseCase.updateAnimeFavourite(
-                                        url = _currentUrl.value,
-                                        isFavourite = _isInFavourite.value
-                                    )
-                                }
-                            }
                     }
+
+                    observeAnimeExistsUseCase.invoke(_currentUrl.value)
+                        .collect { exists ->
+                            if (exists) {
+                                updateAnimeUseCase.updateAnimeFavourite(
+                                    url = _currentUrl.value,
+                                    isFavourite = _isInFavourite.value
+                                )
+                            }
+                        }
                 }
             }
         }
