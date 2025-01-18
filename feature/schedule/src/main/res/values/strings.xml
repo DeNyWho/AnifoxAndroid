@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string name="feature_schedule_empty_title">В этот день</string>
+    <string name="feature_schedule_empty_subtitle">никакое аниме не выходит 😔</string>
 </resources>

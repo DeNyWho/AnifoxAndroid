@@ -3,11 +3,12 @@ package club.anifox.android.feature.schedule
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.pager.HorizontalPager
@@ -34,11 +35,13 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import club.anifox.android.core.uikit.component.grid.GridComponentDefaults
+import club.anifox.android.core.uikit.component.progress.CircularProgress
 import club.anifox.android.core.uikit.component.tab.simple.AnifoxScrollableTabRow
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.common.device.ScreenType
 import club.anifox.android.domain.model.common.enum.WeekDay
+import club.anifox.android.feature.schedule.composable.empty.ScheduleEmptyContent
 import club.anifox.android.feature.schedule.composable.item.AnimeScheduleItem
 import club.anifox.android.feature.schedule.composable.item.AnimeScheduleItemDefaults
 import club.anifox.android.feature.schedule.model.state.ScheduleUiState
@@ -99,8 +102,6 @@ private fun ScheduleUI(
         Box(modifier = Modifier.padding(padding)) {
             Column {
                 AnifoxScrollableTabRow(
-                    modifier = Modifier
-                        .padding(bottom = 20.dp),
                     itemModifier = Modifier.height(48.dp),
                     items = daysOfWeek.toList(),
                     selectedIndex = pagerState.currentPage,
@@ -114,37 +115,33 @@ private fun ScheduleUI(
                     unSelectedColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
 
-                Box(
+                HorizontalPager(
+                    state = pagerState,
+                    pageSize = PageSize.Fill,
                     modifier = Modifier.fillMaxSize(),
-                ) {
-                    HorizontalPager(
-                        state = pagerState,
-                        pageSize = PageSize.Fill,
-                        modifier = Modifier.fillMaxSize(),
-                        beyondViewportPageCount = 1 // Keep one page on each side loaded
-                    ) { page ->
-                        val currentDayOfWeek = daysOfWeek[page]
-                        val currentDayFlow = scheduleResults[currentDayOfWeek]
+                    beyondViewportPageCount = 1 // Keep one page on each side loaded
+                ) { page ->
+                    val currentDayOfWeek = daysOfWeek[page]
+                    val currentDayFlow = scheduleResults[currentDayOfWeek]
 
-                        if (currentDayFlow != null) {
-                            key(currentDayOfWeek) {
-                                val currentDayItems = currentDayFlow.collectAsLazyPagingItems()
+                    if (currentDayFlow != null) {
+                        key(currentDayOfWeek) {
+                            val currentDayItems = currentDayFlow.collectAsLazyPagingItems()
 
-                                val isLoading = uiState.isLoading ||
-                                        currentDayItems.loadState.refresh is LoadState.Loading ||
-                                        currentDayItems.loadState.append is LoadState.Loading
+                            val isLoading = uiState.isLoading ||
+                                    currentDayItems.loadState.refresh is LoadState.Loading ||
+                                    currentDayItems.loadState.append is LoadState.Loading
 
-                                Box(modifier = Modifier.fillMaxSize()) {
-                                    if (isLoading) {
-                                        CircularProgressIndicator(
-                                            modifier = Modifier.align(Alignment.Center)
-                                        )
-                                    } else {
-                                        ScheduleContent(
-                                            scheduleResults = currentDayItems,
-                                            onAnimeClick = onAnimeClick,
-                                        )
-                                    }
+                            Box(modifier = Modifier.fillMaxSize()) {
+                                if (isLoading) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.align(Alignment.Center)
+                                    )
+                                } else {
+                                    ScheduleContent(
+                                        scheduleResults = currentDayItems,
+                                        onAnimeClick = onAnimeClick,
+                                    )
                                 }
                             }
                         }
@@ -188,7 +185,7 @@ private fun ScheduleContent(
 
     Box(
         modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         LazyVerticalGrid(
             modifier = GridComponentDefaults.Default
@@ -202,15 +199,19 @@ private fun ScheduleContent(
             when {
                 scheduleResults.loadState.refresh is LoadState.Loading -> {
                     item {
-                        // Loading state
+                        CircularProgress()
                     }
                 }
-                scheduleResults.itemCount == 0 -> {
+                scheduleResults.itemCount == 0 && scheduleResults.loadState.refresh is LoadState.NotLoading -> {
                     item {
-                        // Empty state
+                        ScheduleEmptyContent()
                     }
                 }
                 else -> {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        Spacer(modifier = Modifier.height(0.dp))
+                    }
+
                     items(
                         count = scheduleResults.itemCount,
                         key = scheduleResults.itemKey { it.url }
@@ -228,14 +229,7 @@ private fun ScheduleContent(
 
                     if (scheduleResults.loadState.append is LoadState.Loading) {
                         item {
-                            Box(
-                                modifier = Modifier.fillMaxWidth(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                CircularProgressIndicator(
-                                    modifier = Modifier.padding(16.dp)
-                                )
-                            }
+                            CircularProgressIndicator()
                         }
                     }
                 }

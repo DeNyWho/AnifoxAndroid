@@ -9,7 +9,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:favourite"))
     testImplementation(libs.hilt.android.testing)
 
     testImplementation(libs.junit)
