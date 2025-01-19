@@ -1,10 +1,12 @@
 package club.anifox.android.feature.episodes
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Scaffold
@@ -38,7 +40,7 @@ internal fun EpisodesScreen(
     onBackPressed: () -> Boolean,
     url: String,
     translationId: Int,
-    onEpisodeClick: (String) -> Unit,
+    onEpisodeClick: (String, Boolean?) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -59,7 +61,7 @@ private fun EpisodesUI(
     onBackPressed: () -> Boolean,
     uiState: EpisodesUiState,
     episodesResults: Flow<PagingData<AnimeEpisodesLight>>,
-    onEpisodeClick: (String) -> Unit,
+    onEpisodeClick: (String, Boolean?) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier
@@ -88,7 +90,7 @@ private fun EpisodesContent(
     modifier: Modifier,
     uiState: EpisodesUiState,
     episodesResults: Flow<PagingData<AnimeEpisodesLight>>,
-    onEpisodeClick: (String) -> Unit,
+    onEpisodeClick: (String, Boolean?) -> Unit,
 ) {
     val items = episodesResults.collectAsLazyPagingItems()
     val lazyGridState = rememberLazyGridState()
@@ -122,6 +124,10 @@ private fun EpisodesContent(
                     horizontalArrangement = CardEpisodeGridItemDefaults.HorizontalArrangement.Grid,
                     verticalArrangement = CardEpisodeGridItemDefaults.VerticalArrangement.Grid,
                 ) {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        Spacer(modifier = Modifier)
+                    }
+
                     items(
                         count = items.itemCount,
                         key = items.itemKey { it.number }
@@ -131,7 +137,10 @@ private fun EpisodesContent(
                             CardEpisodeGridItem(
                                 modifier = Modifier.width(width),
                                 data = item,
-                                onClick = onEpisodeClick,
+                                onClick = { url ->
+                                    // TODO Add a player selection dialog
+                                    onEpisodeClick.invoke(url, true)
+                                },
                             )
                         }
                     }

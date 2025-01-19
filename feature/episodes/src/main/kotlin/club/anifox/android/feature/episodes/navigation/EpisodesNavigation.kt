@@ -15,7 +15,7 @@ fun NavController.navigateToEpisodes(url: String, translationId: Int, navOptions
 
 fun NavGraphBuilder.episodesScreen(
     onBackPressed: () -> Boolean,
-    onEpisodeClick: (String) -> Unit,
+    onEpisodeClick: (String, Boolean?) -> Unit,
 ) {
     composable(
         "$EPISODES_ROUTE?url={url}&translation_id={translation_id}",
