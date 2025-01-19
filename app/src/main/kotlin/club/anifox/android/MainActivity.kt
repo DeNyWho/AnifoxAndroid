@@ -1,6 +1,8 @@
 package club.anifox.android
 
+import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -37,6 +39,11 @@ class MainActivity : ComponentActivity() {
 
         installSplashScreen().setKeepOnScreenCondition {
             keepSplashScreen
+        }
+
+        // gives minimal changes (the content does not stretch across the entire screen, it has been checked with all the checkboxes.)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            window.attributes.layoutInDisplayCutoutMode = LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
         }
 
         setContent {
