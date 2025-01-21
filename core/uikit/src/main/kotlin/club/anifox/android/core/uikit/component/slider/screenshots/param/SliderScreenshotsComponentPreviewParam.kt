@@ -10,6 +10,7 @@ import club.anifox.android.core.uikit.component.card.anime.CardAnimePortraitDefa
 import club.anifox.android.core.uikit.component.card.screenshot.CardScreenshotLandscapeDefaults
 import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
 import club.anifox.android.domain.state.StateListWrapper
+import kotlinx.collections.immutable.toImmutableList
 import java.util.UUID
 
 internal data class SliderScreenshotsComponentPreviewParam(
@@ -25,7 +26,7 @@ internal data class SliderScreenshotsComponentPreviewParam(
     val onMoreClick: () -> Unit = { },
 )
 
-private val DataSet = List(10) { UUID.randomUUID().toString() }
+private val DataSet = List(10) { UUID.randomUUID().toString() }.toImmutableList()
 
 internal class SliderScreenshotsComponentProvider:
     PreviewParameterProvider<SliderScreenshotsComponentPreviewParam> {

@@ -96,7 +96,6 @@ fun SliderComponent(
             )
         }
     }
-
 }
 
 @PreviewLightDark

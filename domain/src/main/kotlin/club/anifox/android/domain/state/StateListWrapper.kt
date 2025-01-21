@@ -1,9 +1,11 @@
 package club.anifox.android.domain.state
 
 import club.anifox.android.domain.model.common.request.ApiError
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 data class StateListWrapper<T>(
-    val data: List<T> = listOf(),
+    val data: ImmutableList<T> = persistentListOf(),
     val isLoading: Boolean = false,
     val error: ApiError? = null,
 ) {

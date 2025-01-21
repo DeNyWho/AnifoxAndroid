@@ -13,6 +13,7 @@ import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
 import club.anifox.android.domain.model.anime.enum.VideoType
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.state.StateListWrapper
+import kotlinx.collections.immutable.toImmutableList
 import java.util.UUID
 
 internal data class SliderVideoComponentPreviewParam(
@@ -38,7 +39,7 @@ private val DataSet = List(10) {
         imageUrl = "",
         playerUrl = UUID.randomUUID().toString(),
     )
-}
+}.toImmutableList()
 
 internal class SliderVideoComponentProvider:
     PreviewParameterProvider<SliderVideoComponentPreviewParam> {

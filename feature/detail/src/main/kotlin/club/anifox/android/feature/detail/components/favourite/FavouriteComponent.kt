@@ -66,7 +66,7 @@ internal fun FavouriteComponent(
             textStyle = MaterialTheme.typography.labelLarge,
             icon = {
                 AnifoxIcon(
-                    painter = painterResource(R.drawable.bookmark),
+                    painter = painterResource(R.drawable.feature_detail_bookmark),
                     contentDescription = null,
                 )
             }

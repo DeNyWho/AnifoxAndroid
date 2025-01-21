@@ -16,12 +16,14 @@ import club.anifox.android.domain.model.anime.translations.AnimeTranslationsCoun
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.model.character.full.CharacterFull
 import club.anifox.android.domain.model.character.role.CharacterRole
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import java.util.UUID
 
 object GlobalParams {
-    val Genres: List<AnimeGenre> = listOf(AnimeGenre(id = UUID.randomUUID().toString(), name = "Приключения"), AnimeGenre(id = UUID.randomUUID().toString(), name = "Романтика"))
-    val Studios: List<AnimeStudio> = listOf(AnimeStudio(id = UUID.randomUUID().toString(), name = "Madhouse"), AnimeStudio(id = UUID.randomUUID().toString(), name = "TEST studio"))
-    val TranslationsCount: List<AnimeTranslationsCount> = listOf(
+    val Genres: ImmutableList<AnimeGenre> = listOf(AnimeGenre(id = UUID.randomUUID().toString(), name = "Приключения"), AnimeGenre(id = UUID.randomUUID().toString(), name = "Романтика")).toImmutableList()
+    val Studios: ImmutableList<AnimeStudio> = listOf(AnimeStudio(id = UUID.randomUUID().toString(), name = "Madhouse"), AnimeStudio(id = UUID.randomUUID().toString(), name = "TEST studio")).toImmutableList()
+    val TranslationsCount: ImmutableList<AnimeTranslationsCount> = listOf(
         AnimeTranslationsCount(
             translation = AnimeTranslation(
                 id = 610,
@@ -38,12 +40,12 @@ object GlobalParams {
             ),
             countEpisodes = 21,
         ),
-    )
+    ).toImmutableList()
 
     val DataAnimeDetail = AnimeDetail(
         title = "Провожающая в последний путь Фрирен",
         url = "provozhaiushchaia-v-poslednii-put-friren",
-        titleEnglish = listOf("Frieren: Beyond Journey's End"),
+        titleEnglish = listOf("Frieren: Beyond Journey's End").toImmutableList(),
         description = "Одержав победу над Королём демонов, отряд героя Химмеля вернулся домой. Приключение, растянувшееся на десятилетие, подошло к завершению. Волшебница-эльф Фрирен и её отважные товарищи принесли людям мир и разошлись в разные стороны, чтобы спокойно прожить остаток жизни. Однако не всех членов отряда ждёт одинаковая участь. Для эльфов время течёт иначе, поэтому Фрирен вынужденно становится свидетелем того, как её спутники один за другим постепенно уходят из жизни. Девушка осознала, что годы, проведённые в отряде героя, пронеслись в один миг, как падающая звезда в бескрайнем космосе её жизни, и столкнулась с сожалениями об упущенных возможностях. Сможет ли она смириться со смертью друзей и понять, что значит жизнь для окружающих её людей? Фрирен начинает новое путешествие, чтобы найти ответ.",
         genres = Genres,
         studios = Studios,
@@ -81,10 +83,10 @@ object GlobalParams {
     val DataSetAnimeLight = List(10) {
         AnimeLight(
             title = "Провожающая в последний путь Фрирен",
-            image = "https://cdn.anifox.club/images/anime/large/provozhaiushchaia-v-poslednii-put-friren/08f43e5054966f85ed4bcdbe7dc77b7b.png",
+            image = "https://cdn.anifox.club/images/anime/medium/provozhaiushchaia-v-poslednii-put-friren/06182440ee23094f70d31e302cdc6116.jpg",
             url = "provozhaiushchaia-v-poslednii-put-friren$it",
         )
-    }
+    }.toImmutableList()
 
     val DataSetRelationLight = List(10) {
         AnimeRelatedLight(
@@ -95,7 +97,7 @@ object GlobalParams {
             ),
             type = "type",
         )
-    }
+    }.toImmutableList()
 
     val DataSetCharactersLight = List(10) {
         AnimeCharactersLight(
@@ -104,7 +106,7 @@ object GlobalParams {
             name = "Фрирен",
             image = "https://cdn.anifox.club/images/anime/large/provozhaiushchaia-v-poslednii-put-friren/08f43e5054966f85ed4bcdbe7dc77b7b.png",
         )
-    }
+    }.toImmutableList()
 
     val DataCharacterFull = CharacterFull(
         id = UUID.randomUUID().toString(),

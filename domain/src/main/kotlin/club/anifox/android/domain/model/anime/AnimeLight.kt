@@ -1,9 +1,11 @@
 package club.anifox.android.domain.model.anime
 
+import androidx.compose.runtime.Immutable
 import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
 
+@Immutable
 data class AnimeLight(
     val title: String,
     val image: String,
