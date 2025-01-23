@@ -84,9 +84,7 @@ fun AnifoxNavHost(
             onBackPressed = navController::popBackStack,
             onEpisodeClick = navController::navigateToPlayer,
         )
-        playerScreen(
-            onBackPressed = navController::popBackStack,
-        )
+        playerScreen()
         searchScreen(
             onBackPressed = navController::popBackStack,
             onAnimeClick = navController::navigateToDetail,

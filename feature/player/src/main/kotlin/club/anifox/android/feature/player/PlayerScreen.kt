@@ -1,6 +1,8 @@
 package club.anifox.android.feature.player
 
 import android.content.pm.ActivityInfo
+import android.os.Build
+import android.view.WindowManager
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
@@ -20,7 +22,6 @@ import club.anifox.android.feature.player.composable.component.kodik.WebPlayerKo
 @Composable
 internal fun PlayerScreen(
     viewModel: PlayerViewModel = hiltViewModel(),
-    onBackPressed: () -> Unit,
     url: String,
     kodik: Boolean = false,
 ) {
@@ -28,13 +29,36 @@ internal fun PlayerScreen(
     val context = LocalContext.current
 
     DisposableEffect(Unit) {
-        val window = context.findActivity()?.window?: return@DisposableEffect onDispose {}
+        val window = context.findActivity()?.window ?: return@DisposableEffect onDispose {}
+
+        // Store original system bars configuration
+        val originalSystemBarsBehavior = WindowCompat.getInsetsController(window, window.decorView).systemBarsBehavior
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val originalCutoutMode = window.attributes.layoutInDisplayCutoutMode
+
+            val layoutParams = window.attributes
+            layoutParams.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER
+            window.attributes = layoutParams
+
+            onDispose {
+                val restoreParams = window.attributes
+                restoreParams.layoutInDisplayCutoutMode = originalCutoutMode
+                window.attributes = restoreParams
+            }
+        }
+
         val windowInsets = WindowCompat.getInsetsController(window, window.decorView)
         windowInsets.apply {
             hide(WindowInsetsCompat.Type.systemBars())
             systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
-        onDispose {}
+
+        onDispose {
+            // Restore original system bars configuration
+            val restoredWindowInsets = WindowCompat.getInsetsController(window, window.decorView)
+            restoredWindowInsets.systemBarsBehavior = originalSystemBarsBehavior
+        }
     }
 
     PlayerUI(
@@ -48,8 +72,6 @@ private fun PlayerUI(
     url: String,
     kodik: Boolean,
 ) {
-
-    // TODO Remove the line on the left
     Surface(
         modifier = Modifier
             .fillMaxSize(),

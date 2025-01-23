@@ -15,7 +15,7 @@ fun NavController.navigateToPlayer(url: String, kodik: Boolean?, navOptions: Nav
     navigate("$PLAYER_ROUTE?url=$url&kodik=$kodik", navOptions)
 }
 
-fun NavGraphBuilder.playerScreen(onBackPressed: () -> Unit) {
+fun NavGraphBuilder.playerScreen() {
     composable(
         route = "$PLAYER_ROUTE?url={url}&kodik={kodik}",
         arguments = listOf(
@@ -35,7 +35,6 @@ fun NavGraphBuilder.playerScreen(onBackPressed: () -> Unit) {
         val decodedUrl = URLDecoder.decode(url, "UTF-8")
 
         PlayerScreen(
-            onBackPressed = onBackPressed,
             url = decodedUrl,
             kodik = kodik
         )
