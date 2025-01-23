@@ -29,6 +29,7 @@ internal fun CardEpisodeGridItem(
     modifier: Modifier = Modifier,
     data: AnimeEpisodesLight,
     onClick: (String) -> Unit,
+    currentTranslationId: Int,
 ) {
     Column {
         Card(
@@ -36,10 +37,10 @@ internal fun CardEpisodeGridItem(
                 .fillMaxWidth()
                 .aspectRatio(16 / 9f)
                 .clip(MaterialTheme.shapes.medium)
-                .clickable { onClick.invoke(URLEncoder.encode("https:${data.translation.first().link}", "UTF-8")) },
+                .clickable { onClick.invoke(URLEncoder.encode("https:${data.translation.find { it.id == currentTranslationId }?.link }", "UTF-8")) },
             elevation = CardDefaults.elevatedCardElevation(
                 defaultElevation = 2.dp,
-            )
+            ),
         ) {
             AsyncImage(
                 modifier = Modifier

@@ -136,6 +136,7 @@ private fun EpisodesContent(
                         if (item != null) {
                             CardEpisodeGridItem(
                                 modifier = Modifier.width(width),
+                                currentTranslationId = uiState.translationId,
                                 data = item,
                                 onClick = { url ->
                                     // TODO Add a player selection dialog
