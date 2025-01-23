@@ -20,7 +20,6 @@ import club.anifox.android.feature.home.navigation.HOME_ROUTE
 import club.anifox.android.feature.home.navigation.homeScreen
 import club.anifox.android.feature.login.navigation.loginScreen
 import club.anifox.android.feature.login.navigation.navigateToLogin
-import club.anifox.android.feature.onboarding.navigation.ONBOARDING_ROUTE
 import club.anifox.android.feature.onboarding.navigation.onboardingScreen
 import club.anifox.android.feature.player.navigation.navigateToPlayer
 import club.anifox.android.feature.player.navigation.playerScreen
@@ -49,7 +48,7 @@ fun AnifoxNavHost(
 
     NavHost(
         navController = navController,
-        startDestination = if(isFirstLaunch) ONBOARDING_ROUTE else startDestination,
+        startDestination = if(isFirstLaunch) startDestination else startDestination,
         modifier = modifier,
     ) {
         homeScreen(
