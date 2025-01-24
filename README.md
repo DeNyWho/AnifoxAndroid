@@ -4,8 +4,11 @@ Anifox is a mobile application for anime streaming, offering users access to a l
 
 
 ## 📱 Releases
-**Soon**
+Download the app on github releases or in RuStore.
 
+[<img src="https://cdn.anifox.club/images/github/rustore/ru_store.svg"
+      alt="Download from RuStore"
+      height="80">](https://www.rustore.ru/catalog/app/club.anifox.android)
 
 
 ## 📱 Features
@@ -18,6 +21,7 @@ Anifox is a mobile application for anime streaming, offering users access to a l
 
 
 ## ✨ Future Improvements
+
 - User experience
 - User Profile
 - User registration
@@ -37,6 +41,7 @@ Anifox is a mobile application for anime streaming, offering users access to a l
 | ![Home](screenshots/home.png) | ![Search](screenshots/search.png) | ![Anime Details](screenshots/anime_details_part_first.png) | ![Anime Details](screenshots/anime_details_part_second.png) | ![Catalog](screenshots/catalog.png) |
 
 ## 🛠️ Contents & Libraries
+
 - MVVM
 - Modularization & Multi Module App Architecture
 - Clean Architecture
