@@ -96,7 +96,7 @@ internal class DetailViewModel @Inject constructor(
     }
 
     private fun getCharactersAnime(url: String) {
-        animeCharactersUseCase.invoke(page = 0, limit = 12, url = url).onEach {
+        animeCharactersUseCase.invoke(page = DEFAULT_PAGE, limit = DEFAULT_LIMIT, url = url).onEach {
             _charactersAnime.value = it
         }.launchIn(viewModelScope)
     }
@@ -108,7 +108,7 @@ internal class DetailViewModel @Inject constructor(
     }
 
     private fun getSimilarAnime(url: String) {
-        animeSimilarUseCase.invoke(url = url).onEach {
+        animeSimilarUseCase.invoke(page = DEFAULT_PAGE, limit = DEFAULT_LIMIT, url = url).onEach {
             _similarAnime.value = it
         }.launchIn(viewModelScope)
     }
@@ -120,13 +120,13 @@ internal class DetailViewModel @Inject constructor(
     }
 
     private fun getScreenshotAnime(url: String) {
-        animeScreenshotUseCase.invoke(url = url, limit = 10).onEach {
+        animeScreenshotUseCase.invoke(url = url, limit = DEFAULT_SCREENSHOT_LIMIT).onEach {
             _screenshotsAnime.value = it
         }.launchIn(viewModelScope)
     }
 
     private fun getVideosAnime(url: String) {
-        animeVideosUseCase.invoke(url = url, videoType = null, 5).onEach {
+        animeVideosUseCase.invoke(url = url, videoType = null, DEFAULT_VIDEO_LIMIT).onEach {
             _videosAnime.value = it
         }.launchIn(viewModelScope)
     }
@@ -185,5 +185,12 @@ internal class DetailViewModel @Inject constructor(
 
     fun openYoutube(youtubeUrl: String) {
         deepLink.openYouTubeApp(youtubeUrl)
+    }
+
+    private companion object {
+        private const val DEFAULT_PAGE = 0
+        private const val DEFAULT_LIMIT = 12
+        private const val DEFAULT_SCREENSHOT_LIMIT = 10
+        private const val DEFAULT_VIDEO_LIMIT = 5
     }
 }

@@ -158,11 +158,13 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
         return safeApiCall<AnimeDetailDTO>(client, request)
     }
 
-    suspend fun getAnimeSimilar(url: String): Resource<List<AnimeLightDTO>> {
+    suspend fun getAnimeSimilar(page: Int, limit: Int, url: String): Resource<List<AnimeLightDTO>> {
         val request = HttpRequestBuilder().apply {
             method = HttpMethod.Get
             url {
                 encodedPath = "${ApiEndpoints.ANIME}/$url/${ApiEndpoints.ANIME_SIMILAR}"
+                parameter("page", page)
+                parameter("limit", limit)
             }
         }
 

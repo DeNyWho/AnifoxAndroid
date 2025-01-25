@@ -46,7 +46,7 @@ interface AnimeRepository {
         url: String
     ): Flow<StateWrapper<AnimeDetail>>
 
-    fun getAnimeSimilar(url: String): Flow<StateListWrapper<AnimeLight>>
+    fun getAnimeSimilar(page: Int, limit: Int, url: String): Flow<StateListWrapper<AnimeLight>>
     fun getAnimeRelated(url: String): Flow<StateListWrapper<AnimeRelatedLight>>
     fun getAnimeScreenshots(url: String, limit: Int?): Flow<StateListWrapper<String>>
     fun getAnimeVideos(url: String, videoType: VideoType?, limit: Int?): Flow<StateListWrapper<AnimeVideosLight>>

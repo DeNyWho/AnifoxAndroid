@@ -29,7 +29,6 @@ import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.AnimeLight
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import coil.size.Size
 
 /**
  * Anifox CardAnimePortrait (anime card with text) [CardAnimePortrait].
@@ -72,8 +71,6 @@ fun CardAnimePortrait(
                     .clip(MaterialTheme.shapes.medium),
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(data.image)
-                    .crossfade(true)
-                    .size(Size.ORIGINAL)
                     .build(),
                 contentDescription = "Content thumbnail",
                 contentScale = ContentScale.Crop,

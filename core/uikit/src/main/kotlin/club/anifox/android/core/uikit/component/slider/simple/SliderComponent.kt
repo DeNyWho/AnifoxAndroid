@@ -22,7 +22,6 @@ import club.anifox.android.core.uikit.component.slider.header.SliderHeaderShimme
 import club.anifox.android.core.uikit.component.slider.simple.param.SliderComponentPreviewParam
 import club.anifox.android.core.uikit.component.slider.simple.param.SliderComponentProvider
 import club.anifox.android.core.uikit.util.DefaultPreview
-import club.anifox.android.core.uikit.util.onUpdateShimmerBounds
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.state.StateListWrapper
 import com.valentinilk.shimmer.Shimmer
@@ -34,7 +33,7 @@ fun SliderComponent(
     modifier: Modifier = Modifier,
     headerModifier: Modifier = SliderComponentDefaults.BottomOnly,
     itemModifier: Modifier = Modifier.width(CardAnimePortraitDefaults.Width.Default),
-    shimmer: Shimmer = rememberShimmer(ShimmerBounds.Custom),
+    shimmer: Shimmer = rememberShimmer(ShimmerBounds.View),
     thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.Default,
     thumbnailWidth: Dp = CardAnimePortraitDefaults.Width.Default,
     headerTitle: String,
@@ -44,6 +43,7 @@ fun SliderComponent(
     textAlign: TextAlign = TextAlign.Start,
     onItemClick: (String) -> Unit,
     isMoreVisible: Boolean = false,
+    isMorePastLimitVisible: Boolean = false,
     onMoreClick: () -> Unit = { },
 ) {
     // header
@@ -63,7 +63,7 @@ fun SliderComponent(
 
     // content
     LazyRow (
-        modifier = modifier.onUpdateShimmerBounds(shimmer),
+        modifier = modifier,
         contentPadding = contentPadding,
         horizontalArrangement = contentArrangement,
     ) {
@@ -88,12 +88,14 @@ fun SliderComponent(
                     onClick = { onItemClick.invoke(data.url) },
                 )
             }
-            showCardAnimePortraitMoreWhenPastLimit (
-                size = contentState.data.size,
-                onClick = {
-                    onMoreClick.invoke()
-                },
-            )
+            if(isMorePastLimitVisible) {
+                showCardAnimePortraitMoreWhenPastLimit(
+                    size = contentState.data.size,
+                    onClick = {
+                        onMoreClick.invoke()
+                    },
+                )
+            }
         }
     }
 }

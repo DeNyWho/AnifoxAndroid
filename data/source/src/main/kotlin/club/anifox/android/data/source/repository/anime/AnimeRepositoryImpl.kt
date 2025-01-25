@@ -441,11 +441,19 @@ internal class AnimeRepositoryImpl @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
-    override fun getAnimeSimilar(url: String): Flow<StateListWrapper<AnimeLight>> {
+    override fun getAnimeSimilar(
+        page: Int,
+        limit: Int,
+        url: String,
+    ): Flow<StateListWrapper<AnimeLight>> {
         return flow {
             emit(StateListWrapper.loading())
 
-            val state = when (val animeSimilarResult = animeService.getAnimeSimilar(url)) {
+            val state = when (val animeSimilarResult = animeService.getAnimeSimilar(
+                page = page,
+                limit = limit,
+                url = url,
+            )) {
                 is Resource.Success -> {
                     val data = animeSimilarResult.data.map { it.toLight() }.toImmutableList()
                     StateListWrapper(data)

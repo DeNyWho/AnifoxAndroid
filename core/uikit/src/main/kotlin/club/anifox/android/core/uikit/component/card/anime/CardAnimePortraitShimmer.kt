@@ -74,7 +74,7 @@ fun CardThumbnailPortraitShimmer(
 fun LazyListScope.showCardAnimePortraitShimmer(
     modifier: Modifier,
     shimmerInstance: Shimmer,
-    count: Int = 11,
+    count: Int = 5,
     thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.Default,
     thumbnailWidth: Dp = CardAnimePortraitDefaults.Width.Default,
 ) {

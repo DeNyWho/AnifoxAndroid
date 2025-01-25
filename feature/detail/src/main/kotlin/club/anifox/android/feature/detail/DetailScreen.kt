@@ -223,6 +223,7 @@ internal fun DetailContentUI(
 ) {
     var isDescriptionExpanded by remember { mutableStateOf(false) }
     val lazyColumnState = rememberLazyListState()
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
@@ -336,9 +337,6 @@ internal fun DetailContentUI(
                 countContent = 3,
             )
         }
-
-        // TODO BUG WITH LAGGING SCROLL
-
         item(key = "similar") {
             SliderComponent(
                 headerModifier = SliderComponentDefaults.Default,

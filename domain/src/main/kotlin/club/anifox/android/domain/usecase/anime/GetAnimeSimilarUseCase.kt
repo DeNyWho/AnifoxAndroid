@@ -7,8 +7,10 @@ import kotlinx.coroutines.flow.Flow
 
 class GetAnimeSimilarUseCase(private val animeRepository: AnimeRepository) {
     operator fun invoke(
+        page: Int,
+        limit: Int,
         url: String,
     ): Flow<StateListWrapper<AnimeLight>> {
-        return animeRepository.getAnimeSimilar(url)
+        return animeRepository.getAnimeSimilar(page, limit, url)
     }
 }

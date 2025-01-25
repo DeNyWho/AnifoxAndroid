@@ -140,6 +140,7 @@ private fun HomeContent(
                         )
                     )
                 },
+                isMorePastLimitVisible = true,
             )
         }
         item {
@@ -157,6 +158,7 @@ private fun HomeContent(
                         )
                     )
                 },
+                isMorePastLimitVisible = true,
             )
         }
         item {
@@ -174,6 +176,7 @@ private fun HomeContent(
                         )
                     )
                 },
+                isMorePastLimitVisible = true,
             )
         }
         item {
@@ -194,6 +197,7 @@ private fun HomeContent(
                 onMoreClick = {
                     onCatalogClick(CatalogFilterParams(genres = null, type = AnimeType.Movie))
                 },
+                isMorePastLimitVisible = true,
             )
         }
     }
