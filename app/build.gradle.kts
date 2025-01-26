@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.anifox.android.application.firebase)
     alias(libs.plugins.anifox.android.hilt)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.baselineprofile)
 }
 
 android {
@@ -90,6 +92,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.tracing.ktx)
     implementation(libs.kotlinx.coroutines.guava)
+    implementation(libs.androidx.profileinstaller)
+    "baselineProfile"(project(":benchmarks"))
 
     ksp(libs.hilt.compiler)
 
