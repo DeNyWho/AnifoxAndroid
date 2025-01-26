@@ -25,7 +25,6 @@ import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import club.anifox.android.core.uikit.component.error.NoSearchResultsError
-import club.anifox.android.core.uikit.component.progress.CircularProgress
 import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.AnimeLight
@@ -34,10 +33,14 @@ import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.search.composable.empty.SearchEmptyContent
 import club.anifox.android.feature.search.composable.item.AnimeSearchItem
 import club.anifox.android.feature.search.composable.item.AnimeSearchItemDefaults
+import club.anifox.android.feature.search.composable.item.showAnimeSearchItemShimmer
 import club.anifox.android.feature.search.composable.toolbar.ContentSearchScreenToolbar
 import club.anifox.android.feature.search.model.state.SearchUiState
 import club.anifox.android.feature.search.param.SearchUiPreviewParam
 import club.anifox.android.feature.search.param.SearchUiProvider
+import com.valentinilk.shimmer.Shimmer
+import com.valentinilk.shimmer.ShimmerBounds
+import com.valentinilk.shimmer.rememberShimmer
 import kotlinx.coroutines.flow.Flow
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -146,6 +149,7 @@ private fun SearchUI(
 @Composable
 private fun SearchContent(
     modifier: Modifier = Modifier,
+    shimmer: Shimmer = rememberShimmer(ShimmerBounds.View),
     searchResults: Flow<PagingData<AnimeLight>>,
     uiState: SearchUiState,
     searchHistory: List<String>,
@@ -160,7 +164,7 @@ private fun SearchContent(
     val items = searchResults.collectAsLazyPagingItems()
 
     val screenInfo = LocalScreenInfo.current
-    val (width, height) = when (screenInfo.screenType) {
+    val (thumbnailWidth, thumbnailHeight) = when (screenInfo.screenType) {
         ScreenType.SMALL -> {
             Pair(
                 AnimeSearchItemDefaults.Width.Small,
@@ -206,15 +210,11 @@ private fun SearchContent(
                 )
             }
 
-            items.loadState.refresh is LoadState.Loading || uiState.isWaiting -> {
-                CircularProgress()
-            }
-
             items.itemCount == 0 && uiState.query.isNotBlank() -> {
                 NoSearchResultsError()
             }
 
-            items.itemCount > 0 -> {
+            else -> {
                 LazyVerticalGrid(
                     modifier = Modifier.fillMaxSize(),
                     columns = GridCells.Adaptive(minSize = minColumnSize),
@@ -224,16 +224,38 @@ private fun SearchContent(
                 ) {
                     items(
                         count = items.itemCount,
-                        key = items.itemKey { it.url }
+                        key = items.itemKey { it.url },
                     ) { index ->
                         val item = items[index]
-                        if (item != null) {
+                        item?.let {
                             AnimeSearchItem(
-                                thumbnailWidth = width,
-                                thumbnailHeight = height,
+                                thumbnailWidth = thumbnailWidth,
+                                thumbnailHeight = thumbnailHeight,
                                 data = item,
                                 onClick = onAnimeClick,
                             )
+                        }
+                    }
+
+                    when {
+                        items.loadState.append is LoadState.Loading -> {
+                            showAnimeSearchItemShimmer(
+                                shimmerInstance = shimmer,
+                                thumbnailHeight = thumbnailHeight,
+                                thumbnailWidth = thumbnailWidth,
+                            )
+                        }
+
+                        items.loadState.refresh is LoadState.Loading -> {
+                            showAnimeSearchItemShimmer(
+                                shimmerInstance = shimmer,
+                                thumbnailHeight = thumbnailHeight,
+                                thumbnailWidth = thumbnailWidth,
+                            )
+                        }
+
+                        items.loadState.append is LoadState.Error -> {
+
                         }
                     }
                 }
