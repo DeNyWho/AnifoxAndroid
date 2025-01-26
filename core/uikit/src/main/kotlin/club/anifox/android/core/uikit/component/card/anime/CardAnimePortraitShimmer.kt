@@ -72,7 +72,7 @@ fun CardThumbnailPortraitShimmer(
 }
 
 fun LazyListScope.showCardAnimePortraitShimmer(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     shimmerInstance: Shimmer,
     count: Int = 5,
     thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.Default,
@@ -91,7 +91,7 @@ fun LazyListScope.showCardAnimePortraitShimmer(
 fun LazyGridScope.showCardAnimePortraitShimmer(
     modifier: Modifier,
     shimmerInstance: Shimmer,
-    count: Int = 11,
+    count: Int = 9,
     thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.GridSmall,
     thumbnailWidth: Dp = CardAnimePortraitDefaults.Width.GridSmall,
 ) {

@@ -69,7 +69,6 @@ fun SliderComponent(
     ) {
         if(contentState.isLoading) {
             showCardAnimePortraitShimmer(
-                modifier = itemModifier,
                 shimmerInstance = shimmer,
                 thumbnailHeight = thumbnailHeight,
                 thumbnailWidth = thumbnailWidth,
@@ -80,7 +79,6 @@ fun SliderComponent(
                 key = { it.url },
             ) { data ->
                 CardAnimePortrait(
-                    modifier = itemModifier,
                     data = data,
                     thumbnailHeight = thumbnailHeight,
                     thumbnailWidth = thumbnailWidth,

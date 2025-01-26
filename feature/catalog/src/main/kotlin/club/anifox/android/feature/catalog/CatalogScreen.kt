@@ -2,14 +2,8 @@ package club.anifox.android.feature.catalog
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -22,15 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.itemKey
-import club.anifox.android.core.uikit.component.card.anime.CardAnimePortrait
 import club.anifox.android.core.uikit.component.card.anime.CardAnimePortraitDefaults
-import club.anifox.android.core.uikit.component.error.NoSearchResultsError
 import club.anifox.android.core.uikit.component.grid.GridComponentDefaults
-import club.anifox.android.core.uikit.component.progress.CircularProgress
+import club.anifox.android.core.uikit.component.grid.simple.GridComponent
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
@@ -113,7 +103,7 @@ private fun CatalogUI(
                 studios = uiState.selectedStudios,
                 translation = uiState.selectedTranslation,
                 order = uiState.selectedOrder,
-                sort = uiState.selectedSort
+                sort = uiState.selectedSort,
             )
         )
     }
@@ -127,7 +117,7 @@ private fun CatalogUI(
         uiState.selectedStudios,
         uiState.selectedTranslation,
         uiState.selectedOrder,
-        uiState.selectedSort
+        uiState.selectedSort,
     ) {
         val currentFilters = CatalogFilterParams(
             genres = uiState.selectedGenres,
@@ -138,7 +128,7 @@ private fun CatalogUI(
             studios = uiState.selectedStudios,
             translation = uiState.selectedTranslation,
             order = uiState.selectedOrder,
-            sort = uiState.selectedSort
+            sort = uiState.selectedSort,
         )
 
         if (previousFilters.value != currentFilters) {
@@ -149,7 +139,7 @@ private fun CatalogUI(
 
     val screenInfo = LocalScreenInfo.current
 
-    val (width, height) = when (screenInfo.screenType) {
+    val (thumbnailWidth, thumbnailHeight) = when (screenInfo.screenType) {
         ScreenType.SMALL -> {
             Pair(
                 CardAnimePortraitDefaults.Width.GridSmall,
@@ -170,7 +160,7 @@ private fun CatalogUI(
         }
     }
 
-    val minColumnSize = (screenInfo.portraitWidthDp.dp / (if (screenInfo.portraitWidthDp.dp < 600.dp) 4 else 6)).coerceAtLeast(if(screenInfo.portraitWidthDp.dp < 600.dp) CardAnimePortraitDefaults.Width.Min else width )
+    val minColumnSize = (screenInfo.portraitWidthDp.dp / (if (screenInfo.portraitWidthDp.dp < 600.dp) 4 else 6)).coerceAtLeast(if(screenInfo.portraitWidthDp.dp < 600.dp) CardAnimePortraitDefaults.Width.Min else thumbnailWidth )
 
     Scaffold (
         topBar = {
@@ -191,60 +181,24 @@ private fun CatalogUI(
             updateFilter = updateFilter,
         )
 
-        if (items.loadState.refresh is LoadState.Loading) {
-            CircularProgress()
-        } else {
-            Box(
-                modifier = Modifier
-                    .padding(top = 40.dp)
-                    .padding(padding)
-                    .zIndex(-1f)
-                    .fillMaxSize(),
-            ) {
-                LazyVerticalGrid(
-                    modifier = GridComponentDefaults.Default.fillMaxSize(),
-                    columns = GridCells.Adaptive(minSize = minColumnSize),
-                    state = lazyGridState,
-                    horizontalArrangement = CardAnimePortraitDefaults.HorizontalArrangement.Grid,
-                    verticalArrangement = CardAnimePortraitDefaults.VerticalArrangement.Grid,
-                ) {
-                    item(span = { GridItemSpan(maxLineSpan) }) {
-                        Spacer(modifier = Modifier.height(CardAnimePortraitDefaults.GridItemSpan.Default))
-                    }
-
-                    items(
-                        count = items.itemCount,
-                        key = items.itemKey { it.url }
-                    ) { index ->
-                        val item = items[index]
-                        if (item != null) {
-                            CardAnimePortrait(
-                                modifier = Modifier.width(width),
-                                data = item,
-                                onClick = { onAnimeClick.invoke(item.url) },
-                                thumbnailHeight = height,
-                                thumbnailWidth = width,
-                            )
-                        }
-                    }
-
-                    items.apply {
-                        when (loadState.append) {
-                            is LoadState.Loading -> {
-
-                            }
-
-                            is LoadState.Error -> {
-                                item { NoSearchResultsError() }
-                            }
-
-                            is LoadState.NotLoading -> {
-
-                            }
-                        }
-                    }
-                }
-            }
+        Box(
+            modifier = Modifier
+                .padding(top = 40.dp)
+                .padding(padding)
+                .zIndex(-1f)
+                .fillMaxSize(),
+        ) {
+            GridComponent(
+                modifier = GridComponentDefaults.Default.fillMaxSize(),
+                thumbnailHeight = thumbnailHeight,
+                thumbnailWidth = thumbnailWidth,
+                contentState = items,
+                horizontalContentArrangement = CardAnimePortraitDefaults.HorizontalArrangement.Grid,
+                verticalContentArrangement = CardAnimePortraitDefaults.VerticalArrangement.Grid,
+                onItemClick = onAnimeClick,
+                minColumnSize = minColumnSize,
+                state = lazyGridState,
+            )
         }
     }
 }
