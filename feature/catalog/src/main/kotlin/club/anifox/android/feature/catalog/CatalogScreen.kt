@@ -1,10 +1,9 @@
 package club.anifox.android.feature.catalog
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -12,6 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -50,11 +50,7 @@ internal fun CatalogScreen(
     val animeStudios by viewModel.animeStudios.collectAsState()
     val animeTranslations by viewModel.animeTranslations.collectAsState()
 
-    BackHandler {
-        onBackPressed.invoke()
-    }
-
-    LaunchedEffect(initialParams, uiState) {
+    LaunchedEffect(Unit) {
         if (!uiState.isInitialized) {
             viewModel.initializeFilters(initialParams)
         }
@@ -89,7 +85,9 @@ private fun CatalogUI(
     animeTranslations: StateListWrapper<AnimeTranslation>,
     updateFilter: (CatalogFilterParams, FilterType) -> Unit,
 ) {
-    val lazyGridState = rememberLazyGridState()
+    val lazyGridState = rememberSaveable(saver = LazyGridState.Saver) {
+        LazyGridState()
+    }
     val items = searchResults.collectAsLazyPagingItems()
 
     val previousFilters = remember {

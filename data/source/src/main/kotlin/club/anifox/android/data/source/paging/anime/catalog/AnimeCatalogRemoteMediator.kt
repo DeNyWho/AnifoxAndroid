@@ -36,6 +36,10 @@ internal class AnimeCatalogRemoteMediator(
     private var lastLoadedPage = -1
     private var currentParams: Params = Params(status, genres, searchQuery, season, ratingMpa, minimalAge, type, years, studios, translation, order, sort)
 
+    override suspend fun initialize(): InitializeAction {
+        return InitializeAction.LAUNCH_INITIAL_REFRESH
+    }
+
     private data class Params(
         val status: AnimeStatus?,
         val genres: List<String>?,
@@ -59,11 +63,21 @@ internal class AnimeCatalogRemoteMediator(
         if (newParams != currentParams) {
             currentParams = newParams
             lastLoadedPage = -1
+            animeCacheCatalogDao.clearAll()
         }
 
         return try {
+            if (newParams != currentParams) {
+                currentParams = newParams
+                return load(LoadType.REFRESH, state)
+            }
+
             val loadKey = when (loadType) {
-                LoadType.REFRESH -> 0
+                LoadType.REFRESH -> {
+                    animeCacheCatalogDao.clearAll()
+                    lastLoadedPage = -1
+                    0
+                }
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> lastLoadedPage + 1
             }
