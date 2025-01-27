@@ -96,7 +96,7 @@ internal fun AnimeSearchItemShimmer(
 internal fun LazyGridScope.showAnimeSearchItemShimmer(
     modifier: Modifier = Modifier,
     shimmerInstance: Shimmer,
-    count: Int = 9,
+    count: Int = 5,
     thumbnailHeight: Dp = AnimeSearchItemDefaults.Height.Medium,
     thumbnailWidth: Dp = AnimeSearchItemDefaults.Width.Medium,
 ) {

@@ -1,21 +1,21 @@
 package club.anifox.android.feature.search
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -99,51 +99,34 @@ private fun SearchUI(
     onRefreshRandomAnimeClick: () -> Unit,
 ) {
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
-    val focusRequester = remember { FocusRequester() }
-    var shouldRequestFocus by remember { mutableStateOf(false) }
 
-    DisposableEffect(Unit) {
-        shouldRequestFocus = true
-        onDispose {
-            shouldRequestFocus = false
+    CollapsingToolbarScaffold(
+        modifier = Modifier.fillMaxSize(),
+        state = toolbarScaffoldState,
+        scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
+        toolbar = {
+            ContentSearchScreenToolbar(
+                toolbarScaffoldState = toolbarScaffoldState,
+                onBackPressed = onBackPressed,
+                searchQuery = uiState.query,
+                onSearchQueryChanged = onQueryChange,
+                onTrailingIconClick = onTrailingIconClick,
+            )
+        },
+        body = {
+            SearchContent(
+                uiState = uiState,
+                searchResults = searchResults,
+                searchHistory = searchHistory,
+                randomAnime = randomAnime,
+                onAnimeClick = onAnimeClick,
+                onHistoryItemClick = onHistoryItemClick,
+                onDeleteHistoryClick = onDeleteHistoryClick,
+                onRandomAnimeClick = onRandomAnimeClick,
+                onRefreshRandomAnimeClick = onRefreshRandomAnimeClick,
+            )
         }
-    }
-
-    LaunchedEffect(shouldRequestFocus) {
-        if (shouldRequestFocus) {
-            focusRequester.requestFocus()
-        }
-    }
-
-    Box(modifier = modifier.fillMaxSize()) {
-        CollapsingToolbarScaffold(
-            modifier = Modifier.fillMaxSize(),
-            state = toolbarScaffoldState,
-            scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
-            toolbar = {
-                ContentSearchScreenToolbar(
-                    onBackPressed = onBackPressed,
-                    searchQuery = uiState.query,
-                    onSearchQueryChanged = onQueryChange,
-                    onTrailingIconClick = onTrailingIconClick,
-                    focusRequest = focusRequester,
-                )
-            },
-            body = {
-                SearchContent(
-                    uiState = uiState,
-                    searchResults = searchResults,
-                    searchHistory = searchHistory,
-                    randomAnime = randomAnime,
-                    onAnimeClick = onAnimeClick,
-                    onHistoryItemClick = onHistoryItemClick,
-                    onDeleteHistoryClick = onDeleteHistoryClick,
-                    onRandomAnimeClick = onRandomAnimeClick,
-                    onRefreshRandomAnimeClick = onRefreshRandomAnimeClick,
-                )
-            }
-        )
-    }
+    )
 }
 
 @Composable
@@ -160,7 +143,9 @@ private fun SearchContent(
     onRandomAnimeClick: (String) -> Unit,
     onRefreshRandomAnimeClick: () -> Unit,
 ) {
-    val lazyGridState = rememberLazyGridState()
+    val lazyGridState = rememberSaveable(saver = LazyGridState.Saver) {
+        LazyGridState()
+    }
     val items = searchResults.collectAsLazyPagingItems()
 
     val screenInfo = LocalScreenInfo.current
@@ -187,10 +172,32 @@ private fun SearchContent(
 
     val minColumnSize = (screenInfo.portraitWidthDp.dp / 4).coerceAtLeast(300.dp)
 
-    LaunchedEffect(uiState.query) {
-        if (uiState.query.isNotBlank()) {
+    val previousQuery = remember {
+        mutableStateOf(
+            uiState.query
+        )
+    }
+
+    LaunchedEffect(
+        uiState.query
+    ) {
+        val currentQuery = uiState.query
+
+        if (previousQuery.value != currentQuery) {
             lazyGridState.scrollToItem(0)
+            previousQuery.value = currentQuery
         }
+    }
+    val isLoading = remember(items.loadState, uiState.isWaiting) {
+        items.loadState.append is LoadState.Loading ||
+                items.loadState.refresh is LoadState.Loading ||
+                uiState.isWaiting
+    }
+
+    val noDataAvailable = remember(items.loadState, items.itemCount, isLoading) {
+        items.loadState.refresh is LoadState.NotLoading &&
+                items.itemCount == 0 &&
+                !isLoading
     }
 
     Box(
@@ -210,7 +217,7 @@ private fun SearchContent(
                 )
             }
 
-            items.itemCount == 0 && uiState.query.isNotBlank() -> {
+            !isLoading && noDataAvailable && uiState.query.isNotBlank() -> {
                 NoSearchResultsError()
             }
 
@@ -222,6 +229,10 @@ private fun SearchContent(
                     horizontalArrangement = AnimeSearchItemDefaults.HorizontalArrangement.Grid,
                     verticalArrangement = AnimeSearchItemDefaults.VerticalArrangement.Grid,
                 ) {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        Spacer(modifier = Modifier)
+                    }
+
                     items(
                         count = items.itemCount,
                         key = items.itemKey { it.url },

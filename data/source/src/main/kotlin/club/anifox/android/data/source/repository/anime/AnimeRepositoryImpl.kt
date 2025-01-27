@@ -129,7 +129,7 @@ internal class AnimeRepositoryImpl @Inject constructor(
             .map { entities -> entities.map { it.query } }
 
     override suspend fun addSearchHistory(query: String) {
-        animeSearchHistoryDao.insertSearch(AnimeSearchHistoryEntity(query = query))
+        animeSearchHistoryDao.insertUniqueSearch(AnimeSearchHistoryEntity(query = query))
         animeSearchHistoryDao.keepOnly10LastSearches()
     }
 

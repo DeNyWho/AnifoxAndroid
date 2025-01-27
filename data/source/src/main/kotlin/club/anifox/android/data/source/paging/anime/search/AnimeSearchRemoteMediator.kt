@@ -9,6 +9,7 @@ import club.anifox.android.data.local.cache.model.anime.search.AnimeCacheSearchE
 import club.anifox.android.data.network.service.AnimeService
 import club.anifox.android.data.source.mapper.anime.toEntityCacheSearchLight
 import club.anifox.android.domain.model.common.request.Resource
+import kotlin.coroutines.cancellation.CancellationException
 
 @OptIn(ExperimentalPagingApi::class)
 internal class AnimeSearchRemoteMediator(
@@ -24,6 +25,10 @@ internal class AnimeSearchRemoteMediator(
         val searchQuery: String?,
     )
 
+    override suspend fun initialize(): InitializeAction {
+        return InitializeAction.LAUNCH_INITIAL_REFRESH
+    }
+
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, AnimeCacheSearchEntity>
@@ -32,11 +37,22 @@ internal class AnimeSearchRemoteMediator(
         if (newParams != currentParams) {
             currentParams = newParams
             lastLoadedPage = -1
+            animeCacheSearchDao.clearAll()
         }
 
         return try {
+            if (newParams != currentParams) {
+                currentParams = newParams
+                return load(LoadType.REFRESH, state)
+            }
+
             val loadKey = when (loadType) {
-                LoadType.REFRESH -> 0
+                LoadType.REFRESH -> {
+                    animeCacheSearchDao.clearAll()
+                    lastLoadedPage = -1
+                    0
+                }
+
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> lastLoadedPage + 1
             }
@@ -47,7 +63,7 @@ internal class AnimeSearchRemoteMediator(
                 searchQuery = currentParams.searchQuery,
             )
 
-            when(response) {
+            when (response) {
                 is Resource.Success -> {
                     if (loadType == LoadType.REFRESH) {
                         animeCacheSearchDao.clearAll()
@@ -58,13 +74,17 @@ internal class AnimeSearchRemoteMediator(
                     lastLoadedPage = loadKey
                     MediatorResult.Success(endOfPaginationReached = animeEntities.isEmpty())
                 }
+
                 is Resource.Error -> {
                     MediatorResult.Error(Exception("Failed to load: ${response.error}"))
                 }
+
                 is Resource.Loading -> {
                     MediatorResult.Error(Exception("Unexpected loading state"))
                 }
             }
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             MediatorResult.Error(e)
         }

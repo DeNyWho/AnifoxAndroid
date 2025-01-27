@@ -8,17 +8,18 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons.AutoMirrored.Filled
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.icon.AnifoxIconOnSurface
@@ -36,10 +37,8 @@ internal fun CollapsingToolbarScope.ContentSearchScreenToolbar(
     searchQuery: String,
     onSearchQueryChanged: (String) -> Unit,
     onTrailingIconClick: () -> Unit,
-    focusRequest: FocusRequester = FocusRequester(),
 ) {
     var isAnimatingBack by remember { mutableStateOf(false) }
-    val scope = rememberCoroutineScope()
 
     val searchEndPadding by animateIntAsState(
         targetValue = if (isAnimatingBack) 32 else 0,
@@ -49,34 +48,39 @@ internal fun CollapsingToolbarScope.ContentSearchScreenToolbar(
         )
     )
 
-    Row(
-        modifier = Modifier
-            .padding(vertical = 8.dp, horizontal = 16.dp)
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    Surface (
+        modifier = Modifier.fillMaxWidth(),
+        color = MaterialTheme.colorScheme.background,
     ) {
-        AnifoxIconOnSurface(
+        Row(
             modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .size(24.dp)
-                .clickableWithoutRipple {
-                    isAnimatingBack = true
-                    onBackPressed.invoke()
-                },
-            imageVector = Filled.ArrowBack,
-            contentDescription = null,
-        )
+                .padding(vertical = 8.dp, horizontal = 16.dp)
+                .fillMaxWidth()
+                .statusBarsPadding(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            AnifoxIconOnSurface(
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .size(24.dp)
+                    .clickableWithoutRipple {
+                        isAnimatingBack = true
+                        onBackPressed.invoke()
+                    },
+                imageVector = Filled.ArrowBack,
+                contentDescription = null,
+            )
 
-        SearchField(
-            modifier = Modifier
-                .weight(1f)
-                .padding(end = searchEndPadding.dp),
-            isEnabled = true,
-            searchQuery = searchQuery,
-            onSearchQueryChanged = onSearchQueryChanged,
-            onTrailingIconClick = onTrailingIconClick,
-            placeHolder = stringResource(R.string.feature_search_search_placeholder),
-            focusRequest = focusRequest,
-        )
+            SearchField(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = searchEndPadding.dp),
+                isEnabled = true,
+                searchQuery = searchQuery,
+                onSearchQueryChanged = onSearchQueryChanged,
+                onTrailingIconClick = onTrailingIconClick,
+                placeHolder = stringResource(R.string.feature_search_search_placeholder),
+            )
+        }
     }
 }

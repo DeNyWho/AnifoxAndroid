@@ -3,6 +3,7 @@ package club.anifox.android.feature.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeOrder
 import club.anifox.android.domain.state.StateListWrapper
@@ -13,7 +14,6 @@ import club.anifox.android.domain.usecase.anime.search.DeleteAnimeSearchHistoryU
 import club.anifox.android.domain.usecase.anime.search.GetAnimeSearchHistoryUseCase
 import club.anifox.android.feature.search.model.state.SearchUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -44,6 +44,8 @@ internal class SearchViewModel @Inject constructor(
 
     private val _randomAnime = MutableStateFlow(StateListWrapper<AnimeLight>())
     val randomAnime = _randomAnime.asStateFlow()
+
+    private val _searchQuery = MutableStateFlow("")
 
     init {
         loadInitialData()
@@ -82,43 +84,39 @@ internal class SearchViewModel @Inject constructor(
         }
     }
 
-    @OptIn(FlowPreview::class)
-    val searchResults: Flow<PagingData<AnimeLight>> = _uiState
-        .debounce(500)
-        .distinctUntilChanged { old, new -> old.query == new.query }
-        .flatMapLatest { state ->
-            _uiState.update { it.copy(isWaiting = false) }
+    val searchResults: Flow<PagingData<AnimeLight>> = _searchQuery
+        .debounce(500) // Задержка только для запросов
+        .distinctUntilChanged()
+        .flatMapLatest { query ->
             when {
-                state.query.isNotBlank() && state.query != state.previousQuery -> {
-                    viewModelScope.launch { addSearchHistoryUseCase.invoke(state.query) }
-                    _uiState.update {
-                        it.copy(isInitialized = false, previousQuery = state.query)
-                    }
-                    animeSearchPagingUseCase.invoke(limit = 20, searchQuery = state.query)
+                query.isNotBlank() -> {
+                    viewModelScope.launch { addSearchHistoryUseCase.invoke(query) }
+                    animeSearchPagingUseCase.invoke(limit = 20, searchQuery = query)
                 }
-                state.query.isBlank() -> flow { emit(PagingData.empty()) }
-                else -> animeSearchPagingUseCase.invoke(limit = 20, searchQuery = state.query)
+                else -> {
+                    flow { emit(PagingData.empty()) }
+                }
             }
-        }
+        }.cachedIn(viewModelScope)
 
     fun search(query: String) {
         viewModelScope.launch {
-            if (query != uiState.value.query) {
-                _uiState.update {
-                    it.copy(
-                        query = query,
-                        isInitialized = false,
-                        isWaiting = true,
-                    )
-                }
-            } else {
-                _uiState.update { it.copy(query = query) }
+            // Мгновенное обновление UI
+            _uiState.update {
+                it.copy(
+                    query = query,
+                    isInitialized = false,
+                    isWaiting = query.isNotBlank()
+                )
             }
+            // Отложенное обновление запроса
+            _searchQuery.emit(query)
         }
     }
 
     fun clearSearch() {
         viewModelScope.launch {
+            _searchQuery.emit("")
             _uiState.update {
                 it.copy(
                     query = "",
