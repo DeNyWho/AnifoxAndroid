@@ -1,33 +1,23 @@
 package club.anifox.android.feature.genres
 
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.itemKey
-import club.anifox.android.core.uikit.component.card.anime.CardAnimePortrait
 import club.anifox.android.core.uikit.component.card.anime.CardAnimePortraitDefaults
-import club.anifox.android.core.uikit.component.error.NoSearchResultsError
 import club.anifox.android.core.uikit.component.grid.GridComponentDefaults
-import club.anifox.android.core.uikit.component.progress.CircularProgress
+import club.anifox.android.core.uikit.component.grid.simple.GridComponent
 import club.anifox.android.core.uikit.component.topbar.SimpleTopBarCollapse
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.core.uikit.util.toolbarShadow
@@ -70,52 +60,48 @@ private fun GenresUI(
     onBackPressed: () -> Boolean,
     searchResults: Flow<PagingData<AnimeLight>>,
 ) {
-    val lazyGridState = rememberLazyGridState()
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
 
-    if(uiState.isLoading || uiState.isContentLoading) {
-        CircularProgress()
-    } else {
-        CollapsingToolbarScaffold(
-            modifier = Modifier.fillMaxSize(),
-            state = toolbarScaffoldState,
-            scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
-            toolbar = {
-                SimpleTopBarCollapse(
-                    title = uiState.selectedGenre.name,
-                    titleStyle = MaterialTheme.typography.titleLarge,
-                    titleAlign = TextAlign.Center,
-                    toolbarScaffoldState = toolbarScaffoldState,
-                    onBackPressed = onBackPressed,
-                )
-            },
-            toolbarModifier = Modifier.toolbarShadow(
-                shadowElevation = 4.dp,
-                tonalElevation = 4.dp,
-                shape = RectangleShape,
-            ),
-            body = {
-                GenresContent(
-                    searchResults = searchResults,
-                    lazyGridState = lazyGridState,
-                    onAnimeClick = onAnimeClick,
-                )
-            }
-        )
-    }
+    CollapsingToolbarScaffold(
+        modifier = Modifier.fillMaxSize(),
+        state = toolbarScaffoldState,
+        scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
+        toolbar = {
+            SimpleTopBarCollapse(
+                title = uiState.selectedGenre.name,
+                titleStyle = MaterialTheme.typography.titleLarge,
+                titleAlign = TextAlign.Center,
+                toolbarScaffoldState = toolbarScaffoldState,
+                onBackPressed = onBackPressed,
+            )
+        },
+        toolbarModifier = Modifier.toolbarShadow(
+            shadowElevation = 4.dp,
+            tonalElevation = 4.dp,
+            shape = RectangleShape,
+        ),
+        body = {
+            GenresContent(
+                searchResults = searchResults,
+                onAnimeClick = onAnimeClick,
+            )
+        }
+    )
 }
 
 @Composable
 private fun GenresContent(
-    modifier: Modifier = Modifier,
     searchResults: Flow<PagingData<AnimeLight>>,
-    lazyGridState: LazyGridState,
     onAnimeClick: (String) -> Unit,
 ) {
+    val lazyGridState = rememberSaveable(saver = LazyGridState.Saver) {
+        LazyGridState()
+    }
+
     val items = searchResults.collectAsLazyPagingItems()
     val screenInfo = LocalScreenInfo.current
 
-    val (width, height) = when (screenInfo.screenType) {
+    val (thumbnailWidth, thumbnailHeight) = when (screenInfo.screenType) {
         ScreenType.SMALL -> {
             Pair(
                 CardAnimePortraitDefaults.Width.GridSmall,
@@ -136,54 +122,17 @@ private fun GenresContent(
         }
     }
 
-    val minColumnSize = (screenInfo.portraitWidthDp.dp / (if (screenInfo.portraitWidthDp.dp < 600.dp) 4 else 6)).coerceAtLeast(if(screenInfo.portraitWidthDp.dp < 600.dp) CardAnimePortraitDefaults.Width.Min else width )
+    val minColumnSize = (screenInfo.portraitWidthDp.dp / (if (screenInfo.portraitWidthDp.dp < 600.dp) 4 else 6)).coerceAtLeast(if(screenInfo.portraitWidthDp.dp < 600.dp) CardAnimePortraitDefaults.Width.Min else thumbnailWidth )
 
-    if (items.loadState.refresh is LoadState.Loading) {
-        CircularProgress()
-    } else {
-        LazyVerticalGrid(
-            modifier = GridComponentDefaults.Default.fillMaxSize(),
-            columns = GridCells.Adaptive(minSize = minColumnSize),
-            state = lazyGridState,
-            horizontalArrangement = CardAnimePortraitDefaults.HorizontalArrangement.Grid,
-            verticalArrangement = CardAnimePortraitDefaults.VerticalArrangement.Grid,
-        ) {
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                Spacer(modifier = Modifier.height(CardAnimePortraitDefaults.GridItemSpan.Default))
-            }
-
-            items(
-                count = items.itemCount,
-                key = items.itemKey { it.url }
-            ) { index ->
-                val item = items[index]
-                if (item != null) {
-                    CardAnimePortrait(
-                        modifier = Modifier
-                            .width(width),
-                        data = item,
-                        onClick = { onAnimeClick.invoke(item.url) },
-                        thumbnailHeight = height,
-                        thumbnailWidth = width,
-                    )
-                }
-            }
-
-            items.apply {
-                when (loadState.append) {
-                    is LoadState.Loading -> {
-
-                    }
-
-                    is LoadState.Error -> {
-                        item { NoSearchResultsError() }
-                    }
-
-                    is LoadState.NotLoading -> {
-
-                    }
-                }
-            }
-        }
-    }
+    GridComponent(
+        modifier = GridComponentDefaults.Default.fillMaxSize(),
+        thumbnailHeight = thumbnailHeight,
+        thumbnailWidth = thumbnailWidth,
+        contentState = items,
+        horizontalContentArrangement = CardAnimePortraitDefaults.HorizontalArrangement.Grid,
+        verticalContentArrangement = CardAnimePortraitDefaults.VerticalArrangement.Grid,
+        onItemClick = onAnimeClick,
+        minColumnSize = minColumnSize,
+        state = lazyGridState,
+    )
 }

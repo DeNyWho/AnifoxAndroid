@@ -12,14 +12,14 @@ import club.anifox.android.feature.genres.GenresScreen
 private const val GENRE_ID = "genre_id"
 const val GENRES_ROUTE = "genres_route"
 
-fun NavController.navigateToGenres(genreID: String, navOptions: NavOptions? = null) = navigate("$GENRES_ROUTE/$GENRE_ID=$genreID", navOptions)
+fun NavController.navigateToGenres(genreID: String, navOptions: NavOptions? = null) = navigate("$GENRES_ROUTE?$GENRE_ID=$genreID", navOptions)
 
 fun NavGraphBuilder.genresScreen(
     onAnimeClick: (String) -> Unit,
     onBackPressed: () -> Boolean,
 ) {
     composable(
-        route = "$GENRES_ROUTE/$GENRE_ID={genreID}",
+        route = "$GENRES_ROUTE?$GENRE_ID={genreID}",
         arguments = listOf(
             navArgument("genreID") { type = NavType.StringType },
         ),

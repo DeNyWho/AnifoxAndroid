@@ -21,6 +21,10 @@ internal class AnimeGenresRemoteMediator(
     private var lastLoadedPage = -1
     private var currentParams: Params = Params(genre, minimalAge)
 
+    override suspend fun initialize(): InitializeAction {
+        return InitializeAction.LAUNCH_INITIAL_REFRESH
+    }
+
     private data class Params(
         val genre: String,
         val minimalAge: Int?,
@@ -34,11 +38,16 @@ internal class AnimeGenresRemoteMediator(
         if (newParams != currentParams) {
             currentParams = newParams
             lastLoadedPage = -1
+            animeCacheGenresDao.clearAll()
         }
 
         return try {
             val loadKey = when (loadType) {
-                LoadType.REFRESH -> 0
+                LoadType.REFRESH -> {
+                    animeCacheGenresDao.clearAll()
+                    lastLoadedPage = -1
+                    0
+                }
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> lastLoadedPage + 1
             }

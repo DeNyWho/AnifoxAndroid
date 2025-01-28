@@ -29,11 +29,8 @@ internal class GenresViewModel @Inject constructor(
     val uiState: StateFlow<GenreUiState> = _uiState.asStateFlow()
 
     val searchResults: Flow<PagingData<AnimeLight>> = _uiState
-        .filter { it.isReadyToLoad }
-        .distinctUntilChanged { old, new ->
-            old.selectedGenre == new.selectedGenre &&
-                    old.minimalAge == new.minimalAge
-        }
+        .filter { it.isInitialized }
+        .distinctUntilChanged()
         .flatMapLatest { state ->
             animeGenresPagingUseCase.invoke(
                 limit = 20,
@@ -55,7 +52,6 @@ internal class GenresViewModel @Inject constructor(
                 _uiState.update { currentState ->
                     currentState.copy(
                         genres = genres,
-                        isLoading = false,
                         isGenresLoaded = genres.isNotEmpty(),
                     )
                 }
@@ -65,18 +61,14 @@ internal class GenresViewModel @Inject constructor(
 
     fun initializeFilter(genreId: String, minimalAge: Int? = null) {
         viewModelScope.launch {
-            // Setting the download status before filtering starts
-            _uiState.update { it.copy(isContentLoading = true) }
             val genre = _uiState.value.genres
                 .find { it.id == genreId } ?: return@launch
 
-            _uiState.update { currentState ->
-                currentState.copy(
+            _uiState.update {
+                it.copy(
                     selectedGenre = genre,
                     minimalAge = minimalAge,
-                    isReadyToLoad = true,
-                    // delete the download status only after updating the data
-                    isContentLoading = false,
+                    isInitialized = true,
                 )
             }
         }
