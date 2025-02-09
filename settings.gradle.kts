@@ -50,6 +50,7 @@ include(":feature:translations")
 include(":feature:episodes")
 include(":feature:characters")
 include(":feature:character")
+include(":feature:settings")
 
 include(":core:testing")
 include(":core:uikit")

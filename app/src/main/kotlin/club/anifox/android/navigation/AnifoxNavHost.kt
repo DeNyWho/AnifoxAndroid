@@ -31,6 +31,7 @@ import club.anifox.android.feature.screenshots.navigation.navigateToScreenshots
 import club.anifox.android.feature.screenshots.navigation.screenshotsScreen
 import club.anifox.android.feature.search.navigation.navigateToSearch
 import club.anifox.android.feature.search.navigation.searchScreen
+import club.anifox.android.feature.settings.navigation.settingsScreen
 import club.anifox.android.feature.translations.navigation.navigateToTranslations
 import club.anifox.android.feature.translations.navigation.translationsScreen
 import club.anifox.android.feature.video.navigation.navigateToVideo
@@ -115,6 +116,7 @@ fun AnifoxNavHost(
             onSearchClick = navController::navigateToSearch,
             onBackPressed = navController::popBackStack,
         )
+        settingsScreen()
         onboardingScreen(
             onLoginClick = navController::navigateToLogin,
             onRegistrationClick = navController::navigateToRegistration,
