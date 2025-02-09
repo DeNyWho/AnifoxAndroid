@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="NightAdjusted.Theme.Anifox" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="NightAdjusted.Theme.Anifox" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:navigationBarColor">@color/background</item>
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
 
     <style name="Theme.Anifox" parent="NightAdjusted.Theme.Anifox" />
 
