@@ -12,8 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -171,32 +169,10 @@ private fun SearchContent(
 
     val minColumnSize = (screenInfo.portraitWidthDp.dp / 4).coerceAtLeast(300.dp)
 
-    val previousQuery = remember {
-        mutableStateOf(
-            uiState.query
-        )
-    }
-
-    LaunchedEffect(
-        uiState.query
-    ) {
-        val currentQuery = uiState.query
-
-        if (previousQuery.value != currentQuery) {
+    LaunchedEffect(uiState.query, uiState.previousQuery) {
+        if (uiState.query != uiState.previousQuery) {
             lazyGridState.scrollToItem(0)
-            previousQuery.value = currentQuery
         }
-    }
-    val isLoading = remember(items.loadState, uiState.isWaiting) {
-        items.loadState.append is LoadState.Loading ||
-                items.loadState.refresh is LoadState.Loading ||
-                uiState.isWaiting
-    }
-
-    val noDataAvailable = remember(items.loadState, items.itemCount, isLoading) {
-        items.loadState.refresh is LoadState.NotLoading &&
-                items.itemCount == 0 &&
-                !isLoading
     }
 
     Box(
@@ -205,7 +181,7 @@ private fun SearchContent(
             .fillMaxSize(),
     ) {
         when {
-            (uiState.query.isEmpty() && (searchHistory.isNotEmpty() || uiState.isInitialized)) -> {
+            (uiState.query.isEmpty() && (searchHistory.isNotEmpty())) -> {
                 SearchEmptyComponent(
                     searchHistory = searchHistory,
                     randomAnime = randomAnime,
@@ -216,7 +192,7 @@ private fun SearchContent(
                 )
             }
 
-            !isLoading && noDataAvailable && uiState.query.isNotBlank() -> {
+            !uiState.isLoading && items.loadState.refresh is LoadState.NotLoading && items.itemCount == 0 && items.loadState.append is LoadState.NotLoading && uiState.query.isNotBlank() -> {
                 NoSearchResultsError()
             }
 

@@ -42,9 +42,7 @@ internal class SearchUIProvider:
             ),
             SearchUIPreviewParam(
                 uiState = SearchUiState(
-                    isInitialized = true,
                     query = GlobalParams.DataSetAnimeLight.first().title,
-                    isWaiting = false,
                 ),
                 randomAnime = StateListWrapper(),
                 searchHistory = listOf(),

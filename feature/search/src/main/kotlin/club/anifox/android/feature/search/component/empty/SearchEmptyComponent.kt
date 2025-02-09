@@ -31,7 +31,6 @@ import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.search.R
 import club.anifox.android.feature.search.component.history.SearchHistoryComponent
-import kotlinx.coroutines.launch
 
 @Composable
 internal fun SearchEmptyComponent(
@@ -47,15 +46,14 @@ internal fun SearchEmptyComponent(
 
     LaunchedEffect(randomAnime.isLoading) {
         if (randomAnime.isLoading) {
-            launch {
+            while (true) {
                 rotationState.animateTo(
-                    targetValue = 360f,
+                    targetValue = rotationState.value + 360f,
                     animationSpec = tween(
                         durationMillis = 1000,
                         easing = LinearEasing
                     )
                 )
-                rotationState.snapTo(0f)
             }
         }
     }

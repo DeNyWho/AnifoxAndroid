@@ -14,8 +14,8 @@ import club.anifox.android.domain.usecase.anime.search.DeleteAnimeSearchHistoryU
 import club.anifox.android.domain.usecase.anime.search.GetAnimeSearchHistoryUseCase
 import club.anifox.android.feature.search.model.state.SearchUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,6 +24,8 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -68,7 +70,6 @@ internal class SearchViewModel @Inject constructor(
 
     private suspend fun loadRandomAnime() {
         _randomAnime.value = StateListWrapper.loading()
-        delay(1000)
         animeUseCase.invoke(
             page = 0,
             limit = 1,
@@ -84,8 +85,16 @@ internal class SearchViewModel @Inject constructor(
         }
     }
 
+    @OptIn(FlowPreview::class)
     val searchResults: Flow<PagingData<AnimeLight>> = _searchQuery
-        .debounce(500) // Задержка только для запросов
+        .onStart {
+            _uiState.update {
+                it.copy(
+                    isLoading = true,
+                )
+            }
+        }
+        .debounce(500)
         .distinctUntilChanged()
         .flatMapLatest { query ->
             when {
@@ -97,19 +106,24 @@ internal class SearchViewModel @Inject constructor(
                     flow { emit(PagingData.empty()) }
                 }
             }
-        }.cachedIn(viewModelScope)
+        }
+        .onEach {
+            _uiState.update {
+                it.copy(
+                    isLoading = false,
+                )
+            }
+        }
+        .cachedIn(viewModelScope)
 
     fun search(query: String) {
         viewModelScope.launch {
-            // Мгновенное обновление UI
             _uiState.update {
                 it.copy(
                     query = query,
-                    isInitialized = false,
-                    isWaiting = query.isNotBlank()
+                    isLoading = true,
                 )
             }
-            // Отложенное обновление запроса
             _searchQuery.emit(query)
         }
     }
@@ -120,6 +134,7 @@ internal class SearchViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     query = "",
+                    isLoading = false,
                 )
             }
         }
@@ -129,11 +144,6 @@ internal class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             deleteSearchHistoryUseCase.invoke()
             _searchHistory.value = emptyList()
-            _uiState.update {
-                it.copy(
-                    isInitialized = true,
-                )
-            }
         }
     }
 }
