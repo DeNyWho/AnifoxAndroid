@@ -92,7 +92,7 @@ internal fun InformationComponent(
 
 @PreviewLightDark
 @Composable
-private fun PreviewInformationContent(
+private fun PreviewInformationComponent(
     @PreviewParameter(InformationComponentProvider::class) param: InformationComponentPreviewParam,
 ) {
     DefaultPreview(true) {

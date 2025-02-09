@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="feature_episodes_top_bar_title">Выберите серию</string>
+    <string name="feature_episodes_episode_number_title">серия</string>
 </resources>

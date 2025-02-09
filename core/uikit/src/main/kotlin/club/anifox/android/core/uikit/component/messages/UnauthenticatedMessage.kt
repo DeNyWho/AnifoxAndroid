@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.R
 import club.anifox.android.core.uikit.component.button.AnifoxButtonPrimary
+import club.anifox.android.core.uikit.icon.AnifoxIcons
 import club.anifox.android.core.uikit.util.DefaultPreview
 
 @Composable
@@ -39,7 +40,7 @@ fun UnauthenticatedMessage(
             modifier = Modifier
                 .padding(end = 24.dp)
                 .align(Alignment.CenterHorizontally),
-            painter = painterResource(R.drawable.core_uikit_anifox_logo),
+            painter = painterResource(AnifoxIcons.logo),
             contentDescription = null,
         )
         Text(

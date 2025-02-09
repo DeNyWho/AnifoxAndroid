@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import club.anifox.android.core.uikit.component.button.AnifoxButtonPrimary
 import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
+import club.anifox.android.core.uikit.icon.AnifoxIcons
 import club.anifox.android.core.uikit.util.DefaultPreview
 
 @Composable
@@ -66,7 +67,7 @@ private fun LoginUI(userIdentifier: MutableState<String>, password: MutableState
                 modifier = Modifier
                     .padding(end = 24.dp)
                     .align(Alignment.CenterHorizontally),
-                painter = painterResource(club.anifox.android.core.uikit.R.drawable.core_uikit_anifox_logo),
+                painter = painterResource(AnifoxIcons.logo),
                 contentDescription = null,
             )
             OutlinedTextField(

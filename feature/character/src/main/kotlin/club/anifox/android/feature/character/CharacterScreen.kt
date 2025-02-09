@@ -31,8 +31,8 @@ import club.anifox.android.feature.character.components.about.AboutComponent
 import club.anifox.android.feature.character.components.anime.AnimeComponent
 import club.anifox.android.feature.character.components.overview.OverviewComponent
 import club.anifox.android.feature.character.components.pictures.PicturesComponent
-import club.anifox.android.feature.character.param.CharacterContentPreviewParam
-import club.anifox.android.feature.character.param.CharacterContentProvider
+import club.anifox.android.feature.character.param.CharacterUIPreviewParam
+import club.anifox.android.feature.character.param.CharacterUIProvider
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -85,7 +85,7 @@ private fun CharacterUI(
                         shape = RectangleShape,
                     ),
                     body = {
-                        CharacterContent(
+                        CharacterContentUI(
                             onAnimeClick = onAnimeClick,
                             character = character,
                         )
@@ -97,7 +97,7 @@ private fun CharacterUI(
 }
 
 @Composable
-private fun CharacterContent(
+private fun CharacterContentUI(
     onAnimeClick: (String) -> Unit,
     character: CharacterFull,
 ) {
@@ -121,7 +121,7 @@ private fun CharacterContent(
             )
         }
 
-        if(character.about?.isNotEmpty() == true) {
+        if(!character.about.isNullOrEmpty()) {
             item {
                 AboutComponent(
                     modifier = Modifier
@@ -160,7 +160,7 @@ private fun CharacterContent(
 @PreviewScreenSizes
 @Composable
 private fun PreviewCharacterUI(
-    @PreviewParameter(CharacterContentProvider::class) param: CharacterContentPreviewParam,
+    @PreviewParameter(CharacterUIProvider::class) param: CharacterUIPreviewParam,
 ) {
     DefaultPreview {
         CharacterUI(

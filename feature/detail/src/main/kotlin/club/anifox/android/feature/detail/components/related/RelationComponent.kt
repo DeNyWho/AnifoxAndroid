@@ -11,11 +11,11 @@ import club.anifox.android.core.uikit.component.slider.header.SliderHeaderShimme
 import club.anifox.android.core.uikit.util.onUpdateShimmerBounds
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.state.StateListWrapper
-import club.anifox.android.feature.detail.components.related.item.CardRelationItem
-import club.anifox.android.feature.detail.components.related.item.CardRelationItemDefaults.Height
-import club.anifox.android.feature.detail.components.related.item.CardRelationItemDefaults.VerticalArrangement
-import club.anifox.android.feature.detail.components.related.item.CardRelationItemDefaults.Width
-import club.anifox.android.feature.detail.components.related.item.ShowCardRelationItemShimmer
+import club.anifox.android.feature.detail.components.related.item.CardRelationComponentItem
+import club.anifox.android.feature.detail.components.related.item.CardRelationComponentItemDefaults.Height
+import club.anifox.android.feature.detail.components.related.item.CardRelationComponentItemDefaults.VerticalArrangement
+import club.anifox.android.feature.detail.components.related.item.CardRelationComponentItemDefaults.Width
+import club.anifox.android.feature.detail.components.related.item.ShowCardRelationComponentItemShimmer
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds.Custom
 import com.valentinilk.shimmer.rememberShimmer
@@ -53,7 +53,7 @@ internal fun RelationComponent(
         verticalArrangement = contentArrangement,
     ) {
         if(contentState.isLoading) {
-            ShowCardRelationItemShimmer(
+            ShowCardRelationComponentItemShimmer(
                 modifier = itemModifier,
                 shimmerInstance = shimmer,
                 thumbnailHeight = thumbnailHeight,
@@ -61,7 +61,7 @@ internal fun RelationComponent(
             )
         } else if(contentState.data.isNotEmpty()) {
             contentState.data.take(countContent).forEach { data ->
-                CardRelationItem(
+                CardRelationComponentItem(
                     modifier = itemModifier,
                     data = data,
                     thumbnailHeight = thumbnailHeight,

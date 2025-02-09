@@ -64,7 +64,7 @@ internal fun GenresComponent(
 
 @PreviewLightDark
 @Composable
-private fun PreviewGenresContent(
+private fun PreviewGenresComponent(
     @PreviewParameter(GenresComponentProvider::class) param: GenresComponentPreviewParam,
 ) {
     DefaultPreview {

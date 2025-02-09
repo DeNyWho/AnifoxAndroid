@@ -25,9 +25,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import club.anifox.android.core.uikit.R
 import club.anifox.android.core.uikit.component.card.video.param.CardVideoLandscapePreviewParam
 import club.anifox.android.core.uikit.component.card.video.param.CardVideoLandscapeProvider
+import club.anifox.android.core.uikit.icon.AnifoxIcons
 import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import coil.compose.AsyncImage
@@ -69,7 +69,7 @@ fun CardVideoLandscape(
                     .zIndex(2f)
                     .align(Alignment.TopStart)
                     .size(24.dp),
-                painter = painterResource(R.drawable.core_uikit_youtube),
+                painter = painterResource(AnifoxIcons.youtube),
                 contentDescription = null,
             )
             AsyncImage(

@@ -29,8 +29,8 @@ import club.anifox.android.domain.model.anime.translations.AnimeTranslation
 import club.anifox.android.domain.model.common.device.ScreenType
 import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.domain.state.StateListWrapper
-import club.anifox.android.feature.catalog.composable.filter.FiltersBar
-import club.anifox.android.feature.catalog.composable.top.CatalogTopBar
+import club.anifox.android.feature.catalog.components.filter.FiltersBarComponent
+import club.anifox.android.feature.catalog.components.top.CatalogTopBarComponent
 import club.anifox.android.feature.catalog.model.FilterType
 import club.anifox.android.feature.catalog.model.state.CatalogUiState
 import kotlinx.coroutines.flow.Flow
@@ -162,13 +162,13 @@ private fun CatalogUI(
 
     Scaffold (
         topBar = {
-            CatalogTopBar(
+            CatalogTopBarComponent(
                 onBackPressed = onBackPressed,
                 onSearchClick = onSearchClick,
             )
         }
     ) { padding ->
-        FiltersBar(
+        FiltersBarComponent(
             modifier = Modifier
                 .padding(padding),
             animeYears = animeYears,

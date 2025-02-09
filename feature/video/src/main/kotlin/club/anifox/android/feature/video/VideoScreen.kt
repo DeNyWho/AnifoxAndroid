@@ -23,8 +23,8 @@ import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.toolbarShadow
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.state.StateListWrapper
-import club.anifox.android.feature.video.param.VideosContentPreviewParam
-import club.anifox.android.feature.video.param.VideosContentProvider
+import club.anifox.android.feature.video.param.VideosUIPreviewParam
+import club.anifox.android.feature.video.param.VideosUIProvider
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -158,8 +158,8 @@ internal fun VideoContent(
 
 @PreviewScreenSizes
 @Composable
-private fun PreviewVideoScreenUI(
-    @PreviewParameter(VideosContentProvider::class) param: VideosContentPreviewParam,
+private fun PreviewVideoUI(
+    @PreviewParameter(VideosUIProvider::class) param: VideosUIPreviewParam,
 ) {
     DefaultPreview {
         VideoUI(

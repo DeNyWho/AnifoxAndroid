@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.icon.AnifoxIconOnSurface
+import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.state.StateWrapper
 import club.anifox.android.feature.detail.R
@@ -58,7 +59,7 @@ internal fun TitleInformationComponent(
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .size(20.dp),
-                contentDescription = stringResource(R.string.feature_detail_content_description_info),
+                contentDescription = stringResource(R.string.feature_detail_section_description_info),
             )
             Column(
                 modifier = Modifier
@@ -85,10 +86,12 @@ internal fun TitleInformationComponent(
 
 @Preview
 @Composable
-private fun PreviewTitleInformationContent(
+private fun PreviewTitleInformationComponent(
     @PreviewParameter(TitleInformationComponentProvider::class) param: TitleInformationComponentPreviewParam,
 ) {
-    TitleInformationComponent(
-        detailAnimeState = param.detailAnime,
-    )
+    DefaultPreview {
+        TitleInformationComponent(
+            detailAnimeState = param.detailAnime,
+        )
+    }
 }

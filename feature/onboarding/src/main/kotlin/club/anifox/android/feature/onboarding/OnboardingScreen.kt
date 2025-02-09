@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import club.anifox.android.core.uikit.component.button.AnifoxButtonPrimary
+import club.anifox.android.core.uikit.icon.AnifoxIcons
 import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.LockScreenOrientation
 
@@ -59,7 +60,7 @@ private fun OnboardingUI(
             Image(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally),
-                painter = painterResource(club.anifox.android.core.uikit.R.drawable.core_uikit_anifox_logo),
+                painter = painterResource(AnifoxIcons.logo),
                 contentDescription = null,
             )
             Column (

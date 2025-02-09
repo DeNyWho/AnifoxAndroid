@@ -48,7 +48,7 @@ fun SearchField(
                         .focusRequester(focusRequest),
                     value = searchQuery,
                     onValueChange = { onSearchQueryChanged(it) },
-                    textStyle = MaterialTheme.typography.titleMedium,
+                    textStyle = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.onBackground),
                     cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
                     maxLines = 1,
                 )

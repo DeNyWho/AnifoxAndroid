@@ -41,9 +41,9 @@ import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.common.device.ScreenType
 import club.anifox.android.domain.model.common.enum.WeekDay
-import club.anifox.android.feature.schedule.composable.empty.ScheduleEmptyContent
-import club.anifox.android.feature.schedule.composable.item.AnimeScheduleItem
-import club.anifox.android.feature.schedule.composable.item.AnimeScheduleItemDefaults
+import club.anifox.android.feature.schedule.components.empty.ScheduleEmptyComponent
+import club.anifox.android.feature.schedule.components.item.AnimeScheduleComponentItem
+import club.anifox.android.feature.schedule.components.item.AnimeScheduleComponentItemDefaults
 import club.anifox.android.feature.schedule.model.state.ScheduleUiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -138,7 +138,7 @@ private fun ScheduleUI(
                                         modifier = Modifier.align(Alignment.Center)
                                     )
                                 } else {
-                                    ScheduleContent(
+                                    ScheduleContentUI(
                                         scheduleResults = currentDayItems,
                                         onAnimeClick = onAnimeClick,
                                     )
@@ -153,7 +153,7 @@ private fun ScheduleUI(
 }
 
 @Composable
-private fun ScheduleContent(
+private fun ScheduleContentUI(
     modifier: Modifier = Modifier,
     scheduleResults: LazyPagingItems<AnimeLight>,
     onAnimeClick: (String) -> Unit,
@@ -164,20 +164,20 @@ private fun ScheduleContent(
     val (width, height) = when (screenInfo.screenType) {
         ScreenType.SMALL -> {
             Pair(
-                AnimeScheduleItemDefaults.Width.Small,
-                AnimeScheduleItemDefaults.Height.Small,
+                AnimeScheduleComponentItemDefaults.Width.Small,
+                AnimeScheduleComponentItemDefaults.Height.Small,
             )
         }
         ScreenType.DEFAULT -> {
             Pair(
-                AnimeScheduleItemDefaults.Width.Medium,
-                AnimeScheduleItemDefaults.Height.Medium,
+                AnimeScheduleComponentItemDefaults.Width.Medium,
+                AnimeScheduleComponentItemDefaults.Height.Medium,
             )
         }
         else -> {
             Pair(
-                AnimeScheduleItemDefaults.Width.Large,
-                AnimeScheduleItemDefaults.Height.Large,
+                AnimeScheduleComponentItemDefaults.Width.Large,
+                AnimeScheduleComponentItemDefaults.Height.Large,
             )
         }
     }
@@ -193,8 +193,8 @@ private fun ScheduleContent(
                 .animateContentSize(),
             columns = GridCells.Adaptive(minSize = minColumnSize),
             state = lazyGridState,
-            horizontalArrangement = AnimeScheduleItemDefaults.HorizontalArrangement.Grid,
-            verticalArrangement = AnimeScheduleItemDefaults.VerticalArrangement.Grid,
+            horizontalArrangement = AnimeScheduleComponentItemDefaults.HorizontalArrangement.Grid,
+            verticalArrangement = AnimeScheduleComponentItemDefaults.VerticalArrangement.Grid,
         ) {
             when {
                 scheduleResults.loadState.refresh is LoadState.Loading -> {
@@ -204,7 +204,7 @@ private fun ScheduleContent(
                 }
                 scheduleResults.itemCount == 0 && scheduleResults.loadState.refresh is LoadState.NotLoading -> {
                     item {
-                        ScheduleEmptyContent()
+                        ScheduleEmptyComponent()
                     }
                 }
                 else -> {
@@ -218,7 +218,7 @@ private fun ScheduleContent(
                     ) { index ->
                         val item = scheduleResults[index]
                         if (item != null) {
-                            AnimeScheduleItem(
+                            AnimeScheduleComponentItem(
                                 thumbnailWidth = width,
                                 thumbnailHeight = height,
                                 data = item,

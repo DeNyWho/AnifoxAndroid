@@ -17,7 +17,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import club.anifox.android.core.uikit.util.LockScreenOrientation
 import club.anifox.android.core.uikit.util.findActivity
-import club.anifox.android.feature.player.composable.component.kodik.WebPlayerKodik
+import club.anifox.android.feature.player.component.kodik.WebPlayerKodikComponent
 
 @Composable
 internal fun PlayerScreen(
@@ -79,7 +79,7 @@ private fun PlayerUI(
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             if(kodik) {
-                WebPlayerKodik(url)
+                WebPlayerKodikComponent(url)
             }
         }
     }

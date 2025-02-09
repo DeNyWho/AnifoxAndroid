@@ -3,7 +3,6 @@ package club.anifox.android.feature.screenshots
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -18,9 +17,9 @@ import club.anifox.android.core.uikit.component.topbar.SimpleTopBarCollapse
 import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.toolbarShadow
 import club.anifox.android.domain.state.StateListWrapper
-import club.anifox.android.feature.screenshots.composable.grid.content.ScreenshotsGridContent
-import club.anifox.android.feature.screenshots.param.ScreenshotsContentPreviewParam
-import club.anifox.android.feature.screenshots.param.ScreenshotsContentProvider
+import club.anifox.android.feature.screenshots.component.grid.ScreenshotsGridComponent
+import club.anifox.android.feature.screenshots.param.ScreenshotsUIPreviewParam
+import club.anifox.android.feature.screenshots.param.ScreenshotsUIProvider
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -72,7 +71,7 @@ private fun ScreenshotsUI(
                 shape = RectangleShape,
             ),
             body = {
-                ScreenshotsContent(
+                ScreenshotsContentUI(
                     screenshotAnimeState = screenshotAnimeState,
                 )
             },
@@ -81,7 +80,7 @@ private fun ScreenshotsUI(
 }
 
 @Composable
-internal fun ScreenshotsContent(
+internal fun ScreenshotsContentUI(
     modifier: Modifier = Modifier,
     screenshotAnimeState: StateListWrapper<String>,
 ) {
@@ -89,7 +88,7 @@ internal fun ScreenshotsContent(
         modifier = modifier
             .padding(start = 16.dp, end = 16.dp),
     ) {
-        ScreenshotsGridContent(
+        ScreenshotsGridComponent(
             contentState = screenshotAnimeState,
         )
     }
@@ -97,8 +96,8 @@ internal fun ScreenshotsContent(
 
 @PreviewScreenSizes
 @Composable
-private fun PreviewScreenshotsScreenUI(
-    @PreviewParameter(ScreenshotsContentProvider::class) param: ScreenshotsContentPreviewParam
+private fun PreviewScreenshotsUI(
+    @PreviewParameter(ScreenshotsUIProvider::class) param: ScreenshotsUIPreviewParam
 ) {
     DefaultPreview(true) {
         ScreenshotsUI(

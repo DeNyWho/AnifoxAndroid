@@ -30,14 +30,14 @@ import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.common.device.ScreenType
 import club.anifox.android.domain.state.StateListWrapper
-import club.anifox.android.feature.search.composable.empty.SearchEmptyContent
-import club.anifox.android.feature.search.composable.item.AnimeSearchItem
-import club.anifox.android.feature.search.composable.item.AnimeSearchItemDefaults
-import club.anifox.android.feature.search.composable.item.showAnimeSearchItemShimmer
-import club.anifox.android.feature.search.composable.toolbar.ContentSearchScreenToolbar
+import club.anifox.android.feature.search.component.empty.SearchEmptyComponent
+import club.anifox.android.feature.search.component.item.AnimeSearchComponentItem
+import club.anifox.android.feature.search.component.item.AnimeSearchComponentItemDefaults
+import club.anifox.android.feature.search.component.item.showAnimeSearchComponentItemShimmer
+import club.anifox.android.feature.search.component.toolbar.SearchTopBarComponent
 import club.anifox.android.feature.search.model.state.SearchUiState
-import club.anifox.android.feature.search.param.SearchUiPreviewParam
-import club.anifox.android.feature.search.param.SearchUiProvider
+import club.anifox.android.feature.search.param.SearchUIPreviewParam
+import club.anifox.android.feature.search.param.SearchUIProvider
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
@@ -105,8 +105,7 @@ private fun SearchUI(
         state = toolbarScaffoldState,
         scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
         toolbar = {
-            ContentSearchScreenToolbar(
-                toolbarScaffoldState = toolbarScaffoldState,
+            SearchTopBarComponent(
                 onBackPressed = onBackPressed,
                 searchQuery = uiState.query,
                 onSearchQueryChanged = onQueryChange,
@@ -152,20 +151,20 @@ private fun SearchContent(
     val (thumbnailWidth, thumbnailHeight) = when (screenInfo.screenType) {
         ScreenType.SMALL -> {
             Pair(
-                AnimeSearchItemDefaults.Width.Small,
-                AnimeSearchItemDefaults.Height.Small,
+                AnimeSearchComponentItemDefaults.Width.Small,
+                AnimeSearchComponentItemDefaults.Height.Small,
             )
         }
         ScreenType.DEFAULT -> {
             Pair(
-                AnimeSearchItemDefaults.Width.Medium,
-                AnimeSearchItemDefaults.Height.Medium,
+                AnimeSearchComponentItemDefaults.Width.Medium,
+                AnimeSearchComponentItemDefaults.Height.Medium,
             )
         }
         else -> {
             Pair(
-                AnimeSearchItemDefaults.Width.Large,
-                AnimeSearchItemDefaults.Height.Large,
+                AnimeSearchComponentItemDefaults.Width.Large,
+                AnimeSearchComponentItemDefaults.Height.Large,
             )
         }
     }
@@ -207,7 +206,7 @@ private fun SearchContent(
     ) {
         when {
             (uiState.query.isEmpty() && (searchHistory.isNotEmpty() || uiState.isInitialized)) -> {
-                SearchEmptyContent(
+                SearchEmptyComponent(
                     searchHistory = searchHistory,
                     randomAnime = randomAnime,
                     onHistoryItemClick = onHistoryItemClick,
@@ -226,8 +225,8 @@ private fun SearchContent(
                     modifier = Modifier.fillMaxSize(),
                     columns = GridCells.Adaptive(minSize = minColumnSize),
                     state = lazyGridState,
-                    horizontalArrangement = AnimeSearchItemDefaults.HorizontalArrangement.Grid,
-                    verticalArrangement = AnimeSearchItemDefaults.VerticalArrangement.Grid,
+                    horizontalArrangement = AnimeSearchComponentItemDefaults.HorizontalArrangement.Grid,
+                    verticalArrangement = AnimeSearchComponentItemDefaults.VerticalArrangement.Grid,
                 ) {
                     item(span = { GridItemSpan(maxLineSpan) }) {
                         Spacer(modifier = Modifier)
@@ -239,7 +238,7 @@ private fun SearchContent(
                     ) { index ->
                         val item = items[index]
                         item?.let {
-                            AnimeSearchItem(
+                            AnimeSearchComponentItem(
                                 thumbnailWidth = thumbnailWidth,
                                 thumbnailHeight = thumbnailHeight,
                                 data = item,
@@ -250,7 +249,7 @@ private fun SearchContent(
 
                     when {
                         items.loadState.append is LoadState.Loading -> {
-                            showAnimeSearchItemShimmer(
+                            showAnimeSearchComponentItemShimmer(
                                 shimmerInstance = shimmer,
                                 thumbnailHeight = thumbnailHeight,
                                 thumbnailWidth = thumbnailWidth,
@@ -258,7 +257,7 @@ private fun SearchContent(
                         }
 
                         items.loadState.refresh is LoadState.Loading -> {
-                            showAnimeSearchItemShimmer(
+                            showAnimeSearchComponentItemShimmer(
                                 shimmerInstance = shimmer,
                                 thumbnailHeight = thumbnailHeight,
                                 thumbnailWidth = thumbnailWidth,
@@ -277,8 +276,8 @@ private fun SearchContent(
 
 @Preview
 @Composable
-private fun PreviewSearchScreenUI(
-    @PreviewParameter(SearchUiProvider::class) param: SearchUiPreviewParam,
+private fun PreviewSearchUI(
+    @PreviewParameter(SearchUIProvider::class) param: SearchUIPreviewParam,
 ) {
     DefaultPreview(true) {
         SearchUI(

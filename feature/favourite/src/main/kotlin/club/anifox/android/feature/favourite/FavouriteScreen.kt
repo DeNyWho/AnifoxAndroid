@@ -42,9 +42,9 @@ import club.anifox.android.core.uikit.component.tab.simple.AnifoxScrollableTabRo
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.AnimeLightFavourite
 import club.anifox.android.domain.model.common.device.ScreenType
-import club.anifox.android.feature.favourite.composable.empty.FavouriteEmptyContent
-import club.anifox.android.feature.favourite.composable.item.AnimeFavouriteItem
-import club.anifox.android.feature.favourite.composable.item.AnimeFavouriteItemDefaults
+import club.anifox.android.feature.favourite.components.empty.FavouriteEmptyComponent
+import club.anifox.android.feature.favourite.components.item.AnimeFavouriteComponentItem
+import club.anifox.android.feature.favourite.components.item.AnimeFavouriteComponentItemDefaults
 import club.anifox.android.feature.favourite.model.state.FavouriteUiState
 import club.anifox.android.feature.favourite.model.tab.FavouriteTabType
 import kotlinx.coroutines.flow.Flow
@@ -172,20 +172,20 @@ private fun FavouriteContent(
     val (width, height) = when (screenInfo.screenType) {
         ScreenType.SMALL -> {
             Pair(
-                AnimeFavouriteItemDefaults.Width.Small,
-                AnimeFavouriteItemDefaults.Height.Small,
+                AnimeFavouriteComponentItemDefaults.Width.Small,
+                AnimeFavouriteComponentItemDefaults.Height.Small,
             )
         }
         ScreenType.DEFAULT -> {
             Pair(
-                AnimeFavouriteItemDefaults.Width.Medium,
-                AnimeFavouriteItemDefaults.Height.Medium,
+                AnimeFavouriteComponentItemDefaults.Width.Medium,
+                AnimeFavouriteComponentItemDefaults.Height.Medium,
             )
         }
         else -> {
             Pair(
-                AnimeFavouriteItemDefaults.Width.Large,
-                AnimeFavouriteItemDefaults.Height.Large,
+                AnimeFavouriteComponentItemDefaults.Width.Large,
+                AnimeFavouriteComponentItemDefaults.Height.Large,
             )
         }
     }
@@ -200,7 +200,7 @@ private fun FavouriteContent(
                 CircularProgress()
             }
             favouriteResults.itemCount == 0 && favouriteResults.loadState.refresh is LoadState.NotLoading -> {
-                FavouriteEmptyContent()
+                FavouriteEmptyComponent()
             }
         }
 
@@ -210,8 +210,8 @@ private fun FavouriteContent(
                 .animateContentSize(),
             columns = GridCells.Adaptive(minSize = minColumnSize),
             state = lazyGridState,
-            horizontalArrangement = AnimeFavouriteItemDefaults.HorizontalArrangement.Grid,
-            verticalArrangement = AnimeFavouriteItemDefaults.VerticalArrangement.Grid,
+            horizontalArrangement = AnimeFavouriteComponentItemDefaults.HorizontalArrangement.Grid,
+            verticalArrangement = AnimeFavouriteComponentItemDefaults.VerticalArrangement.Grid,
         ) {
             item(span = { GridItemSpan(maxLineSpan) }) {
                 Spacer(modifier = Modifier.height(0.dp))
@@ -223,7 +223,7 @@ private fun FavouriteContent(
             ) { index ->
                 val item = favouriteResults[index]
                 if (item != null) {
-                    AnimeFavouriteItem(
+                    AnimeFavouriteComponentItem(
                         thumbnailWidth = width,
                         thumbnailHeight = height,
                         data = item,

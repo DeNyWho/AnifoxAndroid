@@ -57,8 +57,8 @@ import club.anifox.android.feature.detail.components.related.RelationComponent
 import club.anifox.android.feature.detail.components.studios.StudiosComponent
 import club.anifox.android.feature.detail.components.title.TitleInformationComponent
 import club.anifox.android.feature.detail.components.watch.WatchComponent
-import club.anifox.android.feature.detail.param.DetailContentPreviewParam
-import club.anifox.android.feature.detail.param.DetailContentProvider
+import club.anifox.android.feature.detail.param.DetailUIPreviewParam
+import club.anifox.android.feature.detail.param.DetailUIProvider
 
 /*
     TODO: redo the information section, implement an adaptive option
@@ -370,8 +370,8 @@ internal fun DetailContentUI(
 
 @PreviewScreenSizes
 @Composable
-private fun PreviewDetailScreenUI(
-    @PreviewParameter(DetailContentProvider::class) param: DetailContentPreviewParam,
+private fun PreviewDetailUI(
+    @PreviewParameter(DetailUIProvider::class) param: DetailUIPreviewParam,
 ) {
     DefaultPreview(true) {
         DetailUI (

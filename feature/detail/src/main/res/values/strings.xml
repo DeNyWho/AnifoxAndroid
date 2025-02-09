@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="feature_detail_content_description_info">Title information</string>
-    <string name="feature_detail_content_description_button_watch">Watch button</string>
-    <string name="feature_detail_button_watch_title">Смотреть</string>
-    <string name="feature_detail_next_episode">Следующий эпизод:</string>
+    <string name="feature_detail_section_description_info">Title information</string>
+    <string name="feature_detail_section_description_button_watch">Watch button</string>
     <string name="feature_detail_dialog_title">Название</string>
     <string name="feature_detail_dialog_original_title">Оригинальное название</string>
     <string name="feature_detail_dialog_japanese_title">Японское название</string>
@@ -17,6 +15,8 @@
     <string name="feature_detail_section_video_header_title">Видео</string>
     <string name="feature_detail_section_watch_next_episode_title">Следующая серия выйдет</string>
     <string name="feature_detail_section_watch_next_episode_title_delayed">Новая серия выйдет сразу после перевода</string>
+    <string name="feature_detail_section_watch_button_watch_title">Смотреть</string>
+    <string name="feature_detail_section_watch_next_episode">Следующий эпизод:</string>
     <string name="feature_detail_section_favourite_dialog_title">Выберите статус просмотра</string>
     <string name="feature_detail_section_favourite_dialog_close">Отмена</string>
     <string name="feature_detail_section_favourite_chip_title">Избранное</string>

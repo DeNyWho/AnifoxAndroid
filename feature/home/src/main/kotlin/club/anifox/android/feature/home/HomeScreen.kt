@@ -19,8 +19,8 @@ import club.anifox.android.domain.model.anime.enum.AnimeType
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.domain.state.StateListWrapper
-import club.anifox.android.feature.home.composable.content.genre.GenreContent
-import club.anifox.android.feature.home.composable.top.ContentHomeScreenToolbar
+import club.anifox.android.feature.home.components.genre.GenreComponent
+import club.anifox.android.feature.home.components.top.HomeTopBarComponent
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -63,14 +63,14 @@ private fun HomeUI(
     genresAnime: StateListWrapper<AnimeGenre>,
 ) {
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
+
     CollapsingToolbarScaffold(
         modifier = modifier
             .fillMaxSize(),
         state = toolbarScaffoldState,
         scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
         toolbar = {
-            ContentHomeScreenToolbar(
-                toolbarScaffoldState = toolbarScaffoldState,
+            HomeTopBarComponent(
                 onSearchClick = onSearchClick,
                 onCatalogClick = {
                     onCatalogClick(
@@ -171,7 +171,7 @@ private fun HomeContent(
             )
         }
         item {
-            GenreContent(
+            GenreComponent(
                 headerTitle = stringResource(R.string.feature_home_section_header_title_genres),
                 headerModifier = SliderComponentDefaults.Default,
                 genresAnime = genresAnime,

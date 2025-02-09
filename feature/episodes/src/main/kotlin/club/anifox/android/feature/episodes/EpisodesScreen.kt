@@ -29,8 +29,8 @@ import club.anifox.android.core.uikit.component.topbar.SimpleTopBar
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.episodes.AnimeEpisodesLight
 import club.anifox.android.domain.model.common.device.ScreenType
-import club.anifox.android.feature.episodes.composable.grid.item.CardEpisodeGridItem
-import club.anifox.android.feature.episodes.composable.grid.item.CardEpisodeGridItemDefaults
+import club.anifox.android.feature.episodes.components.grid.item.CardEpisodeGridComponentItem
+import club.anifox.android.feature.episodes.components.grid.item.CardEpisodeGridComponentItemDefaults
 import club.anifox.android.feature.episodes.model.state.EpisodesUiState
 import kotlinx.coroutines.flow.Flow
 
@@ -75,7 +75,7 @@ private fun EpisodesUI(
             )
         },
     ) { padding ->
-        EpisodesContent(
+        EpisodesContentUI(
             modifier = Modifier
                 .padding(padding),
             uiState = uiState,
@@ -86,7 +86,7 @@ private fun EpisodesUI(
 }
 
 @Composable
-private fun EpisodesContent(
+private fun EpisodesContentUI(
     modifier: Modifier,
     uiState: EpisodesUiState,
     episodesResults: Flow<PagingData<AnimeEpisodesLight>>,
@@ -99,16 +99,16 @@ private fun EpisodesContent(
 
     val width = when (screenInfo.screenType) {
         ScreenType.SMALL -> {
-            CardEpisodeGridItemDefaults.Width.GridSmall
+            CardEpisodeGridComponentItemDefaults.Width.GridSmall
         }
         ScreenType.DEFAULT -> {
-            CardEpisodeGridItemDefaults.Width.GridMedium
+            CardEpisodeGridComponentItemDefaults.Width.GridMedium
         }
         else -> {
-            CardEpisodeGridItemDefaults.Width.GridLarge
+            CardEpisodeGridComponentItemDefaults.Width.GridLarge
         }
     }
-    val minColumnSize = (screenInfo.portraitWidthDp.dp / (if (screenInfo.portraitWidthDp.dp < 600.dp) 4 else 6)).coerceAtLeast(if(screenInfo.portraitWidthDp.dp < 600.dp) CardEpisodeGridItemDefaults.Width.Min else width )
+    val minColumnSize = (screenInfo.portraitWidthDp.dp / (if (screenInfo.portraitWidthDp.dp < 600.dp) 4 else 6)).coerceAtLeast(if(screenInfo.portraitWidthDp.dp < 600.dp) CardEpisodeGridComponentItemDefaults.Width.Min else width )
 
     if (items.loadState.refresh is LoadState.Loading) {
         CircularProgress()
@@ -121,8 +121,8 @@ private fun EpisodesContent(
                     modifier = GridComponentDefaults.Default.fillMaxSize(),
                     columns = GridCells.Adaptive(minSize = minColumnSize),
                     state = lazyGridState,
-                    horizontalArrangement = CardEpisodeGridItemDefaults.HorizontalArrangement.Grid,
-                    verticalArrangement = CardEpisodeGridItemDefaults.VerticalArrangement.Grid,
+                    horizontalArrangement = CardEpisodeGridComponentItemDefaults.HorizontalArrangement.Grid,
+                    verticalArrangement = CardEpisodeGridComponentItemDefaults.VerticalArrangement.Grid,
                 ) {
                     item(span = { GridItemSpan(maxLineSpan) }) {
                         Spacer(modifier = Modifier)
@@ -134,7 +134,7 @@ private fun EpisodesContent(
                     ) { index ->
                         val item = items[index]
                         if (item != null) {
-                            CardEpisodeGridItem(
+                            CardEpisodeGridComponentItem(
                                 modifier = Modifier.width(width),
                                 currentTranslationId = uiState.translationId,
                                 data = item,

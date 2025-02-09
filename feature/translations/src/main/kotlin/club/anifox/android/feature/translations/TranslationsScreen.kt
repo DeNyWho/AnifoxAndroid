@@ -20,9 +20,9 @@ import club.anifox.android.core.uikit.component.topbar.SimpleTopBar
 import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.translations.AnimeTranslationsCount
 import club.anifox.android.domain.state.StateListWrapper
-import club.anifox.android.feature.translations.composable.item.TranslationItem
-import club.anifox.android.feature.translations.param.TranslationsContentPreviewParam
-import club.anifox.android.feature.translations.param.TranslationsContentProvider
+import club.anifox.android.feature.translations.component.item.TranslationComponentItem
+import club.anifox.android.feature.translations.param.TranslationsUIPreviewParam
+import club.anifox.android.feature.translations.param.TranslationsUIProvider
 
 @Composable
 internal fun TranslationsScreen(
@@ -77,7 +77,7 @@ private fun TranslationsUI(
                     animeTranslationsCount.data,
                     key = { it.translation.id },
                 ) { translation ->
-                    TranslationItem(
+                    TranslationComponentItem(
                         translation = translation,
                         onClick = onTranslationClick,
                     )
@@ -90,7 +90,7 @@ private fun TranslationsUI(
 @PreviewScreenSizes
 @Composable
 private fun PreviewTranslationsUI(
-    @PreviewParameter(TranslationsContentProvider::class) param: TranslationsContentPreviewParam,
+    @PreviewParameter(TranslationsUIProvider::class) param: TranslationsUIPreviewParam,
 ) {
     DefaultPreview(true) {
         TranslationsUI(

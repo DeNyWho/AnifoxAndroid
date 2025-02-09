@@ -68,7 +68,7 @@ internal fun StudiosComponent(
 
 @PreviewLightDark
 @Composable
-private fun PreviewStudiosContent(
+private fun PreviewStudiosComponent(
     @PreviewParameter(StudiosComponentProvider::class) param: StudiosComponentPreviewParam,
 ) {
     DefaultPreview {

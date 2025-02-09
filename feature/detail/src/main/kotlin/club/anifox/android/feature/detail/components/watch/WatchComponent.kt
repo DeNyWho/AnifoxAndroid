@@ -97,12 +97,12 @@ internal fun WatchComponent(
             ) {
                 AnifoxIconOnPrimary(
                     imageVector = Filled.PlayArrow,
-                    contentDescription = stringResource(R.string.feature_detail_content_description_button_watch),
+                    contentDescription = stringResource(R.string.feature_detail_section_description_button_watch),
                     modifier = Modifier.size(40.dp),
                 )
                 Text(
                     modifier = Modifier.padding(start = 8.dp),
-                    text = stringResource(R.string.feature_detail_button_watch_title),
+                    text = stringResource(R.string.feature_detail_section_watch_button_watch_title),
                     style = MaterialTheme.typography.labelLarge,
                 )
             }
