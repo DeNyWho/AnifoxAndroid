@@ -18,7 +18,6 @@ import club.anifox.android.domain.state.StateListWrapper
 internal data class SliderComponentPreviewParam(
     val modifier: Modifier = Modifier,
     val headerModifier: Modifier = SliderComponentDefaults.Default,
-    val itemModifier: Modifier = Modifier.width(CardAnimePortraitDefaults.Width.Default),
     val thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.Default,
     val thumbnailWidth: Dp = CardAnimePortraitDefaults.Width.Default,
     val headerTitle: String = "Title",

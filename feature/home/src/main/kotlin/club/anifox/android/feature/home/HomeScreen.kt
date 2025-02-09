@@ -5,7 +5,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -36,14 +35,6 @@ internal fun HomeScreen(
     onGenresClick: (String) -> Unit,
     onCatalogClick: (CatalogFilterParams) -> Unit,
 ) {
-    LaunchedEffect(viewModel) {
-        viewModel.getAnimeOfSeason(0,12)
-        viewModel.getPopularAnime(0,12)
-        viewModel.getUpdatedAnime(0,12)
-        viewModel.getAnimeGenres()
-        viewModel.getFilmsAnime(0, 12)
-    }
-
     HomeUI(
         modifier = modifier,
         onAnimeClick = onAnimeClick,

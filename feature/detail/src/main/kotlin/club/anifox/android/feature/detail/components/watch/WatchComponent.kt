@@ -24,6 +24,7 @@ import club.anifox.android.core.uikit.component.icon.AnifoxIconOnPrimary
 import club.anifox.android.domain.model.anime.AnimeDetail
 import club.anifox.android.domain.state.StateWrapper
 import club.anifox.android.feature.detail.R
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -47,6 +48,15 @@ internal fun WatchComponent(
                 )
         ) {
             if(detailAnimeState.data?.nextEpisode != null) {
+                val nextEpisodeText = when {
+                    LocalDateTime.now().isAfter(detailAnimeState.data?.nextEpisode) -> stringResource(R.string.feature_detail_section_watch_next_episode_title_delayed)
+                    else -> "${stringResource(R.string.feature_detail_section_watch_next_episode_title)} ${
+                        detailAnimeState.data?.nextEpisode?.format(
+                            DateTimeFormatter.ofPattern("dd.MM.yyyy")
+                        )
+                    }"
+                }
+
                 Box(
                     modifier = Modifier
                         .offset(y = 20.dp)
@@ -62,14 +72,11 @@ internal fun WatchComponent(
                             cornerRadius = CornerRadius(16.dp.toPx(), 16.dp.toPx())
                         )
                     }
+
                     Text(
                         modifier = Modifier
                             .align(Alignment.BottomCenter),
-                        text = "${stringResource(R.string.feature_detail_section_watch_next_episode_title)} ${
-                            detailAnimeState.data?.nextEpisode?.format(
-                                DateTimeFormatter.ofPattern("dd.MM.yyyy")
-                            )
-                        }",
+                        text = nextEpisodeText,
                         color = MaterialTheme.colorScheme.primary,
                         style = MaterialTheme.typography.titleSmall,
                     )

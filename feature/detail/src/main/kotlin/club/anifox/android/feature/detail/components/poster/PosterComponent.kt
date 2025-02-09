@@ -35,6 +35,8 @@ import coil.size.Scale
 internal fun PosterComponent(
     detailAnimeState: StateWrapper<AnimeDetail>,
 ) {
+    val data = detailAnimeState.data
+
     val blockerColorGradients = listOf(
         MaterialTheme.colorScheme.background.copy(alpha = 0.9F),
         MaterialTheme.colorScheme.background.copy(alpha = 0.8F),
@@ -50,8 +52,7 @@ internal fun PosterComponent(
                 .fillMaxWidth()
                 .height(350.dp)
         )
-    } else if(detailAnimeState.data != null) {
-        val data = detailAnimeState.data!!
+    } else if(data != null) {
         var showImageDialog by remember { mutableStateOf(false) }
 
         if (showImageDialog) {

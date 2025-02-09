@@ -33,7 +33,9 @@ internal fun FavouriteDialog(
     selectedFavouriteState: AnimeFavouriteStatus?,
     updateFavouriteStatus: (AnimeFavouriteStatus?) -> Unit,
 ) {
-    Dialog(onDismissRequest = { setShowDialog.invoke(false) }) {
+    Dialog(
+        onDismissRequest = { setShowDialog.invoke(false) },
+    ) {
         Surface(
             modifier = Modifier.fillMaxWidth(),
             shape = MaterialTheme.shapes.small,
@@ -84,7 +86,7 @@ internal fun FavouriteDialog(
                             Text(
                                 text = statusString,
                                 style = MaterialTheme.typography.bodyLarge,
-                                modifier = Modifier.padding(start = 16.dp)
+                                modifier = Modifier.padding(start = 16.dp),
                             )
                         }
                     }

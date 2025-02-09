@@ -30,7 +30,9 @@ internal fun GenresComponent(
     detailAnimeState: StateWrapper<AnimeDetail>,
     onCatalogClick: (CatalogFilterParams) -> Unit,
 ) {
-    if(!detailAnimeState.isLoading) {
+    val genres = detailAnimeState.data?.genres.orEmpty()
+
+    if(!detailAnimeState.isLoading && genres.isNotEmpty()) {
         Column(
             modifier = modifier,
         ) {
@@ -43,7 +45,7 @@ internal fun GenresComponent(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                detailAnimeState.data?.genres?.forEach { genre ->
+                genres.forEach { genre ->
                     AnifoxChipPrimary(
                         modifier = Modifier.clickableWithoutRipple {
                             onCatalogClick.invoke(

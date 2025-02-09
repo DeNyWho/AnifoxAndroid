@@ -3,6 +3,7 @@ package club.anifox.android.core.uikit.component.grid.simple
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -54,7 +55,7 @@ fun GridComponent(
         state = state,
     ) {
         item(span = { GridItemSpan(maxLineSpan) }) {
-            Spacer(modifier = Modifier)
+            Spacer(modifier = Modifier.height(verticalContentArrangement.spacing))
         }
 
         items(

@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,15 +44,15 @@ internal fun DescriptionComponent(
     isExpanded: Boolean,
     onExpandedChanged: (Boolean) -> Unit,
 ) {
-    if (!detailAnimeState.isLoading) {
-        var isTextExceedingMaxLines by remember { mutableStateOf(false) }
+    val description = detailAnimeState.data?.description.orEmpty()
 
-        if(detailAnimeState.data?.description?.isNotEmpty() == true) {
-            SliderHeader(
-                modifier = headerModifier,
-                title = stringResource(R.string.feature_detail_section_header_title_description),
-            )
-        }
+    if (!detailAnimeState.isLoading && description.isNotEmpty()) {
+        var isTextExceedingMaxLines by rememberSaveable { mutableStateOf(false) }
+
+        SliderHeader(
+            modifier = headerModifier,
+            title = stringResource(R.string.feature_detail_section_header_title_description),
+        )
 
         if (isTextExceedingMaxLines) {
             AnimatedContent(
@@ -75,7 +76,7 @@ internal fun DescriptionComponent(
                 ) {
                     if (targetExpanded) {
                         Text(
-                            text = detailAnimeState.data?.description ?: "",
+                            text = description,
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                             textAlign = TextAlign.Justify,
@@ -89,7 +90,7 @@ internal fun DescriptionComponent(
                         )
                     } else {
                         Text(
-                            text = detailAnimeState.data?.description ?: "",
+                            text = description,
                             maxLines = 5,
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onBackground,
@@ -106,17 +107,15 @@ internal fun DescriptionComponent(
                 }
             }
         } else {
-            if (detailAnimeState.data?.description?.isNotEmpty() == true) {
-                Text(
-                    modifier = modifier,
-                    text = detailAnimeState.data?.description ?: "",
-                    style = MaterialTheme.typography.bodyLarge,
-                    textAlign = TextAlign.Justify,
-                    onTextLayout = { textLayoutResult: TextLayoutResult ->
-                        isTextExceedingMaxLines = textLayoutResult.lineCount > 5
-                    },
-                )
-            }
+            Text(
+                modifier = modifier,
+                text = description,
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Justify,
+                onTextLayout = { textLayoutResult: TextLayoutResult ->
+                    isTextExceedingMaxLines = textLayoutResult.lineCount > 5
+                },
+            )
         }
     }
 

@@ -31,7 +31,7 @@ object CardAnimePortraitDefaults {
     }
 
     object VerticalArrangement {
-        val Grid = Arrangement.spacedBy(4.dp)
+        val Grid = Arrangement.spacedBy(8.dp)
         val GridSearch = Arrangement.spacedBy(12.dp)
     }
 

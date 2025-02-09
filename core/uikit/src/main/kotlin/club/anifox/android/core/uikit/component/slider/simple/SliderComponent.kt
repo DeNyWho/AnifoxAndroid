@@ -2,7 +2,6 @@ package club.anifox.android.core.uikit.component.slider.simple
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -32,7 +31,6 @@ import com.valentinilk.shimmer.rememberShimmer
 fun SliderComponent(
     modifier: Modifier = Modifier,
     headerModifier: Modifier = SliderComponentDefaults.BottomOnly,
-    itemModifier: Modifier = Modifier.width(CardAnimePortraitDefaults.Width.Default),
     shimmer: Shimmer = rememberShimmer(ShimmerBounds.View),
     thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.Default,
     thumbnailWidth: Dp = CardAnimePortraitDefaults.Width.Default,
@@ -62,7 +60,7 @@ fun SliderComponent(
     }
 
     // content
-    LazyRow (
+    LazyRow(
         modifier = modifier,
         contentPadding = contentPadding,
         horizontalArrangement = contentArrangement,
@@ -107,7 +105,6 @@ private fun PreviewScrollableHorizontalContentDefault(
         SliderComponent (
             modifier = param.modifier,
             headerModifier = param.headerModifier,
-            itemModifier = param.itemModifier,
             thumbnailHeight = param.thumbnailHeight,
             thumbnailWidth = param.thumbnailWidth,
             headerTitle = param.headerTitle,

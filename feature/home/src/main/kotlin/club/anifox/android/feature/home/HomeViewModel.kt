@@ -15,8 +15,10 @@ import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.usecase.anime.GetAnimeGenresUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -46,10 +48,36 @@ internal class HomeViewModel @Inject constructor(
         mutableStateOf(StateListWrapper())
     val genresAnime: MutableState<StateListWrapper<AnimeGenre>> = _genresAnime
 
-    fun getAnimeOfSeason(page: Int, limit: Int) {
+    init {
+        loadInitialData()
+    }
+
+    private fun loadInitialData() {
+        viewModelScope.launch {
+            coroutineScope {
+                launch {
+                    getAnimeOfSeason()
+                }
+                launch {
+                    getPopularAnime()
+                }
+                launch {
+                    getUpdatedAnime()
+                }
+                launch {
+                    getAnimeGenres()
+                }
+                launch {
+                    getFilmsAnime()
+                }
+            }
+        }
+    }
+
+    private fun getAnimeOfSeason() {
         animeUseCase.invoke(
-            page = page,
-            limit = limit,
+            page = DEFAULT_PAGE,
+            limit = DEFAULT_LIMIT,
             status = AnimeStatus.Ongoing,
             season = AnimeSeason.fromMonth(LocalDate.now().month.value),
             years = listOf(LocalDate.now().year),
@@ -60,16 +88,16 @@ internal class HomeViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun getAnimeGenres() {
+    private fun getAnimeGenres() {
         animeGenresUseCase.invoke().onEach {
             _genresAnime.value = it
         }.launchIn(viewModelScope)
     }
 
-    fun getPopularAnime(page: Int, limit: Int) {
+    private fun getPopularAnime() {
         animeUseCase.invoke(
-            page = page,
-            limit = limit,
+            page = DEFAULT_PAGE,
+            limit = DEFAULT_LIMIT,
             order = AnimeOrder.Rating,
             sort = AnimeSort.Desc,
         ).onEach {
@@ -77,10 +105,10 @@ internal class HomeViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun getUpdatedAnime(page: Int, limit: Int) {
+    private fun getUpdatedAnime() {
         animeUseCase.invoke(
-            page = page,
-            limit = limit,
+            page = DEFAULT_PAGE,
+            limit = DEFAULT_LIMIT,
             order = AnimeOrder.Update,
             sort = AnimeSort.Desc,
         ).onEach {
@@ -88,9 +116,18 @@ internal class HomeViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun getFilmsAnime(page: Int, limit: Int) {
-        animeUseCase.invoke(page = page, limit = limit, type = Movie).onEach {
+    private fun getFilmsAnime() {
+        animeUseCase.invoke(
+            page = DEFAULT_PAGE,
+            limit = DEFAULT_LIMIT,
+            type = Movie,
+        ).onEach {
             _filmsAnime.value = it
         }.launchIn(viewModelScope)
+    }
+
+    private companion object {
+        private const val DEFAULT_PAGE = 0
+        private const val DEFAULT_LIMIT = 12
     }
 }

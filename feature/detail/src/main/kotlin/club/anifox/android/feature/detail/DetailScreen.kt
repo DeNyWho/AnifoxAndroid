@@ -19,7 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -221,7 +221,7 @@ internal fun DetailContentUI(
     onUpdateFavouriteStatus: (AnimeFavouriteStatus?) -> Unit,
     onUpdateIsInFavourite: () -> Unit,
 ) {
-    var isDescriptionExpanded by remember { mutableStateOf(false) }
+    var isDescriptionExpanded by rememberSaveable { mutableStateOf(false) }
     val lazyColumnState = rememberLazyListState()
 
     LazyColumn(
@@ -235,12 +235,14 @@ internal fun DetailContentUI(
                 detailAnimeState = detailAnimeState,
             )
         }
+
         item(key = "title") {
             TitleInformationComponent(
-                modifier = Modifier.padding(start = 16.dp, end =  16.dp, top = 4.dp),
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 4.dp),
                 detailAnimeState = detailAnimeState,
             )
         }
+
         item(key = "favourite") {
             FavouriteComponent(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -250,6 +252,7 @@ internal fun DetailContentUI(
                 onUpdateIsInFavourite = onUpdateIsInFavourite,
             )
         }
+
         item(key = "watch") {
             WatchComponent(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
@@ -259,6 +262,7 @@ internal fun DetailContentUI(
                 },
             )
         }
+
         item(key = "information") {
             InformationComponent(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
@@ -266,29 +270,41 @@ internal fun DetailContentUI(
                 onCatalogClick = onCatalogClick,
             )
         }
-        item(key = "genres") {
-            GenresComponent(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
-                detailAnimeState = detailAnimeState,
-                onCatalogClick = onCatalogClick,
-            )
+
+        detailAnimeState.data?.let { detail ->
+            if (detail.genres.isNotEmpty()) {
+                item(key = "genres") {
+                    GenresComponent(
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                        detailAnimeState = detailAnimeState,
+                        onCatalogClick = onCatalogClick,
+                    )
+                }
+            }
+
+            if(detail.studios.isNotEmpty()) {
+                item(key = "studios") {
+                    StudiosComponent(
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                        detailAnimeState = detailAnimeState,
+                        onCatalogClick = onCatalogClick,
+                    )
+                }
+            }
+
+            if(!detail.description.isNullOrEmpty()) {
+                item(key = "description") {
+                    DescriptionComponent(
+                        headerModifier = SliderComponentDefaults.Default,
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                        detailAnimeState = detailAnimeState,
+                        isExpanded = isDescriptionExpanded,
+                        onExpandedChanged = { isDescriptionExpanded = it },
+                    )
+                }
+            }
         }
-        item(key = "studios") {
-            StudiosComponent(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
-                detailAnimeState = detailAnimeState,
-                onCatalogClick = onCatalogClick,
-            )
-        }
-        item(key = "description") {
-            DescriptionComponent(
-                headerModifier = SliderComponentDefaults.Default,
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
-                detailAnimeState = detailAnimeState,
-                isExpanded = isDescriptionExpanded,
-                onExpandedChanged = { isDescriptionExpanded = it },
-            )
-        }
+
         item(key = "screenshots") {
             SliderScreenshotsComponent(
                 headerModifier = SliderComponentDefaults.Default,
@@ -301,6 +317,7 @@ internal fun DetailContentUI(
                 },
             )
         }
+
         item(key = "video") {
             SliderVideoComponent(
                 headerModifier = SliderComponentDefaults.Default,
@@ -314,6 +331,7 @@ internal fun DetailContentUI(
                 },
             )
         }
+
         item(key = "characters") {
             CharactersComponent(
                 headerModifier = SliderComponentDefaults.Default,
@@ -327,6 +345,7 @@ internal fun DetailContentUI(
                 },
             )
         }
+
         item(key = "relation") {
             RelationComponent(
                 modifier = Modifier.padding(start = 16.dp),
@@ -337,6 +356,7 @@ internal fun DetailContentUI(
                 countContent = 3,
             )
         }
+
         item(key = "similar") {
             SliderComponent(
                 headerModifier = SliderComponentDefaults.Default,

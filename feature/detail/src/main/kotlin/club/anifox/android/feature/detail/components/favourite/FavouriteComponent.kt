@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -16,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.chip.AnifoxChipSurfaceSelectable
 import club.anifox.android.core.uikit.component.icon.AnifoxIcon
+import club.anifox.android.core.uikit.component.icon.AnifoxIconOnSurface
 import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.domain.model.anime.enum.AnimeFavouriteStatus
 import club.anifox.android.feature.detail.R
@@ -33,7 +33,7 @@ internal fun FavouriteComponent(
 
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         AnifoxChipSurfaceSelectable(
             modifier = Modifier
@@ -46,12 +46,12 @@ internal fun FavouriteComponent(
             selectedColor = MaterialTheme.colorScheme.primary,
             textStyle = MaterialTheme.typography.labelLarge,
             icon = {
-                Icon(
+                AnifoxIconOnSurface(
                     modifier = Modifier.size(16.dp),
                     imageVector = Filled.KeyboardArrowDown,
                     contentDescription = null,
                 )
-            }
+            },
         )
 
         AnifoxChipSurfaceSelectable(
@@ -69,7 +69,7 @@ internal fun FavouriteComponent(
                     painter = painterResource(R.drawable.feature_detail_bookmark),
                     contentDescription = null,
                 )
-            }
+            },
         )
 
         if (showDialog.value) {
@@ -78,7 +78,7 @@ internal fun FavouriteComponent(
                     showDialog.value = it
                 },
                 selectedFavouriteState = selectedFavouriteState,
-                updateFavouriteStatus = onUpdateFavouriteStatus
+                updateFavouriteStatus = onUpdateFavouriteStatus,
             )
         }
     }
