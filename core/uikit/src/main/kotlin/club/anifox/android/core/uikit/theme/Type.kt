@@ -84,5 +84,16 @@ internal fun anifoxTypography(fontSizePrefs: FontSizePrefs): Typography {
             ),
             fontFamily = NunitoFontFamily,
         ),
+        labelSmall = TextStyle(
+            fontWeight = FontWeight.Bold,
+            fontSize = (11 + fontSizePrefs.fontSizeExtra).sp,
+            lineHeight = ((11 + fontSizePrefs.fontSizeExtra) * lineHeightMultiplier).sp,
+            letterSpacing = 0.1.sp,
+            lineHeightStyle = LineHeightStyle(
+                alignment = Alignment.Center,
+                trim = Trim.LastLineBottom,
+            ),
+            fontFamily = NunitoFontFamily,
+        )
     )
 }

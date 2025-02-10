@@ -93,7 +93,8 @@ internal fun AnimeSearchComponentItem(
             FlowRow (
                 modifier = Modifier
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 AnifoxChipPrimary(
                     title = data.year.toString(),

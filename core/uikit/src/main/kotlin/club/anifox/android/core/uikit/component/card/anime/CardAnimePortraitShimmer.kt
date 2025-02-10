@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.util.DefaultPreview
+import club.anifox.android.core.uikit.util.LocalScreenInfo
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
@@ -32,6 +33,9 @@ fun CardThumbnailPortraitShimmer(
     thumbnailHeight: Dp = CardAnimePortraitDefaults.Height.Default,
     thumbnailWidth: Dp = CardAnimePortraitDefaults.Width.Default,
 ) {
+    val screenInfo = LocalScreenInfo.current
+    val textHeight = 24.dp + screenInfo.fontSizePrefs.fontSizeExtra.dp
+
     Column(
         modifier = modifier
             .width(thumbnailWidth)
@@ -56,7 +60,7 @@ fun CardThumbnailPortraitShimmer(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(24.dp)
+                .height(textHeight)
                 .padding(0.dp, 8.dp, 0.dp, 0.dp)
                 .background(color = MaterialTheme.colorScheme.onSurfaceVariant),
         )
@@ -64,7 +68,7 @@ fun CardThumbnailPortraitShimmer(
         Box(
             modifier = Modifier
                 .width(62.dp)
-                .height(24.dp)
+                .height(textHeight)
                 .padding(0.dp, 8.dp, 0.dp, 0.dp)
                 .background(color = MaterialTheme.colorScheme.onSurfaceVariant),
         )

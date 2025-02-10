@@ -3,7 +3,6 @@ package club.anifox.android.core.uikit.component.slider.header
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons.AutoMirrored
 import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
@@ -29,8 +28,7 @@ fun SliderHeader(
 ) {
     Row (
         modifier = modifier
-            .fillMaxWidth()
-            .height(24.dp),
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {

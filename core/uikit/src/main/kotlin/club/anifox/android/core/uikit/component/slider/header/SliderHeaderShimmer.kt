@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.util.DefaultPreview
+import club.anifox.android.core.uikit.util.LocalScreenInfo
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
@@ -28,10 +29,13 @@ fun SliderHeaderShimmer(
     modifier: Modifier = Modifier,
     shimmerInstance: Shimmer = rememberShimmer(ShimmerBounds.Custom),
 ) {
+    val screenInfo = LocalScreenInfo.current
+    val textHeight = 24.dp + screenInfo.fontSizePrefs.fontSizeExtra.dp
+
     Row (
         modifier = modifier
             .fillMaxWidth()
-            .heightIn(24.dp)
+            .heightIn(textHeight)
             .shimmer(shimmerInstance),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -39,7 +43,7 @@ fun SliderHeaderShimmer(
         Box(
             modifier = Modifier
                 .width(110.dp)
-                .height(24.dp)
+                .height(textHeight)
                 .clip(RoundedCornerShape(4.dp))
                 .background(color = MaterialTheme.colorScheme.onSurfaceVariant)
         )

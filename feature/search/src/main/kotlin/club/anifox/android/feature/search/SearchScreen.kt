@@ -1,5 +1,6 @@
 package club.anifox.android.feature.search
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -146,6 +148,17 @@ private fun SearchContent(
     val items = searchResults.collectAsLazyPagingItems()
 
     val screenInfo = LocalScreenInfo.current
+    val configuration = LocalConfiguration.current
+
+    val isPortrait = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+
+    val columns = when {
+        screenInfo.screenType == ScreenType.EXTRA_LARGE && isPortrait -> 2
+        screenInfo.screenType == ScreenType.EXTRA_LARGE && !isPortrait -> 3
+        !isPortrait -> 2
+        else -> 1
+    }
+
     val (thumbnailWidth, thumbnailHeight) = when (screenInfo.screenType) {
         ScreenType.SMALL -> {
             Pair(
@@ -167,8 +180,6 @@ private fun SearchContent(
         }
     }
 
-    val minColumnSize = (screenInfo.portraitWidthDp.dp / 4).coerceAtLeast(300.dp)
-
     LaunchedEffect(uiState.query, uiState.previousQuery) {
         if (uiState.query != uiState.previousQuery) {
             lazyGridState.scrollToItem(0)
@@ -181,7 +192,7 @@ private fun SearchContent(
             .fillMaxSize(),
     ) {
         when {
-            (uiState.query.isEmpty() && (searchHistory.isNotEmpty())) -> {
+            (uiState.query.isEmpty()) -> {
                 SearchEmptyComponent(
                     searchHistory = searchHistory,
                     randomAnime = randomAnime,
@@ -199,7 +210,7 @@ private fun SearchContent(
             else -> {
                 LazyVerticalGrid(
                     modifier = Modifier.fillMaxSize(),
-                    columns = GridCells.Adaptive(minSize = minColumnSize),
+                    columns = GridCells.Fixed(columns),
                     state = lazyGridState,
                     horizontalArrangement = AnimeSearchComponentItemDefaults.HorizontalArrangement.Grid,
                     verticalArrangement = AnimeSearchComponentItemDefaults.VerticalArrangement.Grid,

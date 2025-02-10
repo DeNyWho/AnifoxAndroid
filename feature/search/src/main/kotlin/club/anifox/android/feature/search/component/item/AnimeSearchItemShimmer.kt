@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.chip.ChipShimmer
 import club.anifox.android.core.uikit.util.DefaultPreview
+import club.anifox.android.core.uikit.util.LocalScreenInfo
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
@@ -36,6 +37,9 @@ internal fun AnimeSearchComponentItemShimmer(
     thumbnailHeight: Dp = AnimeSearchComponentItemDefaults.Height.Medium,
     thumbnailWidth: Dp = AnimeSearchComponentItemDefaults.Width.Medium,
 ) {
+    val screenInfo = LocalScreenInfo.current
+    val textHeight = 24.dp + screenInfo.fontSizePrefs.fontSizeExtra.dp
+
     Row(
         modifier = modifier
             .shimmer(shimmerInstance),
@@ -65,7 +69,7 @@ internal fun AnimeSearchComponentItemShimmer(
             Box(
                 modifier = Modifier
                     .width(100.dp)
-                    .height(24.dp)
+                    .height(textHeight)
                     .padding(0.dp, 8.dp, 0.dp, 0.dp)
                     .background(color = MaterialTheme.colorScheme.onSurfaceVariant),
             )
@@ -85,7 +89,7 @@ internal fun AnimeSearchComponentItemShimmer(
             Box(
                 modifier = Modifier
                     .width(120.dp)
-                    .height(24.dp)
+                    .height(textHeight)
                     .padding(0.dp, 8.dp, 0.dp, 0.dp)
                     .background(color = MaterialTheme.colorScheme.onSurfaceVariant),
             )

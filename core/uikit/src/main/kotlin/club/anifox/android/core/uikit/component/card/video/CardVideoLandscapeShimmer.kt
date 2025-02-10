@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.util.DefaultPreview
+import club.anifox.android.core.uikit.util.LocalScreenInfo
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
@@ -31,6 +32,9 @@ fun CardVideoLandscapeShimmer(
     thumbnailHeight: Dp = CardVideoLandscapeDefaults.Height.Default,
     thumbnailWidth: Dp = CardVideoLandscapeDefaults.Width.Default,
 ) {
+    val screenInfo = LocalScreenInfo.current
+    val textHeight = 24.dp + screenInfo.fontSizePrefs.fontSizeExtra.dp
+
     Column(
         modifier = modifier
             .padding(bottom = 8.dp)
@@ -56,7 +60,7 @@ fun CardVideoLandscapeShimmer(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .width(104.dp)
-                .height(24.dp)
+                .height(textHeight)
                 .padding(0.dp, 4.dp, 0.dp, 0.dp)
                 .background(color = MaterialTheme.colorScheme.onSurfaceVariant),
         )
@@ -64,7 +68,7 @@ fun CardVideoLandscapeShimmer(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .width(62.dp)
-                .height(24.dp)
+                .height(textHeight)
                 .padding(0.dp, 4.dp, 0.dp, 0.dp)
                 .background(color = MaterialTheme.colorScheme.onSurfaceVariant),
         )

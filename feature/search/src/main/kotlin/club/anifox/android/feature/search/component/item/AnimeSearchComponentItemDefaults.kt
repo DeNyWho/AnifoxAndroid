@@ -17,7 +17,7 @@ internal object AnimeSearchComponentItemDefaults {
     }
 
     object HorizontalArrangement {
-        val Grid = Arrangement.spacedBy(8.dp)
+        val Grid = Arrangement.spacedBy(12.dp)
     }
 
     object VerticalArrangement {
