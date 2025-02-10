@@ -53,8 +53,9 @@ internal class AnimeEpisodesRemoteMediator(
                             title = episodeDto.title,
                             image = episodeDto.image,
                             aired = episodeDto.aired,
+                            description = episodeDto.description,
                             filler = episodeDto.filler,
-                            recap = episodeDto.recap
+                            recap = episodeDto.recap,
                         )
                     }
 

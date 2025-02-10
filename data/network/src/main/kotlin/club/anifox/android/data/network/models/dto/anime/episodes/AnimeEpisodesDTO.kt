@@ -17,6 +17,8 @@ data class AnimeEpisodesDTO(
     val image: String = "",
     @SerialName("aired")
     val aired: LocalDate = LocalDate.now(),
+    @SerialName("description")
+    val description: String = "",
     @SerialName("filler")
     val filler: Boolean = false,
     @SerialName("recap")

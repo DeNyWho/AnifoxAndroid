@@ -8,9 +8,11 @@ import club.anifox.android.domain.model.anime.enum.AnimeSeason.Fall
 import club.anifox.android.domain.model.anime.enum.AnimeStatus.Ongoing
 import club.anifox.android.domain.model.anime.enum.AnimeType.Tv
 import club.anifox.android.domain.model.anime.enum.VideoType
+import club.anifox.android.domain.model.anime.episodes.AnimeEpisodesLight
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.model.anime.studio.AnimeStudio
+import club.anifox.android.domain.model.anime.translations.AnimeEpisodeTranslation
 import club.anifox.android.domain.model.anime.translations.AnimeTranslation
 import club.anifox.android.domain.model.anime.translations.AnimeTranslationsCount
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
@@ -18,6 +20,7 @@ import club.anifox.android.domain.model.character.full.CharacterFull
 import club.anifox.android.domain.model.character.role.CharacterRole
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import java.time.LocalDate
 import java.util.UUID
 
 object GlobalParams {
@@ -78,6 +81,23 @@ object GlobalParams {
         playerUrl = "https://...",
         name = "video",
         type = VideoType.Trailer,
+    )
+
+    val DataAnimeEpisodeSingle = AnimeEpisodesLight(
+        title = "Конец путешествия",
+        number = 1,
+        image = "https://cdn.anifox.club/images/anime/episodes/provozhaiushchaia-v-poslednii-put-friren/c4ca4238a0b923820dcc509a6f75849b.jpg",
+        aired = LocalDate.of(2023, 9, 29),
+        description = "Мир празднует поражение Короля Демонов от рук Героя и его спутников. Теперь, когда их великое приключение закончилось, что будет делать маг Фрирен дальше?",
+        filler = false,
+        recap = false,
+        translation = listOf(
+            AnimeEpisodeTranslation(
+                id = 609,
+                link = "//kodik.info/serial/54025/05d5fd4731cc21947948187e34335d55/720p?episode=1",
+                title = "AniDUB",
+            )
+        )
     )
 
     val DataSetAnimeLight = List(10) {

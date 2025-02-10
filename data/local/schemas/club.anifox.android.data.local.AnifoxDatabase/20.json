@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 19,
-    "identityHash": "c453225da2b9db3d7d2088861112c798",
+    "version": 20,
+    "identityHash": "b1e1360dec58b6ad9b32a8ce1ef0bb34",
     "entities": [
       {
         "tableName": "anime",
@@ -506,7 +506,7 @@
       },
       {
         "tableName": "cache_anime_episodes",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`number` INTEGER NOT NULL, `title` TEXT NOT NULL, `image` TEXT NOT NULL, `aired` INTEGER NOT NULL, `description` TEXT NOT NULL, `filler` INTEGER NOT NULL, `recap` INTEGER NOT NULL, PRIMARY KEY(`number`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`number` INTEGER NOT NULL, `title` TEXT NOT NULL, `image` TEXT NOT NULL, `aired` INTEGER, `description` TEXT NOT NULL DEFAULT '', `filler` INTEGER NOT NULL, `recap` INTEGER NOT NULL, PRIMARY KEY(`number`))",
         "fields": [
           {
             "fieldPath": "number",
@@ -530,13 +530,14 @@
             "fieldPath": "aired",
             "columnName": "aired",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "description",
             "columnName": "description",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": true,
+            "defaultValue": "''"
           },
           {
             "fieldPath": "filler",
@@ -780,7 +781,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c453225da2b9db3d7d2088861112c798')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b1e1360dec58b6ad9b32a8ce1ef0bb34')"
     ]
   }
 }

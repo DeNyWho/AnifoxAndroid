@@ -57,7 +57,7 @@ private fun PreviewAnifoxChipSurface() {
 }
 
 /**
- * Anifox ChipSurface (chip with surface colors) [AnifoxChipSurface].
+ * Anifox ChipPrimary (chip with primary colors) [AnifoxChipPrimary].
  */
 @Composable
 fun AnifoxChipPrimary(
@@ -87,6 +87,33 @@ private fun PreviewAnifoxChipPrimary() {
         )
     }
 }
+
+/**
+ * Anifox ChipCustom (chip with custom colors) [AnifoxChipCustom].
+ */
+@Composable
+fun AnifoxChipCustom(
+    modifier: Modifier = Modifier,
+    modifierText: Modifier = Modifier,
+    title: String = "",
+    shape: Shape = MaterialTheme.shapes.large,
+    containerColor: Color,
+    contentColor: Color,
+) {
+    Surface(
+        modifier = modifier,
+        shape = shape,
+        contentColor = contentColor,
+        color = containerColor,
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.labelSmall,
+            modifier = modifierText,
+        )
+    }
+}
+
 
 @Composable
 fun AnifoxChipSurfaceSelectable(

@@ -1,4 +1,4 @@
-package club.anifox.android.feature.episodes.components.grid.item
+package club.anifox.android.feature.episodes.components.item
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.ui.unit.dp

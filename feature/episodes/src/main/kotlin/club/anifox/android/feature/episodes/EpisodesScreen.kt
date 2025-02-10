@@ -1,10 +1,10 @@
 package club.anifox.android.feature.episodes
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -15,6 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -29,8 +30,8 @@ import club.anifox.android.core.uikit.component.topbar.SimpleTopBar
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.episodes.AnimeEpisodesLight
 import club.anifox.android.domain.model.common.device.ScreenType
-import club.anifox.android.feature.episodes.components.grid.item.CardEpisodeGridComponentItem
-import club.anifox.android.feature.episodes.components.grid.item.CardEpisodeGridComponentItemDefaults
+import club.anifox.android.feature.episodes.components.item.CardEpisodeGridComponentItem
+import club.anifox.android.feature.episodes.components.item.CardEpisodeGridComponentItemDefaults
 import club.anifox.android.feature.episodes.model.state.EpisodesUiState
 import kotlinx.coroutines.flow.Flow
 
@@ -96,19 +97,15 @@ private fun EpisodesContentUI(
     val lazyGridState = rememberLazyGridState()
 
     val screenInfo = LocalScreenInfo.current
+    val configuration = LocalConfiguration.current
+    val isPortrait = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 
-    val width = when (screenInfo.screenType) {
-        ScreenType.SMALL -> {
-            CardEpisodeGridComponentItemDefaults.Width.GridSmall
-        }
-        ScreenType.DEFAULT -> {
-            CardEpisodeGridComponentItemDefaults.Width.GridMedium
-        }
-        else -> {
-            CardEpisodeGridComponentItemDefaults.Width.GridLarge
-        }
+    val columns = when {
+        screenInfo.screenType == ScreenType.EXTRA_LARGE && isPortrait -> 2
+        screenInfo.screenType == ScreenType.EXTRA_LARGE && !isPortrait -> 3
+        !isPortrait -> 2
+        else -> 1
     }
-    val minColumnSize = (screenInfo.portraitWidthDp.dp / (if (screenInfo.portraitWidthDp.dp < 600.dp) 4 else 6)).coerceAtLeast(if(screenInfo.portraitWidthDp.dp < 600.dp) CardEpisodeGridComponentItemDefaults.Width.Min else width )
 
     if (items.loadState.refresh is LoadState.Loading) {
         CircularProgress()
@@ -119,7 +116,7 @@ private fun EpisodesContentUI(
             Box(modifier = modifier.fillMaxSize()) {
                 LazyVerticalGrid(
                     modifier = GridComponentDefaults.Default.fillMaxSize(),
-                    columns = GridCells.Adaptive(minSize = minColumnSize),
+                    columns = GridCells.Fixed(columns),
                     state = lazyGridState,
                     horizontalArrangement = CardEpisodeGridComponentItemDefaults.HorizontalArrangement.Grid,
                     verticalArrangement = CardEpisodeGridComponentItemDefaults.VerticalArrangement.Grid,
@@ -135,7 +132,6 @@ private fun EpisodesContentUI(
                         val item = items[index]
                         if (item != null) {
                             CardEpisodeGridComponentItem(
-                                modifier = Modifier.width(width),
                                 currentTranslationId = uiState.translationId,
                                 data = item,
                                 onClick = { url ->

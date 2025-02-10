@@ -3,6 +3,7 @@ package club.anifox.android.data.local.di
 import android.content.Context
 import androidx.room.Room
 import club.anifox.android.data.local.AnifoxDatabase
+import club.anifox.android.data.local.migrations.DatabaseMigrations
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,6 +23,6 @@ internal object DatabaseModule {
         AnifoxDatabase::class.java,
         "anifox-database",
     )
-        .fallbackToDestructiveMigration() // Use only until the application is released in the release version
+        .addMigrations(DatabaseMigrations.Schema19To20())
         .build()
 }

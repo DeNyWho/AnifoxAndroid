@@ -73,6 +73,7 @@ fun AnimeCacheEpisodeWithTranslations.toLight(): AnimeEpisodesLight = AnimeEpiso
     number = episode.number,
     image = episode.image,
     aired = episode.aired,
+    description = episode.description,
     filler = episode.filler,
     recap = episode.recap,
     translation = translations.map { it.toTranslation() },
