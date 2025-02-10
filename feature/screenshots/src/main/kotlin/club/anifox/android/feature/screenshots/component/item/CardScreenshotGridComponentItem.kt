@@ -1,4 +1,4 @@
-package club.anifox.android.feature.screenshots.component.grid.item
+package club.anifox.android.feature.screenshots.component.item
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -45,7 +45,7 @@ internal fun CardScreenshotGridComponentItem(
                 .size(Size.ORIGINAL)
                 .build(),
             contentDescription = "Content thumbnail",
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.FillWidth,
             onError = {
                 println(it.result.throwable.message)
             },

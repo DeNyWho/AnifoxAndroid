@@ -1,4 +1,4 @@
-package club.anifox.android.feature.screenshots.component.grid.param
+package club.anifox.android.feature.screenshots.component.item.param
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import club.anifox.android.domain.state.StateListWrapper
