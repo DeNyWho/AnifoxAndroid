@@ -17,10 +17,10 @@ internal object AnimeScheduleComponentItemDefaults {
     }
 
     object HorizontalArrangement {
-        val Grid = Arrangement.spacedBy(8.dp)
+        val Grid = Arrangement.spacedBy(12.dp)
     }
 
     object VerticalArrangement {
-        val Grid = Arrangement.spacedBy(20.dp)
+        val Grid = Arrangement.spacedBy(12.dp)
     }
 }

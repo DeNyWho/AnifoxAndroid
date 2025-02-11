@@ -1,5 +1,6 @@
 package club.anifox.android.feature.schedule
 
+import android.content.res.Configuration
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -159,8 +161,17 @@ private fun ScheduleContentUI(
     onAnimeClick: (String) -> Unit,
 ) {
     val lazyGridState = rememberLazyGridState()
-
     val screenInfo = LocalScreenInfo.current
+    val configuration = LocalConfiguration.current
+    val isPortrait = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+
+    val columns = when {
+        screenInfo.screenType == ScreenType.EXTRA_LARGE && isPortrait -> 2
+        screenInfo.screenType == ScreenType.EXTRA_LARGE && !isPortrait -> 3
+        !isPortrait -> 2
+        else -> 1
+    }
+
     val (width, height) = when (screenInfo.screenType) {
         ScreenType.SMALL -> {
             Pair(
@@ -181,7 +192,6 @@ private fun ScheduleContentUI(
             )
         }
     }
-    val minColumnSize = (screenInfo.portraitWidthDp.dp / 4).coerceAtLeast(300.dp)
 
     Box(
         modifier = modifier.fillMaxSize(),
@@ -191,7 +201,7 @@ private fun ScheduleContentUI(
             modifier = GridComponentDefaults.Default
                 .fillMaxSize()
                 .animateContentSize(),
-            columns = GridCells.Adaptive(minSize = minColumnSize),
+            columns = GridCells.Fixed(columns),
             state = lazyGridState,
             horizontalArrangement = AnimeScheduleComponentItemDefaults.HorizontalArrangement.Grid,
             verticalArrangement = AnimeScheduleComponentItemDefaults.VerticalArrangement.Grid,
@@ -209,7 +219,7 @@ private fun ScheduleContentUI(
                 }
                 else -> {
                     item(span = { GridItemSpan(maxLineSpan) }) {
-                        Spacer(modifier = Modifier.height(0.dp))
+                        Spacer(modifier = Modifier)
                     }
 
                     items(

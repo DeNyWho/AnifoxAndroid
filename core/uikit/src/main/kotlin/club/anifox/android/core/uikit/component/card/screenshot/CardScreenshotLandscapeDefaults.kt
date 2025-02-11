@@ -15,11 +15,11 @@ object CardScreenshotLandscapeDefaults {
 
     object HorizontalArrangement {
         val Default = Arrangement.spacedBy(12.dp)
-        val Grid = Arrangement.spacedBy(16.dp)
+        val Grid = Arrangement.spacedBy(12.dp)
     }
 
     object VerticalArrangement {
-        val Grid = Arrangement.spacedBy(16.dp)
+        val Grid = Arrangement.spacedBy(12.dp)
     }
 
     object Limit {
