@@ -109,6 +109,7 @@ internal class HomeViewModel @Inject constructor(
         animeUseCase.invoke(
             page = DEFAULT_PAGE,
             limit = DEFAULT_LIMIT,
+            status = AnimeStatus.Ongoing,
             order = AnimeOrder.Update,
             sort = AnimeSort.Desc,
         ).onEach {

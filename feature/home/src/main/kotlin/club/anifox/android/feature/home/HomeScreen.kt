@@ -34,6 +34,7 @@ internal fun HomeScreen(
     onSearchClick: () -> Unit,
     onGenresClick: (String) -> Unit,
     onCatalogClick: (CatalogFilterParams) -> Unit,
+    onSettingsClick: () -> Unit,
 ) {
     HomeUI(
         modifier = modifier,
@@ -41,6 +42,7 @@ internal fun HomeScreen(
         onSearchClick = onSearchClick,
         onGenresClick = onGenresClick,
         onCatalogClick = onCatalogClick,
+        onSettingsClick =  onSettingsClick,
         animeOfSeason = viewModel.animeOfSeason.value,
         onPopularAnime = viewModel.onPopularAnime.value,
         onUpdatedAnime = viewModel.onUpdatedAnime.value,
@@ -56,6 +58,7 @@ private fun HomeUI(
     onSearchClick: () -> Unit,
     onGenresClick: (String) -> Unit,
     onCatalogClick: (CatalogFilterParams) -> Unit,
+    onSettingsClick: () -> Unit,
     animeOfSeason: StateListWrapper<AnimeLight>,
     onPopularAnime: StateListWrapper<AnimeLight>,
     onUpdatedAnime: StateListWrapper<AnimeLight>,
@@ -77,6 +80,7 @@ private fun HomeUI(
                         CatalogFilterParams()
                     )
                 },
+                onSettingsClick = onSettingsClick,
             )
         },
     ) {

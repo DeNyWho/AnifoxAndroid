@@ -6,7 +6,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -25,6 +24,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.icon.AnifoxIconOnSurface
 import club.anifox.android.core.uikit.component.textfield.SearchField
+import club.anifox.android.core.uikit.icon.AnifoxIcons
 import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.feature.home.R
 
@@ -32,6 +32,7 @@ import club.anifox.android.feature.home.R
 internal fun HomeTopBarComponent(
     onSearchClick: () -> Unit,
     onCatalogClick: () -> Unit,
+    onSettingsClick: () -> Unit,
 ) {
     var hasNavigatedToSearch by remember { mutableStateOf(false) }
 
@@ -64,7 +65,15 @@ internal fun HomeTopBarComponent(
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Spacer(modifier = Modifier.size(24.dp))
+        AnifoxIconOnSurface(
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+                .size(24.dp)
+                .alpha(rightIconAlpha)
+                .clickableWithoutRipple { onSettingsClick.invoke() },
+            imageVector = ImageVector.vectorResource(AnifoxIcons.settings),
+            contentDescription = null,
+        )
 
         SearchField(
             modifier = Modifier
@@ -81,7 +90,7 @@ internal fun HomeTopBarComponent(
                 .align(Alignment.CenterVertically)
                 .size(24.dp)
                 .alpha(rightIconAlpha)
-                .clickableWithoutRipple { onCatalogClick() },
+                .clickableWithoutRipple { onCatalogClick.invoke() },
             imageVector = ImageVector.vectorResource(R.drawable.feature_home_browse),
             contentDescription = null,
         )

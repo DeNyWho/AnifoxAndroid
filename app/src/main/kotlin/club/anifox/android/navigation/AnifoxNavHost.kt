@@ -31,6 +31,7 @@ import club.anifox.android.feature.screenshots.navigation.navigateToScreenshots
 import club.anifox.android.feature.screenshots.navigation.screenshotsScreen
 import club.anifox.android.feature.search.navigation.navigateToSearch
 import club.anifox.android.feature.search.navigation.searchScreen
+import club.anifox.android.feature.settings.navigation.navigateToSettings
 import club.anifox.android.feature.settings.navigation.settingsScreen
 import club.anifox.android.feature.translations.navigation.navigateToTranslations
 import club.anifox.android.feature.translations.navigation.translationsScreen
@@ -57,6 +58,7 @@ fun AnifoxNavHost(
             onSearchClick = navController::navigateToSearch,
             onGenresClick = navController::navigateToGenres,
             onCatalogClick = navController::navigateToCatalog,
+            onSettingsClick = navController::navigateToSettings,
         )
         detailScreen(
             onBackPressed = navController::popBackStack,

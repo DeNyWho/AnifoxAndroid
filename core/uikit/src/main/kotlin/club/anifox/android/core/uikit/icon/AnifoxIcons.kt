@@ -17,4 +17,5 @@ object AnifoxIcons {
 
     val logo = R.drawable.core_uikit_anifox_logo
     val youtube = R.drawable.core_uikit_youtube
+    val settings = R.drawable.core_uikit_settings
 }
