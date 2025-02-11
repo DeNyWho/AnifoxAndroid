@@ -2,6 +2,7 @@ package club.anifox.android.data.source.repository.user
 
 import club.anifox.android.data.datastore.source.UserDataSource
 import club.anifox.android.domain.model.common.device.FontSizePrefs
+import club.anifox.android.domain.model.common.device.ThemeType
 import club.anifox.android.domain.repository.user.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -21,9 +22,16 @@ class UserRepositoryImpl @Inject constructor(
         get() = userData["font_size_prefs"]?.mapNotNull { it as? FontSizePrefs }
             ?: flow { emit(FontSizePrefs.DEFAULT) }
 
+    override val theme: Flow<ThemeType>
+        get() = userData["theme"]?.mapNotNull { it as? ThemeType }
+            ?: flow { emit(ThemeType.SYSTEM) }
+
     override suspend fun updateFirstLaunch(isFirstLaunch: Boolean) =
         userDataSource.updateFirstLaunch(isFirstLaunch)
 
     override suspend fun updateFontSizePrefs(fontSizePrefs: FontSizePrefs) =
         userDataSource.updateFontSizePrefs(fontSizePrefs)
+
+    override suspend fun updateTheme(theme: ThemeType) =
+        userDataSource.updateTheme(theme)
 }

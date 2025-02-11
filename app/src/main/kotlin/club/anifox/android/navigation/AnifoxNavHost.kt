@@ -118,7 +118,9 @@ fun AnifoxNavHost(
             onSearchClick = navController::navigateToSearch,
             onBackPressed = navController::popBackStack,
         )
-        settingsScreen()
+        settingsScreen(
+            onBackPressed = navController::popBackStack,
+        )
         onboardingScreen(
             onLoginClick = navController::navigateToLogin,
             onRegistrationClick = navController::navigateToRegistration,

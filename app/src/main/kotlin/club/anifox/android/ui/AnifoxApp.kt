@@ -7,10 +7,12 @@ import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -51,7 +53,6 @@ fun AnifoxApp(appState: AnifoxAppState) {
         HOME_ROUTE,
         SCHEDULE_ROUTE,
         FAVOURITE_ROUTE,
-//        PROFILE_ROUTE,
     )
 
     AnifoxBackground {
@@ -73,16 +74,20 @@ fun AnifoxApp(appState: AnifoxAppState) {
         val showNavBar = currentDestination?.route in screensWithNavBar
 
         Scaffold(
-            modifier = Modifier.semantics {
-                testTagsAsResourceId = true
-            },
+            modifier = Modifier
+                .semantics {
+                    testTagsAsResourceId = true
+                }
+                .systemBarsPadding(),
             snackbarHost = { SnackbarHost(snackbarHostState) },
-            contentWindowInsets = WindowInsets(0, 0, 0, 0),
+            contentWindowInsets = WindowInsets.safeDrawing,
             bottomBar = {
                 if(showNavBar) {
                     Surface(shadowElevation = 3.dp) {
                         AnifoxNavigationBar(
-                            modifier = Modifier.height(60.dp),
+                            modifier = Modifier
+                                .height(60.dp)
+                                .navigationBarsPadding(),
                         ) {
                             appState.topLevelDestinations.forEach { destination ->
                                 val selected = currentDestination

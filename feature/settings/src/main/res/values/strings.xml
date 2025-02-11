@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_settings_top_bar_title">Настройки</string>
+    <string name="feature_settings_section_ui_title">Внешний вид</string>
+    <string name="feature_settings_section_ui_theme">Тема приложения</string>
+    <string name="feature_settings_section_ui_theme_type_system">Тема приложения</string>
+    <string name="feature_settings_section_ui_theme_type_dark">Тёмная</string>
+    <string name="feature_settings_section_ui_theme_type_light">Светлая</string>
+    <string name="feature_settings_section_ui_theme_dialog_close">Отмена</string>
+</resources>

@@ -34,6 +34,7 @@ import club.anifox.android.domain.usecase.anime.search.AddAnimeSearchHistoryUseC
 import club.anifox.android.domain.usecase.anime.search.DeleteAnimeSearchHistoryUseCase
 import club.anifox.android.domain.usecase.anime.search.GetAnimeSearchHistoryUseCase
 import club.anifox.android.domain.usecase.character.GetCharacterFullUseCase
+import club.anifox.android.domain.usecase.settings.ThemeSettingsUseCase
 import club.anifox.android.domain.usecase.user.UserFirstLaunchUseCase
 import club.anifox.android.domain.usecase.user.UserSettingsUseCase
 import club.anifox.android.domain.usecase.user.UserTokensUseCase
@@ -57,6 +58,12 @@ internal object UseCaseModule {
     @Singleton
     fun provideUserSettingsUseCase(userRepository: UserRepository): UserSettingsUseCase {
         return UserSettingsUseCase(userRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideThemeSettingsUseCase(userRepository: UserRepository): ThemeSettingsUseCase {
+        return ThemeSettingsUseCase(userRepository)
     }
 
     @Provides

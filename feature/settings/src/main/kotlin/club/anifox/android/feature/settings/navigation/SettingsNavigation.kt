@@ -10,10 +10,14 @@ const val SETTINGS_ROUTE = "settings_route"
 
 fun NavController.navigateToSettings(navOptions: NavOptions? = null) = navigate(SETTINGS_ROUTE, navOptions)
 
-fun NavGraphBuilder.settingsScreen() {
+fun NavGraphBuilder.settingsScreen(
+    onBackPressed: () -> Boolean,
+) {
     composable(
         route = SETTINGS_ROUTE
     ) {
-        SettingsScreen()
+        SettingsScreen(
+            onBackPressed = onBackPressed,
+        )
     }
 }
