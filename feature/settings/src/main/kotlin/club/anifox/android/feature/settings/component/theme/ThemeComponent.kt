@@ -21,7 +21,7 @@ internal fun ThemeComponent(
     modifier: Modifier = Modifier,
     selectedThemeState: ThemeType,
     updateThemeStatus: (ThemeType) -> Unit,
-){
+) {
     val showDialog = remember { mutableStateOf(false) }
 
     Text(
@@ -53,7 +53,7 @@ internal fun ThemeComponent(
                 modifier = Modifier.padding(start = 16.dp),
                 text = selectedThemeState.toString(),
                 color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.titleSmall.copy(color = Color.LightGray.copy(0.1f)),
+                style = MaterialTheme.typography.bodySmall.copy(color = Color.LightGray.copy(0.1f)),
             )
         }
     }

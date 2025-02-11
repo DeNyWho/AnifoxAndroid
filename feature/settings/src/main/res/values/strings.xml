@@ -7,4 +7,7 @@
     <string name="feature_settings_section_ui_theme_type_dark">Тёмная</string>
     <string name="feature_settings_section_ui_theme_type_light">Светлая</string>
     <string name="feature_settings_section_ui_theme_dialog_close">Отмена</string>
+    <string name="feature_settings_section_player_title">Видеоплеер</string>
+    <string name="feature_settings_section_player_horizontal_orientation_title">Горизонтальное положение</string>
+    <string name="feature_settings_section_player_horizontal_orientation_description">Видеоплеер будет отображаться только в горизонтальном положении</string>
 </resources>

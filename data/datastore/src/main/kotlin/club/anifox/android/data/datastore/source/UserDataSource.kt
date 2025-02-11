@@ -2,6 +2,7 @@ package club.anifox.android.data.datastore.source
 
 import androidx.datastore.core.DataStore
 import club.anifox.android.domain.model.common.device.FontSizePrefs
+import club.anifox.android.domain.model.common.device.PlayerOrientation
 import club.anifox.android.domain.model.common.device.ThemeType
 import club.anifox.android.domain.model.user.UserData
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +16,7 @@ class UserDataSource @Inject constructor(
         put("is_first_launch", dataStore.data.map { it.isFirstLaunch })
         put("font_size_prefs", dataStore.data.map { it.fontSizePrefs })
         put("theme", dataStore.data.map { it.theme })
+        put("player_orientation", dataStore.data.map { it.playerOrientation })
     }
 
     suspend fun updateFirstLaunch(isFirstLaunch: Boolean) {
@@ -37,6 +39,14 @@ class UserDataSource @Inject constructor(
         dataStore.updateData { userData ->
             userData.copy(
                 theme = theme
+            )
+        }
+    }
+
+    suspend fun updatePlayerOrientation(playerOrientation: PlayerOrientation) {
+        dataStore.updateData { userData ->
+            userData.copy(
+                playerOrientation = playerOrientation
             )
         }
     }
