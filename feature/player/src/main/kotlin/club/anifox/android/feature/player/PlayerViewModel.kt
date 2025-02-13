@@ -10,26 +10,24 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 internal class PlayerViewModel @Inject constructor(
     private val playerOrientationSettingsUseCase: PlayerOrientationSettingsUseCase,
 ): ViewModel() {
-    private val _selectedPlayerOrientation: MutableStateFlow<PlayerOrientation> =
-        MutableStateFlow(PlayerOrientation.ALL)
-    val selectedPlayerOrientation: StateFlow<PlayerOrientation> = _selectedPlayerOrientation.asStateFlow()
+    private val _selectedPlayerOrientation = MutableStateFlow<PlayerOrientation?>(null)
+    val selectedPlayerOrientation: StateFlow<PlayerOrientation?> = _selectedPlayerOrientation.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            launch { getPlayerOrientation() }
-        }
+        getPlayerOrientation()
     }
 
     private fun getPlayerOrientation() {
-        playerOrientationSettingsUseCase.playerOrientation.onEach {
-            _selectedPlayerOrientation.value = it
-        }.launchIn(viewModelScope)
+        playerOrientationSettingsUseCase.playerOrientation
+            .onEach { orientation ->
+                _selectedPlayerOrientation.value = orientation
+            }
+            .launchIn(viewModelScope)
     }
 }

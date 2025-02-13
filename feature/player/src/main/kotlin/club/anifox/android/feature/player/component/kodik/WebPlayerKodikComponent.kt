@@ -41,7 +41,8 @@ internal fun WebPlayerKodikComponent(url: String) {
     ) {
         AndroidView(
             factory = { webView },
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
         ) { view ->
             view.loadUrl(domainPlayerLink)
         }

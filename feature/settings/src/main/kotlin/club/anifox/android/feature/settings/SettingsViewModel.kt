@@ -25,7 +25,7 @@ internal class SettingsViewModel @Inject constructor(
     val selectedTheme: StateFlow<ThemeType> = _selectedTheme.asStateFlow()
 
     private val _selectedPlayerOrientation: MutableStateFlow<PlayerOrientation> =
-        MutableStateFlow(PlayerOrientation.ALL)
+        MutableStateFlow(PlayerOrientation.HORIZONTAL)
     val selectedPlayerOrientation: StateFlow<PlayerOrientation> = _selectedPlayerOrientation.asStateFlow()
 
     init {

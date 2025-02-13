@@ -19,5 +19,5 @@ data class UserData(
     val theme: ThemeType = ThemeType.SYSTEM,
 
     @SerialName("player_orientation")
-    val playerOrientation: PlayerOrientation = PlayerOrientation.ALL,
+    val playerOrientation: PlayerOrientation = PlayerOrientation.HORIZONTAL,
 )

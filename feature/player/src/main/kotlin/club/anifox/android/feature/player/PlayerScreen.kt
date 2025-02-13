@@ -11,7 +11,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -43,7 +42,7 @@ internal fun PlayerScreen(
 
         val originalSystemBarsBehavior = windowInsetsController.systemBarsBehavior
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && selectedPlayerOrientationState == PlayerOrientation.HORIZONTAL) {
             val originalCutoutMode = window.attributes.layoutInDisplayCutoutMode
             val layoutParams = window.attributes
             layoutParams.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER
@@ -54,11 +53,11 @@ internal fun PlayerScreen(
                 restoreParams.layoutInDisplayCutoutMode = originalCutoutMode
                 window.attributes = restoreParams
             }
-        }
 
-        windowInsetsController.apply {
-            hide(WindowInsetsCompat.Type.systemBars())
-            systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            windowInsetsController.apply {
+                hide(WindowInsetsCompat.Type.systemBars())
+                systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            }
         }
 
         onDispose {
@@ -83,7 +82,6 @@ private fun PlayerUI(
     Surface(
         modifier = Modifier
             .fillMaxSize(),
-        color = Color.Black
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             if(kodik) {
