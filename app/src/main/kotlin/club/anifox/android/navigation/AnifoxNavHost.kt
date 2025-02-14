@@ -42,7 +42,6 @@ import club.anifox.android.feature.translations.navigation.translationsScreen
 import club.anifox.android.feature.video.navigation.navigateToVideo
 import club.anifox.android.feature.video.navigation.videoScreen
 import club.anifox.android.navigation.NavigationEvent.Back
-import club.anifox.android.navigation.NavigationEvent.BackTo
 import club.anifox.android.navigation.NavigationEvent.ToCatalog
 import club.anifox.android.navigation.NavigationEvent.ToCharacter
 import club.anifox.android.navigation.NavigationEvent.ToCharacters
@@ -70,20 +69,24 @@ class NavigationManager {
     val backFlow: Flow<Back> = _backFlow
 
     private var lastBackPressTime = 0L
+    private var lastNavigationTime = 0L
 
     fun emit(event: NavigationEvent) {
+        val currentTime = System.currentTimeMillis()
+
         if (event is Back) {
-            val currentTime = System.currentTimeMillis()
-            if (currentTime - lastBackPressTime < 500) {
-                return
-            }
+            if (currentTime - lastBackPressTime < 500) return
             lastBackPressTime = currentTime
+            _backFlow.tryEmit(Back)
+            return
         }
 
-        when (event) {
-            is Back -> _backFlow.tryEmit(Back)
-            else -> _navigationFlow.tryEmit(event)
+        if ((currentTime - lastNavigationTime < 500)) {
+            return
         }
+
+        lastNavigationTime = currentTime
+        _navigationFlow.tryEmit(event)
     }
 }
 
@@ -98,7 +101,6 @@ sealed interface NavigationEvent {
     data class ToCatalog(val params: CatalogFilterParams) : NavigationEvent
     data class ToGenres(val genreID: String) : NavigationEvent
     data class ToCharacters(val url: String, val title: String) : NavigationEvent
-    data class BackTo(val destination: String) : NavigationEvent
 
     data object ToSearch : NavigationEvent
     data object ToSettings : NavigationEvent
@@ -119,53 +121,26 @@ fun AnifoxNavHost(
 
     LaunchedEffect(navigationManager, navController) {
         navigationManager.navigationFlow.collect { event ->
-            val currentDestination = navController.currentDestination?.route
-
             when (event) {
-                is ToDetail -> if (currentDestination != "detail/${event.animeId}") {
-                    navController.navigateToDetail(event.animeId)
+                is ToDetail -> navController.navigateToDetail(event.animeId)
+                is ToCharacter -> navController.navigateToCharacter(event.characterId)
+                is ToTranslations -> navController.navigateToTranslations(event.animeId)
+                is ToEpisodes -> navController.navigateToEpisodes(event.url, event.translationId)
+                is ToPlayer -> navController.navigateToPlayer(event.url, event.kodik)
+                is ToScreenshots -> navController.navigateToScreenshots(event.url, event.title)
+                is ToVideo -> navController.navigateToVideo(event.url, event.title)
+                is ToCatalog -> navController.navigateToCatalog(event.params)
+                is ToGenres -> navController.navigateToGenres(event.genreID)
+                is ToCharacters -> navController.navigateToCharacters(event.url, event.title)
+                ToSearch -> navController.navigateToSearch()
+                ToSettings -> navController.navigateToSettings()
+                ToLogin -> navController.navigateToLogin()
+                ToRegistration -> navController.navigateToRegistration()
+                Back -> {
+                    if (navController.previousBackStackEntry != null) {
+                        navController.popBackStack()
+                    }
                 }
-                is ToCharacter -> if (currentDestination != "character/${event.characterId}") {
-                    navController.navigateToCharacter(event.characterId)
-                }
-                is ToTranslations -> if (currentDestination != "translations/${event.animeId}") {
-                    navController.navigateToTranslations(event.animeId)
-                }
-                is ToEpisodes -> if (currentDestination != "episodes/${event.url}/${event.translationId}") {
-                    navController.navigateToEpisodes(event.url, event.translationId)
-                }
-                is ToPlayer -> if (currentDestination != "player/${event.url}/${event.kodik}") {
-                    navController.navigateToPlayer(event.url, event.kodik)
-                }
-                is ToScreenshots -> if (currentDestination != "screenshots/${event.url}/${event.title}") {
-                    navController.navigateToScreenshots(event.url, event.title)
-                }
-                is ToVideo -> if (currentDestination != "video/${event.url}/${event.title}") {
-                    navController.navigateToVideo(event.url, event.title)
-                }
-                is ToCatalog -> if (currentDestination != "catalog/${event.params}") {
-                    navController.navigateToCatalog(event.params)
-                }
-                is ToGenres -> if (currentDestination != "genres/${event.genreID}") {
-                    navController.navigateToGenres(event.genreID)
-                }
-                is ToCharacters -> if (currentDestination != "characters/${event.url}/${event.title}") {
-                    navController.navigateToCharacters(event.url, event.title)
-                }
-                ToSearch -> if (currentDestination != "search") {
-                    navController.navigateToSearch()
-                }
-                ToSettings -> if (currentDestination != "settings") {
-                    navController.navigateToSettings()
-                }
-                ToLogin -> if (currentDestination != "login") {
-                    navController.navigateToLogin()
-                }
-                ToRegistration -> if (currentDestination != "registration") {
-                    navController.navigateToRegistration()
-                }
-                is BackTo -> { }
-                Back -> { }
             }
         }
     }
@@ -180,7 +155,7 @@ fun AnifoxNavHost(
 
     NavHost(
         navController = navController,
-        startDestination = if(isFirstLaunch) startDestination else startDestination,
+        startDestination = if (isFirstLaunch) startDestination else startDestination,
         modifier = modifier,
     ) {
         homeScreen(
