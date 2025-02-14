@@ -1,12 +1,13 @@
 package club.anifox.android.feature.settings
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -19,6 +20,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import club.anifox.android.core.uikit.component.topbar.SimpleTopBar
 import club.anifox.android.domain.model.common.device.PlayerOrientation
 import club.anifox.android.domain.model.common.device.ThemeType
+import club.anifox.android.feature.settings.component.lic.LicComponent
+import club.anifox.android.feature.settings.component.links.LinksComponent
 import club.anifox.android.feature.settings.component.player.PlayerComponent
 import club.anifox.android.feature.settings.component.theme.ThemeComponent
 
@@ -40,6 +43,15 @@ internal fun SettingsScreen(
         updatePlayerOrientation = {
             viewModel.updatePlayerOrientation()
         },
+        openLicHolders = {
+            viewModel.openWeb(BuildConfig.url_holders)
+        },
+        openOffSuite = {
+            viewModel.openWeb(BuildConfig.url_off_suite)
+        },
+        openTelegram = {
+            viewModel.openTelegram(BuildConfig.url_off_telegram)
+        },
     )
 }
 
@@ -50,6 +62,9 @@ private fun SettingsUI(
     selectedPlayerOrientationState: PlayerOrientation,
     updateTheme: (ThemeType) -> Unit,
     updatePlayerOrientation: () -> Unit,
+    openLicHolders: () -> Unit,
+    openOffSuite: () -> Unit,
+    openTelegram: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier
@@ -70,6 +85,9 @@ private fun SettingsUI(
             selectedPlayerOrientationState = selectedPlayerOrientationState,
             updateTheme = updateTheme,
             updatePlayerOrientation = updatePlayerOrientation,
+            openLicHolders = openLicHolders,
+            openOffSuite = openOffSuite,
+            openTelegram = openTelegram,
         )
     }
 }
@@ -81,29 +99,57 @@ private fun SettingsContentUI(
     selectedPlayerOrientationState: PlayerOrientation,
     updateTheme: (ThemeType) -> Unit,
     updatePlayerOrientation: () -> Unit,
+    openLicHolders: () -> Unit,
+    openOffSuite: () -> Unit,
+    openTelegram: () -> Unit,
 ) {
-    Column(
+    val settingsItems = listOf<@Composable () -> Unit>(
+        {
+            ThemeComponent(
+                selectedThemeState = selectedThemeState,
+                updateThemeStatus = updateTheme,
+            )
+        },
+        {
+            PlayerComponent(
+                selectedPlayerOrientationState = selectedPlayerOrientationState,
+                updatePlayerOrientation = updatePlayerOrientation,
+            )
+        },
+        {
+            LicComponent(
+                openLicHolders = openLicHolders,
+            )
+        },
+        {
+            LinksComponent(
+                openOffSuite = openOffSuite,
+                openTelegram = openTelegram,
+            )
+        },
+    )
+    val lazyColumnState = rememberLazyListState()
+
+    LazyColumn(
         modifier = modifier
             .padding(top = 16.dp),
+        state = lazyColumnState,
     ) {
-        ThemeComponent(
-            selectedThemeState = selectedThemeState,
-            updateThemeStatus = updateTheme,
-        )
-
-        Spacer(
-            modifier = Modifier
-                .padding(
-                    vertical = 8.dp,
-                )
-                .height(1.dp)
-                .background(Color.LightGray.copy(0.1f))
-                .fillMaxWidth(),
-        )
-
-        PlayerComponent(
-            selectedPlayerOrientationState = selectedPlayerOrientationState,
-            updatePlayerOrientation = updatePlayerOrientation,
-        )
+        settingsItems.forEachIndexed { index, item ->
+            item {
+                item()
+                if (index < settingsItems.size - 1) {
+                    Spacer(
+                        modifier = Modifier
+                            .padding(
+                                vertical = 8.dp,
+                            )
+                            .height(1.dp)
+                            .background(Color.LightGray.copy(0.1f))
+                            .fillMaxWidth(),
+                    )
+                }
+            }
+        }
     }
 }

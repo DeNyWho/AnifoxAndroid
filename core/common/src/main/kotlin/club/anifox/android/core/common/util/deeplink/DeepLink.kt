@@ -23,4 +23,33 @@ class DeepLink @Inject constructor(
             startActivity(context, webIntent, null)
         }
     }
+
+    fun openTelegram(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        intent.setPackage("org.telegram.messenger")
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+        intent.resolveActivity(context.packageManager)?.let {
+            startActivity(context, intent, null)
+        } ?: run {
+            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+
+            webIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(context, webIntent, null)
+        }
+    }
+
+    fun openWeb(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+        intent.resolveActivity(context.packageManager)?.let {
+            startActivity(context, intent, null)
+        } ?: run {
+            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+
+            webIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(context, webIntent, null)
+        }
+    }
 }

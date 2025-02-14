@@ -2,6 +2,7 @@ package club.anifox.android.feature.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import club.anifox.android.core.common.util.deeplink.DeepLink
 import club.anifox.android.domain.model.common.device.PlayerOrientation
 import club.anifox.android.domain.model.common.device.ThemeType
 import club.anifox.android.domain.usecase.settings.PlayerOrientationSettingsUseCase
@@ -19,6 +20,7 @@ import javax.inject.Inject
 internal class SettingsViewModel @Inject constructor(
     private val themeSettingsUseCase: ThemeSettingsUseCase,
     private val playerOrientationSettingsUseCase: PlayerOrientationSettingsUseCase,
+    private val deepLink: DeepLink,
 ): ViewModel() {
     private val _selectedTheme: MutableStateFlow<ThemeType> =
         MutableStateFlow(ThemeType.SYSTEM)
@@ -66,5 +68,13 @@ internal class SettingsViewModel @Inject constructor(
                 }
             )
         }
+    }
+
+    fun openTelegram(telegramUrl: String) {
+        deepLink.openTelegram(telegramUrl)
+    }
+
+    fun openWeb(url: String) {
+        deepLink.openWeb(url)
     }
 }

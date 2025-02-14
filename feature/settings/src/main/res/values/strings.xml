@@ -10,4 +10,9 @@
     <string name="feature_settings_section_player_title">Видеоплеер</string>
     <string name="feature_settings_section_player_horizontal_orientation_title">Горизонтальное положение</string>
     <string name="feature_settings_section_player_horizontal_orientation_description">Видеоплеер будет отображаться только в горизонтальном положении</string>
+    <string name="feature_settings_section_links_title">Ссылки</string>
+    <string name="feature_settings_section_links_suite_title">Официальный сайт</string>
+    <string name="feature_settings_section_links_telegram_title">Канал Telegram</string>
+    <string name="feature_settings_section_lic_title">Лицензионные соглашения</string>
+    <string name="feature_settings_section_lic_holders_title">Правообладателям</string>
 </resources>
