@@ -24,7 +24,7 @@ import club.anifox.android.feature.catalog.R
 @Composable
 internal fun CatalogTopBarComponent(
     modifier: Modifier = Modifier,
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     onSearchClick: () -> Unit,
 ) {
     Surface(

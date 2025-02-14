@@ -19,7 +19,7 @@ fun NavController.navigateToVideo(url: String, title: String?, navOptions: NavOp
 }
 
 fun NavGraphBuilder.videoScreen(
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
 ) {
     composable(
         route = "$VIDEO_ROUTE/${ANIME_URL}={url}&&${ANIME_TITLE}={title}",

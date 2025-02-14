@@ -27,7 +27,7 @@ import club.anifox.android.feature.translations.param.TranslationsUIProvider
 @Composable
 internal fun TranslationsScreen(
     viewModel: TranslationsViewModel = hiltViewModel(),
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     onTranslationClick: (String, Int) -> Unit,
     url: String,
 ) {
@@ -48,7 +48,7 @@ internal fun TranslationsScreen(
 
 @Composable
 private fun TranslationsUI(
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     animeTranslationsCount: StateListWrapper<AnimeTranslationsCount>,
     onTranslationClick: (Int) -> Unit,
 ) {

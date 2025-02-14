@@ -25,7 +25,7 @@ import club.anifox.android.feature.settings.component.theme.ThemeComponent
 @Composable
 internal fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
 ) {
     val selectedThemeState by viewModel.selectedTheme.collectAsState()
     val selectedPlayerOrientationState by viewModel.selectedPlayerOrientation.collectAsState()
@@ -45,7 +45,7 @@ internal fun SettingsScreen(
 
 @Composable
 private fun SettingsUI(
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     selectedThemeState: ThemeType,
     selectedPlayerOrientationState: PlayerOrientation,
     updateTheme: (ThemeType) -> Unit,

@@ -27,7 +27,7 @@ import club.anifox.android.core.uikit.util.clickableWithoutRipple
 
 @Composable
 fun SimpleTopBar(
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     title: String,
     tonalElevation: Dp = 0.dp,
     shadowElevation: Dp = 0.dp,

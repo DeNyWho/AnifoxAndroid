@@ -40,7 +40,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @Composable
 internal fun CharacterScreen(
     viewModel: CharacterViewModel = hiltViewModel(),
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     onAnimeClick: (String) -> Unit,
     id: String,
 ) {
@@ -57,7 +57,7 @@ internal fun CharacterScreen(
 
 @Composable
 private fun CharacterUI(
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     onAnimeClick: (String) -> Unit,
     characterState: StateWrapper<CharacterFull>,
 ) {

@@ -15,7 +15,7 @@ const val DETAIL_ROUTE_BASE = "detail_route"
 fun NavController.navigateToDetail(url: String, navOptions: NavOptions? = null) = navigate("${DETAIL_ROUTE_BASE}/url=$url", navOptions)
 
 fun NavGraphBuilder.detailScreen(
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     onWatchClick: (String) -> Unit,
     onAnimeClick: (String) -> Unit,
     onCatalogClick: (CatalogFilterParams) -> Unit,

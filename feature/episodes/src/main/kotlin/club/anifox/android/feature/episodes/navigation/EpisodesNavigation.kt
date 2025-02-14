@@ -14,7 +14,7 @@ const val EPISODES_ROUTE = "episodes_route"
 fun NavController.navigateToEpisodes(url: String, translationId: Int, navOptions: NavOptions? = null) = navigate("$EPISODES_ROUTE?url=$url&translation_id=$translationId", navOptions)
 
 fun NavGraphBuilder.episodesScreen(
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     onEpisodeClick: (String, Boolean?) -> Unit,
 ) {
     composable(

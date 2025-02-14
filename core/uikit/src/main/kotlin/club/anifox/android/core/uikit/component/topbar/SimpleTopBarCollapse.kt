@@ -38,7 +38,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun SimpleTopBarCollapse(
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     title: String,
     titleAlign: TextAlign = TextAlign.Start,
     titleStyle: TextStyle = MaterialTheme.typography.titleMedium,

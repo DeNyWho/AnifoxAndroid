@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.Flow
 @Composable
 internal fun CatalogScreen(
     viewModel: CatalogViewModel = hiltViewModel(),
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     onSearchClick: () -> Unit,
     onAnimeClick: (String) -> Unit,
     initialParams: CatalogFilterParams,
@@ -76,7 +76,7 @@ internal fun CatalogScreen(
 private fun CatalogUI(
     uiState: CatalogUiState,
     onAnimeClick: (String) -> Unit,
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     onSearchClick: () -> Unit,
     searchResults: Flow<PagingData<AnimeLight>>,
     animeYears: StateListWrapper<Int>,

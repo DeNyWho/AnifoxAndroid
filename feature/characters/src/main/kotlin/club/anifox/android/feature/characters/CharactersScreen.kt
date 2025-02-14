@@ -27,7 +27,6 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import club.anifox.android.core.uikit.component.card.character.CardCharactersItem
 import club.anifox.android.core.uikit.component.card.character.CardCharactersItemDefaults
-import club.anifox.android.core.uikit.component.error.NoSearchResultsError
 import club.anifox.android.core.uikit.component.grid.GridComponentDefaults
 import club.anifox.android.core.uikit.component.progress.CircularProgress
 import club.anifox.android.core.uikit.component.topbar.SimpleTopBarCollapse
@@ -46,7 +45,7 @@ internal fun CharactersScreen(
     url: String = "",
     animeTitle: String? = null,
     onCharacterClick: (String) -> Unit,
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val charactersResults = viewModel.charactersResults
@@ -76,7 +75,7 @@ private fun CharactersUI(
     charactersResults: Flow<PagingData<AnimeCharactersLight>>,
     updateFilter: (String?) -> Unit,
     onCharacterClick: (String) -> Unit,
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
 ) {
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
     CollapsingToolbarScaffold(

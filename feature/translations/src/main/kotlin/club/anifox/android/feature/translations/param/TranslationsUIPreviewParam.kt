@@ -6,7 +6,7 @@ import club.anifox.android.domain.model.anime.translations.AnimeTranslationsCoun
 import club.anifox.android.domain.state.StateListWrapper
 
 internal data class TranslationsUIPreviewParam(
-    val onBackPressed: () -> Boolean = { false },
+    val onBackPressed: () -> Unit = { },
     val animeTranslationsCount: StateListWrapper<AnimeTranslationsCount>,
     val onTranslationClick: (Int) -> Unit = { },
 )

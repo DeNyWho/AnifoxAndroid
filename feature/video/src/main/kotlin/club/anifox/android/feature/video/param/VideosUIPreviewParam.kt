@@ -12,7 +12,7 @@ internal data class VideosUIPreviewParam(
     val endingVideoState: StateListWrapper<AnimeVideosLight>,
     val otherVideoState: StateListWrapper<AnimeVideosLight>,
     val onVideoClick: (String) -> Unit = { },
-    val onBackPressed: () -> Boolean = { false },
+    val onBackPressed: () -> Unit = { },
     val animeTitle: String? = "",
 )
 

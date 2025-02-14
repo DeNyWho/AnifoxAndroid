@@ -34,7 +34,7 @@ internal fun GenresScreen(
     viewModel: GenresViewModel = hiltViewModel(),
     genreID: String,
     onAnimeClick: (String) -> Unit,
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
 ) {
     val searchResults = viewModel.searchResults
     val uiState by viewModel.uiState.collectAsState()
@@ -57,7 +57,7 @@ internal fun GenresScreen(
 private fun GenresUI(
     uiState: GenreUiState,
     onAnimeClick: (String) -> Unit,
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     searchResults: Flow<PagingData<AnimeLight>>,
 ) {
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()

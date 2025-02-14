@@ -46,7 +46,7 @@ internal fun ScreenshotsScreen(
     viewModel: ScreenshotsViewModel = hiltViewModel(),
     url: String = "",
     animeTitle: String? = null,
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
 ) {
     LaunchedEffect(viewModel) {
         viewModel.getScreenshotAnime(url)
@@ -63,7 +63,7 @@ internal fun ScreenshotsScreen(
 private fun ScreenshotsUI(
     modifier: Modifier = Modifier,
     screenshotAnimeState: StateListWrapper<String>,
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     animeTitle: String?,
 ) {
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()

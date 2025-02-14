@@ -19,7 +19,7 @@ fun NavController.navigateToScreenshots(url: String, title: String, navOptions: 
 }
 
 fun NavGraphBuilder.screenshotsScreen(
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
 ) {
     composable(
         route = "$SCREENSHOTS_ROUTE/${ANIME_URL}={url}&&${ANIME_TITLE}={title}",

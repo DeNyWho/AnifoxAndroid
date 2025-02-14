@@ -6,7 +6,7 @@ import club.anifox.android.domain.model.character.full.CharacterFull
 import club.anifox.android.domain.state.StateWrapper
 
 internal data class CharacterUIPreviewParam(
-    val onBackPressed: () -> Boolean = { false },
+    val onBackPressed: () -> Unit = { },
     val onAnimeClick: (String) -> Unit = { },
     val characterState: StateWrapper<CharacterFull>,
 )

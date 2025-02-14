@@ -20,7 +20,7 @@ fun NavController.navigateToCharacters(url: String, title: String, navOptions: N
 
 fun NavGraphBuilder.charactersScreen(
     onCharacterClick: (String) -> Unit,
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
 ) {
     composable(
         route = "$CHARACTERS_ROUTE/${ANIME_URL}={url}&${ANIME_TITLE}={title}",

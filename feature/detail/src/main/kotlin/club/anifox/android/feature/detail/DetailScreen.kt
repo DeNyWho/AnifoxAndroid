@@ -68,7 +68,7 @@ import club.anifox.android.feature.detail.param.DetailUIProvider
 internal fun DetailScreen(
     viewModel: DetailViewModel = hiltViewModel(),
     url: String = "",
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     onWatchClick: (String) -> Unit,
     onAnimeClick: (String) -> Unit,
     onMoreScreenshotClick: (String, String) -> Unit,
@@ -129,7 +129,7 @@ internal fun DetailUI(
     charactersAnimeState: StateListWrapper<AnimeCharactersLight>,
     selectedFavouriteState: AnimeFavouriteStatus?,
     isInFavouriteState: Boolean,
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     onWatchClick: (String) -> Unit,
     onAnimeClick: (String) -> Unit,
     onMoreScreenshotClick: (String) -> Unit,

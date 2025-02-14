@@ -7,7 +7,7 @@ import club.anifox.android.domain.state.StateListWrapper
 internal data class ScreenshotsUIPreviewParam(
     val modifier: Modifier = Modifier,
     val screenshotsAnime: StateListWrapper<String>,
-    val onBackPressed: () -> Boolean = { false },
+    val onBackPressed: () -> Unit = { },
     val animeTitle: String?,
 )
 

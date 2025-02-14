@@ -14,7 +14,7 @@ const val TRANSLATIONS_ROUTE = "translations_route"
 fun NavController.navigateToTranslations(url: String, navOptions: NavOptions? = null) = navigate("${TRANSLATIONS_ROUTE}?url=$url", navOptions)
 
 fun NavGraphBuilder.translationsScreen(
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     onTranslationClick: (String, Int) -> Unit,
 ) {
     composable(

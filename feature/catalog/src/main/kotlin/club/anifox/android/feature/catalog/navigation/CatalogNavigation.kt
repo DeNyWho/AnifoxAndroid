@@ -37,7 +37,7 @@ fun NavController.navigateToCatalog(
 }
 
 fun NavGraphBuilder.catalogScreen(
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     onSearchClick: () -> Unit,
     onAnimeClick: (String) -> Unit,
 ) {

@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.Flow
 @Composable
 internal fun EpisodesScreen(
     viewModel: EpisodesViewModel = hiltViewModel(),
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     url: String,
     translationId: Int,
     onEpisodeClick: (String, Boolean?) -> Unit,
@@ -59,7 +59,7 @@ internal fun EpisodesScreen(
 
 @Composable
 private fun EpisodesUI(
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     uiState: EpisodesUiState,
     episodesResults: Flow<PagingData<AnimeEpisodesLight>>,
     onEpisodeClick: (String, Boolean?) -> Unit,

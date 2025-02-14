@@ -34,7 +34,7 @@ internal fun VideoScreen(
     viewModel: VideoViewModel = hiltViewModel(),
     url: String = "",
     animeTitle: String? = null,
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
 ) {
     LaunchedEffect(viewModel) {
         viewModel.getTrailerVideos(url)
@@ -64,7 +64,7 @@ private fun VideoUI(
     endingVideoState: StateListWrapper<AnimeVideosLight>,
     otherVideoState: StateListWrapper<AnimeVideosLight>,
     onVideoClick: (String) -> Unit,
-    onBackPressed: () -> Boolean,
+    onBackPressed: () -> Unit,
     animeTitle: String?,
 ) {
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
