@@ -85,7 +85,9 @@ interface AnimeRepository {
     fun getAnimeEpisodesPaged(
         limit: Int,
         url: String,
-        translationId: Int
+        translationId: Int,
+        sort: AnimeSort,
+        search: String,
     ): Flow<PagingData<AnimeEpisodesLight>>
 
     fun getAnimeScheduleForDayPaged(

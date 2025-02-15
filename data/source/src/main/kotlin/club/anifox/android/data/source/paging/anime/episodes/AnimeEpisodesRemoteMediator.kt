@@ -9,6 +9,7 @@ import club.anifox.android.data.local.cache.dao.anime.episodes.AnimeCacheEpisode
 import club.anifox.android.data.local.cache.model.anime.episodes.AnimeCacheEpisodesEntity
 import club.anifox.android.data.local.cache.model.anime.translation.AnimeCacheEpisodesTranslationsEntity
 import club.anifox.android.data.network.service.AnimeService
+import club.anifox.android.domain.model.anime.enum.AnimeSort
 import club.anifox.android.domain.model.common.request.Resource
 
 @OptIn(ExperimentalPagingApi::class)
@@ -17,17 +18,48 @@ internal class AnimeEpisodesRemoteMediator(
     private val animeCacheEpisodesDao: AnimeCacheEpisodesDao,
     private val url: String,
     private val translationId: Int,
+    private val sort: AnimeSort,
+    private val search: String,
 ) : RemoteMediator<Int, AnimeCacheEpisodeWithTranslations>() {
 
     private var lastLoadedPage = -1
+    private var currentParams: Params = Params(sort, search)
+
+    override suspend fun initialize(): InitializeAction {
+        return InitializeAction.LAUNCH_INITIAL_REFRESH
+    }
+
+    private data class Params(
+        val sort: AnimeSort,
+        val search: String,
+    )
 
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, AnimeCacheEpisodeWithTranslations>
     ): MediatorResult {
+        val newParams = Params(sort, search)
+
+        if (newParams != currentParams) {
+            currentParams = newParams
+            lastLoadedPage = -1
+            animeCacheEpisodesDao.clearAllEpisodes()
+            animeCacheEpisodesDao.clearAllTranslations()
+        }
+
         return try {
+            if (newParams != currentParams) {
+                currentParams = newParams
+                return load(LoadType.REFRESH, state)
+            }
+
             val loadKey = when (loadType) {
-                LoadType.REFRESH -> 0
+                LoadType.REFRESH -> {
+                    animeCacheEpisodesDao.clearAllEpisodes()
+                    animeCacheEpisodesDao.clearAllTranslations()
+                    lastLoadedPage = -1
+                    0
+                }
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> lastLoadedPage + 1
             }
@@ -37,6 +69,8 @@ internal class AnimeEpisodesRemoteMediator(
                 limit = state.config.pageSize,
                 url = url,
                 translationId = translationId,
+                sort = sort,
+                search = search,
             )
 
             when(response) {

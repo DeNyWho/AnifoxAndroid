@@ -220,6 +220,8 @@ internal class AnimeRepositoryImpl @Inject constructor(
         limit: Int,
         url: String,
         translationId: Int,
+        sort: AnimeSort,
+        search: String,
     ): Flow<PagingData<AnimeEpisodesLight>> {
         return Pager(
             config = PagingConfig(pageSize = limit),
@@ -228,8 +230,15 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 animeCacheEpisodesDao = animeCacheEpisodesDao,
                 url = url,
                 translationId = translationId,
+                sort = sort,
+                search = search,
             ),
-            pagingSourceFactory = { animeCacheEpisodesDao.getPagedEpisodes() }
+            pagingSourceFactory = {
+                animeCacheEpisodesDao.getPagedEpisodes(
+                    sort = sort.name,
+                    search = search,
+                )
+            }
         ).flow.map { pagingData ->
             pagingData.map { it.toLight() }
         }

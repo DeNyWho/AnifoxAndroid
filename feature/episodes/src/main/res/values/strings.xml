@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="feature_episodes_top_bar_title">Выберите серию</string>
+    <string name="feature_episodes_top_bar_placeholder">Введите название или номер серии</string>
     <string name="feature_episodes_episode_number_title">Серия</string>
     <string name="feature_episodes_episode_filler_title">Филлер</string>
     <string name="feature_episodes_episode_recap_title">Повтор</string>

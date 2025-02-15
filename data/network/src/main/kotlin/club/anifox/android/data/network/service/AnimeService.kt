@@ -133,7 +133,14 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
         return safeApiCall<List<AnimeTranslationCountDTO>>(client, request)
     }
 
-    suspend fun getAnimeEpisodes(page: Int, limit: Int, url: String, translationId: Int): Resource<List<AnimeEpisodesDTO>> {
+    suspend fun getAnimeEpisodes(
+        page: Int,
+        limit: Int,
+        url: String,
+        translationId: Int,
+        sort: AnimeSort,
+        search: String,
+    ): Resource<List<AnimeEpisodesDTO>> {
         val request = HttpRequestBuilder().apply {
             method = HttpMethod.Get
             url {
@@ -141,6 +148,11 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
                 parameter("page", page)
                 parameter("limit", limit)
                 parameter("translation_id", translationId)
+                parameter("sort", sort.name)
+
+                if(search.isNotEmpty()) {
+                    parameter("search", search)
+                }
             }
         }
 

@@ -50,7 +50,7 @@ fun SearchField(
                     onValueChange = { onSearchQueryChanged(it) },
                     textStyle = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.onBackground),
                     cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-                    maxLines = 1,
+                    singleLine = true,
                 )
             }
 

@@ -22,9 +22,21 @@ interface AnimeCacheEpisodesDao {
     @Transaction
     @Query("""
         SELECT * FROM cache_anime_episodes 
-        ORDER BY number DESC
+        WHERE 
+            CASE 
+                WHEN :search != '' THEN 
+                    LOWER(title) LIKE '%' || LOWER(:search) || '%' OR 
+                    CAST(number AS TEXT) LIKE '%' || :search || '%'
+                ELSE 1
+            END
+        ORDER BY 
+            CASE WHEN :sort = 'Desc' THEN number END DESC,
+            CASE WHEN :sort = 'Asc' THEN number END ASC
     """)
-    fun getPagedEpisodes(): PagingSource<Int, AnimeCacheEpisodeWithTranslations>
+    fun getPagedEpisodes(
+        sort: String,
+        search: String
+    ): PagingSource<Int, AnimeCacheEpisodeWithTranslations>
 
     @Query("DELETE FROM cache_anime_episodes")
     suspend fun clearAllEpisodes()

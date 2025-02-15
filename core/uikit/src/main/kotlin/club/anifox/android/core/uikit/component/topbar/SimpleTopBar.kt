@@ -1,13 +1,16 @@
 package club.anifox.android.core.uikit.component.topbar
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.Icons.AutoMirrored
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -32,6 +35,7 @@ fun SimpleTopBar(
     tonalElevation: Dp = 0.dp,
     shadowElevation: Dp = 0.dp,
     surfaceColor: Color = MaterialTheme.colorScheme.background,
+    endIcons: List<@Composable () -> Unit> = emptyList(),
 ) {
     Surface (
         modifier = Modifier.fillMaxWidth(),
@@ -42,9 +46,10 @@ fun SimpleTopBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, top = 16.dp, bottom = 16.dp)
+                .padding(vertical = 16.dp, horizontal = 16.dp)
                 .statusBarsPadding(),
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             AnifoxIconPrimary(
                 modifier = Modifier
@@ -64,11 +69,16 @@ fun SimpleTopBar(
                 color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
-                    .weight(1f)
-                    .padding(start = 16.dp, end = 12.dp),
+                    .weight(1f),
             )
 
-            Spacer(Modifier)
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                endIcons.forEach { icon ->
+                    icon()
+                }
+            }
         }
     }
 }
@@ -76,12 +86,34 @@ fun SimpleTopBar(
 @PreviewLightDark
 @Composable
 private fun PreviewSimpleTopBar() {
+    val endIcons = listOf<@Composable () -> Unit>(
+        {
+            AnifoxIconPrimary(
+                modifier = Modifier
+                    .clickableWithoutRipple { /* handle search click */ }
+                    .size(24.dp),
+                imageVector = Icons.Default.Search,
+                contentDescription = "search"
+            )
+        },
+        {
+            AnifoxIconPrimary(
+                modifier = Modifier
+                    .clickableWithoutRipple { /* handle settings click */ }
+                    .size(24.dp),
+                imageVector = Icons.Default.Settings,
+                contentDescription = "settings"
+            )
+        }
+    )
+
     DefaultPreview {
         SimpleTopBar(
-            onBackPressed = { false },
+            onBackPressed = {  },
             title = stringResource(R.string.core_uikit_component_preview_top_bar),
             tonalElevation = 4.dp,
             shadowElevation = 4.dp,
+            endIcons = endIcons,
         )
     }
 }
