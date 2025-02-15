@@ -3,7 +3,6 @@ package club.anifox.android.feature.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeOrder
 import club.anifox.android.domain.state.StateListWrapper
@@ -15,17 +14,14 @@ import club.anifox.android.domain.usecase.anime.search.GetAnimeSearchHistoryUseC
 import club.anifox.android.feature.search.model.state.SearchUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -47,7 +43,20 @@ internal class SearchViewModel @Inject constructor(
     private val _randomAnime = MutableStateFlow(StateListWrapper<AnimeLight>())
     val randomAnime = _randomAnime.asStateFlow()
 
-    private val _searchQuery = MutableStateFlow("")
+    @OptIn(FlowPreview::class)
+    val searchResults: Flow<PagingData<AnimeLight>> = _uiState
+        .filter { it.query.isNotEmpty() }
+        .debounce(500)
+        .distinctUntilChanged { old, new ->
+            old.query == new.query
+        }
+        .flatMapLatest { state ->
+            addSearchHistoryUseCase.invoke(state.query)
+            animeSearchPagingUseCase.invoke(
+                limit = 20,
+                searchQuery = state.query,
+            )
+        }
 
     init {
         loadInitialData()
@@ -55,15 +64,13 @@ internal class SearchViewModel @Inject constructor(
 
     private fun loadInitialData() {
         viewModelScope.launch {
-            coroutineScope {
-                launch {
-                    getSearchHistoryUseCase.invoke().collect {
-                        _searchHistory.value = it
-                    }
+            launch {
+                getSearchHistoryUseCase.invoke().collect {
+                    _searchHistory.value = it
                 }
-                launch {
-                    loadRandomAnime()
-                }
+            }
+            launch {
+                loadRandomAnime()
             }
         }
     }
@@ -85,56 +92,21 @@ internal class SearchViewModel @Inject constructor(
         }
     }
 
-    @OptIn(FlowPreview::class)
-    val searchResults: Flow<PagingData<AnimeLight>> = _searchQuery
-        .onStart {
-            _uiState.update {
-                it.copy(
-                    isLoading = true,
-                )
-            }
-        }
-        .debounce(500)
-        .distinctUntilChanged()
-        .flatMapLatest { query ->
-            when {
-                query.isNotBlank() -> {
-                    viewModelScope.launch { addSearchHistoryUseCase.invoke(query) }
-                    animeSearchPagingUseCase.invoke(limit = 20, searchQuery = query)
-                }
-                else -> {
-                    flow { emit(PagingData.empty()) }
-                }
-            }
-        }
-        .onEach {
-            _uiState.update {
-                it.copy(
-                    isLoading = false,
-                )
-            }
-        }
-        .cachedIn(viewModelScope)
-
     fun search(query: String) {
         viewModelScope.launch {
             _uiState.update {
                 it.copy(
                     query = query,
-                    isLoading = true,
                 )
             }
-            _searchQuery.emit(query)
         }
     }
 
     fun clearSearch() {
         viewModelScope.launch {
-            _searchQuery.emit("")
             _uiState.update {
                 it.copy(
                     query = "",
-                    isLoading = false,
                 )
             }
         }

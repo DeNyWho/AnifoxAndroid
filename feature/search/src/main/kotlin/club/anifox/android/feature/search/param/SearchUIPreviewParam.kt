@@ -1,6 +1,5 @@
 package club.anifox.android.feature.search.param
 
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
@@ -13,7 +12,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 internal data class SearchUIPreviewParam(
-    val modifier: Modifier = Modifier,
     val onBackPressed: () -> Unit = { },
     val uiState: SearchUiState,
     val searchHistory: List<String>,

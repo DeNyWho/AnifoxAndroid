@@ -84,7 +84,6 @@ internal fun SearchScreen(
 
 @Composable
 private fun SearchUI(
-    modifier: Modifier = Modifier,
     onBackPressed: () -> Unit,
     uiState: SearchUiState,
     searchHistory: List<String>,
@@ -180,10 +179,8 @@ private fun SearchContent(
         }
     }
 
-    LaunchedEffect(uiState.query, uiState.previousQuery) {
-        if (uiState.query != uiState.previousQuery) {
-            lazyGridState.scrollToItem(0)
-        }
+    LaunchedEffect(uiState.query) {
+        lazyGridState.scrollToItem(0)
     }
 
     Box(
@@ -203,7 +200,7 @@ private fun SearchContent(
                 )
             }
 
-            !uiState.isLoading && items.loadState.refresh is LoadState.NotLoading && items.itemCount == 0 && items.loadState.append is LoadState.NotLoading && uiState.query.isNotBlank() -> {
+            items.loadState.refresh is LoadState.NotLoading && items.itemCount == 0 && uiState.query.isNotBlank() -> {
                 NoSearchResultsError()
             }
 
@@ -268,7 +265,6 @@ private fun PreviewSearchUI(
 ) {
     DefaultPreview(true) {
         SearchUI(
-            modifier = param.modifier,
             onBackPressed = param.onBackPressed,
             uiState = param.uiState,
             searchHistory = param.searchHistory,
