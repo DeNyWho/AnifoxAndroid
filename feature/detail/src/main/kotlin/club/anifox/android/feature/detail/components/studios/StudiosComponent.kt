@@ -15,9 +15,7 @@ import club.anifox.android.core.uikit.component.chip.AnifoxChipPrimary
 import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
 import club.anifox.android.core.uikit.component.slider.header.SliderHeader
 import club.anifox.android.core.uikit.util.DefaultPreview
-import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.domain.model.anime.AnimeDetail
-import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.domain.state.StateWrapper
 import club.anifox.android.feature.detail.components.studios.param.StudiosComponentPreviewParam
 import club.anifox.android.feature.detail.components.studios.param.StudiosComponentProvider
@@ -28,7 +26,7 @@ internal fun StudiosComponent(
     modifier: Modifier = Modifier,
     headerModifier: Modifier = SliderComponentDefaults.BottomOnly,
     detailAnimeState: StateWrapper<AnimeDetail>,
-    onCatalogClick: (CatalogFilterParams) -> Unit,
+//    onCatalogClick: (CatalogFilterParams) -> Unit,
 ) {
     val studios = detailAnimeState.data?.studios.orEmpty()
 
@@ -51,13 +49,13 @@ internal fun StudiosComponent(
             ) {
                 studios.forEach { studio ->
                     AnifoxChipPrimary(
-                        modifier = Modifier.clickableWithoutRipple {
-                            onCatalogClick(
-                                CatalogFilterParams(
-                                    studios = listOf(studio),
-                                )
-                            )
-                        },
+//                        modifier = Modifier.clickableWithoutRipple {
+//                            onCatalogClick(
+//                                CatalogFilterParams(
+//                                    studios = listOf(studio),
+//                                )
+//                            )
+//                        },
                         title = studio.name,
                     )
                 }
@@ -74,7 +72,7 @@ private fun PreviewStudiosComponent(
     DefaultPreview {
         StudiosComponent (
             detailAnimeState = param.detailAnime,
-            onCatalogClick = { },
+//            onCatalogClick = { },
         )
     }
 }

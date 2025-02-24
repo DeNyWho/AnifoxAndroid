@@ -15,9 +15,7 @@ import club.anifox.android.core.uikit.component.chip.AnifoxChipPrimary
 import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
 import club.anifox.android.core.uikit.component.slider.header.SliderHeader
 import club.anifox.android.core.uikit.util.DefaultPreview
-import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.domain.model.anime.AnimeDetail
-import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.domain.state.StateWrapper
 import club.anifox.android.feature.detail.components.genres.param.GenresComponentPreviewParam
 import club.anifox.android.feature.detail.components.genres.param.GenresComponentProvider
@@ -28,7 +26,7 @@ internal fun GenresComponent(
     modifier: Modifier = Modifier,
     headerModifier: Modifier = SliderComponentDefaults.BottomOnly,
     detailAnimeState: StateWrapper<AnimeDetail>,
-    onCatalogClick: (CatalogFilterParams) -> Unit,
+//    onCatalogClick: (CatalogFilterParams) -> Unit,
 ) {
     val genres = detailAnimeState.data?.genres.orEmpty()
 
@@ -47,13 +45,13 @@ internal fun GenresComponent(
             ) {
                 genres.forEach { genre ->
                     AnifoxChipPrimary(
-                        modifier = Modifier.clickableWithoutRipple {
-                            onCatalogClick.invoke(
-                                CatalogFilterParams(
-                                    genres = listOf(genre),
-                                )
-                            )
-                        },
+//                        modifier = Modifier.clickableWithoutRipple {
+//                            onCatalogClick.invoke(
+//                                CatalogFilterParams(
+//                                    genres = listOf(genre),
+//                                )
+//                            )
+//                        },
                         title = genre.name,
                     )
                 }
@@ -70,7 +68,7 @@ private fun PreviewGenresComponent(
     DefaultPreview {
         GenresComponent(
             detailAnimeState = param.detailAnime,
-            onCatalogClick = { },
+//            onCatalogClick = { },
         )
     }
 }

@@ -171,7 +171,7 @@ fun AnifoxNavHost(
             onAnimeClick = { animeId -> navigationManager.emit(ToDetail(animeId)) },
             onMoreScreenshotClick = { url, title -> navigationManager.emit(ToScreenshots(url, title)) },
             onMoreVideoClick = { url, title -> navigationManager.emit(ToVideo(url, title)) },
-            onCatalogClick = { params -> navigationManager.emit(ToCatalog(params)) },
+//            onCatalogClick = { params -> navigationManager.emit(ToCatalog(params)) },
             onCharacterClick = { characterId -> navigationManager.emit(ToCharacter(characterId)) },
             onMoreCharactersClick = { url, title -> navigationManager.emit(ToCharacters(url, title)) }
         )

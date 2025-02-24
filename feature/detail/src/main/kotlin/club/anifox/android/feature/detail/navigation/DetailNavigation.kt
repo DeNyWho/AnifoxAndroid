@@ -7,7 +7,6 @@ import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.feature.detail.DetailScreen
 
 const val DETAIL_ROUTE_BASE = "detail_route"
@@ -18,7 +17,7 @@ fun NavGraphBuilder.detailScreen(
     onBackPressed: () -> Unit,
     onWatchClick: (String) -> Unit,
     onAnimeClick: (String) -> Unit,
-    onCatalogClick: (CatalogFilterParams) -> Unit,
+//    onCatalogClick: (CatalogFilterParams) -> Unit,
     onMoreScreenshotClick: (String, String) -> Unit,
     onMoreVideoClick: (String, String) -> Unit,
     onCharacterClick: (String) -> Unit,
@@ -39,7 +38,7 @@ fun NavGraphBuilder.detailScreen(
             onAnimeClick = onAnimeClick,
             onMoreScreenshotClick = onMoreScreenshotClick,
             onMoreVideoClick = onMoreVideoClick,
-            onCatalogClick = onCatalogClick,
+//            onCatalogClick = onCatalogClick,
             onCharacterClick = onCharacterClick,
             onMoreCharactersClick = onMoreCharactersClick,
         )

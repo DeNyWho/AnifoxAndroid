@@ -44,7 +44,6 @@ import club.anifox.android.domain.model.anime.characters.AnimeCharactersLight
 import club.anifox.android.domain.model.anime.enum.AnimeFavouriteStatus
 import club.anifox.android.domain.model.anime.related.AnimeRelatedLight
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
-import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.state.StateWrapper
 import club.anifox.android.feature.detail.components.characters.CharactersComponent
@@ -73,7 +72,7 @@ internal fun DetailScreen(
     onAnimeClick: (String) -> Unit,
     onMoreScreenshotClick: (String, String) -> Unit,
     onMoreVideoClick: (String, String) -> Unit,
-    onCatalogClick: (CatalogFilterParams) -> Unit,
+//    onCatalogClick: (CatalogFilterParams) -> Unit,
     onCharacterClick: (String) -> Unit,
     onMoreCharactersClick: (String, String) -> Unit,
 ) {
@@ -100,7 +99,7 @@ internal fun DetailScreen(
         onMoreVideoClick = { title ->
             onMoreVideoClick.invoke(url, title)
         },
-        onCatalogClick = onCatalogClick,
+//        onCatalogClick = onCatalogClick,
         onVideoClick = { youtubeUrl ->
             viewModel.openYoutube(youtubeUrl)
         },
@@ -134,7 +133,7 @@ internal fun DetailUI(
     onAnimeClick: (String) -> Unit,
     onMoreScreenshotClick: (String) -> Unit,
     onMoreVideoClick: (String) -> Unit,
-    onCatalogClick: (CatalogFilterParams) -> Unit,
+//    onCatalogClick: (CatalogFilterParams) -> Unit,
     onVideoClick: (String) -> Unit,
     onCharacterClick: (String) -> Unit,
     onMoreCharactersClick: (String) -> Unit,
@@ -188,7 +187,7 @@ internal fun DetailUI(
                 onAnimeClick = onAnimeClick,
                 onMoreScreenshotClick = onMoreScreenshotClick,
                 onMoreVideoClick = onMoreVideoClick,
-                onCatalogClick = onCatalogClick,
+//                onCatalogClick = onCatalogClick,
                 onVideoClick = onVideoClick,
                 onCharacterClick = onCharacterClick,
                 onMoreCharactersClick = onMoreCharactersClick,
@@ -214,7 +213,7 @@ internal fun DetailContentUI(
     onAnimeClick: (String) -> Unit,
     onMoreScreenshotClick: (String) -> Unit,
     onMoreVideoClick: (String) -> Unit,
-    onCatalogClick: (CatalogFilterParams) -> Unit,
+//    onCatalogClick: (CatalogFilterParams) -> Unit,
     onVideoClick: (String) -> Unit,
     onCharacterClick: (String) -> Unit,
     onMoreCharactersClick: (String) -> Unit,
@@ -267,7 +266,7 @@ internal fun DetailContentUI(
             InformationComponent(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                 detailAnimeState = detailAnimeState,
-                onCatalogClick = onCatalogClick,
+//                onCatalogClick = onCatalogClick,
             )
         }
 
@@ -277,7 +276,7 @@ internal fun DetailContentUI(
                     GenresComponent(
                         modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                         detailAnimeState = detailAnimeState,
-                        onCatalogClick = onCatalogClick,
+//                        onCatalogClick = onCatalogClick,
                     )
                 }
             }
@@ -287,7 +286,7 @@ internal fun DetailContentUI(
                     StudiosComponent(
                         modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                         detailAnimeState = detailAnimeState,
-                        onCatalogClick = onCatalogClick,
+//                        onCatalogClick = onCatalogClick,
                     )
                 }
             }
@@ -390,7 +389,7 @@ private fun PreviewDetailUI(
             onAnimeClick = { },
             onMoreScreenshotClick = { },
             onMoreVideoClick = { },
-            onCatalogClick = { },
+//            onCatalogClick = { },
             onVideoClick = { },
             onCharacterClick = { },
             onMoreCharactersClick = { },

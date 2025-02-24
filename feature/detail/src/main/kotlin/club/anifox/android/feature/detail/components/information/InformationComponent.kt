@@ -15,9 +15,7 @@ import club.anifox.android.core.uikit.component.chip.AnifoxChipPrimary
 import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
 import club.anifox.android.core.uikit.component.slider.header.SliderHeader
 import club.anifox.android.core.uikit.util.DefaultPreview
-import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.domain.model.anime.AnimeDetail
-import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.domain.state.StateWrapper
 import club.anifox.android.feature.detail.components.information.param.InformationComponentPreviewParam
 import club.anifox.android.feature.detail.components.information.param.InformationComponentProvider
@@ -28,7 +26,7 @@ internal fun InformationComponent(
     modifier: Modifier = Modifier,
     headerModifier: Modifier = SliderComponentDefaults.BottomOnly,
     detailAnimeState: StateWrapper<AnimeDetail>,
-    onCatalogClick: (CatalogFilterParams) -> Unit,
+//    onCatalogClick: (CatalogFilterParams) -> Unit,
 ) {
     if(!detailAnimeState.isLoading && detailAnimeState.data != null) {
         val data = detailAnimeState.data!!
@@ -46,43 +44,43 @@ internal fun InformationComponent(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 AnifoxChipPrimary(
-                    modifier = Modifier.clickableWithoutRipple {
-                        onCatalogClick.invoke(
-                            CatalogFilterParams(
-                                years = listOf(data.year),
-                            )
-                        )
-                    },
+//                    modifier = Modifier.clickableWithoutRipple {
+//                        onCatalogClick.invoke(
+//                            CatalogFilterParams(
+//                                years = listOf(data.year),
+//                            )
+//                        )
+//                    },
                     title = data.year.toString(),
                 )
                 AnifoxChipPrimary(
-                    modifier = Modifier.clickableWithoutRipple {
-                        onCatalogClick.invoke(
-                            CatalogFilterParams(
-                                season = data.season,
-                            )
-                        )
-                    },
+//                    modifier = Modifier.clickableWithoutRipple {
+//                        onCatalogClick.invoke(
+//                            CatalogFilterParams(
+//                                season = data.season,
+//                            )
+//                        )
+//                    },
                     title = data.season.toString(),
                 )
                 AnifoxChipPrimary(
-                    modifier = Modifier.clickableWithoutRipple {
-                        onCatalogClick.invoke(
-                            CatalogFilterParams(
-                                type = data.type,
-                            )
-                        )
-                    },
+//                    modifier = Modifier.clickableWithoutRipple {
+//                        onCatalogClick.invoke(
+//                            CatalogFilterParams(
+//                                type = data.type,
+//                            )
+//                        )
+//                    },
                     title = data.type.toString(),
                 )
                 AnifoxChipPrimary(
-                    modifier = Modifier.clickableWithoutRipple {
-                        onCatalogClick.invoke(
-                            CatalogFilterParams(
-                                status = data.status,
-                            )
-                        )
-                    },
+//                    modifier = Modifier.clickableWithoutRipple {
+//                        onCatalogClick.invoke(
+//                            CatalogFilterParams(
+//                                status = data.status,
+//                            )
+//                        )
+//                    },
                     title = data.status.toString(),
                 )
             }
@@ -98,7 +96,7 @@ private fun PreviewInformationComponent(
     DefaultPreview(true) {
         InformationComponent(
             detailAnimeState = param.detailAnime,
-            onCatalogClick = { },
+//            onCatalogClick = { },
         )
     }
 }
