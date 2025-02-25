@@ -3,6 +3,7 @@ package club.anifox.android.feature.episodes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import club.anifox.android.domain.model.anime.enum.AnimeSort
 import club.anifox.android.domain.model.anime.episodes.AnimeEpisodesLight
 import club.anifox.android.domain.usecase.anime.paging.anime.episodes.AnimeEpisodesPagingUseCase
@@ -14,7 +15,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,14 +27,8 @@ internal class EpisodesViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     val episodesResults: Flow<PagingData<AnimeEpisodesLight>> = _uiState
-        .onStart { _uiState.update { it.copy(isLoading = true) } }
         .filter { it.isInitialized }
-        .distinctUntilChanged { old, new ->
-            old.url == new.url &&
-                old.translationId == new.translationId &&
-                old.selectedSort == new.selectedSort &&
-                old.searchQuery == new.searchQuery
-        }
+        .distinctUntilChanged()
         .flatMapLatest { state ->
             animeEpisodesPagingUseCase.invoke(
                 url = state.url,
@@ -43,12 +37,13 @@ internal class EpisodesViewModel @Inject constructor(
                 search = state.searchQuery,
             )
         }
+        .cachedIn(viewModelScope)
 
     fun updateSort() {
         viewModelScope.launch {
             _uiState.update { state ->
                 state.copy(
-                    selectedSort = when(state.selectedSort) {
+                    selectedSort = when (state.selectedSort) {
                         AnimeSort.Desc -> AnimeSort.Asc
                         AnimeSort.Asc -> AnimeSort.Desc
                     }
@@ -62,7 +57,6 @@ internal class EpisodesViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     searchQuery = query,
-                    isLoading = true,
                 )
             }
         }
@@ -79,5 +73,4 @@ internal class EpisodesViewModel @Inject constructor(
             }
         }
     }
-
 }

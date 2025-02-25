@@ -137,6 +137,7 @@ internal fun CardEpisodeGridComponentItem(
 
         Spacer(
             modifier = Modifier
+                .padding(top = 8.dp)
                 .height(1.dp)
                 .background(Color.LightGray.copy(0.1f))
                 .fillMaxWidth(),
@@ -149,7 +150,7 @@ internal fun CardEpisodeGridComponentItem(
 private fun PreviewCardEpisodeGridComponentItem(
     @PreviewParameter(CardEpisodeComponentItemProvider::class) param: CardEpisodeComponentItemPreviewParam,
 ) {
-    DefaultPreview {
+    DefaultPreview(true) {
         CardEpisodeGridComponentItem(
             modifier = param.modifier,
             data = param.data,

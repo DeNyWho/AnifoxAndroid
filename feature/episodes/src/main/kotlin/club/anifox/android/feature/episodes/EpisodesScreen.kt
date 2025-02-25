@@ -1,14 +1,12 @@
 package club.anifox.android.feature.episodes
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
@@ -21,7 +19,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -32,18 +30,19 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
-import club.anifox.android.core.uikit.component.error.NoSearchResultsError
-import club.anifox.android.core.uikit.component.grid.GridComponentDefaults
 import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
-import club.anifox.android.core.uikit.component.progress.CircularProgress
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.domain.model.anime.episodes.AnimeEpisodesLight
 import club.anifox.android.domain.model.common.device.ScreenType
 import club.anifox.android.feature.episodes.components.item.CardEpisodeGridComponentItem
 import club.anifox.android.feature.episodes.components.item.CardEpisodeGridComponentItemDefaults
+import club.anifox.android.feature.episodes.components.item.showCardEpisodeGridComponentItemShimmer
 import club.anifox.android.feature.episodes.components.top.EpisodesTopBarComponent
 import club.anifox.android.feature.episodes.model.state.EpisodesUiState
+import com.valentinilk.shimmer.Shimmer
+import com.valentinilk.shimmer.ShimmerBounds
+import com.valentinilk.shimmer.rememberShimmer
 import kotlinx.coroutines.flow.Flow
 
 @Composable
@@ -55,17 +54,11 @@ internal fun EpisodesScreen(
     onEpisodeClick: (String, Boolean?) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val lazyGridState = rememberLazyGridState()
 
-    LaunchedEffect(url, translationId) {
-        viewModel.initializeFilter(url, translationId)
-    }
-
-    LaunchedEffect(
-        uiState.selectedSort,
-        uiState.searchQuery,
-    ) {
-        lazyGridState.scrollToItem(0)
+    LaunchedEffect(Unit) {
+        if(!uiState.isInitialized) {
+            viewModel.initializeFilter(url, translationId)
+        }
     }
 
     EpisodesUI(
@@ -79,7 +72,6 @@ internal fun EpisodesScreen(
         onQueryChange = { search ->
             viewModel.search(search)
         },
-        lazyGridState = lazyGridState,
     )
 }
 
@@ -91,9 +83,8 @@ private fun EpisodesUI(
     onEpisodeClick: (String, Boolean?) -> Unit,
     onSortUpdate: () -> Unit,
     onQueryChange: (String) -> Unit,
-    lazyGridState: LazyGridState,
 ) {
-    var isSearchActive by remember { mutableStateOf(false) }
+    var isSearchActive by rememberSaveable { mutableStateOf(false) }
 
     val endIcons = listOf<@Composable () -> Unit>(
         {
@@ -145,7 +136,6 @@ private fun EpisodesUI(
             uiState = uiState,
             episodesResults = episodesResults,
             onEpisodeClick = onEpisodeClick,
-            lazyGridState = lazyGridState,
         )
     }
 }
@@ -156,9 +146,10 @@ private fun EpisodesContentUI(
     uiState: EpisodesUiState,
     episodesResults: Flow<PagingData<AnimeEpisodesLight>>,
     onEpisodeClick: (String, Boolean?) -> Unit,
-    lazyGridState: LazyGridState,
+    shimmerInstance: Shimmer = rememberShimmer(ShimmerBounds.View),
 ) {
     val items = episodesResults.collectAsLazyPagingItems()
+    val lazyGridState = rememberLazyGridState()
 
     val screenInfo = LocalScreenInfo.current
     val configuration = LocalConfiguration.current
@@ -171,41 +162,44 @@ private fun EpisodesContentUI(
         else -> 1
     }
 
-    if (items.loadState.refresh is LoadState.Loading) {
-        CircularProgress()
-    } else {
-        if(items.itemCount == 0) {
-            NoSearchResultsError()
-        } else {
-            Box(modifier = modifier.fillMaxSize()) {
-                LazyVerticalGrid(
-                    modifier = GridComponentDefaults.Default.fillMaxSize(),
-                    columns = GridCells.Fixed(columns),
-                    state = lazyGridState,
-                    horizontalArrangement = CardEpisodeGridComponentItemDefaults.HorizontalArrangement.Grid,
-                    verticalArrangement = CardEpisodeGridComponentItemDefaults.VerticalArrangement.Grid,
-                ) {
-                    item(span = { GridItemSpan(maxLineSpan) }) {
-                        Spacer(modifier = Modifier)
-                    }
+    LazyVerticalGrid(
+        modifier = modifier
+            .padding(start = 16.dp, end = 16.dp),
+        columns = GridCells.Fixed(columns),
+        state = lazyGridState,
+        horizontalArrangement = CardEpisodeGridComponentItemDefaults.HorizontalArrangement.Grid,
+        verticalArrangement = CardEpisodeGridComponentItemDefaults.VerticalArrangement.Grid,
+    ) {
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            Spacer(modifier = Modifier)
+        }
 
-                    items(
-                        count = items.itemCount,
-                        key = items.itemKey { it.number }
-                    ) { index ->
-                        val item = items[index]
-                        if (item != null) {
-                            CardEpisodeGridComponentItem(
-                                currentTranslationId = uiState.translationId,
-                                data = item,
-                                onClick = { url ->
-                                    // TODO Add a player selection dialog
-                                    onEpisodeClick.invoke(url, true)
-                                },
-                            )
-                        }
-                    }
-                }
+        items(
+            count = items.itemCount,
+            key = items.itemKey { it.number }
+        ) { index ->
+            val item = items[index]
+            if (item != null) {
+                CardEpisodeGridComponentItem(
+                    currentTranslationId = uiState.translationId,
+                    data = item,
+                    onClick = { url ->
+                        // TODO Add a player selection dialog
+                        onEpisodeClick.invoke(url, true)
+                    },
+                )
+            }
+        }
+
+        when {
+            items.loadState.append is LoadState.Loading -> {
+                showCardEpisodeGridComponentItemShimmer(shimmerInstance)
+            }
+            items.loadState.refresh is LoadState.Loading -> {
+                showCardEpisodeGridComponentItemShimmer(shimmerInstance)
+            }
+            items.loadState.append is LoadState.Error -> {
+
             }
         }
     }
