@@ -19,11 +19,11 @@ import club.anifox.android.feature.home.components.genre.item.param.CardGenreCom
 @Composable
 internal fun CardGenreComponentItem(
     genreAnime: AnimeGenre,
-    onItemClick: (String) -> Unit,
+    onItemClick: (AnimeGenre) -> Unit,
 ) {
     Card(
         modifier = Modifier.clickable {
-            onItemClick.invoke(genreAnime.id)
+            onItemClick.invoke(genreAnime)
         },
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(

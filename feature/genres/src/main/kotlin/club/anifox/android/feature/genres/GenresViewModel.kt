@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import club.anifox.android.domain.model.anime.AnimeLight
-import club.anifox.android.domain.usecase.anime.GetAnimeGenresUseCase
+import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.usecase.anime.paging.anime.genres.AnimeGenresPagingUseCase
 import club.anifox.android.feature.genres.model.state.GenreUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +22,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class GenresViewModel @Inject constructor(
-    private val getAnimeGenresUseCase: GetAnimeGenresUseCase,
     private val animeGenresPagingUseCase: AnimeGenresPagingUseCase,
 ): ViewModel() {
     private val _uiState = MutableStateFlow(GenreUiState())
@@ -40,34 +39,12 @@ internal class GenresViewModel @Inject constructor(
         }
         .cachedIn(viewModelScope)
 
-    init {
-        loadGenres()
-    }
-
-    private fun loadGenres() {
+    fun initializeFilter(genre: AnimeGenre) {
         viewModelScope.launch {
-            getAnimeGenresUseCase.invoke().collect { genresResult ->
-                val genres = genresResult.data
-
-                _uiState.update { currentState ->
-                    currentState.copy(
-                        genres = genres,
-                        isGenresLoaded = genres.isNotEmpty(),
-                    )
-                }
-            }
-        }
-    }
-
-    fun initializeFilter(genreId: String, minimalAge: Int? = null) {
-        viewModelScope.launch {
-            val genre = _uiState.value.genres
-                .find { it.id == genreId } ?: return@launch
-
             _uiState.update {
                 it.copy(
                     selectedGenre = genre,
-                    minimalAge = minimalAge,
+                    minimalAge = null,
                     isInitialized = true,
                 )
             }

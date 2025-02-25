@@ -5,10 +5,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
@@ -23,6 +24,7 @@ import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.toolbarShadow
 import club.anifox.android.domain.model.anime.videos.AnimeVideosLight
 import club.anifox.android.domain.state.StateListWrapper
+import club.anifox.android.feature.video.model.state.VideoUiState
 import club.anifox.android.feature.video.param.VideosUIPreviewParam
 import club.anifox.android.feature.video.param.VideosUIProvider
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -36,20 +38,21 @@ internal fun VideoScreen(
     animeTitle: String? = null,
     onBackPressed: () -> Unit,
 ) {
-    LaunchedEffect(viewModel) {
-        viewModel.getTrailerVideos(url)
-        viewModel.getOpeningVideos(url)
-        viewModel.getEndingVideos(url)
-        viewModel.getOtherVideos(url)
+    val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        if(!uiState.isInitialized) {
+            viewModel.initialize(url, animeTitle)
+        }
     }
 
     VideoUI(
+        uiState = uiState,
         trailerVideoState = viewModel.trailerVideos.value,
         openingVideoState = viewModel.openingVideos.value,
         endingVideoState = viewModel.endingVideos.value,
         otherVideoState = viewModel.otherVideos.value,
         onBackPressed = onBackPressed,
-        animeTitle = animeTitle,
         onVideoClick = { youtubeUrl ->
             viewModel.openYoutube(youtubeUrl)
         },
@@ -59,13 +62,13 @@ internal fun VideoScreen(
 @Composable
 private fun VideoUI(
     modifier: Modifier = Modifier,
+    uiState: VideoUiState,
     trailerVideoState: StateListWrapper<AnimeVideosLight>,
     openingVideoState: StateListWrapper<AnimeVideosLight>,
     endingVideoState: StateListWrapper<AnimeVideosLight>,
     otherVideoState: StateListWrapper<AnimeVideosLight>,
     onVideoClick: (String) -> Unit,
     onBackPressed: () -> Unit,
-    animeTitle: String?,
 ) {
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
     CollapsingToolbarScaffold(
@@ -75,7 +78,7 @@ private fun VideoUI(
         scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
         toolbar = {
             SimpleTopBarCollapse(
-                title = if(animeTitle == null) "" else "${stringResource(R.string.feature_video_top_bar_title)} $animeTitle",
+                title = if(uiState.animeTitle == null) "" else "${stringResource(R.string.feature_video_top_bar_title)} ${uiState.animeTitle}",
                 toolbarScaffoldState = toolbarScaffoldState,
                 onBackPressed = onBackPressed,
             )
@@ -110,9 +113,9 @@ internal fun VideoContent(
     Column(
         modifier = modifier
             .padding(start = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier)
 
         SliderVideoComponent(
             headerModifier = SliderComponentDefaults.VerticalOnly,
@@ -164,13 +167,13 @@ private fun PreviewVideoUI(
     DefaultPreview {
         VideoUI(
             modifier = param.modifier,
+            uiState = param.uiState,
             trailerVideoState = param.trailerVideoState,
             openingVideoState = param.openingVideoState,
             endingVideoState = param.endingVideoState,
             otherVideoState = param.otherVideoState,
             onVideoClick = param.onVideoClick,
             onBackPressed = param.onBackPressed,
-            animeTitle = param.animeTitle,
         )
     }
 }

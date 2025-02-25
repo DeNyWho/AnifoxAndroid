@@ -24,9 +24,14 @@ import club.anifox.android.domain.usecase.anime.favourite.UpdateAnimeUseCase
 import club.anifox.android.domain.usecase.anime.local.CheckAnimeLocalUseCase
 import club.anifox.android.domain.usecase.anime.local.InsertAnimeLocalUseCase
 import club.anifox.android.domain.usecase.anime.local.ObserveAnimeExistsUseCase
+import club.anifox.android.feature.detail.model.state.DetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -45,6 +50,9 @@ internal class DetailViewModel @Inject constructor(
     private val checkAnimeLocalUseCase: CheckAnimeLocalUseCase,
     private val deepLink: DeepLink,
 ) : ViewModel() {
+    private val _uiState = MutableStateFlow(DetailUiState())
+    val uiState: StateFlow<DetailUiState> = _uiState.asStateFlow()
+
     private val _detailAnime: MutableState<StateWrapper<AnimeDetail>> =
         mutableStateOf(StateWrapper.loading())
     val detailAnime: MutableState<StateWrapper<AnimeDetail>> = _detailAnime
@@ -75,10 +83,20 @@ internal class DetailViewModel @Inject constructor(
     private val _isInFavourite: MutableState<Boolean> = mutableStateOf(false)
     val isInFavourite: MutableState<Boolean> = _isInFavourite
 
-    private val _currentUrl: MutableState<String> = mutableStateOf("")
+    fun initialize(url: String) {
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    url = url,
+                    isInitialized = true,
+                )
+            }
 
-    fun loadData(url: String) {
-        _currentUrl.value = url
+            loadData(url)
+        }
+    }
+
+    private fun loadData(url: String) {
         getDetailAnime(url)
         getScreenshotAnime(url)
         getVideosAnime(url)
@@ -132,22 +150,24 @@ internal class DetailViewModel @Inject constructor(
     }
 
     fun updateFavouriteStatus(status: AnimeFavouriteStatus?) {
-        _selectedFavouriteStatus.value = status
         viewModelScope.launch {
-            if (_currentUrl.value.isNotEmpty()) {
+            _selectedFavouriteStatus.value = status
+            val url = _uiState.value.url
+
+            if (url.isNotEmpty()) {
                 val animeDetail = _detailAnime.value.data
                 if (animeDetail != null) {
-                    val animeExists = checkAnimeLocalUseCase.invoke(_currentUrl.value)
+                    val animeExists = checkAnimeLocalUseCase.invoke(url)
 
                     if (!animeExists) {
                         insertAnimeLocalUseCase(animeDetail)
                     }
 
-                    observeAnimeExistsUseCase.invoke(_currentUrl.value)
+                    observeAnimeExistsUseCase.invoke(url)
                         .collect { exists ->
                             if (exists) {
                                 updateAnimeUseCase.updateAnimeStatus(
-                                    url = _currentUrl.value,
+                                    url = url,
                                     status = status
                                 )
                             }
@@ -158,22 +178,24 @@ internal class DetailViewModel @Inject constructor(
     }
 
     fun updateIsInFavourite() {
-        _isInFavourite.value = !_isInFavourite.value
         viewModelScope.launch {
-            if (_currentUrl.value.isNotEmpty()) {
+            _isInFavourite.value = !_isInFavourite.value
+            val url = _uiState.value.url
+
+            if (url.isNotEmpty()) {
                 val animeDetail = _detailAnime.value.data
                 if (animeDetail != null) {
-                    val animeExists = checkAnimeLocalUseCase.invoke(_currentUrl.value)
+                    val animeExists = checkAnimeLocalUseCase.invoke(url)
 
                     if (!animeExists) {
                         insertAnimeLocalUseCase(animeDetail)
                     }
 
-                    observeAnimeExistsUseCase.invoke(_currentUrl.value)
+                    observeAnimeExistsUseCase.invoke(url)
                         .collect { exists ->
                             if (exists) {
                                 updateAnimeUseCase.updateAnimeFavourite(
-                                    url = _currentUrl.value,
+                                    url = url,
                                     isFavourite = _isInFavourite.value
                                 )
                             }

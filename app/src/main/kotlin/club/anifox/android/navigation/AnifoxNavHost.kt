@@ -6,6 +6,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
+import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.feature.catalog.navigation.catalogScreen
 import club.anifox.android.feature.catalog.navigation.navigateToCatalog
@@ -99,7 +100,7 @@ sealed interface NavigationEvent {
     data class ToScreenshots(val url: String, val title: String) : NavigationEvent
     data class ToVideo(val url: String, val title: String?) : NavigationEvent
     data class ToCatalog(val params: CatalogFilterParams) : NavigationEvent
-    data class ToGenres(val genreID: String) : NavigationEvent
+    data class ToGenres(val genre: AnimeGenre) : NavigationEvent
     data class ToCharacters(val url: String, val title: String) : NavigationEvent
 
     data object ToSearch : NavigationEvent
@@ -130,7 +131,7 @@ fun AnifoxNavHost(
                 is ToScreenshots -> navController.navigateToScreenshots(event.url, event.title)
                 is ToVideo -> navController.navigateToVideo(event.url, event.title)
                 is ToCatalog -> navController.navigateToCatalog(event.params)
-                is ToGenres -> navController.navigateToGenres(event.genreID)
+                is ToGenres -> navController.navigateToGenres(event.genre)
                 is ToCharacters -> navController.navigateToCharacters(event.url, event.title)
                 ToSearch -> navController.navigateToSearch()
                 ToSettings -> navController.navigateToSettings()
@@ -161,7 +162,7 @@ fun AnifoxNavHost(
         homeScreen(
             onAnimeClick = { animeId -> navigationManager.emit(ToDetail(animeId)) },
             onSearchClick = { navigationManager.emit(ToSearch) },
-            onGenresClick = { genreId -> navigationManager.emit(ToGenres(genreId)) },
+            onGenresClick = { genre -> navigationManager.emit(ToGenres(genre)) },
             onCatalogClick = { params -> navigationManager.emit(ToCatalog(params)) },
             onSettingsClick = { navigationManager.emit(ToSettings) }
         )

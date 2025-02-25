@@ -21,8 +21,12 @@ import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.domain.model.anime.translations.AnimeTranslationsCount
 import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.feature.translations.component.item.TranslationComponentItem
+import club.anifox.android.feature.translations.component.item.showTranslationComponentItemShimmer
 import club.anifox.android.feature.translations.param.TranslationsUIPreviewParam
 import club.anifox.android.feature.translations.param.TranslationsUIProvider
+import com.valentinilk.shimmer.Shimmer
+import com.valentinilk.shimmer.ShimmerBounds
+import com.valentinilk.shimmer.rememberShimmer
 
 @Composable
 internal fun TranslationsScreen(
@@ -32,9 +36,12 @@ internal fun TranslationsScreen(
     url: String,
 ) {
     val animeTranslationsCount by viewModel.animeTranslationsCount.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
-    LaunchedEffect(viewModel) {
-        viewModel.getTranslationsCount(url)
+    LaunchedEffect(Unit) {
+        if(!uiState.isInitialized) {
+            viewModel.initialize(url)
+        }
     }
 
     TranslationsUI(
@@ -51,6 +58,7 @@ private fun TranslationsUI(
     onBackPressed: () -> Unit,
     animeTranslationsCount: StateListWrapper<AnimeTranslationsCount>,
     onTranslationClick: (Int) -> Unit,
+    shimmer: Shimmer = rememberShimmer(ShimmerBounds.Custom),
 ) {
     Scaffold(
         modifier = Modifier
@@ -71,7 +79,9 @@ private fun TranslationsUI(
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             if(animeTranslationsCount.isLoading) {
-
+                showTranslationComponentItemShimmer(
+                    shimmerInstance = shimmer,
+                )
             } else if(animeTranslationsCount.data.isNotEmpty()) {
                 items(
                     animeTranslationsCount.data,

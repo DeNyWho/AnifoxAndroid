@@ -3,7 +3,7 @@ package club.anifox.android.feature.catalog
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,7 +11,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -85,9 +84,7 @@ private fun CatalogUI(
     animeTranslations: StateListWrapper<AnimeTranslation>,
     updateFilter: (CatalogFilterParams, FilterType) -> Unit,
 ) {
-    val lazyGridState = rememberSaveable(saver = LazyGridState.Saver) {
-        LazyGridState()
-    }
+    val lazyGridState = rememberLazyGridState()
     val items = searchResults.collectAsLazyPagingItems()
 
     val previousFilters = remember {

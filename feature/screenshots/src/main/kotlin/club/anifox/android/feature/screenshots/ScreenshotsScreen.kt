@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,8 +49,12 @@ internal fun ScreenshotsScreen(
     animeTitle: String? = null,
     onBackPressed: () -> Unit,
 ) {
-    LaunchedEffect(viewModel) {
-        viewModel.getScreenshotAnime(url)
+    val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        if(!uiState.isInitialized) {
+            viewModel.initialize(url)
+        }
     }
 
     ScreenshotsUI(

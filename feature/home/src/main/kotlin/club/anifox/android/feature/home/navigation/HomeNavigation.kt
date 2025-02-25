@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.navigation.catalog.CatalogFilterParams
 import club.anifox.android.feature.home.HomeScreen
 
@@ -14,7 +15,7 @@ fun NavController.navigateToHome(navOptions: NavOptions? = null) = navigate(HOME
 fun NavGraphBuilder.homeScreen(
     onAnimeClick: (String) -> Unit,
     onSearchClick: () -> Unit,
-    onGenresClick: (String) -> Unit,
+    onGenresClick: (AnimeGenre) -> Unit,
     onCatalogClick: (CatalogFilterParams) -> Unit,
     onSettingsClick: () -> Unit,
 ) {

@@ -17,6 +17,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -76,8 +77,12 @@ internal fun DetailScreen(
     onCharacterClick: (String) -> Unit,
     onMoreCharactersClick: (String, String) -> Unit,
 ) {
-    LaunchedEffect(viewModel, url) {
-        viewModel.loadData(url)
+    val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        if(!uiState.isInitialized) {
+            viewModel.initialize(url)
+        }
     }
 
     DetailUI(
@@ -384,7 +389,7 @@ private fun PreviewDetailUI(
             charactersAnimeState = param.charactersAnime,
             selectedFavouriteState = param.selectedFavouriteState,
             isInFavouriteState = false,
-            onBackPressed = { false },
+            onBackPressed = { },
             onWatchClick = { },
             onAnimeClick = { },
             onMoreScreenshotClick = { },

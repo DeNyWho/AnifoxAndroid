@@ -32,7 +32,7 @@ internal fun GenreComponent(
     genresAnime: StateListWrapper<AnimeGenre>,
     contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
     horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(12.dp),
-    onItemClick: (String) -> Unit,
+    onItemClick: (AnimeGenre) -> Unit,
 ) {
     // header
     if(genresAnime.isLoading) {

@@ -5,7 +5,7 @@ import club.anifox.android.domain.model.anime.genre.AnimeGenre
 
 internal data class CardGenreComponentItemPreviewParam(
     val genreAnime: AnimeGenre,
-    val onItemClick: (String) -> Unit = { },
+    val onItemClick: (AnimeGenre) -> Unit = { },
 )
 
 internal class CardGenreComponentItemProvider:

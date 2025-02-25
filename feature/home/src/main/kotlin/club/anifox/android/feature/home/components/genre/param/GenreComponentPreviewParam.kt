@@ -8,7 +8,7 @@ import club.anifox.android.domain.state.StateListWrapper
 internal data class GenreComponentPreviewParam(
     val genresAnime: StateListWrapper<AnimeGenre>,
     val headerTitle: String = "Жанры",
-    val onItemClick: (String) -> Unit = { },
+    val onItemClick: (AnimeGenre) -> Unit = { },
 )
 
 internal class GenreComponentProvider:

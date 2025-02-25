@@ -1,13 +1,12 @@
 package club.anifox.android.feature.genres
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
@@ -22,6 +21,7 @@ import club.anifox.android.core.uikit.component.topbar.SimpleTopBarCollapse
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.core.uikit.util.toolbarShadow
 import club.anifox.android.domain.model.anime.AnimeLight
+import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.common.device.ScreenType
 import club.anifox.android.feature.genres.model.state.GenreUiState
 import kotlinx.coroutines.flow.Flow
@@ -32,16 +32,16 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @Composable
 internal fun GenresScreen(
     viewModel: GenresViewModel = hiltViewModel(),
-    genreID: String,
+    genre: AnimeGenre,
     onAnimeClick: (String) -> Unit,
     onBackPressed: () -> Unit,
 ) {
     val searchResults = viewModel.searchResults
     val uiState by viewModel.uiState.collectAsState()
 
-    LaunchedEffect(genreID, uiState.isGenresLoaded) {
-        if (uiState.isGenresLoaded && uiState.genres.isNotEmpty()) {
-            viewModel.initializeFilter(genreID)
+    LaunchedEffect(Unit) {
+        if (!uiState.isInitialized) {
+            viewModel.initializeFilter(genre)
         }
     }
 
@@ -94,11 +94,9 @@ private fun GenresContent(
     searchResults: Flow<PagingData<AnimeLight>>,
     onAnimeClick: (String) -> Unit,
 ) {
-    val lazyGridState = rememberSaveable(saver = LazyGridState.Saver) {
-        LazyGridState()
-    }
-
+    val lazyGridState = rememberLazyGridState()
     val items = searchResults.collectAsLazyPagingItems()
+
     val screenInfo = LocalScreenInfo.current
 
     val (thumbnailWidth, thumbnailHeight) = when (screenInfo.screenType) {

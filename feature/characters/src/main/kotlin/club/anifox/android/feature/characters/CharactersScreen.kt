@@ -50,7 +50,7 @@ internal fun CharactersScreen(
     val uiState by viewModel.uiState.collectAsState()
     val charactersResults = viewModel.charactersResults
 
-    LaunchedEffect(url, uiState) {
+    LaunchedEffect(Unit) {
         if (!uiState.isInitialized) {
             viewModel.initializeParams(url)
         }

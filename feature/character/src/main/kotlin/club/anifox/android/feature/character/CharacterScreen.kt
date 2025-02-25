@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -44,8 +45,12 @@ internal fun CharacterScreen(
     onAnimeClick: (String) -> Unit,
     id: String,
 ) {
-    LaunchedEffect(viewModel, id) {
-        viewModel.loadData(id)
+    val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        if(!uiState.isInitialized) {
+            viewModel.initialize(id)
+        }
     }
 
     CharacterUI(
