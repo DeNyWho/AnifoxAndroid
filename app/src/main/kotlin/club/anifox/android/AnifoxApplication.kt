@@ -5,11 +5,22 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
+import com.google.firebase.Firebase
+import com.google.firebase.crashlytics.crashlytics
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.Dispatchers
 
 @HiltAndroidApp
 class AnifoxApplication : Application(), ImageLoaderFactory {
+
+    override fun onCreate() {
+        super.onCreate()
+        initializeCrashlytics()
+    }
+
+    private fun initializeCrashlytics() {
+        Firebase.crashlytics.isCrashlyticsCollectionEnabled = !BuildConfig.DEBUG
+    }
 
     override fun newImageLoader(): ImageLoader {
         return ImageLoader.Builder(this)
