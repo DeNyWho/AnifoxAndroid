@@ -9,9 +9,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.Icons.Outlined
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.SwapVert
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -105,7 +104,7 @@ private fun EpisodesUI(
                         isSearchActive = !isSearchActive
                     }
                     .size(24.dp),
-                imageVector = Icons.Default.Search,
+                imageVector = Outlined.Search,
                 contentDescription = "search"
             )
         }
@@ -150,6 +149,13 @@ private fun EpisodesContentUI(
 ) {
     val items = episodesResults.collectAsLazyPagingItems()
     val lazyGridState = rememberLazyGridState()
+
+    LaunchedEffect(
+        uiState.searchQuery,
+        uiState.selectedSort
+    ) {
+        lazyGridState.scrollToItem(0)
+    }
 
     val screenInfo = LocalScreenInfo.current
     val configuration = LocalConfiguration.current
