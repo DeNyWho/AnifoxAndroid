@@ -7,13 +7,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
@@ -141,9 +140,7 @@ private fun SearchContent(
     onRandomAnimeClick: (String) -> Unit,
     onRefreshRandomAnimeClick: () -> Unit,
 ) {
-    val lazyGridState = rememberSaveable(saver = LazyGridState.Saver) {
-        LazyGridState()
-    }
+    val lazyGridState = rememberLazyGridState()
     val items = searchResults.collectAsLazyPagingItems()
 
     val screenInfo = LocalScreenInfo.current
