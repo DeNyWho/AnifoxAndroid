@@ -16,6 +16,7 @@ fun NavController.navigateToTranslations(url: String, navOptions: NavOptions? = 
 fun NavGraphBuilder.translationsScreen(
     onBackPressed: () -> Unit,
     onTranslationClick: (String, Int) -> Unit,
+    onPlayerClick: (String, Boolean?) -> Unit,
 ) {
     composable(
         "$TRANSLATIONS_ROUTE?url={url}",
@@ -29,6 +30,7 @@ fun NavGraphBuilder.translationsScreen(
             onBackPressed = onBackPressed,
             url = url ?: "",
             onTranslationClick = onTranslationClick,
+            onPlayerClick = onPlayerClick,
         )
     }
 }

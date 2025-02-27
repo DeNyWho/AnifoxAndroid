@@ -9,6 +9,7 @@ internal data class TranslationsUIPreviewParam(
     val onBackPressed: () -> Unit = { },
     val animeTranslationsCount: StateListWrapper<AnimeTranslationsCount>,
     val onTranslationClick: (Int) -> Unit = { },
+    val onPlayerClick: (String) -> Unit = { },
 )
 
 internal class TranslationsUIProvider:

@@ -33,6 +33,7 @@ internal fun TranslationsScreen(
     viewModel: TranslationsViewModel = hiltViewModel(),
     onBackPressed: () -> Unit,
     onTranslationClick: (String, Int) -> Unit,
+    onPlayerClick: (String, Boolean?) -> Unit,
     url: String,
 ) {
     val animeTranslationsCount by viewModel.animeTranslationsCount.collectAsState()
@@ -49,7 +50,10 @@ internal fun TranslationsScreen(
         animeTranslationsCount = animeTranslationsCount,
         onTranslationClick = { translationId ->
             onTranslationClick(url, translationId)
-        }
+        },
+        onPlayerClick = { link ->
+            onPlayerClick.invoke(link, true)
+        },
     )
 }
 
@@ -58,6 +62,7 @@ private fun TranslationsUI(
     onBackPressed: () -> Unit,
     animeTranslationsCount: StateListWrapper<AnimeTranslationsCount>,
     onTranslationClick: (Int) -> Unit,
+    onPlayerClick: (String) -> Unit,
     shimmer: Shimmer = rememberShimmer(ShimmerBounds.Custom),
 ) {
     Scaffold(
@@ -89,7 +94,10 @@ private fun TranslationsUI(
                 ) { translation ->
                     TranslationComponentItem(
                         translation = translation,
-                        onClick = onTranslationClick,
+                        onClick = {
+                            if (translation.link != null) onPlayerClick.invoke(translation.link!!)
+                            else onTranslationClick.invoke(translation.translation.id)
+                        },
                     )
                 }
             }
@@ -107,6 +115,7 @@ private fun PreviewTranslationsUI(
             onBackPressed = param.onBackPressed,
             animeTranslationsCount = param.animeTranslationsCount,
             onTranslationClick = param.onTranslationClick,
+            onPlayerClick = param.onPlayerClick,
         )
     }
 }

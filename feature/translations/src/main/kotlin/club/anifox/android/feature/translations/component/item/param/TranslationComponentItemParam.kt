@@ -5,7 +5,7 @@ import club.anifox.android.core.uikit.param.GlobalParams
 import club.anifox.android.domain.model.anime.translations.AnimeTranslationsCount
 
 internal data class TranslationComponentItemPreviewParam(
-    val onClick: (Int) -> Unit = { },
+    val onClick: () -> Unit = { },
     val animeTranslationsCount: AnimeTranslationsCount,
 )
 

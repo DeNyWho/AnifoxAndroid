@@ -25,12 +25,12 @@ import club.anifox.android.feature.translations.component.item.param.Translation
 @Composable
 internal fun TranslationComponentItem(
     translation: AnimeTranslationsCount,
-    onClick: (Int) -> Unit,
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .clickable {
-                onClick.invoke(translation.translation.id)
+                onClick.invoke()
             }
             .fillMaxWidth(),
     ) {

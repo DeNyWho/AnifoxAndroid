@@ -34,6 +34,7 @@ object GlobalParams {
                 voice = "voice",
             ),
             countEpisodes = 24,
+            link = null,
         ),
         AnimeTranslationsCount(
             translation = AnimeTranslation(
@@ -42,6 +43,7 @@ object GlobalParams {
                 voice = "voice",
             ),
             countEpisodes = 21,
+            link = null,
         ),
     ).toImmutableList()
 

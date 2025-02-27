@@ -92,9 +92,9 @@ class NavigationManager {
 }
 
 sealed interface NavigationEvent {
-    data class ToDetail(val animeId: String) : NavigationEvent
+    data class ToDetail(val url: String) : NavigationEvent
     data class ToCharacter(val characterId: String) : NavigationEvent
-    data class ToTranslations(val animeId: String) : NavigationEvent
+    data class ToTranslations(val url: String) : NavigationEvent
     data class ToEpisodes(val url: String, val translationId: Int) : NavigationEvent
     data class ToPlayer(val url: String, val kodik: Boolean?) : NavigationEvent
     data class ToScreenshots(val url: String, val title: String) : NavigationEvent
@@ -123,9 +123,9 @@ fun AnifoxNavHost(
     LaunchedEffect(navigationManager, navController) {
         navigationManager.navigationFlow.collect { event ->
             when (event) {
-                is ToDetail -> navController.navigateToDetail(event.animeId)
+                is ToDetail -> navController.navigateToDetail(event.url)
                 is ToCharacter -> navController.navigateToCharacter(event.characterId)
-                is ToTranslations -> navController.navigateToTranslations(event.animeId)
+                is ToTranslations -> navController.navigateToTranslations(event.url)
                 is ToEpisodes -> navController.navigateToEpisodes(event.url, event.translationId)
                 is ToPlayer -> navController.navigateToPlayer(event.url, event.kodik)
                 is ToScreenshots -> navController.navigateToScreenshots(event.url, event.title)
@@ -186,9 +186,8 @@ fun AnifoxNavHost(
         )
         translationsScreen(
             onBackPressed = { navigationManager.emit(Back) },
-            onTranslationClick = { url, translationId ->
-                navigationManager.emit(ToEpisodes(url, translationId))
-            }
+            onTranslationClick = { url, translationId -> navigationManager.emit(ToEpisodes(url, translationId)) },
+            onPlayerClick = { url, kodik -> navigationManager.emit(ToPlayer(url, kodik)) },
         )
         episodesScreen(
             onBackPressed = { navigationManager.emit(Back) },

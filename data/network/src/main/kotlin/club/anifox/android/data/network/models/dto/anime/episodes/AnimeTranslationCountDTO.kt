@@ -9,4 +9,6 @@ data class AnimeTranslationCountDTO(
     val translation: AnimeTranslationDTO = AnimeTranslationDTO(),
     @SerialName("count_episodes")
     val countEpisodes: Int = 0,
+    @SerialName("link")
+    val link: String? = null,
 )
