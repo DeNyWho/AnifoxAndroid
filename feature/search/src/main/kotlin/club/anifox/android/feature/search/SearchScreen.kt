@@ -10,21 +10,15 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import club.anifox.android.core.uikit.component.error.NoSearchResultsError
-import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.common.device.ScreenType
@@ -35,19 +29,16 @@ import club.anifox.android.feature.search.component.item.AnimeSearchComponentIte
 import club.anifox.android.feature.search.component.item.showAnimeSearchComponentItemShimmer
 import club.anifox.android.feature.search.component.toolbar.SearchTopBarComponent
 import club.anifox.android.feature.search.model.state.SearchUiState
-import club.anifox.android.feature.search.param.SearchUIPreviewParam
-import club.anifox.android.feature.search.param.SearchUIProvider
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
-import kotlinx.coroutines.flow.Flow
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
 internal fun SearchScreen(
-    viewModel: SearchViewModel = hiltViewModel(),
+    viewModel: SearchViewModel,
     onBackPressed: () -> Unit,
     onAnimeClick: (String) -> Unit,
 ) {
@@ -58,22 +49,21 @@ internal fun SearchScreen(
     SearchUI(
         onBackPressed = onBackPressed,
         uiState = uiState,
-        searchResults = viewModel.searchResults,
         searchHistory = searchHistory,
         randomAnime = randomAnime,
-        onQueryChange = { viewModel.search(it) },
+        onQueryChange = { viewModel.onQueryChanged(it) },
         onTrailingIconClick = {
             viewModel.clearSearch()
         },
         onAnimeClick = onAnimeClick,
         onHistoryItemClick = { query ->
-            viewModel.search(query)
+            viewModel.onQueryChanged(query)
         },
         onDeleteHistoryClick = {
-            viewModel.deleteSearchHistory()
+            viewModel.clearSearchHistory()
         },
         onRandomAnimeClick = { query ->
-            viewModel.search(query)
+            viewModel.onQueryChanged(query)
         },
         onRefreshRandomAnimeClick = {
             viewModel.refreshRandomAnime()
@@ -90,7 +80,6 @@ private fun SearchUI(
     onQueryChange: (String) -> Unit,
     onTrailingIconClick: () -> Unit,
     onAnimeClick: (String) -> Unit,
-    searchResults: Flow<PagingData<AnimeLight>>,
     onHistoryItemClick: (String) -> Unit,
     onDeleteHistoryClick: () -> Unit,
     onRandomAnimeClick: (String) -> Unit,
@@ -113,7 +102,6 @@ private fun SearchUI(
         body = {
             SearchContent(
                 uiState = uiState,
-                searchResults = searchResults,
                 searchHistory = searchHistory,
                 randomAnime = randomAnime,
                 onAnimeClick = onAnimeClick,
@@ -130,7 +118,6 @@ private fun SearchUI(
 private fun SearchContent(
     modifier: Modifier = Modifier,
     shimmer: Shimmer = rememberShimmer(ShimmerBounds.View),
-    searchResults: Flow<PagingData<AnimeLight>>,
     uiState: SearchUiState,
     searchHistory: List<String>,
     randomAnime: StateListWrapper<AnimeLight>,
@@ -141,7 +128,7 @@ private fun SearchContent(
     onRefreshRandomAnimeClick: () -> Unit,
 ) {
     val lazyGridState = rememberLazyGridState()
-    val items = searchResults.collectAsLazyPagingItems()
+    val items = uiState.pagingData?.collectAsLazyPagingItems()
 
     val screenInfo = LocalScreenInfo.current
     val configuration = LocalConfiguration.current
@@ -176,17 +163,13 @@ private fun SearchContent(
         }
     }
 
-    LaunchedEffect(uiState.query) {
-        lazyGridState.scrollToItem(0)
-    }
-
     Box(
         modifier = modifier
             .padding(horizontal = 16.dp)
             .fillMaxSize(),
     ) {
         when {
-            (uiState.query.isEmpty()) -> {
+            items == null -> {
                 SearchEmptyComponent(
                     searchHistory = searchHistory,
                     randomAnime = randomAnime,
@@ -197,7 +180,7 @@ private fun SearchContent(
                 )
             }
 
-            items.loadState.refresh is LoadState.NotLoading && items.itemCount == 0 && uiState.query.isNotBlank() -> {
+            items.loadState.append.endOfPaginationReached && items.itemCount == 0 -> {
                 NoSearchResultsError()
             }
 
@@ -252,28 +235,5 @@ private fun SearchContent(
                 }
             }
         }
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewSearchUI(
-    @PreviewParameter(SearchUIProvider::class) param: SearchUIPreviewParam,
-) {
-    DefaultPreview(true) {
-        SearchUI(
-            onBackPressed = param.onBackPressed,
-            uiState = param.uiState,
-            searchHistory = param.searchHistory,
-            randomAnime = param.randomAnime,
-            onQueryChange = param.onQueryChange,
-            onTrailingIconClick = param.onTrailingIconClick,
-            onAnimeClick = param.onAnimeClick,
-            searchResults = param.searchResults,
-            onHistoryItemClick = param.onHistoryItemClick,
-            onDeleteHistoryClick = param.onDeleteHistoryClick,
-            onRandomAnimeClick = param.onRandomAnimeClick,
-            onRefreshRandomAnimeClick = param.onRefreshRandomAnimeClick,
-        )
     }
 }

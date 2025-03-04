@@ -3,6 +3,7 @@ package club.anifox.android.feature.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeOrder
 import club.anifox.android.domain.state.StateListWrapper
@@ -13,15 +14,15 @@ import club.anifox.android.domain.usecase.anime.search.DeleteAnimeSearchHistoryU
 import club.anifox.android.domain.usecase.anime.search.GetAnimeSearchHistoryUseCase
 import club.anifox.android.feature.search.model.state.SearchUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,28 +36,21 @@ internal class SearchViewModel @Inject constructor(
     private val deleteSearchHistoryUseCase: DeleteAnimeSearchHistoryUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SearchUiState())
-    val uiState: StateFlow<SearchUiState> = _uiState.asStateFlow()
+    val uiState: StateFlow<SearchUiState> = _uiState.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Eagerly,
+        initialValue = _uiState.value,
+    )
+
+    private var searchDebouncerJob: Job = Job()
+    private var currentQuery = ""
+    private val ioDispatcher = Dispatchers.IO
 
     private val _searchHistory = MutableStateFlow<List<String>>(emptyList())
     val searchHistory = _searchHistory.asStateFlow()
 
     private val _randomAnime = MutableStateFlow(StateListWrapper<AnimeLight>())
     val randomAnime = _randomAnime.asStateFlow()
-
-    @OptIn(FlowPreview::class)
-    val searchResults: Flow<PagingData<AnimeLight>> = _uiState
-        .filter { it.query.isNotEmpty() }
-        .debounce(500)
-        .distinctUntilChanged { old, new ->
-            old.query == new.query
-        }
-        .flatMapLatest { state ->
-            addSearchHistoryUseCase.invoke(state.query)
-            animeSearchPagingUseCase.invoke(
-                limit = 20,
-                searchQuery = state.query,
-            )
-        }
 
     init {
         loadInitialData()
@@ -92,27 +86,54 @@ internal class SearchViewModel @Inject constructor(
         }
     }
 
-    fun search(query: String) {
+    fun onQueryChanged(text: String) {
         viewModelScope.launch {
             _uiState.update {
-                it.copy(
-                    query = query,
-                )
+                it.copy(query = text)
+            }
+            search(text)
+        }
+    }
+
+    fun search(query: String) {
+        searchDebouncerJob.cancel()
+        currentQuery = query
+
+        if (query.isNotEmpty()) {
+            _uiState.update { it.copy(pagingData = null) }
+
+            searchDebouncerJob = viewModelScope.launch(ioDispatcher) {
+                delay(timeMillis = 500)
+                if (currentQuery != _uiState.value.lastSearchedQuery) {
+                    addSearchHistoryUseCase.invoke(query)
+                    _uiState.update { state ->
+                        state.copy(lastSearchedQuery = query, pagingData = getPagingDataFlow(query))
+                    }
+                }
+            }
+        } else {
+            _uiState.update { state ->
+                state.copy(lastSearchedQuery = "", pagingData = null)
             }
         }
     }
+
+    private fun getPagingDataFlow(query: String): Flow<PagingData<AnimeLight>> =
+        animeSearchPagingUseCase.invoke(searchQuery = query).cachedIn(viewModelScope)
+
 
     fun clearSearch() {
-        viewModelScope.launch {
-            _uiState.update {
-                it.copy(
-                    query = "",
-                )
-            }
+        _uiState.update {
+            SearchUiState(
+                query = "",
+                lastSearchedQuery = "",
+                pagingData = null,
+                error = null
+            )
         }
     }
 
-    fun deleteSearchHistory() {
+    fun clearSearchHistory() {
         viewModelScope.launch {
             deleteSearchHistoryUseCase.invoke()
             _searchHistory.value = emptyList()

@@ -1,5 +1,6 @@
 package club.anifox.android.core.uikit.component.textfield
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -9,11 +10,18 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.icon.AnifoxIconCustomTintVector
@@ -21,6 +29,7 @@ import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
 import club.anifox.android.core.uikit.icon.AnifoxIcons
 import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.clickableWithoutRipple
+import club.anifox.android.core.uikit.util.rememberKeyboardState
 
 @Composable
 fun SearchField(
@@ -28,10 +37,28 @@ fun SearchField(
     isEnabled: Boolean = true,
     placeHolder: String? = null,
     searchQuery: String = "",
-    focusRequest: FocusRequester = FocusRequester(),
     onSearchQueryChanged: (String) -> Unit = { },
+    onKeyboardStateChanged: (Boolean) -> Unit = {},
     onTrailingIconClick: () -> Unit = { },
+    requestFocus: Boolean = false
 ) {
+    val focusManager = LocalFocusManager.current
+    val focusRequester = remember { FocusRequester() }
+    val isKeyboardOpen by rememberKeyboardState()
+    var isFocused by remember { mutableStateOf(false) }
+
+    if (isKeyboardOpen.not()) {
+        LaunchedEffect(isKeyboardOpen) {
+            focusManager.clearFocus()
+        }
+    }
+
+    LaunchedEffect(requestFocus) {
+        if (requestFocus) {
+            focusRequester.requestFocus()
+        }
+    }
+
     CustomTextField(
         modifier = modifier
             .fillMaxWidth(),
@@ -45,7 +72,8 @@ fun SearchField(
                     modifier = Modifier
                         .padding(start = 6.dp)
                         .fillMaxWidth()
-                        .focusRequester(focusRequest),
+                        .focusRequester(focusRequester)
+                        .onFocusChanged { isFocused = it.isFocused },
                     value = searchQuery,
                     onValueChange = { onSearchQueryChanged(it) },
                     textStyle = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.onBackground),
@@ -55,14 +83,16 @@ fun SearchField(
             }
 
             if (searchQuery.isEmpty() && placeHolder != null) {
-                Text(
-                    modifier = Modifier
-                        .padding(start = 6.dp)
-                        .fillMaxWidth(),
-                    text = placeHolder,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onBackground.copy(0.4f),
-                )
+                AnimatedVisibility(visible = isFocused.not()) {
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 6.dp)
+                            .fillMaxWidth(),
+                        text = placeHolder,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground.copy(0.4f),
+                    )
+                }
             }
         },
         trailingIcon = {
