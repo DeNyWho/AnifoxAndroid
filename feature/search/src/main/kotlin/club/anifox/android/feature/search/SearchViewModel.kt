@@ -3,6 +3,7 @@ package club.anifox.android.feature.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeOrder
 import club.anifox.android.domain.state.StateListWrapper
@@ -57,6 +58,7 @@ internal class SearchViewModel @Inject constructor(
                 searchQuery = state.query,
             )
         }
+        .cachedIn(viewModelScope)
 
     init {
         loadInitialData()

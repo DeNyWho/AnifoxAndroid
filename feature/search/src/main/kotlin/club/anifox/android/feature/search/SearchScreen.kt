@@ -8,9 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -26,6 +24,7 @@ import androidx.paging.compose.itemKey
 import club.anifox.android.core.uikit.component.error.NoSearchResultsError
 import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.LocalScreenInfo
+import club.anifox.android.core.uikit.util.rememberLazyGridState
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.common.device.ScreenType
 import club.anifox.android.domain.state.StateListWrapper
@@ -140,8 +139,8 @@ private fun SearchContent(
     onRandomAnimeClick: (String) -> Unit,
     onRefreshRandomAnimeClick: () -> Unit,
 ) {
-    val lazyGridState = rememberLazyGridState()
     val items = searchResults.collectAsLazyPagingItems()
+    val gridState = items.rememberLazyGridState()
 
     val screenInfo = LocalScreenInfo.current
     val configuration = LocalConfiguration.current
@@ -176,10 +175,6 @@ private fun SearchContent(
         }
     }
 
-    LaunchedEffect(uiState.query) {
-        lazyGridState.scrollToItem(0)
-    }
-
     Box(
         modifier = modifier
             .padding(horizontal = 16.dp)
@@ -205,7 +200,7 @@ private fun SearchContent(
                 LazyVerticalGrid(
                     modifier = Modifier.fillMaxSize(),
                     columns = GridCells.Fixed(columns),
-                    state = lazyGridState,
+                    state = gridState,
                     horizontalArrangement = AnimeSearchComponentItemDefaults.HorizontalArrangement.Grid,
                     verticalArrangement = AnimeSearchComponentItemDefaults.VerticalArrangement.Grid,
                 ) {
