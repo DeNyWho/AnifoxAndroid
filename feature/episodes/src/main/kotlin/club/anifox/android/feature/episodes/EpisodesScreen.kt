@@ -1,6 +1,8 @@
 package club.anifox.android.feature.episodes
 
 import android.content.res.Configuration
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -8,7 +10,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons.Outlined
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.SwapVert
@@ -18,9 +19,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -29,9 +32,11 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
+import club.anifox.android.core.uikit.component.error.NoSearchResultsError
 import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.core.uikit.util.clickableWithoutRipple
+import club.anifox.android.core.uikit.util.rememberLazyGridState
 import club.anifox.android.domain.model.anime.episodes.AnimeEpisodesLight
 import club.anifox.android.domain.model.common.device.ScreenType
 import club.anifox.android.feature.episodes.components.item.CardEpisodeGridComponentItem
@@ -60,6 +65,12 @@ internal fun EpisodesScreen(
         }
     }
 
+    if (uiState.searchQuery.isNotEmpty()) {
+        BackHandler {
+            viewModel.clearSearch()
+        }
+    }
+
     EpisodesUI(
         onBackPressed = onBackPressed,
         uiState = uiState,
@@ -70,6 +81,9 @@ internal fun EpisodesScreen(
         },
         onQueryChange = { search ->
             viewModel.search(search)
+        },
+        onTrailingIconClick = {
+            viewModel.clearSearch()
         },
     )
 }
@@ -82,8 +96,10 @@ private fun EpisodesUI(
     onEpisodeClick: (String, Boolean?) -> Unit,
     onSortUpdate: () -> Unit,
     onQueryChange: (String) -> Unit,
+    onTrailingIconClick: () -> Unit,
 ) {
     var isSearchActive by rememberSaveable { mutableStateOf(false) }
+    val focusRequester = remember { FocusRequester() }
 
     val endIcons = listOf<@Composable () -> Unit>(
         {
@@ -115,17 +131,17 @@ private fun EpisodesUI(
             .fillMaxSize(),
         topBar = {
             EpisodesTopBarComponent(
-                onBackPressed = onBackPressed,
+                searchQuery = uiState.searchQuery,
                 title = stringResource(R.string.feature_episodes_top_bar_title),
-                tonalElevation = 4.dp,
-                shadowElevation = 4.dp,
-                endIcons = endIcons,
                 isSearchActive = isSearchActive,
+                focusRequester = focusRequester,
+                endIcons = endIcons,
                 onSearchQueryChange = onQueryChange,
+                onTrailingIconClick = onTrailingIconClick,
                 onSearchClose = {
                     isSearchActive = false
                 },
-                searchQuery = uiState.searchQuery,
+                onBackPressed = onBackPressed,
             )
         },
     ) { padding ->
@@ -148,14 +164,7 @@ private fun EpisodesContentUI(
     shimmerInstance: Shimmer = rememberShimmer(ShimmerBounds.View),
 ) {
     val items = episodesResults.collectAsLazyPagingItems()
-    val lazyGridState = rememberLazyGridState()
-
-    LaunchedEffect(
-        uiState.searchQuery,
-        uiState.selectedSort
-    ) {
-        lazyGridState.scrollToItem(0)
-    }
+    val lazyGridState = items.rememberLazyGridState()
 
     val screenInfo = LocalScreenInfo.current
     val configuration = LocalConfiguration.current
@@ -168,44 +177,53 @@ private fun EpisodesContentUI(
         else -> 1
     }
 
-    LazyVerticalGrid(
+    Box(
         modifier = modifier
-            .padding(start = 16.dp, end = 16.dp),
-        columns = GridCells.Fixed(columns),
-        state = lazyGridState,
-        horizontalArrangement = CardEpisodeGridComponentItemDefaults.HorizontalArrangement.Grid,
-        verticalArrangement = CardEpisodeGridComponentItemDefaults.VerticalArrangement.Grid,
+            .padding(horizontal = 16.dp)
+            .fillMaxSize(),
     ) {
-        item(span = { GridItemSpan(maxLineSpan) }) {
-            Spacer(modifier = Modifier)
-        }
+        if (items.loadState.append.endOfPaginationReached && items.itemCount == 0) {
+            NoSearchResultsError()
+        } else {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(columns),
+                state = lazyGridState,
+                horizontalArrangement = CardEpisodeGridComponentItemDefaults.HorizontalArrangement.Grid,
+                verticalArrangement = CardEpisodeGridComponentItemDefaults.VerticalArrangement.Grid,
+            ) {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    Spacer(modifier = Modifier)
+                }
 
-        items(
-            count = items.itemCount,
-            key = items.itemKey { it.number }
-        ) { index ->
-            val item = items[index]
-            if (item != null) {
-                CardEpisodeGridComponentItem(
-                    currentTranslationId = uiState.translationId,
-                    data = item,
-                    onClick = { url ->
-                        // TODO Add a player selection dialog
-                        onEpisodeClick.invoke(url, true)
-                    },
-                )
-            }
-        }
+                items(
+                    count = items.itemCount,
+                    key = items.itemKey { it.number }
+                ) { index ->
+                    val item = items[index]
+                    if (item != null) {
+                        CardEpisodeGridComponentItem(
+                            currentTranslationId = uiState.translationId,
+                            data = item,
+                            onClick = { url ->
+                                // TODO Add a player selection dialog
+                                onEpisodeClick.invoke(url, true)
+                            },
+                        )
+                    }
+                }
 
-        when {
-            items.loadState.append is LoadState.Loading -> {
-                showCardEpisodeGridComponentItemShimmer(shimmerInstance)
-            }
-            items.loadState.refresh is LoadState.Loading -> {
-                showCardEpisodeGridComponentItemShimmer(shimmerInstance)
-            }
-            items.loadState.append is LoadState.Error -> {
+                when {
+                    items.loadState.append is LoadState.Loading -> {
+                        showCardEpisodeGridComponentItemShimmer(shimmerInstance)
+                    }
 
+                    items.loadState.refresh is LoadState.Loading -> {
+                        showCardEpisodeGridComponentItemShimmer(shimmerInstance)
+                    }
+
+                    items.loadState.append is LoadState.Error -> {
+                    }
+                }
             }
         }
     }

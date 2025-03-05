@@ -62,6 +62,16 @@ internal class EpisodesViewModel @Inject constructor(
         }
     }
 
+    fun clearSearch() {
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    searchQuery = "",
+                )
+            }
+        }
+    }
+
     fun initializeFilter(url: String, translationId: Int) {
         viewModelScope.launch {
             _uiState.update { state ->

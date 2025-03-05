@@ -21,14 +21,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.icon.AnifoxIconCustomTintVector
 import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
@@ -38,21 +41,21 @@ import club.anifox.android.feature.episodes.R
 
 @Composable
 internal fun EpisodesTopBarComponent(
+    searchQuery: String,
     title: String,
-    onBackPressed: (() -> Unit)? = null,
+    isSearchActive: Boolean,
+    focusRequester: FocusRequester = remember { FocusRequester() },
     endIcons: List<@Composable () -> Unit> = emptyList(),
     onSearchQueryChange: ((String) -> Unit)? = null,
+    onTrailingIconClick: () -> Unit = { },
     onSearchClose: (() -> Unit)? = null,
-    tonalElevation: Dp = 0.dp,
-    shadowElevation: Dp = 0.dp,
     surfaceColor: Color = MaterialTheme.colorScheme.background,
-    isSearchActive: Boolean,
-    searchQuery: String,
+    onBackPressed: (() -> Unit)? = null,
 ) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        tonalElevation = tonalElevation,
-        shadowElevation = shadowElevation,
+        tonalElevation = 4.dp,
+        shadowElevation = 4.dp,
         color = surfaceColor,
     ) {
         AnimatedContent(
@@ -64,7 +67,10 @@ internal fun EpisodesTopBarComponent(
             label = "SearchBarTransition"
         ) { isSearching ->
             if (isSearching) {
-                // Поисковый режим
+                LaunchedEffect(Unit) {
+                    focusRequester.requestFocus()
+                }
+
                 Row (
                     modifier = Modifier
                         .fillMaxWidth()
@@ -85,12 +91,13 @@ internal fun EpisodesTopBarComponent(
                     BasicTextField(
                         modifier = Modifier
                             .weight(1f)
-                            .padding(horizontal = 16.dp),
+                            .padding(horizontal = 16.dp)
+                            .focusRequester(focusRequester),
                         value = searchQuery,
                         onValueChange = { newQuery ->
                             onSearchQueryChange?.invoke(newQuery)
                         },
-                        textStyle = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.onBackground),
+                        textStyle = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.onBackground),
                         cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
                         singleLine = true,
                         decorationBox = { innerTextField ->
@@ -98,8 +105,8 @@ internal fun EpisodesTopBarComponent(
                                 if (searchQuery.isEmpty()) {
                                     Text(
                                         text = stringResource(R.string.feature_episodes_top_bar_placeholder),
-                                        style = MaterialTheme.typography.bodyLarge,
-                                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f)
                                     )
                                 }
                                 innerTextField()
@@ -111,7 +118,7 @@ internal fun EpisodesTopBarComponent(
                         AnifoxIconCustomTintVector(
                             modifier = Modifier
                                 .clickableWithoutRipple {
-                                    onSearchQueryChange?.invoke("")
+                                    onTrailingIconClick.invoke()
                                 }
                                 .size(24.dp),
                             imageVector = Filled.Clear,
