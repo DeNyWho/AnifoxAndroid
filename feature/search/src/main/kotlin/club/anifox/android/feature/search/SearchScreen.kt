@@ -1,6 +1,7 @@
 package club.anifox.android.feature.search
 
 import android.content.res.Configuration
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,10 +9,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -23,6 +28,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import club.anifox.android.core.uikit.component.error.NoSearchResultsError
 import club.anifox.android.core.uikit.util.DefaultPreview
+import club.anifox.android.core.uikit.util.KeyboardManager
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.core.uikit.util.rememberLazyGridState
 import club.anifox.android.domain.model.anime.AnimeLight
@@ -40,9 +46,6 @@ import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
 import kotlinx.coroutines.flow.Flow
-import me.onebone.toolbar.CollapsingToolbarScaffold
-import me.onebone.toolbar.ScrollStrategy
-import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
 internal fun SearchScreen(
@@ -53,6 +56,20 @@ internal fun SearchScreen(
     val uiState by viewModel.uiState.collectAsState()
     val searchHistory by viewModel.searchHistory.collectAsState()
     val randomAnime by viewModel.randomAnime.collectAsState()
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(viewModel) {
+        if(!uiState.isSearchBarFocused) {
+            focusRequester.requestFocus()
+            viewModel.updateSearchBarState()
+        }
+    }
+
+    if (uiState.query.isNotEmpty()) {
+        BackHandler {
+            viewModel.clearSearch()
+        }
+    }
 
     SearchUI(
         onBackPressed = onBackPressed,
@@ -60,6 +77,7 @@ internal fun SearchScreen(
         searchResults = viewModel.searchResults,
         searchHistory = searchHistory,
         randomAnime = randomAnime,
+        focusRequester = focusRequester,
         onQueryChange = { viewModel.search(it) },
         onTrailingIconClick = {
             viewModel.clearSearch()
@@ -86,6 +104,7 @@ private fun SearchUI(
     uiState: SearchUiState,
     searchHistory: List<String>,
     randomAnime: StateListWrapper<AnimeLight>,
+    focusRequester: FocusRequester = remember { FocusRequester() },
     onQueryChange: (String) -> Unit,
     onTrailingIconClick: () -> Unit,
     onAnimeClick: (String) -> Unit,
@@ -95,22 +114,20 @@ private fun SearchUI(
     onRandomAnimeClick: (String) -> Unit,
     onRefreshRandomAnimeClick: () -> Unit,
 ) {
-    val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
-
-    CollapsingToolbarScaffold(
+    Scaffold(
         modifier = Modifier.fillMaxSize(),
-        state = toolbarScaffoldState,
-        scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
-        toolbar = {
+        topBar = {
             SearchTopBarComponent(
                 onBackPressed = onBackPressed,
                 searchQuery = uiState.query,
                 onSearchQueryChanged = onQueryChange,
                 onTrailingIconClick = onTrailingIconClick,
+                focusRequester = focusRequester,
             )
         },
-        body = {
+        content = { padding ->
             SearchContent(
+                modifier = Modifier.padding(padding),
                 uiState = uiState,
                 searchResults = searchResults,
                 searchHistory = searchHistory,
@@ -192,7 +209,7 @@ private fun SearchContent(
                 )
             }
 
-            items.loadState.refresh is LoadState.NotLoading && items.itemCount == 0 && uiState.query.isNotBlank() -> {
+            items.loadState.append.endOfPaginationReached && items.itemCount == 0 -> {
                 NoSearchResultsError()
             }
 
@@ -245,6 +262,8 @@ private fun SearchContent(
                         }
                     }
                 }
+
+                KeyboardManager(gridState)
             }
         }
     }

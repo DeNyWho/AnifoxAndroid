@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import club.anifox.android.core.uikit.component.icon.AnifoxIconOnSurface
@@ -33,6 +34,7 @@ internal fun SearchTopBarComponent(
     searchQuery: String,
     onSearchQueryChanged: (String) -> Unit,
     onTrailingIconClick: () -> Unit,
+    focusRequester: FocusRequester,
 ) {
     var isAnimatingBack by remember { mutableStateOf(false) }
 
@@ -76,6 +78,7 @@ internal fun SearchTopBarComponent(
                 onSearchQueryChanged = onSearchQueryChanged,
                 onTrailingIconClick = onTrailingIconClick,
                 placeHolder = stringResource(R.string.feature_search_search_placeholder),
+                focusRequester = focusRequester,
             )
         }
     }

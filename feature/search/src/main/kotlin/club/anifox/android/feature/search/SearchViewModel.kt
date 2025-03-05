@@ -21,8 +21,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -46,17 +46,21 @@ internal class SearchViewModel @Inject constructor(
 
     @OptIn(FlowPreview::class)
     val searchResults: Flow<PagingData<AnimeLight>> = _uiState
-        .filter { it.query.isNotEmpty() }
         .debounce(500)
-        .distinctUntilChanged { old, new ->
-            old.query == new.query
-        }
+        .distinctUntilChanged { old, new -> old.query == new.query }
         .flatMapLatest { state ->
-            addSearchHistoryUseCase.invoke(state.query)
-            animeSearchPagingUseCase.invoke(
-                limit = 20,
-                searchQuery = state.query,
-            )
+            if (state.query.isNotEmpty()) {
+                addSearchHistoryUseCase.invoke(state.query)
+                animeSearchPagingUseCase.invoke(
+                    limit = 20,
+                    searchQuery = state.query,
+                )
+            } else {
+                MutableStateFlow(PagingData.empty())
+            }
+        }
+        .onEach {
+            _uiState.update { it.copy(hasSearched = true) }
         }
         .cachedIn(viewModelScope)
 
@@ -99,16 +103,25 @@ internal class SearchViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     query = query,
+                    hasSearched = false,
                 )
             }
         }
     }
+
+    fun updateSearchBarState() {
+        _uiState.update {
+            it.copy(isSearchBarFocused = true)
+        }
+    }
+
 
     fun clearSearch() {
         viewModelScope.launch {
             _uiState.update {
                 it.copy(
                     query = "",
+                    hasSearched = false,
                 )
             }
         }

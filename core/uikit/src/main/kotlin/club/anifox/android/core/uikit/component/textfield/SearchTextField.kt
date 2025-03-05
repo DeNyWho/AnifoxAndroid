@@ -28,7 +28,7 @@ fun SearchField(
     isEnabled: Boolean = true,
     placeHolder: String? = null,
     searchQuery: String = "",
-    focusRequest: FocusRequester = FocusRequester(),
+    focusRequester: FocusRequester = FocusRequester(),
     onSearchQueryChanged: (String) -> Unit = { },
     onTrailingIconClick: () -> Unit = { },
 ) {
@@ -45,7 +45,7 @@ fun SearchField(
                     modifier = Modifier
                         .padding(start = 6.dp)
                         .fillMaxWidth()
-                        .focusRequester(focusRequest),
+                        .focusRequester(focusRequester),
                     value = searchQuery,
                     onValueChange = { onSearchQueryChanged(it) },
                     textStyle = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.onBackground),
