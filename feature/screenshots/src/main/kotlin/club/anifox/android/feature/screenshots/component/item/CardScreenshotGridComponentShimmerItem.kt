@@ -53,7 +53,7 @@ internal fun CardScreenshotGridComponentShimmerItem(
 
 internal fun LazyGridScope.showCardScreenshotGridIComponentItemShimmer(
     shimmerInstance: Shimmer,
-    count: Int = 5,
+    count: Int = 16,
 ) {
     items(count) {
         CardScreenshotGridComponentShimmerItem(
