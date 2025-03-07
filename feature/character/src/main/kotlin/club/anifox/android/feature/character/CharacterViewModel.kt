@@ -21,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class CharacterViewModel @Inject constructor(
     private val getCharacterFullUseCase: GetCharacterFullUseCase,
-): ViewModel() {
+) : ViewModel() {
     private val _uiState = MutableStateFlow(CharacterUiState())
     val uiState: StateFlow<CharacterUiState> = _uiState.asStateFlow()
 

@@ -46,13 +46,13 @@ internal fun PosterComponent(
         MaterialTheme.colorScheme.background,
     )
 
-    if(detailAnimeState.isLoading) {
+    if (detailAnimeState.isLoading) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(350.dp)
         )
-    } else if(data != null) {
+    } else if (data != null) {
         var showImageDialog by remember { mutableStateOf(false) }
 
         if (showImageDialog) {

@@ -9,7 +9,7 @@ internal data class GenresComponentPreviewParam(
     val detailAnime: StateWrapper<AnimeDetail>,
 )
 
-internal class GenresComponentProvider:
+internal class GenresComponentProvider :
     PreviewParameterProvider<GenresComponentPreviewParam> {
     override val count: Int
         get() = super.count

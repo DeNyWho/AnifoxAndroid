@@ -106,12 +106,14 @@ private fun GenresContent(
                 CardAnimePortraitDefaults.Height.GridSmall,
             )
         }
+
         ScreenType.DEFAULT -> {
             Pair(
                 CardAnimePortraitDefaults.Width.GridMedium,
                 CardAnimePortraitDefaults.Height.GridMedium,
             )
         }
+
         else -> {
             Pair(
                 CardAnimePortraitDefaults.Width.GridLarge,
@@ -120,7 +122,10 @@ private fun GenresContent(
         }
     }
 
-    val minColumnSize = (screenInfo.portraitWidthDp.dp / (if (screenInfo.portraitWidthDp.dp < 600.dp) 4 else 6)).coerceAtLeast(if(screenInfo.portraitWidthDp.dp < 600.dp) CardAnimePortraitDefaults.Width.Min else thumbnailWidth )
+    val minColumnSize =
+        (screenInfo.portraitWidthDp.dp / (if (screenInfo.portraitWidthDp.dp < 600.dp) 4 else 6)).coerceAtLeast(
+            if (screenInfo.portraitWidthDp.dp < 600.dp) CardAnimePortraitDefaults.Width.Min else thumbnailWidth
+        )
 
     GridComponent(
         modifier = GridComponentDefaults.Default.fillMaxSize(),

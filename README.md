@@ -1,19 +1,25 @@
 # Anifox
 
-Anifox is a mobile application for anime streaming, offering users access to a large catalog of anime with features like search, favorites, and notifications for new episodes. This repository hosts the **Android version** of Anifox, while other versions and information about the project can be found on our official website: [anifox.club](https://anifox.club) or on our [github](https://github.com/ANIFOX-CLUB)
+Anifox is a mobile application for anime streaming, offering users access to a large catalog of
+anime with features like search, favorites, and notifications for new episodes. This repository
+hosts the **Android version** of Anifox, while other versions and information about the project can
+be found on our official website: [anifox.club](https://anifox.club) or on
+our [github](https://github.com/ANIFOX-CLUB)
 
 ## 🔖 Releases
+
 Download the app on github releases or in RuStore.
 
 [<img src="https://cdn.anifox.club/images/github/rustore/ru_store.svg"
-      alt="Download from RuStore"
-      height="80">](https://www.rustore.ru/catalog/app/club.anifox.android)
+alt="Download from RuStore"
+height="80">](https://www.rustore.ru/catalog/app/club.anifox.android)
 
 ## 📱 Features
 
 - Stream popular anime series and movies
 - Browse a comprehensive catalog with details on each anime (description, genres, episode count)
-- Search the anime catalog by title, genre, studio, release year, type, status, translation and season
+- Search the anime catalog by title, genre, studio, release year, type, status, translation and
+  season
 - Add anime to favorites for quick access
 - Most screens are adapted for small as well as large devices
 
@@ -83,6 +89,7 @@ This project is licensed under the [Apache License 2.0](LICENSE).
 
 ## 📫 Contact
 
-For any questions or suggestions, feel free to reach out via email at **denis.akhunov123@gmail.com** or open an Issue in this repository.
+For any questions or suggestions, feel free to reach out via email at **denis.akhunov123@gmail.com**
+or open an Issue in this repository.
 
 Thank you for using Anifox! I hope you enjoy the app 🦊😊

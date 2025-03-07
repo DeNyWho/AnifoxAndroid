@@ -8,7 +8,8 @@ import club.anifox.android.feature.registration.RegistrationScreen
 
 const val REGISTRATION_ROUTE = "registration_route"
 
-fun NavController.navigateToRegistration(navOptions: NavOptions? = null) = navigate(REGISTRATION_ROUTE, navOptions)
+fun NavController.navigateToRegistration(navOptions: NavOptions? = null) =
+    navigate(REGISTRATION_ROUTE, navOptions)
 
 fun NavGraphBuilder.registrationScreen() {
     composable(

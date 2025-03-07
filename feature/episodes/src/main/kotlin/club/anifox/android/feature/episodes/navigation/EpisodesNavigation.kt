@@ -11,7 +11,11 @@ import club.anifox.android.feature.episodes.EpisodesScreen
 
 const val EPISODES_ROUTE = "episodes_route"
 
-fun NavController.navigateToEpisodes(url: String, translationId: Int, navOptions: NavOptions? = null) = navigate("$EPISODES_ROUTE?url=$url&translation_id=$translationId", navOptions)
+fun NavController.navigateToEpisodes(
+    url: String,
+    translationId: Int,
+    navOptions: NavOptions? = null
+) = navigate("$EPISODES_ROUTE?url=$url&translation_id=$translationId", navOptions)
 
 fun NavGraphBuilder.episodesScreen(
     onBackPressed: () -> Unit,
@@ -25,7 +29,7 @@ fun NavGraphBuilder.episodesScreen(
         ),
     ) {
         val url = remember { it.arguments?.getString("url") }
-        val translationId = remember { it.arguments?.getInt("translation_id")}
+        val translationId = remember { it.arguments?.getInt("translation_id") }
 
         EpisodesScreen(
             onBackPressed = onBackPressed,

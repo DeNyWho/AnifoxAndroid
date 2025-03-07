@@ -24,7 +24,7 @@ import javax.inject.Inject
 internal class VideoViewModel @Inject constructor(
     private val animeVideosUseCase: GetAnimeVideosUseCase,
     private val deepLink: DeepLink,
-): ViewModel() {
+) : ViewModel() {
     private val _uiState = MutableStateFlow(VideoUiState())
     val uiState: StateFlow<VideoUiState> = _uiState.asStateFlow()
 

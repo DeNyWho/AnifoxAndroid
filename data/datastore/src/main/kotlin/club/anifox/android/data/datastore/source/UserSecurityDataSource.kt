@@ -20,8 +20,10 @@ class UserSecurityDataSource @Inject constructor(
 ) {
     private val alias = BuildConfig.userdatastorealias
 
-    val accessToken: Flow<String> = dataStore.data.map { if(it.accessToken.isNotEmpty()) decrypt(it.accessToken) else "" }
-    val refreshToken: Flow<String> = dataStore.data.map { if(it.refreshToken.isNotEmpty()) decrypt(it.refreshToken) else "" }
+    val accessToken: Flow<String> =
+        dataStore.data.map { if (it.accessToken.isNotEmpty()) decrypt(it.accessToken) else "" }
+    val refreshToken: Flow<String> =
+        dataStore.data.map { if (it.refreshToken.isNotEmpty()) decrypt(it.refreshToken) else "" }
 
     suspend fun saveAccessToken(accessToken: String) {
         dataStore.updateData { currentData ->
@@ -35,7 +37,6 @@ class UserSecurityDataSource @Inject constructor(
         }
     }
 
-
     private fun getKeyStore(): KeyStore {
         val keyStore = KeyStore.getInstance("AndroidKeyStore")
         keyStore.load(null)
@@ -45,9 +46,12 @@ class UserSecurityDataSource @Inject constructor(
     private fun getSecretKey(): SecretKey {
         val keyStore = getKeyStore()
         if (!keyStore.containsAlias(alias)) {
-            val keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore")
-            val keyGenParameterSpec = KeyGenParameterSpec.Builder(alias,
-                KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
+            val keyGenerator =
+                KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore")
+            val keyGenParameterSpec = KeyGenParameterSpec.Builder(
+                alias,
+                KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+            )
                 .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
                 .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
                 .setUserAuthenticationRequired(false)

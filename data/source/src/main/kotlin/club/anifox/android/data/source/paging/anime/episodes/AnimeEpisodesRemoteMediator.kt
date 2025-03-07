@@ -60,6 +60,7 @@ internal class AnimeEpisodesRemoteMediator(
                     lastLoadedPage = -1
                     0
                 }
+
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> lastLoadedPage + 1
             }
@@ -73,7 +74,7 @@ internal class AnimeEpisodesRemoteMediator(
                 search = search,
             )
 
-            when(response) {
+            when (response) {
                 is Resource.Success -> {
                     if (loadType == LoadType.REFRESH) {
                         animeCacheEpisodesDao.clearAllEpisodes()
@@ -109,9 +110,11 @@ internal class AnimeEpisodesRemoteMediator(
                     lastLoadedPage = loadKey
                     MediatorResult.Success(endOfPaginationReached = episodes.isEmpty())
                 }
+
                 is Resource.Error -> {
                     MediatorResult.Error(Exception("Failed to load: ${response.error}"))
                 }
+
                 is Resource.Loading -> {
                     MediatorResult.Error(Exception("Unexpected loading state"))
                 }
@@ -120,5 +123,4 @@ internal class AnimeEpisodesRemoteMediator(
             MediatorResult.Error(e)
         }
     }
-
 }

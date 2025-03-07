@@ -15,5 +15,4 @@ internal abstract class NetworkModule {
     internal abstract fun bindsNetworkMonitor(
         networkMonitor: ConnectivityManagerNetworkMonitor,
     ): NetworkMonitor
-
 }

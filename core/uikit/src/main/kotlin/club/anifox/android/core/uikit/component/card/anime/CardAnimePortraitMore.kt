@@ -82,7 +82,7 @@ fun LazyListScope.showCardAnimePortraitMoreWhenPastLimit(
 @Composable
 private fun PreviewCardAnimePortraitMore() {
     DefaultPreview {
-        CardAnimePortraitMore (
+        CardAnimePortraitMore(
             onClick = { },
         )
     }

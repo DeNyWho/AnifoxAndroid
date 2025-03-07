@@ -48,7 +48,7 @@ internal fun CharacterScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
-        if(!uiState.isInitialized) {
+        if (!uiState.isInitialized) {
             viewModel.initialize(id)
         }
     }
@@ -70,7 +70,7 @@ private fun CharacterUI(
 
     when {
         characterState.isLoading -> CircularProgress()
-        characterState.error.message.isNotEmpty() -> { }
+        characterState.error.message.isNotEmpty() -> {}
         else -> {
             characterState.data?.let { character ->
                 CollapsingToolbarScaffold(
@@ -126,7 +126,7 @@ private fun CharacterContentUI(
             )
         }
 
-        if(!character.about.isNullOrEmpty()) {
+        if (!character.about.isNullOrEmpty()) {
             item {
                 AboutComponent(
                     modifier = Modifier
@@ -139,7 +139,7 @@ private fun CharacterContentUI(
             }
         }
 
-        if(character.roles.isNotEmpty()) {
+        if (character.roles.isNotEmpty()) {
             item {
                 AnimeComponent(
                     headerModifier = SliderComponentDefaults.Default,
@@ -149,7 +149,7 @@ private fun CharacterContentUI(
             }
         }
 
-        if(character.pictures.isNotEmpty()) {
+        if (character.pictures.isNotEmpty()) {
             item {
                 PicturesComponent(
                     modifier = Modifier

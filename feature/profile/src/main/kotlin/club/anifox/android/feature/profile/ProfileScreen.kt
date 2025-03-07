@@ -50,15 +50,18 @@ private fun ProfileUI(
             is ScreenState.Loading -> {
                 CircularProgressIndicator()
             }
+
             is ScreenState.Authenticated -> {
                 AuthenticatedUI()
             }
+
             is ScreenState.NotAuthenticated -> {
                 UnauthenticatedMessage(
                     onLoginClick = onLoginClick,
                     onRegistrationClick = onRegistrationClick,
                 )
             }
+
             is ScreenState.Error -> {
                 Log.e(
                     "Favourite Screen",
@@ -71,7 +74,6 @@ private fun ProfileUI(
 
 @Composable
 private fun AuthenticatedUI() {
-
 }
 
 @PreviewScreenSizes

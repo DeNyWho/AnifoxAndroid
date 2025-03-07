@@ -21,6 +21,7 @@ suspend inline fun <reified T : Any> safeApiCall(
             HttpStatusCode.OK, HttpStatusCode.Created -> {
                 Resource.Success(data = response.body<T>())
             }
+
             else -> {
                 Resource.Error(ApiError(response.status.value, response.bodyAsText()))
             }
@@ -30,6 +31,7 @@ suspend inline fun <reified T : Any> safeApiCall(
             is ClientRequestException -> {
                 Resource.Error(ApiError(500, e.message))
             }
+
             else -> {
                 Resource.Error(ApiError(500, "${e.message}"))
             }

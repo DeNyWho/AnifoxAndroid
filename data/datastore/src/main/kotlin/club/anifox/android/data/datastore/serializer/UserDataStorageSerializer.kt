@@ -11,7 +11,7 @@ import kotlinx.serialization.protobuf.ProtoBuf
 import java.io.InputStream
 import java.io.OutputStream
 
-internal class UserDataStorageSerializer: Serializer<UserData> {
+internal class UserDataStorageSerializer : Serializer<UserData> {
 
     /**
      * Value to return if there is no data on disk.

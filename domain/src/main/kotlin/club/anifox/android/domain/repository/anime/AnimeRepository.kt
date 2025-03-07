@@ -49,7 +49,11 @@ interface AnimeRepository {
     fun getAnimeSimilar(page: Int, limit: Int, url: String): Flow<StateListWrapper<AnimeLight>>
     fun getAnimeRelated(url: String): Flow<StateListWrapper<AnimeRelatedLight>>
     fun getAnimeScreenshots(url: String, limit: Int?): Flow<StateListWrapper<String>>
-    fun getAnimeVideos(url: String, videoType: VideoType?, limit: Int?): Flow<StateListWrapper<AnimeVideosLight>>
+    fun getAnimeVideos(
+        url: String,
+        videoType: VideoType?,
+        limit: Int?
+    ): Flow<StateListWrapper<AnimeVideosLight>>
 
     fun getAnimeSearchPaged(
         limit: Int,
@@ -94,6 +98,7 @@ interface AnimeRepository {
         dayOfWeek: WeekDay,
         date: LocalDate,
     ): Flow<PagingData<AnimeLight>>
+
     fun getLastSearchesHistory(): Flow<List<String>>
     suspend fun addSearchHistory(query: String)
     suspend fun deleteSearchHistory()

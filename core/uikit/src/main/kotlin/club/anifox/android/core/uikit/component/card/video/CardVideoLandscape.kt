@@ -96,7 +96,7 @@ fun CardVideoLandscape(
             style = MaterialTheme.typography.titleSmall,
             modifier = Modifier.align(Alignment.CenterHorizontally),
         )
-        if(isTypeVisible) {
+        if (isTypeVisible) {
             Text(
                 text = data.type.toString(),
                 overflow = TextOverflow.Ellipsis,
@@ -115,7 +115,7 @@ private fun PreviewCardVideoLandscapeDefault(
     @PreviewParameter(CardVideoLandscapeProvider::class) param: CardVideoLandscapePreviewParam,
 ) {
     DefaultPreview {
-        CardVideoLandscape (
+        CardVideoLandscape(
             modifier = param.modifier,
             data = param.data,
             thumbnailHeight = param.thumbnailHeight,

@@ -11,7 +11,7 @@ import kotlinx.serialization.protobuf.ProtoBuf
 import java.io.InputStream
 import java.io.OutputStream
 
-internal class UserSecurityDataStorageSerializer: Serializer<UserSecurityData> {
+internal class UserSecurityDataStorageSerializer : Serializer<UserSecurityData> {
 
     /**
      * Value to return if there is no data on disk.

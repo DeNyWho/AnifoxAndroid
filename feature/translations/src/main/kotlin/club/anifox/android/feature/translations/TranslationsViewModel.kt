@@ -19,11 +19,12 @@ import javax.inject.Inject
 @HiltViewModel
 internal class TranslationsViewModel @Inject constructor(
     private val translationsCountUseCase: GetAnimeTranslationsCountUseCase,
-): ViewModel() {
+) : ViewModel() {
     private val _uiState = MutableStateFlow(TranslationsUiState())
     val uiState: StateFlow<TranslationsUiState> = _uiState.asStateFlow()
 
-    private val _animeTranslationsCount = MutableStateFlow<StateListWrapper<AnimeTranslationsCount>>(StateListWrapper.loading())
+    private val _animeTranslationsCount =
+        MutableStateFlow<StateListWrapper<AnimeTranslationsCount>>(StateListWrapper.loading())
     val animeTranslationsCount = _animeTranslationsCount.asStateFlow()
 
     fun initialize(url: String) {
@@ -48,5 +49,4 @@ internal class TranslationsViewModel @Inject constructor(
             _animeTranslationsCount.value = it
         }.launchIn(viewModelScope)
     }
-
 }

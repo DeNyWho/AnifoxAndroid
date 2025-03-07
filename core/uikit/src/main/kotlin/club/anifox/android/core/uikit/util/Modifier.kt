@@ -19,20 +19,21 @@ import androidx.compose.ui.unit.dp
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.unclippedBoundsInWindow
 
-fun Modifier.clickableWithoutRipple(enabled: Boolean = true, onClick: () -> Unit): Modifier = composed {
-    this.then(
-        if (enabled) {
-            clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }
-            ) {
-                onClick()
+fun Modifier.clickableWithoutRipple(enabled: Boolean = true, onClick: () -> Unit): Modifier =
+    composed {
+        this.then(
+            if (enabled) {
+                clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }
+                ) {
+                    onClick()
+                }
+            } else {
+                this
             }
-        } else {
-            this
-        }
-    )
-}
+        )
+    }
 
 @Stable
 fun Modifier.onUpdateShimmerBounds(

@@ -45,7 +45,7 @@ fun SliderComponent(
     onMoreClick: () -> Unit = { },
 ) {
     // header
-    if(contentState.isLoading) {
+    if (contentState.isLoading) {
         SliderHeaderShimmer(
             modifier = headerModifier,
             shimmerInstance = shimmer,
@@ -65,13 +65,13 @@ fun SliderComponent(
         contentPadding = contentPadding,
         horizontalArrangement = contentArrangement,
     ) {
-        if(contentState.isLoading) {
+        if (contentState.isLoading) {
             showCardAnimePortraitShimmer(
                 shimmerInstance = shimmer,
                 thumbnailHeight = thumbnailHeight,
                 thumbnailWidth = thumbnailWidth,
             )
-        } else if(contentState.data.isNotEmpty()) {
+        } else if (contentState.data.isNotEmpty()) {
             items(
                 contentState.data,
                 key = { it.url },
@@ -84,7 +84,7 @@ fun SliderComponent(
                     onClick = { onItemClick.invoke(data.url) },
                 )
             }
-            if(isMorePastLimitVisible) {
+            if (isMorePastLimitVisible) {
                 showCardAnimePortraitMoreWhenPastLimit(
                     size = contentState.data.size,
                     onClick = {
@@ -102,7 +102,7 @@ private fun PreviewScrollableHorizontalContentDefault(
     @PreviewParameter(SliderComponentProvider::class) param: SliderComponentPreviewParam,
 ) {
     DefaultPreview(true) {
-        SliderComponent (
+        SliderComponent(
             modifier = param.modifier,
             headerModifier = param.headerModifier,
             thumbnailHeight = param.thumbnailHeight,

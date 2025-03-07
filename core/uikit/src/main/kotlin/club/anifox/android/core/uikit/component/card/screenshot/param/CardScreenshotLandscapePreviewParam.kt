@@ -13,7 +13,8 @@ internal data class CardScreenshotLandscapePreviewParam(
     val onClick: () -> Unit = { },
 )
 
-internal class CardScreenshotLandscapeProvider: PreviewParameterProvider<CardScreenshotLandscapePreviewParam> {
+internal class CardScreenshotLandscapeProvider :
+    PreviewParameterProvider<CardScreenshotLandscapePreviewParam> {
     override val values: Sequence<CardScreenshotLandscapePreviewParam>
         get() = listOf(
             CardScreenshotLandscapePreviewParam(),

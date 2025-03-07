@@ -29,7 +29,7 @@ internal fun PlayerScreen(
 ) {
     val selectedPlayerOrientationState by viewModel.selectedPlayerOrientation.collectAsState()
 
-    if(selectedPlayerOrientationState == PlayerOrientation.HORIZONTAL) {
+    if (selectedPlayerOrientationState == PlayerOrientation.HORIZONTAL) {
         LockScreenOrientation(orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
     }
 
@@ -45,7 +45,8 @@ internal fun PlayerScreen(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && selectedPlayerOrientationState == PlayerOrientation.HORIZONTAL) {
             val originalCutoutMode = window.attributes.layoutInDisplayCutoutMode
             val layoutParams = window.attributes
-            layoutParams.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER
+            layoutParams.layoutInDisplayCutoutMode =
+                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER
             window.attributes = layoutParams
 
             onDispose {
@@ -56,12 +57,14 @@ internal fun PlayerScreen(
 
             windowInsetsController.apply {
                 hide(WindowInsetsCompat.Type.systemBars())
-                systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                systemBarsBehavior =
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             }
         }
 
         onDispose {
-            val restoredWindowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+            val restoredWindowInsetsController =
+                WindowCompat.getInsetsController(window, window.decorView)
             restoredWindowInsetsController.systemBarsBehavior = originalSystemBarsBehavior
 
             restoredWindowInsetsController.show(WindowInsetsCompat.Type.systemBars())
@@ -84,7 +87,7 @@ private fun PlayerUI(
             .fillMaxSize(),
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            if(kodik) {
+            if (kodik) {
                 WebPlayerKodikComponent(url)
             }
         }

@@ -131,8 +131,8 @@ private fun ScheduleUI(
                             val currentDayItems = currentDayFlow.collectAsLazyPagingItems()
 
                             val isLoading = uiState.isLoading ||
-                                    currentDayItems.loadState.refresh is LoadState.Loading ||
-                                    currentDayItems.loadState.append is LoadState.Loading
+                                currentDayItems.loadState.refresh is LoadState.Loading ||
+                                currentDayItems.loadState.append is LoadState.Loading
 
                             Box(modifier = Modifier.fillMaxSize()) {
                                 if (isLoading) {
@@ -179,12 +179,14 @@ private fun ScheduleContentUI(
                 AnimeScheduleComponentItemDefaults.Height.Small,
             )
         }
+
         ScreenType.DEFAULT -> {
             Pair(
                 AnimeScheduleComponentItemDefaults.Width.Medium,
                 AnimeScheduleComponentItemDefaults.Height.Medium,
             )
         }
+
         else -> {
             Pair(
                 AnimeScheduleComponentItemDefaults.Width.Large,
@@ -212,11 +214,13 @@ private fun ScheduleContentUI(
                         CircularProgress()
                     }
                 }
+
                 scheduleResults.itemCount == 0 && scheduleResults.loadState.refresh is LoadState.NotLoading -> {
                     item {
                         ScheduleEmptyComponent()
                     }
                 }
+
                 else -> {
                     item(span = { GridItemSpan(maxLineSpan) }) {
                         Spacer(modifier = Modifier)

@@ -8,7 +8,8 @@ import club.anifox.android.feature.search.SearchScreen
 
 const val SEARCH_ROUTE = "search_route"
 
-fun NavController.navigateToSearch(navOptions: NavOptions? = null) = navigate(SEARCH_ROUTE, navOptions)
+fun NavController.navigateToSearch(navOptions: NavOptions? = null) =
+    navigate(SEARCH_ROUTE, navOptions)
 
 fun NavGraphBuilder.searchScreen(
     onBackPressed: () -> Unit,

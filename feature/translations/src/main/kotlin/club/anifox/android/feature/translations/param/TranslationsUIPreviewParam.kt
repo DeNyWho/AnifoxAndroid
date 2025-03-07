@@ -12,7 +12,7 @@ internal data class TranslationsUIPreviewParam(
     val onPlayerClick: (String) -> Unit = { },
 )
 
-internal class TranslationsUIProvider:
+internal class TranslationsUIProvider :
     PreviewParameterProvider<TranslationsUIPreviewParam> {
     override val count: Int
         get() = super.count

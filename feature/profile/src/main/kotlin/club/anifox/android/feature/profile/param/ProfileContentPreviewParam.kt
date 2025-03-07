@@ -7,7 +7,7 @@ internal data class ProfileContentPreviewParam(
     val screenState: ScreenState,
 )
 
-internal class ProfileContentProvider:
+internal class ProfileContentProvider :
     PreviewParameterProvider<ProfileContentPreviewParam> {
     override val count: Int
         get() = super.count

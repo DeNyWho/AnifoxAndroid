@@ -11,7 +11,7 @@ fun AnifoxBackground(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
-    Surface (
+    Surface(
         color = MaterialTheme.colorScheme.background,
         modifier = modifier.fillMaxSize()
     ) {

@@ -42,7 +42,7 @@ internal fun HomeScreen(
         onSearchClick = onSearchClick,
         onGenresClick = onGenresClick,
         onCatalogClick = onCatalogClick,
-        onSettingsClick =  onSettingsClick,
+        onSettingsClick = onSettingsClick,
         animeOfSeason = viewModel.animeOfSeason.value,
         onPopularAnime = viewModel.onPopularAnime.value,
         onUpdatedAnime = viewModel.onUpdatedAnime.value,

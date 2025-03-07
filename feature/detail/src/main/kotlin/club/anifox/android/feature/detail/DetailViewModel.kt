@@ -114,9 +114,10 @@ internal class DetailViewModel @Inject constructor(
     }
 
     private fun getCharactersAnime(url: String) {
-        animeCharactersUseCase.invoke(page = DEFAULT_PAGE, limit = DEFAULT_LIMIT, url = url).onEach {
-            _charactersAnime.value = it
-        }.launchIn(viewModelScope)
+        animeCharactersUseCase.invoke(page = DEFAULT_PAGE, limit = DEFAULT_LIMIT, url = url)
+            .onEach {
+                _charactersAnime.value = it
+            }.launchIn(viewModelScope)
     }
 
     private fun getDetailAnime(url: String) {

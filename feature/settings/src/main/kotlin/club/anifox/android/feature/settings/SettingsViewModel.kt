@@ -21,14 +21,15 @@ internal class SettingsViewModel @Inject constructor(
     private val themeSettingsUseCase: ThemeSettingsUseCase,
     private val playerOrientationSettingsUseCase: PlayerOrientationSettingsUseCase,
     private val deepLink: DeepLink,
-): ViewModel() {
+) : ViewModel() {
     private val _selectedTheme: MutableStateFlow<ThemeType> =
         MutableStateFlow(ThemeType.SYSTEM)
     val selectedTheme: StateFlow<ThemeType> = _selectedTheme.asStateFlow()
 
     private val _selectedPlayerOrientation: MutableStateFlow<PlayerOrientation> =
         MutableStateFlow(PlayerOrientation.HORIZONTAL)
-    val selectedPlayerOrientation: StateFlow<PlayerOrientation> = _selectedPlayerOrientation.asStateFlow()
+    val selectedPlayerOrientation: StateFlow<PlayerOrientation> =
+        _selectedPlayerOrientation.asStateFlow()
 
     init {
         loadData()
@@ -62,7 +63,7 @@ internal class SettingsViewModel @Inject constructor(
     fun updatePlayerOrientation() {
         viewModelScope.launch {
             playerOrientationSettingsUseCase.updatePlayerOrientation(
-                orientation = when(_selectedPlayerOrientation.value) {
+                orientation = when (_selectedPlayerOrientation.value) {
                     PlayerOrientation.ALL -> PlayerOrientation.HORIZONTAL
                     PlayerOrientation.HORIZONTAL -> PlayerOrientation.ALL
                 }

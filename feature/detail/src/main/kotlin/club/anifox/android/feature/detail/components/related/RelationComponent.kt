@@ -35,7 +35,7 @@ internal fun RelationComponent(
     countContent: Int,
 ) {
     // header
-    if(contentState.isLoading) {
+    if (contentState.isLoading) {
         SliderHeaderShimmer(
             modifier = headerModifier,
             shimmerInstance = shimmer,
@@ -52,14 +52,14 @@ internal fun RelationComponent(
         modifier = modifier.onUpdateShimmerBounds(shimmer),
         verticalArrangement = contentArrangement,
     ) {
-        if(contentState.isLoading) {
+        if (contentState.isLoading) {
             ShowCardRelationComponentItemShimmer(
                 modifier = itemModifier,
                 shimmerInstance = shimmer,
                 thumbnailHeight = thumbnailHeight,
                 thumbnailWidth = thumbnailWidth,
             )
-        } else if(contentState.data.isNotEmpty()) {
+        } else if (contentState.data.isNotEmpty()) {
             contentState.data.take(countContent).forEach { data ->
                 CardRelationComponentItem(
                     modifier = itemModifier,

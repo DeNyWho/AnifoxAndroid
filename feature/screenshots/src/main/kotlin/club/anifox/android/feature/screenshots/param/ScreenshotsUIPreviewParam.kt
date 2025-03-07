@@ -11,7 +11,7 @@ internal data class ScreenshotsUIPreviewParam(
     val animeTitle: String?,
 )
 
-internal class ScreenshotsUIProvider:
+internal class ScreenshotsUIProvider :
     PreviewParameterProvider<ScreenshotsUIPreviewParam> {
     override val count: Int
         get() = super.count

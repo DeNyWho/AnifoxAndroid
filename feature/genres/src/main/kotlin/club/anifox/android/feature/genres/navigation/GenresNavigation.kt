@@ -30,7 +30,8 @@ fun NavGraphBuilder.genresScreen(
         ),
     ) {
         val genreJson = remember { it.arguments?.getString("genreID") } ?: ""
-        val genre = runCatching { Json.decodeFromString<AnimeGenre>(genreJson) }.getOrNull() ?: AnimeGenre()
+        val genre =
+            runCatching { Json.decodeFromString<AnimeGenre>(genreJson) }.getOrNull() ?: AnimeGenre()
 
         GenresScreen(
             genre = genre,

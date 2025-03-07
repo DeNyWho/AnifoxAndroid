@@ -28,7 +28,7 @@ internal data class DetailUIPreviewParam(
     val onMoreVideoClick: (String) -> Unit = { },
 )
 
-internal class DetailUIProvider:
+internal class DetailUIProvider :
     PreviewParameterProvider<DetailUIPreviewParam> {
     override val count: Int
         get() = super.count
@@ -46,11 +46,20 @@ internal class DetailUIProvider:
             DetailUIPreviewParam(
                 modifier = Modifier,
                 detailAnime = StateWrapper(data = GlobalParams.DataAnimeDetail, isLoading = false),
-                relationAnime = StateListWrapper(data = GlobalParams.DataSetRelationLight, isLoading = false),
+                relationAnime = StateListWrapper(
+                    data = GlobalParams.DataSetRelationLight,
+                    isLoading = false
+                ),
                 screenshotsAnime = StateListWrapper(isLoading = false),
                 videosAnime = StateListWrapper(isLoading = false),
-                similarAnime = StateListWrapper(data = GlobalParams.DataSetAnimeLight, isLoading = false),
-                charactersAnime = StateListWrapper(data = GlobalParams.DataSetCharactersLight, isLoading = false)
+                similarAnime = StateListWrapper(
+                    data = GlobalParams.DataSetAnimeLight,
+                    isLoading = false
+                ),
+                charactersAnime = StateListWrapper(
+                    data = GlobalParams.DataSetCharactersLight,
+                    isLoading = false
+                )
             )
         ).asSequence()
 }

@@ -47,9 +47,11 @@ internal fun WatchComponent(
                     }
                 )
         ) {
-            if(detailAnimeState.data?.nextEpisode != null) {
+            if (detailAnimeState.data?.nextEpisode != null) {
                 val nextEpisodeText = when {
-                    LocalDateTime.now().isAfter(detailAnimeState.data?.nextEpisode) -> stringResource(R.string.feature_detail_section_watch_next_episode_title_delayed)
+                    LocalDateTime.now()
+                        .isAfter(detailAnimeState.data?.nextEpisode) -> stringResource(R.string.feature_detail_section_watch_next_episode_title_delayed)
+
                     else -> "${stringResource(R.string.feature_detail_section_watch_next_episode_title)} ${
                         detailAnimeState.data?.nextEpisode?.format(
                             DateTimeFormatter.ofPattern("dd.MM.yyyy")

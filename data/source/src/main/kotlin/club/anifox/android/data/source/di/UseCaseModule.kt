@@ -246,5 +246,4 @@ internal object UseCaseModule {
     fun provideGetAnimeVideosUseCase(animeRepository: AnimeRepository): GetAnimeVideosUseCase {
         return GetAnimeVideosUseCase(animeRepository)
     }
-
 }

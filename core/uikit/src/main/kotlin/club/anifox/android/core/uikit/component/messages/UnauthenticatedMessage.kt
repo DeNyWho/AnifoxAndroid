@@ -29,7 +29,7 @@ fun UnauthenticatedMessage(
     onLoginClick: () -> Unit,
     onRegistrationClick: () -> Unit,
 ) {
-    Column (
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .wrapContentHeight(),

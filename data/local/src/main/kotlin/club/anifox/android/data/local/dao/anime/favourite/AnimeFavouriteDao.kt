@@ -16,7 +16,8 @@ import club.anifox.android.domain.model.anime.enum.AnimeFavouriteStatus
 interface AnimeFavouriteDao {
 
     @RewriteQueriesToDropUnusedColumns
-    @Query("""
+    @Query(
+        """
         SELECT 
             a.title,
             ai.medium as image,
@@ -36,11 +37,13 @@ interface AnimeFavouriteDao {
         LEFT JOIN anime_images ai ON a.url = ai.animeUrl
         WHERE af.isFavourite = 1
         ORDER BY af.lastUpdatedAt DESC
-    """)
+    """
+    )
     fun getFavouriteAnimePaging(): PagingSource<Int, AnimeLightFavourite>
 
     @RewriteQueriesToDropUnusedColumns
-    @Query("""
+    @Query(
+        """
         SELECT 
             a.title,
             ai.medium as image,
@@ -60,11 +63,13 @@ interface AnimeFavouriteDao {
         LEFT JOIN anime_images ai ON a.url = ai.animeUrl
         WHERE af.isInHistory = 1
         ORDER BY af.lastUpdatedAt DESC
-    """)
+    """
+    )
     fun getHistoryAnimePaging(): PagingSource<Int, AnimeLightFavourite>
 
     @RewriteQueriesToDropUnusedColumns
-    @Query("""
+    @Query(
+        """
         SELECT 
             a.title,
             ai.medium as image,
@@ -84,23 +89,28 @@ interface AnimeFavouriteDao {
         LEFT JOIN anime_images ai ON a.url = ai.animeUrl
         WHERE af.watchStatus = :status
         ORDER BY af.lastUpdatedAt DESC
-    """)
+    """
+    )
     fun getAnimeByStatusPaging(status: AnimeFavouriteStatus): PagingSource<Int, AnimeLightFavourite>
 
-    @Query("""
+    @Query(
+        """
         SELECT EXISTS(
             SELECT 1 
             FROM anime_favourite 
             WHERE animeUrl = :animeUrl AND isFavourite = 1
         )
-    """)
+    """
+    )
     suspend fun isAnimeInFavourite(animeUrl: String): Boolean
 
-    @Query("""
+    @Query(
+        """
         SELECT watchStatus
         FROM anime_favourite
         WHERE animeUrl = :animeUrl
-    """)
+    """
+    )
     suspend fun getAnimeStatus(animeUrl: String): AnimeFavouriteStatus?
 
     @Query("SELECT * FROM anime_favourite WHERE animeUrl = :animeUrl")
@@ -110,7 +120,11 @@ interface AnimeFavouriteDao {
     suspend fun insertStatus(status: AnimeFavouriteEntity)
 
     @Transaction
-    suspend fun insertStatusIfAnimeExists(animeUrl: String, status: AnimeFavouriteEntity, animeDao: AnimeDao) {
+    suspend fun insertStatusIfAnimeExists(
+        animeUrl: String,
+        status: AnimeFavouriteEntity,
+        animeDao: AnimeDao
+    ) {
         val animeExists = animeDao.doesAnimeExist(animeUrl) > 0
         if (animeExists) {
             insertStatus(status)

@@ -87,7 +87,7 @@ internal fun AnimeScheduleComponentItem(
             )
 
             AnifoxChipPrimary(
-                title = "${data.episodesAired} из ${if(data.episodes != 0) data.episodes else "?"}"
+                title = "${data.episodesAired} из ${if (data.episodes != 0) data.episodes else "?"}"
             )
 
             Text(
@@ -104,7 +104,8 @@ internal fun AnimeScheduleComponentItem(
 @PreviewLightDark
 @Composable
 private fun PreviewAnimeScheduleItem(
-    @PreviewParameter(AnimeScheduleComponentProvider::class) param: AnimeScheduleComponentItemPreviewParam,
+    @PreviewParameter(AnimeScheduleComponentProvider::class)
+    param: AnimeScheduleComponentItemPreviewParam,
 ) {
     DefaultPreview {
         AnimeScheduleComponentItem(

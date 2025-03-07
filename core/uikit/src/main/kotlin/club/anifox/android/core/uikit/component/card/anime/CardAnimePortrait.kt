@@ -100,7 +100,7 @@ private fun PreviewCardThumbnailPortraitDefault(
     @PreviewParameter(CardAnimeProvider::class) param: CardAnimePreviewParam,
 ) {
     DefaultPreview {
-        CardAnimePortrait (
+        CardAnimePortrait(
             modifier = param.modifier,
             data = param.data,
             thumbnailHeight = param.thumbnailHeight,

@@ -28,7 +28,7 @@ fun rememberAnifoxAppState(
     navController: NavHostController = rememberNavController(),
     isFirstLaunch: Boolean,
 ): AnifoxAppState {
-    return remember (
+    return remember(
         navController,
         coroutineScope,
         networkMonitor,
@@ -83,7 +83,9 @@ class AnifoxAppState(
             when (topLevelDestination) {
                 TopLevelDestination.HOME -> navController.navigateToHome(topLevelNavOptions)
                 TopLevelDestination.SCHEDULE -> navController.navigateToSchedule(topLevelNavOptions)
-                TopLevelDestination.FAVOURITE -> navController.navigateToFavourite(topLevelNavOptions)
+                TopLevelDestination.FAVOURITE -> navController.navigateToFavourite(
+                    topLevelNavOptions
+                )
 //                TopLevelDestination.PROFILE -> navController.navigateToProfile(topLevelNavOptions)
             }
         }

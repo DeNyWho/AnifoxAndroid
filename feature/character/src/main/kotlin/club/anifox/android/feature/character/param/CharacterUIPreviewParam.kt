@@ -11,7 +11,7 @@ internal data class CharacterUIPreviewParam(
     val characterState: StateWrapper<CharacterFull>,
 )
 
-internal class CharacterUIProvider:
+internal class CharacterUIProvider :
     PreviewParameterProvider<CharacterUIPreviewParam> {
     override val count: Int
         get() = super.count
@@ -21,7 +21,10 @@ internal class CharacterUIProvider:
                 characterState = StateWrapper.loading(),
             ),
             CharacterUIPreviewParam(
-                characterState = StateWrapper(data = GlobalParams.DataCharacterFull, isLoading = false),
+                characterState = StateWrapper(
+                    data = GlobalParams.DataCharacterFull,
+                    isLoading = false
+                ),
             ),
         ).asSequence()
 }

@@ -170,11 +170,25 @@ fun AnifoxNavHost(
             onBackPressed = { navigationManager.emit(Back) },
             onWatchClick = { animeId -> navigationManager.emit(ToTranslations(animeId)) },
             onAnimeClick = { animeId -> navigationManager.emit(ToDetail(animeId)) },
-            onMoreScreenshotClick = { url, title -> navigationManager.emit(ToScreenshots(url, title)) },
+            onMoreScreenshotClick = { url, title ->
+                navigationManager.emit(
+                    ToScreenshots(
+                        url,
+                        title
+                    )
+                )
+            },
             onMoreVideoClick = { url, title -> navigationManager.emit(ToVideo(url, title)) },
 //            onCatalogClick = { params -> navigationManager.emit(ToCatalog(params)) },
             onCharacterClick = { characterId -> navigationManager.emit(ToCharacter(characterId)) },
-            onMoreCharactersClick = { url, title -> navigationManager.emit(ToCharacters(url, title)) }
+            onMoreCharactersClick = { url, title ->
+                navigationManager.emit(
+                    ToCharacters(
+                        url,
+                        title
+                    )
+                )
+            }
         )
         characterScreen(
             onBackPressed = { navigationManager.emit(Back) },
@@ -186,7 +200,14 @@ fun AnifoxNavHost(
         )
         translationsScreen(
             onBackPressed = { navigationManager.emit(Back) },
-            onTranslationClick = { url, translationId -> navigationManager.emit(ToEpisodes(url, translationId)) },
+            onTranslationClick = { url, translationId ->
+                navigationManager.emit(
+                    ToEpisodes(
+                        url,
+                        translationId
+                    )
+                )
+            },
             onPlayerClick = { url, kodik -> navigationManager.emit(ToPlayer(url, kodik)) },
         )
         episodesScreen(

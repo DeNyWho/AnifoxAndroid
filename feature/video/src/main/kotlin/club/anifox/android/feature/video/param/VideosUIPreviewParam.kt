@@ -17,7 +17,7 @@ internal data class VideosUIPreviewParam(
     val onBackPressed: () -> Unit = { },
 )
 
-internal class VideosUIProvider:
+internal class VideosUIProvider :
     PreviewParameterProvider<VideosUIPreviewParam> {
     override val count: Int
         get() = super.count

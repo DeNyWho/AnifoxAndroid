@@ -11,7 +11,8 @@ import club.anifox.android.feature.detail.DetailScreen
 
 const val DETAIL_ROUTE_BASE = "detail_route"
 
-fun NavController.navigateToDetail(url: String, navOptions: NavOptions? = null) = navigate("${DETAIL_ROUTE_BASE}/url=$url", navOptions)
+fun NavController.navigateToDetail(url: String, navOptions: NavOptions? = null) =
+    navigate("${DETAIL_ROUTE_BASE}/url=$url", navOptions)
 
 fun NavGraphBuilder.detailScreen(
     onBackPressed: () -> Unit,

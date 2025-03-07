@@ -29,7 +29,7 @@ import io.ktor.http.encodedPath
 import java.time.LocalDate
 import javax.inject.Inject
 
-class AnimeService @Inject constructor (private val client: HttpClient) {
+class AnimeService @Inject constructor(private val client: HttpClient) {
     suspend fun getAnime(
         page: Int,
         limit: Int,
@@ -126,7 +126,8 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
         val request = HttpRequestBuilder().apply {
             method = HttpMethod.Get
             url {
-                encodedPath = "${ApiEndpoints.ANIME}/$url/${ApiEndpoints.ANIME_TRANSLATIONS}/${ApiEndpoints.ANIME_TRANSLATIONS_COUNT}"
+                encodedPath =
+                    "${ApiEndpoints.ANIME}/$url/${ApiEndpoints.ANIME_TRANSLATIONS}/${ApiEndpoints.ANIME_TRANSLATIONS_COUNT}"
             }
         }
 
@@ -150,7 +151,7 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
                 parameter("translation_id", translationId)
                 parameter("sort", sort.name)
 
-                if(search.isNotEmpty()) {
+                if (search.isNotEmpty()) {
                     parameter("search", search)
                 }
             }
@@ -231,7 +232,7 @@ class AnimeService @Inject constructor (private val client: HttpClient) {
             parameter("page", page)
             parameter("limit", limit)
 
-            if(role != null) parameter("role", role)
+            if (role != null) parameter("role", role)
         }
 
         return safeApiCall<AnimeCharactersWithRolesDTO>(client, request)

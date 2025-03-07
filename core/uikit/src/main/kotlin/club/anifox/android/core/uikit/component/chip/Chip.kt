@@ -114,7 +114,6 @@ fun AnifoxChipCustom(
     }
 }
 
-
 @Composable
 fun AnifoxChipSurfaceSelectable(
     modifier: Modifier = Modifier,

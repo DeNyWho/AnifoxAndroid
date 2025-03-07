@@ -19,7 +19,7 @@ android {
 dependencies {
     lintPublish(projects.lint)
     implementation(projects.domain)
-    
+
     implementation(libs.youtube.player)
 
     api(libs.kotlinx.collections.immutable)
@@ -33,7 +33,7 @@ dependencies {
     api(libs.androidx.compose.runtime)
     api(libs.androidx.compose.ui.util)
     api(libs.androidx.core.ktx)
-    
+
     api(libs.toolbar.compose)
 
     api(libs.shimmer.compose)

@@ -6,7 +6,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 internal object DatabaseMigrations {
     class Schema19To20 : Migration(19, 20) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            db.execSQL("""
+            db.execSQL(
+                """
                 CREATE TABLE IF NOT EXISTS _new_cache_anime_episodes (
                     number INTEGER PRIMARY KEY NOT NULL,
                     title TEXT NOT NULL,
@@ -16,15 +17,18 @@ internal object DatabaseMigrations {
                     filler INTEGER NOT NULL,
                     recap INTEGER NOT NULL
                 )
-            """)
+            """
+            )
 
-            db.execSQL("""
+            db.execSQL(
+                """
                 INSERT INTO _new_cache_anime_episodes (
                     number, title, image, aired, description, filler, recap
                 )
                 SELECT number, title, image, aired, '' as description, filler, recap
                 FROM cache_anime_episodes
-            """)
+            """
+            )
 
             db.execSQL("DROP TABLE cache_anime_episodes")
 

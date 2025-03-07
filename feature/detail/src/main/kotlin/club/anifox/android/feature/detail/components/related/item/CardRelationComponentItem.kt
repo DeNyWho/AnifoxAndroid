@@ -45,7 +45,7 @@ internal fun CardRelationComponentItem(
     thumbnailWidth: Dp = CardRelationComponentItemDefaults.Width.Default,
     onClick: () -> Unit,
 ) {
-    Row (
+    Row(
         modifier = modifier
             .fillMaxWidth()
             .height(thumbnailHeight)
@@ -80,7 +80,7 @@ internal fun CardRelationComponentItem(
                 },
             )
         }
-        Column (
+        Column(
             modifier = Modifier
                 .padding(start = 16.dp, end = 16.dp, top = 8.dp)
                 .fillMaxSize(),
@@ -101,7 +101,7 @@ internal fun CardRelationComponentItem(
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier,
             )
-            FlowRow (
+            FlowRow(
                 modifier = Modifier
                     .padding(top = 4.dp)
                     .fillMaxWidth(),
@@ -113,7 +113,7 @@ internal fun CardRelationComponentItem(
                 AnifoxChipPrimary(
                     title = data.anime.type.toString(),
                 )
-                if(data.anime.rating != null) {
+                if (data.anime.rating != null) {
                     AnifoxChipPrimary(
                         title = data.anime.rating.toString(),
                     )
@@ -126,10 +126,11 @@ internal fun CardRelationComponentItem(
 @PreviewLightDark
 @Composable
 private fun PreviewCardRelationComponentItemDefault(
-    @PreviewParameter(CardRelationComponentItemProvider::class) param: CardRelationComponentItemPreviewParam,
+    @PreviewParameter(CardRelationComponentItemProvider::class)
+    param: CardRelationComponentItemPreviewParam,
 ) {
     DefaultPreview {
-        CardRelationComponentItem (
+        CardRelationComponentItem(
             modifier = param.modifier,
             data = param.data,
             thumbnailHeight = param.thumbnailHeight,

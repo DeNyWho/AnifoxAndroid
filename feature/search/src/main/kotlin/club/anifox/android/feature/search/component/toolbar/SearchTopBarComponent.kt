@@ -46,7 +46,7 @@ internal fun SearchTopBarComponent(
         )
     )
 
-    Surface (
+    Surface(
         modifier = Modifier.fillMaxWidth(),
         color = MaterialTheme.colorScheme.background,
     ) {

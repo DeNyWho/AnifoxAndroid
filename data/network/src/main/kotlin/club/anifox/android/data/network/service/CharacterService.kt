@@ -10,7 +10,7 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.encodedPath
 import javax.inject.Inject
 
-class CharacterService @Inject constructor (private val client: HttpClient) {
+class CharacterService @Inject constructor(private val client: HttpClient) {
     suspend fun getCharacterFull(id: String): Resource<CharacterFullDTO> {
         val request = HttpRequestBuilder().apply {
             method = HttpMethod.Get

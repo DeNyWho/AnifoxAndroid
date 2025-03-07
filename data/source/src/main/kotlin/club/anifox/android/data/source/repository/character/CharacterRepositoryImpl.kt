@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 internal class CharacterRepositoryImpl @Inject constructor(
     private val characterService: CharacterService,
-): CharacterRepository {
+) : CharacterRepository {
 
     override fun getCharacterFull(id: String): Flow<StateWrapper<CharacterFull>> {
         return flow {
@@ -25,9 +25,11 @@ internal class CharacterRepositoryImpl @Inject constructor(
                     val data = characterResult.data.toFull()
                     StateWrapper(data)
                 }
+
                 is Resource.Error -> {
                     StateWrapper(error = characterResult.error)
                 }
+
                 is Resource.Loading -> {
                     StateWrapper.loading()
                 }

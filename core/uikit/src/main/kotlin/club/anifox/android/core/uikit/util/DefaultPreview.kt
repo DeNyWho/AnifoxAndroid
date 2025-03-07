@@ -17,7 +17,7 @@ fun DefaultPreview(needBackground: Boolean = false, content: @Composable (Column
     ) {
         AnifoxTheme {
             Column(
-                if(needBackground) Modifier.background(MaterialTheme.colorScheme.background) else Modifier,
+                if (needBackground) Modifier.background(MaterialTheme.colorScheme.background) else Modifier,
                 content = content,
             )
         }

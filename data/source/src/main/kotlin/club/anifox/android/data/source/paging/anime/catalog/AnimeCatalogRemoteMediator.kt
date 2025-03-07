@@ -34,7 +34,20 @@ internal class AnimeCatalogRemoteMediator(
 ) : RemoteMediator<Int, AnimeCacheCatalogEntity>() {
 
     private var lastLoadedPage = -1
-    private var currentParams: Params = Params(status, genres, searchQuery, season, ratingMpa, minimalAge, type, years, studios, translation, order, sort)
+    private var currentParams: Params = Params(
+        status,
+        genres,
+        searchQuery,
+        season,
+        ratingMpa,
+        minimalAge,
+        type,
+        years,
+        studios,
+        translation,
+        order,
+        sort
+    )
 
     override suspend fun initialize(): InitializeAction {
         return InitializeAction.LAUNCH_INITIAL_REFRESH
@@ -59,7 +72,20 @@ internal class AnimeCatalogRemoteMediator(
         loadType: LoadType,
         state: PagingState<Int, AnimeCacheCatalogEntity>
     ): MediatorResult {
-        val newParams = Params(status, genres, searchQuery, season, ratingMpa, minimalAge, type, years, studios, translation, order, sort)
+        val newParams = Params(
+            status,
+            genres,
+            searchQuery,
+            season,
+            ratingMpa,
+            minimalAge,
+            type,
+            years,
+            studios,
+            translation,
+            order,
+            sort
+        )
         if (newParams != currentParams) {
             currentParams = newParams
             lastLoadedPage = -1
@@ -78,6 +104,7 @@ internal class AnimeCatalogRemoteMediator(
                     lastLoadedPage = -1
                     0
                 }
+
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> lastLoadedPage + 1
             }
@@ -99,7 +126,7 @@ internal class AnimeCatalogRemoteMediator(
                 sort = currentParams.sort,
             )
 
-            when(response) {
+            when (response) {
                 is Resource.Success -> {
                     if (loadType == LoadType.REFRESH) {
                         animeCacheCatalogDao.clearAll()
@@ -110,9 +137,11 @@ internal class AnimeCatalogRemoteMediator(
                     lastLoadedPage = loadKey
                     MediatorResult.Success(endOfPaginationReached = animeEntities.isEmpty())
                 }
+
                 is Resource.Error -> {
                     MediatorResult.Error(Exception("Failed to load: ${response.error}"))
                 }
+
                 is Resource.Loading -> {
                     MediatorResult.Error(Exception("Unexpected loading state"))
                 }

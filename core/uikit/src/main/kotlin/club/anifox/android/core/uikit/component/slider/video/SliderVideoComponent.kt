@@ -49,7 +49,7 @@ fun SliderVideoComponent(
     onMoreClick: (() -> Unit)? = null,
 ) {
     // header
-    if(contentState.isLoading) {
+    if (contentState.isLoading) {
         SliderHeaderShimmer(
             modifier = headerModifier,
             shimmerInstance = shimmer,
@@ -62,19 +62,19 @@ fun SliderVideoComponent(
     }
 
     // content
-    LazyRow (
+    LazyRow(
         modifier = modifier.onUpdateShimmerBounds(shimmer),
         contentPadding = contentPadding,
         horizontalArrangement = contentArrangement,
     ) {
-        if(contentState.isLoading) {
+        if (contentState.isLoading) {
             showCardVideoLandscapeShimmer(
                 modifier = itemModifier,
                 shimmerInstance = shimmer,
                 thumbnailHeight = thumbnailHeight,
                 thumbnailWidth = thumbnailWidth,
             )
-        } else if(contentState.data.isNotEmpty()) {
+        } else if (contentState.data.isNotEmpty()) {
             items(
                 contentState.data,
                 key = { it.playerUrl },
@@ -90,7 +90,7 @@ fun SliderVideoComponent(
                     isTypeVisible = isTypeVisible,
                 )
             }
-            if(showCardMoreWhenPastLimit) {
+            if (showCardMoreWhenPastLimit) {
                 showCardVideoLandscapeMoreWhenPastLimit(
                     size = contentState.data.size,
                     onClick = {
@@ -100,7 +100,6 @@ fun SliderVideoComponent(
             }
         }
     }
-
 }
 
 @PreviewLightDark
@@ -109,10 +108,10 @@ private fun PreviewScrollableHorizontalContentVideo(
     @PreviewParameter(SliderVideoComponentProvider::class) param: SliderVideoComponentPreviewParam,
 ) {
     DefaultPreview(true) {
-        Column (
+        Column(
             Modifier.background(MaterialTheme.colorScheme.background)
         ) {
-            SliderVideoComponent (
+            SliderVideoComponent(
                 modifier = param.modifier,
                 headerModifier = param.headerModifier,
                 itemModifier = param.itemModifier,

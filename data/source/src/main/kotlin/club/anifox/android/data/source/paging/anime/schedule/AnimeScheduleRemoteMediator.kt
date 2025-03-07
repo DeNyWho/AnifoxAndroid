@@ -68,6 +68,7 @@ internal class AnimeScheduleRemoteMediator(
                 currentDay != dayOfWeek -> {
                     currentDay = dayOfWeek
                 }
+
                 currentDate != date -> {
                     currentDate = date
                 }
@@ -104,13 +105,15 @@ internal class AnimeScheduleRemoteMediator(
 
                             if (animeEntities.isNotEmpty()) {
                                 animeCacheScheduleDao.insertAnimeSchedules(animeEntities)
-                                lastUpdateTime = System.currentTimeMillis() // Update the last update time
+                                lastUpdateTime =
+                                    System.currentTimeMillis() // Update the last update time
                             }
                         }
                     }
 
                     MediatorResult.Success(endOfPaginationReached = true)
                 }
+
                 is Resource.Error -> MediatorResult.Error(Exception("Failed to load: ${response.error}"))
                 is Resource.Loading -> MediatorResult.Error(Exception("Unexpected loading state"))
             }

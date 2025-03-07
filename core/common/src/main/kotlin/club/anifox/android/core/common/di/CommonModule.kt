@@ -20,5 +20,4 @@ internal object CommonModule {
     ): DeepLink {
         return DeepLink(context)
     }
-
 }

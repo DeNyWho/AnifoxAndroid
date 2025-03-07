@@ -30,7 +30,7 @@ internal fun GenresComponent(
 ) {
     val genres = detailAnimeState.data?.genres.orEmpty()
 
-    if(!detailAnimeState.isLoading && genres.isNotEmpty()) {
+    if (!detailAnimeState.isLoading && genres.isNotEmpty()) {
         Column(
             modifier = modifier,
         ) {

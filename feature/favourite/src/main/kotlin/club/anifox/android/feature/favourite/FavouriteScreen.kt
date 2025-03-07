@@ -139,7 +139,7 @@ private fun FavouriteUI(
 
                                 val isLoading =
                                     currentItems.loadState.refresh is LoadState.Loading ||
-                                            currentItems.loadState.append is LoadState.Loading
+                                        currentItems.loadState.append is LoadState.Loading
 
                                 Box(modifier = Modifier.fillMaxSize()) {
                                     if (isLoading) {
@@ -187,12 +187,14 @@ private fun FavouriteContent(
                 AnimeFavouriteComponentItemDefaults.Height.Small,
             )
         }
+
         ScreenType.DEFAULT -> {
             Pair(
                 AnimeFavouriteComponentItemDefaults.Width.Medium,
                 AnimeFavouriteComponentItemDefaults.Height.Medium,
             )
         }
+
         else -> {
             Pair(
                 AnimeFavouriteComponentItemDefaults.Width.Large,
@@ -209,6 +211,7 @@ private fun FavouriteContent(
             favouriteResults.loadState.refresh is LoadState.Loading -> {
                 CircularProgress()
             }
+
             favouriteResults.itemCount == 0 && favouriteResults.loadState.refresh is LoadState.NotLoading -> {
                 FavouriteEmptyComponent()
             }

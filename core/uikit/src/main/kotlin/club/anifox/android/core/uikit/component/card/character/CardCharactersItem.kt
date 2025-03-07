@@ -41,7 +41,7 @@ fun CardCharactersItem(
     thumbnailWidth: Dp = CardCharactersItemDefaults.Width.Default,
     onClick: () -> Unit,
 ) {
-    Column (
+    Column(
         modifier = modifier
             .clickableWithoutRipple {
                 onClick.invoke()
@@ -101,7 +101,7 @@ private fun PreviewCardCharactersItemDefault(
     @PreviewParameter(CardCharactersItemProvider::class) param: CardCharactersItemPreviewParam,
 ) {
     DefaultPreview {
-        CardCharactersItem (
+        CardCharactersItem(
             modifier = param.modifier,
             data = param.data,
             thumbnailHeight = param.thumbnailHeight,

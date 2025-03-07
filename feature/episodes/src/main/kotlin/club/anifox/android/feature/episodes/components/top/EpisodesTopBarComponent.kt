@@ -71,7 +71,7 @@ internal fun EpisodesTopBarComponent(
                     focusRequester.requestFocus()
                 }
 
-                Row (
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp, top = 16.dp, bottom = 16.dp, end = 16.dp)

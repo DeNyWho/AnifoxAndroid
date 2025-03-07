@@ -51,7 +51,7 @@ private fun OnboardingUI(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
-        Column (
+        Column(
             modifier = Modifier
                 .padding(top = 80.dp)
                 .fillMaxWidth(),
@@ -63,7 +63,7 @@ private fun OnboardingUI(
                 painter = painterResource(AnifoxIcons.logo),
                 contentDescription = null,
             )
-            Column (
+            Column(
                 modifier = Modifier
                     .padding(horizontal = 40.dp)
                     .fillMaxWidth(),

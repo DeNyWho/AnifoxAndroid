@@ -43,7 +43,8 @@ internal fun CardGenreComponentItem(
 @Composable
 private fun PreviewCardGenreComponentItem(
     @PreviewParameter(
-        CardGenreComponentItemProvider::class) param: CardGenreComponentItemPreviewParam
+        CardGenreComponentItemProvider::class
+    ) param: CardGenreComponentItemPreviewParam
 ) {
     DefaultPreview {
         CardGenreComponentItem(

@@ -41,7 +41,7 @@ internal fun VideoScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
-        if(!uiState.isInitialized) {
+        if (!uiState.isInitialized) {
             viewModel.initialize(url, animeTitle)
         }
     }
@@ -78,7 +78,7 @@ private fun VideoUI(
         scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
         toolbar = {
             SimpleTopBarCollapse(
-                title = if(uiState.animeTitle == null) "" else "${stringResource(R.string.feature_video_top_bar_title)} ${uiState.animeTitle}",
+                title = if (uiState.animeTitle == null) "" else "${stringResource(R.string.feature_video_top_bar_title)} ${uiState.animeTitle}",
                 toolbarScaffoldState = toolbarScaffoldState,
                 onBackPressed = onBackPressed,
             )

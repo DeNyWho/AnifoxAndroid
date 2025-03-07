@@ -80,7 +80,7 @@ internal fun DetailScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
-        if(!uiState.isInitialized) {
+        if (!uiState.isInitialized) {
             viewModel.initialize(url)
         }
     }
@@ -145,11 +145,11 @@ internal fun DetailUI(
     onUpdateFavouriteStatus: (AnimeFavouriteStatus?) -> Unit,
     onUpdateIsInFavourite: () -> Unit,
 ) {
-    if(detailAnimeState.isLoading) {
+    if (detailAnimeState.isLoading) {
         CircularProgress()
     } else {
         Box {
-            Row (
+            Row(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, top = 16.dp)
                     .align(Alignment.TopCenter)
@@ -286,7 +286,7 @@ internal fun DetailContentUI(
                 }
             }
 
-            if(detail.studios.isNotEmpty()) {
+            if (detail.studios.isNotEmpty()) {
                 item(key = "studios") {
                     StudiosComponent(
                         modifier = Modifier.padding(start = 16.dp, end = 16.dp),
@@ -296,7 +296,7 @@ internal fun DetailContentUI(
                 }
             }
 
-            if(!detail.description.isNullOrEmpty()) {
+            if (!detail.description.isNullOrEmpty()) {
                 item(key = "description") {
                     DescriptionComponent(
                         headerModifier = SliderComponentDefaults.Default,
@@ -378,7 +378,7 @@ private fun PreviewDetailUI(
     @PreviewParameter(DetailUIProvider::class) param: DetailUIPreviewParam,
 ) {
     DefaultPreview(true) {
-        DetailUI (
+        DetailUI(
             modifier = param.modifier,
             url = "",
             detailAnimeState = param.detailAnime,

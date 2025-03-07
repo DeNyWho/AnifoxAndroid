@@ -18,13 +18,15 @@ interface AnimeDao {
     @Query("SELECT COUNT(*) FROM anime WHERE url = :animeUrl")
     suspend fun doesAnimeExist(animeUrl: String): Int
 
-    @Query("""
+    @Query(
+        """
         SELECT EXISTS(
             SELECT 1 
             FROM anime 
             WHERE url = :animeUrl
         )
-    """)
+    """
+    )
     fun observeAnimeExists(animeUrl: String): Flow<Boolean>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

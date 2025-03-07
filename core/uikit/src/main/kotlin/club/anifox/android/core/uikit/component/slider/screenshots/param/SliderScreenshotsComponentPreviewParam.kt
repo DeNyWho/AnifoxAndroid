@@ -28,7 +28,7 @@ internal data class SliderScreenshotsComponentPreviewParam(
 
 private val DataSet = List(10) { UUID.randomUUID().toString() }.toImmutableList()
 
-internal class SliderScreenshotsComponentProvider:
+internal class SliderScreenshotsComponentProvider :
     PreviewParameterProvider<SliderScreenshotsComponentPreviewParam> {
     override val count: Int
         get() = super.count

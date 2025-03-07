@@ -73,10 +73,11 @@ fun CardScreenshotLandscape(
 @Preview
 @Composable
 private fun PreviewCardScreenshotLandscapeDefault(
-    @PreviewParameter(CardScreenshotLandscapeProvider::class) param: CardScreenshotLandscapePreviewParam,
+    @PreviewParameter(CardScreenshotLandscapeProvider::class)
+    param: CardScreenshotLandscapePreviewParam,
 ) {
     DefaultPreview {
-        CardScreenshotLandscape (
+        CardScreenshotLandscape(
             modifier = param.modifier,
             image = param.image,
             thumbnailHeight = param.thumbnailHeight,

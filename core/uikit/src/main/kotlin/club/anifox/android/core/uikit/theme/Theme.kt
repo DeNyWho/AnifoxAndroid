@@ -65,18 +65,18 @@ fun AnifoxTheme(
     themeType: ThemeType = ThemeType.SYSTEM,
     content: @Composable () -> Unit,
 ) {
-    val colorScheme = when(themeType) {
+    val colorScheme = when (themeType) {
         ThemeType.DARK -> DarkColorScheme
         ThemeType.LIGHT -> LightColorScheme
         ThemeType.SYSTEM -> {
-            if(!isSystemInDarkTheme()) {
+            if (!isSystemInDarkTheme()) {
                 LightColorScheme
             } else {
                 DarkColorScheme
             }
         }
     }
-    val darkTheme = when(themeType) {
+    val darkTheme = when (themeType) {
         ThemeType.DARK -> true
         ThemeType.LIGHT -> false
         ThemeType.SYSTEM -> {
@@ -88,8 +88,10 @@ fun AnifoxTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme // negate darkTheme
-            WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars = !darkTheme
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars =
+                !darkTheme // negate darkTheme
+            WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars =
+                !darkTheme
         }
     }
 

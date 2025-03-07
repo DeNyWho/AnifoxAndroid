@@ -1,4 +1,5 @@
 @file:UseSerializers(LocalDateTimeSerializer::class, LocalDateSerializer::class)
+
 package club.anifox.android.data.network.models.dto.anime.detail
 
 import club.anifox.android.core.common.serializer.LocalDateSerializer

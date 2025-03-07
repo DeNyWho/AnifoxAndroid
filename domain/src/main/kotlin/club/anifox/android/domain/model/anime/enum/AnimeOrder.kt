@@ -1,6 +1,6 @@
 package club.anifox.android.domain.model.anime.enum
 
-enum class AnimeOrder (private val russianName: String) {
+enum class AnimeOrder(private val russianName: String) {
     Update("По дате обновления"),
     Aired("По дате добавления"),
     Released("По дате выхода"),

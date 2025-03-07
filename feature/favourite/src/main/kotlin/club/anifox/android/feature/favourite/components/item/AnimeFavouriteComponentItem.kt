@@ -85,7 +85,7 @@ internal fun AnimeFavouriteComponentItem(
                 style = MaterialTheme.typography.titleMedium,
             )
             AnifoxChipPrimary(
-                title = "${data.episodesAired} из ${if(data.episodes != 0) data.episodes else "?"}",
+                title = "${data.episodesAired} из ${if (data.episodes != 0) data.episodes else "?"}",
             )
             Text(
                 text = data.description,
@@ -101,10 +101,11 @@ internal fun AnimeFavouriteComponentItem(
 @PreviewLightDark
 @Composable
 private fun PreviewAnimeFavouriteComponentItem(
-    @PreviewParameter(AnimeFavouriteComponentItemProvider::class) param: AnimeFavouriteComponentItemPreviewParam,
+    @PreviewParameter(AnimeFavouriteComponentItemProvider::class)
+    param: AnimeFavouriteComponentItemPreviewParam,
 ) {
     DefaultPreview {
-        AnimeFavouriteComponentItem (
+        AnimeFavouriteComponentItem(
             thumbnailHeight = param.thumbnailHeight,
             thumbnailWidth = param.thumbnailWidth,
             data = param.data,

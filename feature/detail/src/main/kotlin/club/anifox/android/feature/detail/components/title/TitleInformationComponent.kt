@@ -36,8 +36,8 @@ internal fun TitleInformationComponent(
 ) {
     val showDialog = remember { mutableStateOf(false) }
 
-    if(!detailAnimeState.isLoading) {
-        if(showDialog.value)
+    if (!detailAnimeState.isLoading) {
+        if (showDialog.value)
             TitleDialog(
                 title = detailAnimeState.data?.title ?: "",
                 engTitle = detailAnimeState.data?.titleEnglish?.get(0) ?: "",
@@ -71,7 +71,10 @@ internal fun TitleInformationComponent(
                     text = detailAnimeState.data?.title ?: "",
                     style = MaterialTheme.typography.titleMedium,
                 )
-                if(detailAnimeState.data?.titleEnglish?.get(0) != null && detailAnimeState.data?.titleEnglish?.get(0) != "null") {
+                if (detailAnimeState.data?.titleEnglish?.get(0) != null && detailAnimeState.data?.titleEnglish?.get(
+                        0
+                    ) != "null"
+                ) {
                     Text(
                         text = detailAnimeState.data?.titleEnglish?.get(0) ?: "",
                         maxLines = 1,
@@ -87,7 +90,8 @@ internal fun TitleInformationComponent(
 @Preview
 @Composable
 private fun PreviewTitleInformationComponent(
-    @PreviewParameter(TitleInformationComponentProvider::class) param: TitleInformationComponentPreviewParam,
+    @PreviewParameter(TitleInformationComponentProvider::class)
+    param: TitleInformationComponentPreviewParam,
 ) {
     DefaultPreview {
         TitleInformationComponent(

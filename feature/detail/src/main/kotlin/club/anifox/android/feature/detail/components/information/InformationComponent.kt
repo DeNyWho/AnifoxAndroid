@@ -28,7 +28,7 @@ internal fun InformationComponent(
     detailAnimeState: StateWrapper<AnimeDetail>,
 //    onCatalogClick: (CatalogFilterParams) -> Unit,
 ) {
-    if(!detailAnimeState.isLoading && detailAnimeState.data != null) {
+    if (!detailAnimeState.isLoading && detailAnimeState.data != null) {
         val data = detailAnimeState.data!!
 
         Column(

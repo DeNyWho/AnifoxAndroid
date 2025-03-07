@@ -13,7 +13,11 @@ const val ANIME_URL = "anime_url"
 const val ANIME_TITLE = "anime_title"
 const val SCREENSHOTS_ROUTE = "screenshots_route"
 
-fun NavController.navigateToScreenshots(url: String, title: String, navOptions: NavOptions? = null) {
+fun NavController.navigateToScreenshots(
+    url: String,
+    title: String,
+    navOptions: NavOptions? = null
+) {
     val route = "${SCREENSHOTS_ROUTE}/${ANIME_URL}=$url&&${ANIME_TITLE}=$title"
     navigate(route, navOptions)
 }

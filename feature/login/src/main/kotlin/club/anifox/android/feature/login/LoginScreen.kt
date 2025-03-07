@@ -78,7 +78,12 @@ private fun LoginUI(userIdentifier: MutableState<String>, password: MutableState
                 maxLines = 1,
                 singleLine = true,
                 value = userIdentifier.value,
-                leadingIcon = { AnifoxIconPrimary(imageVector = Filled.Email, contentDescription = "emailIcon") },
+                leadingIcon = {
+                    AnifoxIconPrimary(
+                        imageVector = Filled.Email,
+                        contentDescription = "emailIcon"
+                    )
+                },
                 onValueChange = {
                     userIdentifier.value = it
                 },
@@ -93,7 +98,12 @@ private fun LoginUI(userIdentifier: MutableState<String>, password: MutableState
                 maxLines = 1,
                 singleLine = true,
                 value = password.value,
-                leadingIcon = { AnifoxIconPrimary(imageVector = Filled.Password, contentDescription = "emailIcon") },
+                leadingIcon = {
+                    AnifoxIconPrimary(
+                        imageVector = Filled.Password,
+                        contentDescription = "emailIcon"
+                    )
+                },
                 onValueChange = {
                     password.value = it
                 },

@@ -9,7 +9,7 @@ internal data class StudiosComponentPreviewParam(
     val detailAnime: StateWrapper<AnimeDetail>,
 )
 
-internal class StudiosComponentProvider:
+internal class StudiosComponentProvider :
     PreviewParameterProvider<StudiosComponentPreviewParam> {
     override val count: Int
         get() = super.count

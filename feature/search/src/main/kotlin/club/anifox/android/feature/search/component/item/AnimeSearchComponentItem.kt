@@ -90,7 +90,7 @@ internal fun AnimeSearchComponentItem(
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier,
             )
-            FlowRow (
+            FlowRow(
                 modifier = Modifier
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -102,7 +102,7 @@ internal fun AnimeSearchComponentItem(
                 AnifoxChipPrimary(
                     title = data.type.toString(),
                 )
-                if(data.episodes > 1) {
+                if (data.episodes > 1) {
                     AnifoxChipPrimary(
                         title = "${data.episodes} ${stringResource(R.string.feature_search_item_episodes)}",
                     )
@@ -123,7 +123,8 @@ internal fun AnimeSearchComponentItem(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewAnimeSearchComponentItemShimmer(
-    @PreviewParameter(AnimeSearchComponentItemProvider::class) param: AnimeSearchComponentItemPreviewParam,
+    @PreviewParameter(AnimeSearchComponentItemProvider::class)
+    param: AnimeSearchComponentItemPreviewParam,
 ) {
     DefaultPreview {
         AnimeSearchComponentItem(

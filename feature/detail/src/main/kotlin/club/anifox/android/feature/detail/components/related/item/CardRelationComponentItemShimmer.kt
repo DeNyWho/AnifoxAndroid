@@ -35,7 +35,7 @@ internal fun CardRelationComponentItemShimmer(
     thumbnailHeight: Dp = CardRelationComponentItemDefaults.Height.Default,
     thumbnailWidth: Dp = CardRelationComponentItemDefaults.Width.Default,
 ) {
-    Row (
+    Row(
         modifier = modifier
             .shimmer(shimmerInstance)
             .height(thumbnailHeight)
@@ -56,7 +56,7 @@ internal fun CardRelationComponentItemShimmer(
                     .background(color = MaterialTheme.colorScheme.onSurfaceVariant),
             )
         }
-        Column (
+        Column(
             modifier = Modifier
                 .padding(start = 16.dp, end = 16.dp, top = 8.dp)
                 .fillMaxSize(),
@@ -101,7 +101,6 @@ internal fun ShowCardRelationComponentItemShimmer(
         )
     }
 }
-
 
 @PreviewLightDark
 @Composable

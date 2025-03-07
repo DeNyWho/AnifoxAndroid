@@ -142,7 +142,8 @@ internal fun LazyGridScope.showCardEpisodeGridComponentItemShimmer(
 @Preview
 @Composable
 private fun PreviewCardEpisodeGridComponentItemShimmer(
-    @PreviewParameter(CardEpisodeComponentItemProvider::class) param: CardEpisodeComponentItemPreviewParam,
+    @PreviewParameter(CardEpisodeComponentItemProvider::class)
+    param: CardEpisodeComponentItemPreviewParam,
 ) {
     DefaultPreview(true) {
         CardEpisodeGridComponentItemShimmer(

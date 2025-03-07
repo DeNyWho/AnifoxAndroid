@@ -9,7 +9,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 fun KeyboardManager(lazyGridState: LazyGridState) {
     val keyboardController = LocalSoftwareKeyboardController.current
     LaunchedEffect(lazyGridState.isScrollInProgress) {
-        if(lazyGridState.isScrollInProgress) {
+        if (lazyGridState.isScrollInProgress) {
             keyboardController?.hide()
         }
     }

@@ -22,7 +22,7 @@ internal data class CardRelationComponentItemPreviewParam(
     val onClick: () -> Unit = { },
 )
 
-internal class CardRelationComponentItemProvider:
+internal class CardRelationComponentItemProvider :
     PreviewParameterProvider<CardRelationComponentItemPreviewParam> {
     override val count: Int
         get() = super.count

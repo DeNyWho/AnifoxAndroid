@@ -47,7 +47,7 @@ fun SliderScreenshotsComponent(
     var selectedImageIndex by remember { mutableStateOf<Int?>(null) }
 
     // header
-    if(screenshotsState.isLoading) {
+    if (screenshotsState.isLoading) {
         SliderHeaderShimmer(
             modifier = headerModifier,
             shimmerInstance = shimmer,
@@ -60,18 +60,18 @@ fun SliderScreenshotsComponent(
     }
 
     // content
-    LazyRow (
+    LazyRow(
         modifier = modifier.onUpdateShimmerBounds(shimmer),
         contentPadding = contentPadding,
         horizontalArrangement = contentArrangement,
     ) {
-        if(screenshotsState.isLoading) {
+        if (screenshotsState.isLoading) {
             showCardScreenshotLandscapeShimmer(
                 shimmerInstance = shimmer,
                 thumbnailHeight = thumbnailHeight,
                 thumbnailWidth = thumbnailWidth,
             )
-        } else if(screenshotsState.data.isNotEmpty()) {
+        } else if (screenshotsState.data.isNotEmpty()) {
             items(
                 screenshotsState.data,
                 key = { it },
@@ -106,10 +106,11 @@ fun SliderScreenshotsComponent(
 @PreviewLightDark
 @Composable
 private fun PreviewScrollableHorizontalContentScreenshots(
-    @PreviewParameter(SliderScreenshotsComponentProvider::class) param: SliderScreenshotsComponentPreviewParam,
+    @PreviewParameter(SliderScreenshotsComponentProvider::class)
+    param: SliderScreenshotsComponentPreviewParam,
 ) {
     DefaultPreview(true) {
-        SliderScreenshotsComponent (
+        SliderScreenshotsComponent(
             modifier = param.modifier,
             headerModifier = param.headerModifier,
             thumbnailHeight = param.thumbnailHeight,

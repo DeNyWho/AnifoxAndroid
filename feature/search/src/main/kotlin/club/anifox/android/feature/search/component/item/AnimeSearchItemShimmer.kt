@@ -74,7 +74,7 @@ internal fun AnimeSearchComponentItemShimmer(
                     .background(color = MaterialTheme.colorScheme.onSurfaceVariant),
             )
 
-            FlowRow (
+            FlowRow(
                 modifier = Modifier
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(4.dp)

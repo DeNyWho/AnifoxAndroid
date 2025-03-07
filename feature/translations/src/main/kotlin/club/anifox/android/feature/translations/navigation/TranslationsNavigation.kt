@@ -11,7 +11,8 @@ import club.anifox.android.feature.translations.TranslationsScreen
 
 const val TRANSLATIONS_ROUTE = "translations_route"
 
-fun NavController.navigateToTranslations(url: String, navOptions: NavOptions? = null) = navigate("${TRANSLATIONS_ROUTE}?url=$url", navOptions)
+fun NavController.navigateToTranslations(url: String, navOptions: NavOptions? = null) =
+    navigate("${TRANSLATIONS_ROUTE}?url=$url", navOptions)
 
 fun NavGraphBuilder.translationsScreen(
     onBackPressed: () -> Unit,

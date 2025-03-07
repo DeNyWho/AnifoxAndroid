@@ -59,7 +59,7 @@ internal fun SearchScreen(
     val focusRequester = remember { FocusRequester() }
 
     LaunchedEffect(viewModel) {
-        if(!uiState.isSearchBarFocused) {
+        if (!uiState.isSearchBarFocused) {
             focusRequester.requestFocus()
             viewModel.updateSearchBarState()
         }
@@ -178,12 +178,14 @@ private fun SearchContent(
                 AnimeSearchComponentItemDefaults.Height.Small,
             )
         }
+
         ScreenType.DEFAULT -> {
             Pair(
                 AnimeSearchComponentItemDefaults.Width.Medium,
                 AnimeSearchComponentItemDefaults.Height.Medium,
             )
         }
+
         else -> {
             Pair(
                 AnimeSearchComponentItemDefaults.Width.Large,
@@ -258,7 +260,6 @@ private fun SearchContent(
                         }
 
                         items.loadState.append is LoadState.Error -> {
-
                         }
                     }
                 }

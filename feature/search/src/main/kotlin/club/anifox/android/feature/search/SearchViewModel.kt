@@ -115,7 +115,6 @@ internal class SearchViewModel @Inject constructor(
         }
     }
 
-
     fun clearSearch() {
         viewModelScope.launch {
             _uiState.update {

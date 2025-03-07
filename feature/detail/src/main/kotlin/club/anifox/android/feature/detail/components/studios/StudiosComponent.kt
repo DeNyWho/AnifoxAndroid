@@ -70,7 +70,7 @@ private fun PreviewStudiosComponent(
     @PreviewParameter(StudiosComponentProvider::class) param: StudiosComponentPreviewParam,
 ) {
     DefaultPreview {
-        StudiosComponent (
+        StudiosComponent(
             detailAnimeState = param.detailAnime,
 //            onCatalogClick = { },
         )

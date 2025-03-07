@@ -37,7 +37,7 @@ internal fun CharactersComponent(
     onMoreClick: () -> Unit,
 ) {
     // header
-    if(contentState.isLoading) {
+    if (contentState.isLoading) {
         SliderHeaderShimmer(
             modifier = headerModifier,
             shimmerInstance = shimmer,
@@ -52,19 +52,19 @@ internal fun CharactersComponent(
     }
 
     // content
-    LazyRow (
+    LazyRow(
         modifier = modifier.onUpdateShimmerBounds(shimmer),
         contentPadding = contentPadding,
         horizontalArrangement = contentArrangement,
     ) {
-        if(contentState.isLoading) {
+        if (contentState.isLoading) {
             showCardCharactersItemShimmer(
                 modifier = itemModifier,
                 shimmerInstance = shimmer,
                 thumbnailHeight = thumbnailHeight,
                 thumbnailWidth = thumbnailWidth,
             )
-        } else if(contentState.data.isNotEmpty()) {
+        } else if (contentState.data.isNotEmpty()) {
             items(
                 contentState.data,
                 key = { it.id },

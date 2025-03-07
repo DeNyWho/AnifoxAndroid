@@ -32,7 +32,7 @@ fun SliderHeaderShimmer(
     val screenInfo = LocalScreenInfo.current
     val textHeight = 24.dp + screenInfo.fontSizePrefs.fontSizeExtra.dp
 
-    Row (
+    Row(
         modifier = modifier
             .fillMaxWidth()
             .heightIn(textHeight)
@@ -53,7 +53,7 @@ fun SliderHeaderShimmer(
 
 @PreviewLightDark
 @Composable
-private fun SliderHeaderShimmerPreview(){
+private fun SliderHeaderShimmerPreview() {
     DefaultPreview {
         SliderHeaderShimmer()
     }

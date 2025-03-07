@@ -48,6 +48,7 @@ internal class AnimeGenresRemoteMediator(
                     lastLoadedPage = -1
                     0
                 }
+
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> lastLoadedPage + 1
             }
@@ -59,7 +60,7 @@ internal class AnimeGenresRemoteMediator(
                 minimalAge = currentParams.minimalAge,
             )
 
-            when(response) {
+            when (response) {
                 is Resource.Success -> {
                     if (loadType == LoadType.REFRESH) {
                         animeCacheGenresDao.clearAll()
@@ -70,9 +71,11 @@ internal class AnimeGenresRemoteMediator(
                     lastLoadedPage = loadKey
                     MediatorResult.Success(endOfPaginationReached = animeEntities.isEmpty())
                 }
+
                 is Resource.Error -> {
                     MediatorResult.Error(Exception("Failed to load: ${response.error}"))
                 }
+
                 is Resource.Loading -> {
                     MediatorResult.Error(Exception("Unexpected loading state"))
                 }

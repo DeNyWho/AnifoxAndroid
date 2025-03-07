@@ -43,7 +43,7 @@ internal fun TranslationComponentItem(
                 text = translation.translation.title,
                 style = MaterialTheme.typography.titleMedium,
             )
-            
+
             Text(
                 text = "${translation.countEpisodes} эп.",
                 style = MaterialTheme.typography.titleMedium,
@@ -63,7 +63,8 @@ internal fun TranslationComponentItem(
 @Preview
 @Composable
 private fun PreviewTranslationComponentItem(
-    @PreviewParameter(TranslationComponentItemProvider::class) param: TranslationComponentItemPreviewParam,
+    @PreviewParameter(TranslationComponentItemProvider::class)
+    param: TranslationComponentItemPreviewParam,
 ) {
     DefaultPreview {
         TranslationComponentItem(

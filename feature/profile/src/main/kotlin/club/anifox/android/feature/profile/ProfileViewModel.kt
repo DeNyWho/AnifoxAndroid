@@ -33,6 +33,7 @@ internal class ProfileViewModel @Inject constructor(
                                 ScreenState.NotAuthenticated
                             }
                         }
+
                         is Result.Failure -> ScreenState.Error(result.exception)
                         Result.Loading -> ScreenState.Loading
                     }

@@ -41,7 +41,7 @@ private val DataSet = List(10) {
     )
 }.toImmutableList()
 
-internal class SliderVideoComponentProvider:
+internal class SliderVideoComponentProvider :
     PreviewParameterProvider<SliderVideoComponentPreviewParam> {
     override val count: Int
         get() = super.count

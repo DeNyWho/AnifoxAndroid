@@ -107,7 +107,7 @@ internal fun FiltersBarComponent(
     val visibleFilters = mainFilters.filter { it.isShow }.take(filterColumnCount)
     val hiddenFilters = mainFilters.filter { it.isShow }.drop(filterColumnCount)
     val hiddenActive: Boolean = hiddenFilters.any { filter ->
-        when(filter) {
+        when (filter) {
             FilterType.YEARS -> uiState.selectedYears != null
             FilterType.GENRE -> uiState.selectedGenres != null
             FilterType.TYPE -> uiState.selectedType != null
@@ -144,7 +144,7 @@ internal fun FiltersBarComponent(
                                 role = Role.DropdownList,
                                 onClick = {
                                     drawer = if (drawer != filter) {
-                                        if(drawerFilters) {
+                                        if (drawerFilters) {
                                             drawerFilters = false
                                             filter
                                         } else {
@@ -211,17 +211,22 @@ internal fun FiltersBarComponent(
 
             for (filter in mainFilters) {
                 AnimatedDrawer(drawer == filter) {
-                    when(drawer) {
+                    when (drawer) {
                         FilterType.YEARS -> YearsFilterDraw(animeYears, uiState, updateFilter)
                         FilterType.GENRE -> GenresFilterDraw(animeGenres, uiState, updateFilter)
                         FilterType.TYPE -> AnimeTypeFilterDraw(uiState, updateFilter)
                         FilterType.STATUS -> StatusFilterDraw(uiState, updateFilter)
-                        FilterType.TRANSLATION -> TranslationFilterDraw(animeTranslations, uiState, updateFilter)
+                        FilterType.TRANSLATION -> TranslationFilterDraw(
+                            animeTranslations,
+                            uiState,
+                            updateFilter
+                        )
+
                         FilterType.STUDIO -> StudiosFilterDraw(animeStudios, uiState, updateFilter)
                         FilterType.SEASON -> SeasonFilterDraw(uiState, updateFilter)
                         FilterType.ORDER -> AnimeOrderFilterDraw(uiState, updateFilter)
                         FilterType.SORT -> AnimeSortFilterDraw(uiState, updateFilter)
-                        null -> { }
+                        null -> {}
                     }
                 }
             }
@@ -233,7 +238,10 @@ internal fun FiltersBarComponent(
 private fun AnimeTypeFilterDraw(
     uiState: CatalogUiState,
     updateFilter: (CatalogFilterParams, FilterType) -> Unit,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(
+        space = 8.dp,
+        alignment = Alignment.CenterHorizontally
+    ),
 ) {
     FilterDraw(
         items = AnimeType.entries,
@@ -249,7 +257,10 @@ private fun AnimeTypeFilterDraw(
 private fun AnimeOrderFilterDraw(
     uiState: CatalogUiState,
     updateFilter: (CatalogFilterParams, FilterType) -> Unit,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(
+        space = 8.dp,
+        alignment = Alignment.CenterHorizontally
+    ),
 ) {
     FilterDraw(
         items = AnimeOrder.entries,
@@ -265,7 +276,10 @@ private fun AnimeOrderFilterDraw(
 private fun AnimeSortFilterDraw(
     uiState: CatalogUiState,
     updateFilter: (CatalogFilterParams, FilterType) -> Unit,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(
+        space = 8.dp,
+        alignment = Alignment.CenterHorizontally
+    ),
 ) {
     FilterDraw(
         items = AnimeSort.entries,
@@ -378,7 +392,10 @@ private fun TranslationFilterDraw(
     animeTranslations: StateListWrapper<AnimeTranslation>,
     uiState: CatalogUiState,
     updateFilter: (CatalogFilterParams, FilterType) -> Unit,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(
+        space = 8.dp,
+        alignment = Alignment.CenterHorizontally
+    ),
 ) {
     FilterDraw(
         items = animeTranslations.data,
@@ -400,7 +417,10 @@ private fun <T> FilterDraw(
     itemToString: (T) -> String,
     isMultiSelect: Boolean = false,
     selectedItems: List<T>? = null,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(
+        space = 8.dp,
+        alignment = Alignment.CenterHorizontally
+    ),
 ) {
     FlowRow(
         horizontalArrangement = horizontalArrangement,
@@ -422,40 +442,58 @@ private fun <T> FilterDraw(
                         if (isMultiSelect) {
                             val newSelection = selectedItems?.let { current ->
                                 if (isSelected) current - item
-                                    else if(filterType != FilterType.YEARS) current + item
-                                        else if (current.size < 2) current + item
-                                            else current
+                                else if (filterType != FilterType.YEARS) current + item
+                                else if (current.size < 2) current + item
+                                else current
                             } ?: listOf(item)
 
                             when (filterType) {
                                 FilterType.GENRE -> {
-                                    val genreList: List<AnimeGenre>? = newSelection.filterIsInstance<AnimeGenre>().takeUnless { it.isEmpty() }
+                                    val genreList: List<AnimeGenre>? =
+                                        newSelection.filterIsInstance<AnimeGenre>()
+                                            .takeUnless { it.isEmpty() }
                                     updateFilter(
                                         CatalogFilterParams(genres = genreList),
                                         filterType
                                     )
                                 }
+
                                 FilterType.STUDIO -> {
-                                    val studioList: List<AnimeStudio>? = newSelection.filterIsInstance<AnimeStudio>().takeUnless { it.isEmpty() }
+                                    val studioList: List<AnimeStudio>? =
+                                        newSelection.filterIsInstance<AnimeStudio>()
+                                            .takeUnless { it.isEmpty() }
                                     updateFilter(
                                         CatalogFilterParams(studios = studioList),
                                         filterType
                                     )
                                 }
+
                                 FilterType.YEARS -> {
-                                    val years = newSelection.filterIsInstance<Int>().takeUnless { it.isEmpty() }
+                                    val years = newSelection.filterIsInstance<Int>()
+                                        .takeUnless { it.isEmpty() }
                                     if (years != null) {
                                         if (years.size == 1) {
-                                            updateFilter(CatalogFilterParams(years = years), filterType)
+                                            updateFilter(
+                                                CatalogFilterParams(years = years),
+                                                filterType
+                                            )
                                         } else {
                                             val sortedYears = years.sorted()
                                             val yearRange = sortedYears.first()..sortedYears.last()
-                                            updateFilter(CatalogFilterParams(years = listOf(yearRange.first, yearRange.last)), filterType)
+                                            updateFilter(
+                                                CatalogFilterParams(
+                                                    years = listOf(
+                                                        yearRange.first,
+                                                        yearRange.last
+                                                    )
+                                                ), filterType
+                                            )
                                         }
                                     } else {
                                         updateFilter(CatalogFilterParams(years = null), filterType)
                                     }
                                 }
+
                                 else -> {
                                     throw IllegalArgumentException("Unsupported filter type for multi-select")
                                 }
@@ -468,7 +506,11 @@ private fun <T> FilterDraw(
                                     FilterType.SEASON -> CatalogFilterParams(season = newSelection as? AnimeSeason)
                                     FilterType.STATUS -> CatalogFilterParams(status = newSelection as? AnimeStatus)
                                     FilterType.TRANSLATION -> CatalogFilterParams(translation = newSelection as? AnimeTranslation)
-                                    FilterType.ORDER -> CatalogFilterParams(order = newSelection as? AnimeOrder, sort = AnimeSort.Desc)
+                                    FilterType.ORDER -> CatalogFilterParams(
+                                        order = newSelection as? AnimeOrder,
+                                        sort = AnimeSort.Desc
+                                    )
+
                                     FilterType.SORT -> CatalogFilterParams(sort = newSelection as? AnimeSort)
                                     else -> throw IllegalArgumentException("Unsupported filter type")
                                 },
@@ -494,7 +536,7 @@ private fun AllFiltersDraw(
     uiState: CatalogUiState,
     updateFilter: (CatalogFilterParams, FilterType) -> Unit,
 ) {
-    LazyColumn (
+    LazyColumn(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth(),
@@ -522,6 +564,7 @@ private fun AllFiltersDraw(
                         updateFilter = updateFilter,
                         horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
                     )
+
                     FilterType.STATUS -> StatusFilterDraw(uiState, updateFilter)
                     FilterType.TRANSLATION -> TranslationFilterDraw(
                         animeTranslations = animeTranslations,
@@ -529,6 +572,7 @@ private fun AllFiltersDraw(
                         updateFilter = updateFilter,
                         horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
                     )
+
                     FilterType.STUDIO -> StudiosFilterDraw(animeStudios, uiState, updateFilter)
                     FilterType.SEASON -> SeasonFilterDraw(uiState, updateFilter)
                     FilterType.ORDER -> AnimeOrderFilterDraw(
@@ -536,6 +580,7 @@ private fun AllFiltersDraw(
                         updateFilter = updateFilter,
                         horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
                     )
+
                     FilterType.SORT -> AnimeSortFilterDraw(
                         uiState = uiState,
                         updateFilter = updateFilter,
@@ -564,7 +609,9 @@ private fun OptionChip(
     ) {
         Text(
             text = text,
-            color = if(isSelected) Color.White.copy(0.9f) else MaterialTheme.colorScheme.onBackground.copy(0.7f),
+            color = if (isSelected) Color.White.copy(0.9f) else MaterialTheme.colorScheme.onBackground.copy(
+                0.7f
+            ),
             style = MaterialTheme.typography.titleSmall,
         )
     }
@@ -609,21 +656,37 @@ private fun CategoryHead(
     filterType: FilterType,
     uiState: CatalogUiState,
 ) {
-    val label: String = when(filterType) {
-        FilterType.YEARS -> uiState.selectedYears?.joinToString(", ") { it.toString() } ?: stringResource(filterType.displayTitleId)
+    val label: String = when (filterType) {
+        FilterType.YEARS -> uiState.selectedYears?.joinToString(", ") { it.toString() }
+            ?: stringResource(filterType.displayTitleId)
+
         FilterType.GENRE -> uiState.selectedGenres?.firstOrNull()?.name?.let { if (uiState.selectedGenres.size > 1) "$it..." else it }
             ?: stringResource(filterType.displayTitleId)
-        FilterType.TYPE -> uiState.selectedType?.toString() ?: stringResource(filterType.displayTitleId)
+
+        FilterType.TYPE -> uiState.selectedType?.toString()
+            ?: stringResource(filterType.displayTitleId)
+
         FilterType.STATUS -> uiState.selectedStatus.toString()
-        FilterType.TRANSLATION -> uiState.selectedTranslation?.title ?: stringResource(filterType.displayTitleId)
+        FilterType.TRANSLATION -> uiState.selectedTranslation?.title
+            ?: stringResource(filterType.displayTitleId)
+
         FilterType.STUDIO -> uiState.selectedStudios?.firstOrNull()?.name?.let { if (uiState.selectedStudios.size > 1) "$it..." else it }
             ?: stringResource(filterType.displayTitleId)
-        FilterType.SEASON -> if(uiState.selectedSeason != null) uiState.selectedSeason.toString() else stringResource(filterType.displayTitleId)
-        FilterType.ORDER -> if(uiState.selectedOrder != null) uiState.selectedOrder.toString() else stringResource(filterType.displayTitleId)
-        FilterType.SORT -> if(uiState.selectedSort != null) uiState.selectedSort.toString() else stringResource(filterType.displayTitleId)
+
+        FilterType.SEASON -> if (uiState.selectedSeason != null) uiState.selectedSeason.toString() else stringResource(
+            filterType.displayTitleId
+        )
+
+        FilterType.ORDER -> if (uiState.selectedOrder != null) uiState.selectedOrder.toString() else stringResource(
+            filterType.displayTitleId
+        )
+
+        FilterType.SORT -> if (uiState.selectedSort != null) uiState.selectedSort.toString() else stringResource(
+            filterType.displayTitleId
+        )
     }
 
-    val isActive: Boolean = when(filterType) {
+    val isActive: Boolean = when (filterType) {
         FilterType.YEARS -> uiState.selectedYears != null
         FilterType.GENRE -> uiState.selectedGenres != null
         FilterType.TYPE -> uiState.selectedType != null

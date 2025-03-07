@@ -34,7 +34,8 @@ fun NavGraphBuilder.charactersScreen(
 
         CharactersScreen(
             url = url ?: throw IllegalArgumentException("CharactersScreen requires a non-null URL"),
-            animeTitle = animeTitle ?: throw IllegalArgumentException("CharactersScreen requires a non-null title"),
+            animeTitle = animeTitle
+                ?: throw IllegalArgumentException("CharactersScreen requires a non-null title"),
             onCharacterClick = onCharacterClick,
             onBackPressed = onBackPressed,
         )

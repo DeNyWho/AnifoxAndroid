@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class GenresViewModel @Inject constructor(
     private val animeGenresPagingUseCase: AnimeGenresPagingUseCase,
-): ViewModel() {
+) : ViewModel() {
     private val _uiState = MutableStateFlow(GenreUiState())
     val uiState: StateFlow<GenreUiState> = _uiState.asStateFlow()
 

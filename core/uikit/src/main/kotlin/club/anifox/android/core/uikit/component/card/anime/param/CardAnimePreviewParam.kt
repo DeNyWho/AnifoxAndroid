@@ -15,7 +15,7 @@ internal data class CardAnimePreviewParam(
     val onClick: () -> Unit = {},
 )
 
-internal class CardAnimeProvider: PreviewParameterProvider<CardAnimePreviewParam> {
+internal class CardAnimeProvider : PreviewParameterProvider<CardAnimePreviewParam> {
     override val values: Sequence<CardAnimePreviewParam>
         get() = listOf(
             CardAnimePreviewParam(

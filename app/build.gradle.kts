@@ -17,7 +17,8 @@ android {
     signingConfigs {
         create("release") {
             storeFile = file(gradleLocalProperties(rootDir, providers).getProperty("keystore_path"))
-            storePassword = gradleLocalProperties(rootDir, providers).getProperty("keystore_password")
+            storePassword =
+                gradleLocalProperties(rootDir, providers).getProperty("keystore_password")
             keyAlias = gradleLocalProperties(rootDir, providers).getProperty("key_alias")
             keyPassword = gradleLocalProperties(rootDir, providers).getProperty("key_password")
         }
@@ -39,7 +40,10 @@ android {
         }
         release {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             signingConfig = signingConfigs.getByName("release")
         }
     }

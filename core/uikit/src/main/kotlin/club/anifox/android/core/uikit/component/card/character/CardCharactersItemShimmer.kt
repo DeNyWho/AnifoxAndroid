@@ -32,7 +32,7 @@ fun CardCharactersItemShimmer(
     thumbnailHeight: Dp = CardCharactersItemDefaults.Height.Default,
     thumbnailWidth: Dp = CardCharactersItemDefaults.Width.Default,
 ) {
-    Column (
+    Column(
         modifier = modifier
             .shimmer(shimmerInstance),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -85,7 +85,6 @@ fun LazyListScope.showCardCharactersItemShimmer(
         )
     }
 }
-
 
 @PreviewLightDark
 @Composable

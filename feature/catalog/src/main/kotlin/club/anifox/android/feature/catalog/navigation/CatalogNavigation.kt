@@ -31,7 +31,8 @@ fun NavController.navigateToCatalog(
     val orderParam = params.order?.name ?: ""
     val sortParam = params.sort?.name ?: ""
 
-    val route = "${CATALOG_ROUTE}?genres=$genresParam&status=$statusParam&type=$typeParam&years=$yearsParam&season=$seasonParam&studios=$studioParam&order=$orderParam&sort=$sortParam"
+    val route =
+        "${CATALOG_ROUTE}?genres=$genresParam&status=$statusParam&type=$typeParam&years=$yearsParam&season=$seasonParam&studios=$studioParam&order=$orderParam&sort=$sortParam"
 
     navigate(route, navOptions)
 }
@@ -63,14 +64,18 @@ fun NavGraphBuilder.catalogScreen(
                 }.toList()
             } else null
         }
-        val status = backStackEntry.arguments?.getString("status")?.takeIf { it.isNotEmpty() }?.let { AnimeStatus.valueOf(it) }
-        val type = backStackEntry.arguments?.getString("type")?.takeIf { it.isNotEmpty() }?.let { AnimeType.valueOf(it) }
-        val years = backStackEntry.arguments?.getString("years")?.takeIf { it.isNotEmpty() }?.let { yearsString ->
-            yearsString.split(",").mapNotNull { yearStr ->
-                yearStr.toIntOrNull()
+        val status = backStackEntry.arguments?.getString("status")?.takeIf { it.isNotEmpty() }
+            ?.let { AnimeStatus.valueOf(it) }
+        val type = backStackEntry.arguments?.getString("type")?.takeIf { it.isNotEmpty() }
+            ?.let { AnimeType.valueOf(it) }
+        val years = backStackEntry.arguments?.getString("years")?.takeIf { it.isNotEmpty() }
+            ?.let { yearsString ->
+                yearsString.split(",").mapNotNull { yearStr ->
+                    yearStr.toIntOrNull()
+                }
             }
-        }
-        val season = backStackEntry.arguments?.getString("season")?.takeIf { it.isNotEmpty() }?.let { AnimeSeason.valueOf(it) }
+        val season = backStackEntry.arguments?.getString("season")?.takeIf { it.isNotEmpty() }
+            ?.let { AnimeSeason.valueOf(it) }
         val studios = backStackEntry.arguments?.getString("studios")?.let { studiosString ->
             if (studiosString.isNotEmpty()) {
                 val pattern = "AnimeStudio\\(id=([^,]+), name=([^)]+)\\)".toRegex()
@@ -80,8 +85,10 @@ fun NavGraphBuilder.catalogScreen(
                 }.toList()
             } else null
         }
-        val order = backStackEntry.arguments?.getString("order")?.takeIf { it.isNotEmpty() }?.let { AnimeOrder.valueOf(it) }
-        val sort = backStackEntry.arguments?.getString("sort")?.takeIf { it.isNotEmpty() }?.let { AnimeSort.valueOf(it) }
+        val order = backStackEntry.arguments?.getString("order")?.takeIf { it.isNotEmpty() }
+            ?.let { AnimeOrder.valueOf(it) }
+        val sort = backStackEntry.arguments?.getString("sort")?.takeIf { it.isNotEmpty() }
+            ?.let { AnimeSort.valueOf(it) }
 
         val params = CatalogFilterParams(
             genres = genres,

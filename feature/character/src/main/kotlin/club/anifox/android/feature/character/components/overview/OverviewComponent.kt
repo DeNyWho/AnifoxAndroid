@@ -133,7 +133,7 @@ internal fun OverviewComponent(
                 text = character.nameEn,
                 style = MaterialTheme.typography.titleSmall,
             )
-            if(character.nameKanji != null) {
+            if (character.nameKanji != null) {
                 Text(
                     text = character.nameKanji ?: "",
                     style = MaterialTheme.typography.titleSmall,

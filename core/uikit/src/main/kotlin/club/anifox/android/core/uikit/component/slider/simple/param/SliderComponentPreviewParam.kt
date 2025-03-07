@@ -2,7 +2,6 @@ package club.anifox.android.core.uikit.component.slider.simple.param
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.width
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -30,7 +29,7 @@ internal data class SliderComponentPreviewParam(
     val isMoreVisible: Boolean = true,
 )
 
-internal class SliderComponentProvider:
+internal class SliderComponentProvider :
     PreviewParameterProvider<SliderComponentPreviewParam> {
     override val count: Int
         get() = super.count
@@ -48,7 +47,10 @@ internal class SliderComponentProvider:
                 headerModifier = SliderComponentDefaults.Default,
                 headerTitle = "Scrollable Default",
                 contentArrangement = HorizontalArrangement.Default,
-                contentState = StateListWrapper(data = GlobalParams.DataSetAnimeLight, isLoading = false)
+                contentState = StateListWrapper(
+                    data = GlobalParams.DataSetAnimeLight,
+                    isLoading = false
+                )
             ),
         ).asSequence()
 }

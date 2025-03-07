@@ -43,7 +43,7 @@ internal fun TitleDialog(
             shape = MaterialTheme.shapes.small,
             color = MaterialTheme.colorScheme.surfaceContainer,
         ) {
-            Column (
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
@@ -78,10 +78,10 @@ internal fun TitleDialog(
                         )
                     }
                 }
-                if(engTitle.isNotEmpty() && engTitle != "null") {
+                if (engTitle.isNotEmpty() && engTitle != "null") {
                     titleItems.add {
                         Column {
-                            Row (
+                            Row(
                                 modifier = Modifier.fillMaxWidth(),
                             ) {
                                 Text(
@@ -94,7 +94,11 @@ internal fun TitleDialog(
                                         .align(Alignment.CenterVertically)
                                         .padding(start = 4.dp)
                                         .clickable {
-                                            clipboardManager.setText(buildAnnotatedString { append(engTitle) })
+                                            clipboardManager.setText(buildAnnotatedString {
+                                                append(
+                                                    engTitle
+                                                )
+                                            })
                                         },
                                     Filled.ContentCopy,
                                 )
@@ -107,10 +111,10 @@ internal fun TitleDialog(
                         }
                     }
                 }
-                if(japaneseTitle.isNotEmpty() && japaneseTitle != "null") {
+                if (japaneseTitle.isNotEmpty() && japaneseTitle != "null") {
                     titleItems.add {
                         Column {
-                            Row (
+                            Row(
                                 modifier = Modifier.fillMaxWidth(),
                             ) {
                                 Text(
@@ -123,7 +127,11 @@ internal fun TitleDialog(
                                         .align(Alignment.CenterVertically)
                                         .padding(start = 4.dp)
                                         .clickable {
-                                            clipboardManager.setText(buildAnnotatedString { append(japaneseTitle) })
+                                            clipboardManager.setText(buildAnnotatedString {
+                                                append(
+                                                    japaneseTitle
+                                                )
+                                            })
                                         },
                                     Filled.ContentCopy,
                                 )
@@ -136,10 +144,10 @@ internal fun TitleDialog(
                         }
                     }
                 }
-                if(synonymsTitle.isNotEmpty() && synonymsTitle != "null") {
+                if (synonymsTitle.isNotEmpty() && synonymsTitle != "null") {
                     titleItems.add {
                         Column {
-                            Row (
+                            Row(
                                 modifier = Modifier.fillMaxWidth(),
                             ) {
                                 Text(
@@ -152,7 +160,11 @@ internal fun TitleDialog(
                                         .align(Alignment.CenterVertically)
                                         .padding(start = 4.dp)
                                         .clickable {
-                                            clipboardManager.setText(buildAnnotatedString { append(synonymsTitle) })
+                                            clipboardManager.setText(buildAnnotatedString {
+                                                append(
+                                                    synonymsTitle
+                                                )
+                                            })
                                         },
                                     Filled.ContentCopy,
                                 )

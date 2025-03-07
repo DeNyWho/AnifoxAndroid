@@ -86,7 +86,11 @@ fun AnifoxIconPrimary(
 @Composable
 private fun PreviewAnifoxIconPrimary() {
     DefaultPreview {
-        AnifoxIconPrimary(modifier = Modifier.size(40.dp), AutoMirrored.Filled.ArrowBack, contentDescription = "content description")
+        AnifoxIconPrimary(
+            modifier = Modifier.size(40.dp),
+            AutoMirrored.Filled.ArrowBack,
+            contentDescription = "content description"
+        )
     }
 }
 
@@ -108,7 +112,11 @@ fun AnifoxIconOnPrimary(
 @Composable
 private fun PreviewAnifoxIconOnPrimary() {
     DefaultPreview {
-        AnifoxIconOnPrimary(modifier = Modifier.size(40.dp), AutoMirrored.Filled.ArrowBack, contentDescription = "content description")
+        AnifoxIconOnPrimary(
+            modifier = Modifier.size(40.dp),
+            AutoMirrored.Filled.ArrowBack,
+            contentDescription = "content description"
+        )
     }
 }
 

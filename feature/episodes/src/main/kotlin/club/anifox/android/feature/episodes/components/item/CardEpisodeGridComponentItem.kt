@@ -49,7 +49,14 @@ internal fun CardEpisodeGridComponentItem(
 ) {
     Column(
         modifier = modifier
-            .clickableWithoutRipple { onClick.invoke(URLEncoder.encode("https:${data.translation.find { it.id == currentTranslationId }?.link }", "UTF-8")) }
+            .clickableWithoutRipple {
+                onClick.invoke(
+                    URLEncoder.encode(
+                        "https:${data.translation.find { it.id == currentTranslationId }?.link}",
+                        "UTF-8"
+                    )
+                )
+            }
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
@@ -126,9 +133,9 @@ internal fun CardEpisodeGridComponentItem(
             }
         }
 
-        if(data.description.isNotEmpty()) {
+        if (data.description.isNotEmpty()) {
             Text(
-                text = data.description.replace("\n"," "),
+                text = data.description.replace("\n", " "),
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 3,
                 style = MaterialTheme.typography.bodySmall,
@@ -148,7 +155,8 @@ internal fun CardEpisodeGridComponentItem(
 @Preview
 @Composable
 private fun PreviewCardEpisodeGridComponentItem(
-    @PreviewParameter(CardEpisodeComponentItemProvider::class) param: CardEpisodeComponentItemPreviewParam,
+    @PreviewParameter(CardEpisodeComponentItemProvider::class)
+    param: CardEpisodeComponentItemPreviewParam,
 ) {
     DefaultPreview(true) {
         CardEpisodeGridComponentItem(

@@ -6,7 +6,7 @@ internal data class SettingsUIPreviewParam(
     val onBackPressed: () -> Boolean = { false },
 )
 
-internal class SettingsUIProvider:
+internal class SettingsUIProvider :
     PreviewParameterProvider<SettingsUIPreviewParam> {
     override val count: Int
         get() = super.count

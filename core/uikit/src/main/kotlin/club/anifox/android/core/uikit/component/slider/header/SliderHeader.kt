@@ -26,7 +26,7 @@ fun SliderHeader(
     isMoreVisible: Boolean = false,
     onMoreClick: () -> Unit = { },
 ) {
-    Row (
+    Row(
         modifier = modifier
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -39,7 +39,7 @@ fun SliderHeader(
             style = MaterialTheme.typography.titleLarge,
         )
 
-        if(isMoreVisible) {
+        if (isMoreVisible) {
             Row(
                 modifier = Modifier.clickableWithoutRipple {
                     onMoreClick.invoke()

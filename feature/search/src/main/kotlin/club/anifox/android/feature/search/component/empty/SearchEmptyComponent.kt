@@ -61,7 +61,7 @@ internal fun SearchEmptyComponent(
     Column(
         modifier = Modifier.fillMaxSize(),
     ) {
-        if(searchHistory.isNotEmpty()) {
+        if (searchHistory.isNotEmpty()) {
             SearchHistoryComponent(
                 searchHistory = searchHistory,
                 onHistoryItemClick = onHistoryItemClick,
@@ -80,7 +80,9 @@ internal fun SearchEmptyComponent(
                 style = MaterialTheme.typography.titleMedium,
             )
             Text(
-                text = if(randomAnimeData != null) stringResource(R.string.feature_search_title_empty_try_sub) else stringResource(R.string.feature_search_title_empty_sub),
+                text = if (randomAnimeData != null) stringResource(R.string.feature_search_title_empty_try_sub) else stringResource(
+                    R.string.feature_search_title_empty_sub
+                ),
                 maxLines = 1,
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.titleMedium,
@@ -88,7 +90,7 @@ internal fun SearchEmptyComponent(
             Box(
                 modifier = Modifier.height(30.dp)
             ) {
-                if(randomAnimeData != null) {
+                if (randomAnimeData != null) {
                     Text(
                         modifier = Modifier
                             .padding(top = 8.dp)

@@ -35,7 +35,7 @@ internal fun GenreComponent(
     onItemClick: (AnimeGenre) -> Unit,
 ) {
     // header
-    if(genresAnime.isLoading) {
+    if (genresAnime.isLoading) {
         SliderHeaderShimmer(
             modifier = headerModifier,
             shimmerInstance = shimmer,
@@ -52,9 +52,9 @@ internal fun GenreComponent(
         contentPadding = contentPadding,
         horizontalArrangement = horizontalArrangement,
     ) {
-        if(genresAnime.isLoading) {
+        if (genresAnime.isLoading) {
             showCardGenreComponentItemShimmer(shimmer)
-        } else if(genresAnime.data.isNotEmpty()) {
+        } else if (genresAnime.data.isNotEmpty()) {
             items(
                 genresAnime.data,
                 key = { it.id },

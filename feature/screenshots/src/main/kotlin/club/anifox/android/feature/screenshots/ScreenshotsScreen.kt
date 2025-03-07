@@ -52,7 +52,7 @@ internal fun ScreenshotsScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
-        if(!uiState.isInitialized) {
+        if (!uiState.isInitialized) {
             viewModel.initialize(url)
         }
     }
@@ -79,7 +79,7 @@ private fun ScreenshotsUI(
         scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
         toolbar = {
             SimpleTopBarCollapse(
-                title = if(animeTitle == null) "" else "${stringResource(R.string.feature_screenshots_top_bar_title)} $animeTitle",
+                title = if (animeTitle == null) "" else "${stringResource(R.string.feature_screenshots_top_bar_title)} $animeTitle",
                 toolbarScaffoldState = toolbarScaffoldState,
                 onBackPressed = onBackPressed,
             )
@@ -126,9 +126,9 @@ internal fun ScreenshotsContentUI(
             Spacer(modifier = Modifier)
         }
 
-        if(screenshotAnimeState.isLoading) {
+        if (screenshotAnimeState.isLoading) {
             showCardScreenshotGridIComponentItemShimmer(shimmerInstance = shimmer)
-        } else if(screenshotAnimeState.data.isNotEmpty()) {
+        } else if (screenshotAnimeState.data.isNotEmpty()) {
             items(
                 screenshotAnimeState.data,
                 key = { it },

@@ -86,7 +86,7 @@ private fun CharactersUI(
         toolbar = {
             SimpleTopBarCollapse(
                 onBackPressed = onBackPressed,
-                title = if(animeTitle == null) "" else "${stringResource(R.string.feature_characters_top_bar_title)} $animeTitle",
+                title = if (animeTitle == null) "" else "${stringResource(R.string.feature_characters_top_bar_title)} $animeTitle",
                 toolbarScaffoldState = toolbarScaffoldState,
             )
         },

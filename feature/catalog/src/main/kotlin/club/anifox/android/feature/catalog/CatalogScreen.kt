@@ -3,7 +3,6 @@ package club.anifox.android.feature.catalog
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -21,6 +20,7 @@ import club.anifox.android.core.uikit.component.card.anime.CardAnimePortraitDefa
 import club.anifox.android.core.uikit.component.grid.GridComponentDefaults
 import club.anifox.android.core.uikit.component.grid.simple.GridComponent
 import club.anifox.android.core.uikit.util.LocalScreenInfo
+import club.anifox.android.core.uikit.util.rememberLazyGridState
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.anime.studio.AnimeStudio
@@ -84,8 +84,8 @@ private fun CatalogUI(
     animeTranslations: StateListWrapper<AnimeTranslation>,
     updateFilter: (CatalogFilterParams, FilterType) -> Unit,
 ) {
-    val lazyGridState = rememberLazyGridState()
     val items = searchResults.collectAsLazyPagingItems()
+    val lazyGridState = items.rememberLazyGridState()
 
     val previousFilters = remember {
         mutableStateOf(
@@ -141,12 +141,14 @@ private fun CatalogUI(
                 CardAnimePortraitDefaults.Height.GridSmall,
             )
         }
+
         ScreenType.DEFAULT -> {
             Pair(
                 CardAnimePortraitDefaults.Width.GridMedium,
                 CardAnimePortraitDefaults.Height.GridMedium,
             )
         }
+
         else -> {
             Pair(
                 CardAnimePortraitDefaults.Width.GridLarge,
@@ -155,9 +157,12 @@ private fun CatalogUI(
         }
     }
 
-    val minColumnSize = (screenInfo.portraitWidthDp.dp / (if (screenInfo.portraitWidthDp.dp < 600.dp) 4 else 6)).coerceAtLeast(if(screenInfo.portraitWidthDp.dp < 600.dp) CardAnimePortraitDefaults.Width.Min else thumbnailWidth )
+    val minColumnSize =
+        (screenInfo.portraitWidthDp.dp / (if (screenInfo.portraitWidthDp.dp < 600.dp) 4 else 6)).coerceAtLeast(
+            if (screenInfo.portraitWidthDp.dp < 600.dp) CardAnimePortraitDefaults.Width.Min else thumbnailWidth
+        )
 
-    Scaffold (
+    Scaffold(
         topBar = {
             CatalogTopBarComponent(
                 onBackPressed = onBackPressed,

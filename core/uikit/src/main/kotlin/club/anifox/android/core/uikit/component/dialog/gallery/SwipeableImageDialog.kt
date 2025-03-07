@@ -65,7 +65,10 @@ fun SwipeableImageDialog(
     val scope = rememberCoroutineScope()
 
     val backgroundAlpha by animateFloatAsState(
-        targetValue = if (zoomScale > 1f) 1f else (1f - (offsetY.absoluteValue / 300f).coerceIn(0f, 1f)),
+        targetValue = if (zoomScale > 1f) 1f else (1f - (offsetY.absoluteValue / 300f).coerceIn(
+            0f,
+            1f
+        )),
         label = "",
     )
 
@@ -139,7 +142,12 @@ fun SwipeableImageDialog(
                                 if (zoomScale > 1f || zoom > 1f) {
                                     zoomScale = (zoomScale * zoom).coerceIn(1f, 5f)
                                     if (zoomScale > 1f) {
-                                        val offset = constrainOffset(Offset(offsetX + pan.x, offsetY + pan.y))
+                                        val offset = constrainOffset(
+                                            Offset(
+                                                offsetX + pan.x,
+                                                offsetY + pan.y
+                                            )
+                                        )
                                         offsetX = offset.x.roundToInt().toFloat()
                                         offsetY = offset.y.roundToInt().toFloat()
                                     } else {
@@ -195,7 +203,6 @@ fun SwipeableImageDialog(
         }
     }
 }
-
 
 @Composable
 private fun getActivityWindow(): Window? = LocalView.current.context.getActivityWindow()

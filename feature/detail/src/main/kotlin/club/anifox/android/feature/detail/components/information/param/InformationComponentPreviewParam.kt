@@ -9,7 +9,7 @@ internal data class InformationComponentPreviewParam(
     val detailAnime: StateWrapper<AnimeDetail>,
 )
 
-internal class InformationComponentProvider:
+internal class InformationComponentProvider :
     PreviewParameterProvider<InformationComponentPreviewParam> {
     override val count: Int
         get() = super.count

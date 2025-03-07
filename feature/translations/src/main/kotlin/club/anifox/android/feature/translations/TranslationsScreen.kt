@@ -40,7 +40,7 @@ internal fun TranslationsScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
-        if(!uiState.isInitialized) {
+        if (!uiState.isInitialized) {
             viewModel.initialize(url)
         }
     }
@@ -83,11 +83,11 @@ private fun TranslationsUI(
                 .padding(start = 16.dp, end = 16.dp, top = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            if(animeTranslationsCount.isLoading) {
+            if (animeTranslationsCount.isLoading) {
                 showTranslationComponentItemShimmer(
                     shimmerInstance = shimmer,
                 )
-            } else if(animeTranslationsCount.data.isNotEmpty()) {
+            } else if (animeTranslationsCount.data.isNotEmpty()) {
                 items(
                     animeTranslationsCount.data,
                     key = { it.translation.id },

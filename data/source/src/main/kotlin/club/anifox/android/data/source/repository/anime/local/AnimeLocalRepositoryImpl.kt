@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 internal class AnimeLocalRepositoryImpl @Inject constructor(
     private val animeDao: AnimeDao,
-): AnimeLocalRepository {
+) : AnimeLocalRepository {
 
     override suspend fun insertAnimeDetail(anime: AnimeDetail) {
         val (animeEntity, imageEntity) = anime.toEntities()

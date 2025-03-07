@@ -33,5 +33,4 @@ class AndroidApplicationFirebaseConventionPlugin : Plugin<Project> {
             }
         }
     }
-
 }

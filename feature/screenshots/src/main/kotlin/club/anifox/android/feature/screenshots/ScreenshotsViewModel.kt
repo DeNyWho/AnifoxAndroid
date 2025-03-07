@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class ScreenshotsViewModel @Inject constructor(
     private val animeScreenshotUseCase: GetAnimeScreenshotUseCase,
-): ViewModel() {
+) : ViewModel() {
     private val _uiState = MutableStateFlow(ScreenshotsUiState())
     val uiState: StateFlow<ScreenshotsUiState> = _uiState.asStateFlow()
 
@@ -49,5 +49,4 @@ internal class ScreenshotsViewModel @Inject constructor(
             _screenshotsAnime.value = it
         }.launchIn(viewModelScope)
     }
-
 }

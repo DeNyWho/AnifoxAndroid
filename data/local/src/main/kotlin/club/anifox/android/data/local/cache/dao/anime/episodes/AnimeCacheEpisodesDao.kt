@@ -20,7 +20,8 @@ interface AnimeCacheEpisodesDao {
     suspend fun insertTranslations(translations: List<AnimeCacheEpisodesTranslationsEntity>)
 
     @Transaction
-    @Query("""
+    @Query(
+        """
         SELECT * FROM cache_anime_episodes 
         WHERE 
             CASE 
@@ -32,7 +33,8 @@ interface AnimeCacheEpisodesDao {
         ORDER BY 
             CASE WHEN :sort = 'Desc' THEN number END DESC,
             CASE WHEN :sort = 'Asc' THEN number END ASC
-    """)
+    """
+    )
     fun getPagedEpisodes(
         sort: String,
         search: String

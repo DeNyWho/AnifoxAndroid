@@ -60,32 +60,32 @@ internal object NetworkModule {
 
     @Provides
     @Singleton
-    fun providesHttpClient(json: Json, authInterceptor: AuthInterceptor): HttpClient = HttpClient (OkHttp) {
-        engine {
-            addInterceptor(authInterceptor)
-        }
-        install(ContentNegotiation) {
-            json(json)
-        }
-        defaultRequest {
-            header("Content-Type", "application/json")
-            url {
-                protocol = URLProtocol.HTTPS
-                host = BuildConfig.urlbase
-                encodedPath = BuildConfig.urlpath
+    fun providesHttpClient(json: Json, authInterceptor: AuthInterceptor): HttpClient =
+        HttpClient(OkHttp) {
+            engine {
+                addInterceptor(authInterceptor)
+            }
+            install(ContentNegotiation) {
+                json(json)
+            }
+            defaultRequest {
+                header("Content-Type", "application/json")
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = BuildConfig.urlbase
+                    encodedPath = BuildConfig.urlpath
+                }
+            }
+            install(HttpCookies)
+            install(HttpCache)
+            if (BuildConfig.DEBUG) {
+                install(Logging) {
+                    logger = Logger.ANDROID
+                    level = LogLevel.ALL
+                }
+            }
+            install(HttpTimeout) {
+                requestTimeoutMillis = 100000
             }
         }
-        install(HttpCookies)
-        install(HttpCache)
-        if(BuildConfig.DEBUG) {
-            install(Logging) {
-                logger = Logger.ANDROID
-                level = LogLevel.ALL
-            }
-        }
-        install(HttpTimeout) {
-            requestTimeoutMillis = 100000
-        }
-    }
-
 }

@@ -82,7 +82,7 @@ fun AnifoxApp(appState: AnifoxAppState) {
             snackbarHost = { SnackbarHost(snackbarHostState) },
             contentWindowInsets = WindowInsets.safeDrawing,
             bottomBar = {
-                if(showNavBar) {
+                if (showNavBar) {
                     Surface(shadowElevation = 3.dp) {
                         AnifoxNavigationBar(
                             modifier = Modifier

@@ -11,7 +11,7 @@ internal data class ScreenshotsGridComponentPreviewParam(
 
 private val DataSet = List(10) { UUID.randomUUID().toString() }.toImmutableList()
 
-internal class ScreenshotsGridComponentProvider:
+internal class ScreenshotsGridComponentProvider :
     PreviewParameterProvider<ScreenshotsGridComponentPreviewParam> {
     override val count: Int
         get() = super.count

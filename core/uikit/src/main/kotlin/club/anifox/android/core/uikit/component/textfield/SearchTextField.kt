@@ -66,7 +66,7 @@ fun SearchField(
             }
         },
         trailingIcon = {
-            if(isEnabled && searchQuery.isNotEmpty()) {
+            if (isEnabled && searchQuery.isNotEmpty()) {
                 AnifoxIconCustomTintVector(
                     modifier = Modifier
                         .clickableWithoutRipple {

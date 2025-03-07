@@ -57,7 +57,11 @@ internal fun PlayerComponent(
                 Text(
                     text = stringResource(R.string.feature_settings_section_player_horizontal_orientation_description),
                     color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.bodySmall.copy(color = Color.LightGray.copy(0.1f)),
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        color = Color.LightGray.copy(
+                            0.1f
+                        )
+                    ),
                 )
             }
 

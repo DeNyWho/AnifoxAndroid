@@ -11,7 +11,7 @@ internal data class GenreComponentPreviewParam(
     val onItemClick: (AnimeGenre) -> Unit = { },
 )
 
-internal class GenreComponentProvider:
+internal class GenreComponentProvider :
     PreviewParameterProvider<GenreComponentPreviewParam> {
     override val count: Int
         get() = super.count

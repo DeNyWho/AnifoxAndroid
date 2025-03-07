@@ -9,7 +9,7 @@ internal data class TranslationComponentItemPreviewParam(
     val animeTranslationsCount: AnimeTranslationsCount,
 )
 
-internal class TranslationComponentItemProvider:
+internal class TranslationComponentItemProvider :
     PreviewParameterProvider<TranslationComponentItemPreviewParam> {
     override val count: Int
         get() = super.count

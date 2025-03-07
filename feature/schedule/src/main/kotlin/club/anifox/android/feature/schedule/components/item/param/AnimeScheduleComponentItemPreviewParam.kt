@@ -13,7 +13,7 @@ internal data class AnimeScheduleComponentItemPreviewParam(
     val onClick: (String) -> Unit = { },
 )
 
-internal class AnimeScheduleComponentProvider:
+internal class AnimeScheduleComponentProvider :
     PreviewParameterProvider<AnimeScheduleComponentItemPreviewParam> {
     override val count: Int
         get() = super.count

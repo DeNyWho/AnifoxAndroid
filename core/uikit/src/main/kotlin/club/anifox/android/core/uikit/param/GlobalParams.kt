@@ -24,8 +24,14 @@ import java.time.LocalDate
 import java.util.UUID
 
 object GlobalParams {
-    val Genres: ImmutableList<AnimeGenre> = listOf(AnimeGenre(id = UUID.randomUUID().toString(), name = "Приключения"), AnimeGenre(id = UUID.randomUUID().toString(), name = "Романтика")).toImmutableList()
-    val Studios: ImmutableList<AnimeStudio> = listOf(AnimeStudio(id = UUID.randomUUID().toString(), name = "Madhouse"), AnimeStudio(id = UUID.randomUUID().toString(), name = "TEST studio")).toImmutableList()
+    val Genres: ImmutableList<AnimeGenre> = listOf(
+        AnimeGenre(id = UUID.randomUUID().toString(), name = "Приключения"),
+        AnimeGenre(id = UUID.randomUUID().toString(), name = "Романтика")
+    ).toImmutableList()
+    val Studios: ImmutableList<AnimeStudio> = listOf(
+        AnimeStudio(id = UUID.randomUUID().toString(), name = "Madhouse"),
+        AnimeStudio(id = UUID.randomUUID().toString(), name = "TEST studio")
+    ).toImmutableList()
     val TranslationsCount: ImmutableList<AnimeTranslationsCount> = listOf(
         AnimeTranslationsCount(
             translation = AnimeTranslation(

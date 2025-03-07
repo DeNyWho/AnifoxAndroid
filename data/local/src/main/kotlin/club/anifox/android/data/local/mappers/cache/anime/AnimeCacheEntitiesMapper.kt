@@ -79,11 +79,12 @@ fun AnimeCacheEpisodeWithTranslations.toLight(): AnimeEpisodesLight = AnimeEpiso
     translation = translations.map { it.toTranslation() },
 )
 
-fun AnimeCacheEpisodesTranslationsEntity.toTranslation(): AnimeEpisodeTranslation = AnimeEpisodeTranslation(
-    id = translationId,
-    link = link,
-    title = translationTitle,
-)
+fun AnimeCacheEpisodesTranslationsEntity.toTranslation(): AnimeEpisodeTranslation =
+    AnimeEpisodeTranslation(
+        id = translationId,
+        link = link,
+        title = translationTitle,
+    )
 
 fun AnimeCacheCharactersEntity.toLight(): AnimeCharactersLight = AnimeCharactersLight(
     id = id,

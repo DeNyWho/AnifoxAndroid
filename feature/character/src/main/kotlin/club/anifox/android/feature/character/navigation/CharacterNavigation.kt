@@ -11,7 +11,8 @@ import club.anifox.android.feature.character.CharacterScreen
 
 const val CHARACTER_ROUTE = "character_route"
 
-fun NavController.navigateToCharacter(id: String, navOptions: NavOptions? = null) = navigate("${CHARACTER_ROUTE}?id=$id", navOptions)
+fun NavController.navigateToCharacter(id: String, navOptions: NavOptions? = null) =
+    navigate("${CHARACTER_ROUTE}?id=$id", navOptions)
 
 fun NavGraphBuilder.characterScreen(
     onBackPressed: () -> Unit,

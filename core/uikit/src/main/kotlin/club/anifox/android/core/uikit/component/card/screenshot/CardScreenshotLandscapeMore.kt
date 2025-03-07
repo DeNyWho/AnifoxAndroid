@@ -81,7 +81,7 @@ fun LazyListScope.showCardScreenshotLandscapeMoreWhenPastLimit(
 @Composable
 private fun PreviewCardScreenshotLandscapeMore() {
     DefaultPreview {
-        CardScreenshotLandscapeMore (
+        CardScreenshotLandscapeMore(
             onClick = { },
         )
     }

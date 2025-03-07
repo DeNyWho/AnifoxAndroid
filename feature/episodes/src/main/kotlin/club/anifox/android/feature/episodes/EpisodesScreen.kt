@@ -60,7 +60,7 @@ internal fun EpisodesScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
-        if(!uiState.isInitialized) {
+        if (!uiState.isInitialized) {
             viewModel.initializeFilter(url, translationId)
         }
     }

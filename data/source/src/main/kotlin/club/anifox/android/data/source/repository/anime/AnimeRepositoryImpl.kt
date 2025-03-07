@@ -112,9 +112,11 @@ internal class AnimeRepositoryImpl @Inject constructor(
                     val data = animeResult.data.map { it.toLight() }.toImmutableList()
                     StateListWrapper(data)
                 }
+
                 is Resource.Error -> {
                     StateListWrapper(error = animeResult.error)
                 }
+
                 is Resource.Loading -> {
                     StateListWrapper.loading()
                 }
@@ -292,14 +294,16 @@ internal class AnimeRepositoryImpl @Inject constructor(
         return flow {
             emit(StateListWrapper.loading())
 
-            val state = when(val genreResult = animeService.getAnimeGenres()) {
+            val state = when (val genreResult = animeService.getAnimeGenres()) {
                 is Resource.Success -> {
                     val data = genreResult.data.map { it.toGenre() }.toImmutableList()
                     StateListWrapper(data)
                 }
+
                 is Resource.Error -> {
                     StateListWrapper(error = genreResult.error)
                 }
+
                 is Resource.Loading -> {
                     StateListWrapper.loading()
                 }
@@ -313,14 +317,16 @@ internal class AnimeRepositoryImpl @Inject constructor(
         return flow {
             emit(StateListWrapper.loading())
 
-            val state = when(val yearsResult = animeService.getAnimeYears()) {
+            val state = when (val yearsResult = animeService.getAnimeYears()) {
                 is Resource.Success -> {
                     val data = yearsResult.data.toImmutableList()
                     StateListWrapper(data)
                 }
+
                 is Resource.Error -> {
                     StateListWrapper(error = yearsResult.error)
                 }
+
                 is Resource.Loading -> {
                     StateListWrapper.loading()
                 }
@@ -334,14 +340,16 @@ internal class AnimeRepositoryImpl @Inject constructor(
         return flow {
             emit(StateListWrapper.loading())
 
-            val state = when(val studioResult = animeService.getAnimeStudios()) {
+            val state = when (val studioResult = animeService.getAnimeStudios()) {
                 is Resource.Success -> {
                     val data = studioResult.data.map { it.toStudio() }.toImmutableList()
                     StateListWrapper(data)
                 }
+
                 is Resource.Error -> {
                     StateListWrapper(error = studioResult.error)
                 }
+
                 is Resource.Loading -> {
                     StateListWrapper.loading()
                 }
@@ -355,14 +363,16 @@ internal class AnimeRepositoryImpl @Inject constructor(
         return flow {
             emit(StateListWrapper.loading())
 
-            val state = when(val translationsResult = animeService.getAnimeTranslations()) {
+            val state = when (val translationsResult = animeService.getAnimeTranslations()) {
                 is Resource.Success -> {
                     val data = translationsResult.data.map { it.toTranslation() }.toImmutableList()
                     StateListWrapper(data)
                 }
+
                 is Resource.Error -> {
                     StateListWrapper(error = translationsResult.error)
                 }
+
                 is Resource.Loading -> {
                     StateListWrapper.loading()
                 }
@@ -376,18 +386,22 @@ internal class AnimeRepositoryImpl @Inject constructor(
         return flow {
             emit(StateListWrapper.loading())
 
-            val state = when(val translationsCountResult = animeService.getAnimeTranslationsCount(url)) {
-                is Resource.Success -> {
-                    val data = translationsCountResult.data.map { it.toTranslationsCount() }.toImmutableList()
-                    StateListWrapper(data)
+            val state =
+                when (val translationsCountResult = animeService.getAnimeTranslationsCount(url)) {
+                    is Resource.Success -> {
+                        val data = translationsCountResult.data.map { it.toTranslationsCount() }
+                            .toImmutableList()
+                        StateListWrapper(data)
+                    }
+
+                    is Resource.Error -> {
+                        StateListWrapper(error = translationsCountResult.error)
+                    }
+
+                    is Resource.Loading -> {
+                        StateListWrapper.loading()
+                    }
                 }
-                is Resource.Error -> {
-                    StateListWrapper(error = translationsCountResult.error)
-                }
-                is Resource.Loading -> {
-                    StateListWrapper.loading()
-                }
-            }
 
             emit(state)
         }.flowOn(Dispatchers.IO)
@@ -406,9 +420,11 @@ internal class AnimeRepositoryImpl @Inject constructor(
                     val data = animeResult.data.toDetail()
                     StateWrapper(data)
                 }
+
                 is Resource.Error -> {
                     StateWrapper(error = animeResult.error)
                 }
+
                 is Resource.Loading -> {
                     StateWrapper.loading()
                 }
@@ -433,7 +449,8 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 role = null,
             )) {
                 is Resource.Success -> {
-                    val data = animeCharactersResult.data.characters.map { it.toLight() }.toImmutableList()
+                    val data =
+                        animeCharactersResult.data.characters.map { it.toLight() }.toImmutableList()
                     StateListWrapper(data)
                 }
 
@@ -467,9 +484,11 @@ internal class AnimeRepositoryImpl @Inject constructor(
                     val data = animeSimilarResult.data.map { it.toLight() }.toImmutableList()
                     StateListWrapper(data)
                 }
+
                 is Resource.Error -> {
                     StateListWrapper(error = animeSimilarResult.error)
                 }
+
                 is Resource.Loading -> {
                     StateListWrapper.loading()
                 }
@@ -488,9 +507,11 @@ internal class AnimeRepositoryImpl @Inject constructor(
                     val data = animeRelatedResult.data.map { it.toLight() }.toImmutableList()
                     StateListWrapper(data)
                 }
+
                 is Resource.Error -> {
                     StateListWrapper(error = animeRelatedResult.error)
                 }
+
                 is Resource.Loading -> {
                     StateListWrapper.loading()
                 }
@@ -506,16 +527,18 @@ internal class AnimeRepositoryImpl @Inject constructor(
 
             val state = when (val animeScreenshotsResult = animeService.getAnimeScreenshots(url)) {
                 is Resource.Success -> {
-                    val data = if(limit != null) {
+                    val data = if (limit != null) {
                         animeScreenshotsResult.data.take(limit)
                     } else {
                         animeScreenshotsResult.data
                     }.toImmutableList()
                     StateListWrapper(data)
                 }
+
                 is Resource.Error -> {
                     StateListWrapper(error = animeScreenshotsResult.error)
                 }
+
                 is Resource.Loading -> {
                     StateListWrapper.loading()
                 }
@@ -525,22 +548,28 @@ internal class AnimeRepositoryImpl @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
-    override fun getAnimeVideos(url: String, videoType: VideoType?, limit: Int?): Flow<StateListWrapper<AnimeVideosLight>> {
+    override fun getAnimeVideos(
+        url: String,
+        videoType: VideoType?,
+        limit: Int?
+    ): Flow<StateListWrapper<AnimeVideosLight>> {
         return flow {
             emit(StateListWrapper.loading())
 
             val state = when (val animeVideosResult = animeService.getAnimeVideos(url, videoType)) {
                 is Resource.Success -> {
-                    val data = if(limit == null) {
+                    val data = if (limit == null) {
                         animeVideosResult.data.map { it.toLight() }
                     } else {
                         animeVideosResult.data.take(limit).map { it.toLight() }
                     }.toImmutableList()
                     StateListWrapper(data)
                 }
+
                 is Resource.Error -> {
                     StateListWrapper(error = animeVideosResult.error)
                 }
+
                 is Resource.Loading -> {
                     StateListWrapper.loading()
                 }

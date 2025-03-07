@@ -3,8 +3,6 @@ package club.anifox.android.data.local.mappers.anime
 import club.anifox.android.data.local.model.anime.AnimeEntity
 import club.anifox.android.data.local.model.anime.common.AnimeImageEntity
 import club.anifox.android.domain.model.anime.AnimeDetail
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 fun AnimeDetail.toEntities(): Pair<AnimeEntity, AnimeImageEntity> {
     val animeEntity = AnimeEntity(

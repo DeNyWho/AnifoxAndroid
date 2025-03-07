@@ -12,7 +12,7 @@ internal data class CardEpisodeComponentItemPreviewParam(
     val currentTranslationId: Int = 1269,
 )
 
-internal class CardEpisodeComponentItemProvider:
+internal class CardEpisodeComponentItemProvider :
     PreviewParameterProvider<CardEpisodeComponentItemPreviewParam> {
     override val count: Int
         get() = super.count

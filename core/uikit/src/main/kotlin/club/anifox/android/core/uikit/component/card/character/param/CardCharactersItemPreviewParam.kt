@@ -15,7 +15,7 @@ internal data class CardCharactersItemPreviewParam(
     val onClick: () -> Unit = { },
 )
 
-internal class CardCharactersItemProvider:
+internal class CardCharactersItemProvider :
     PreviewParameterProvider<CardCharactersItemPreviewParam> {
     override val count: Int
         get() = super.count

@@ -10,7 +10,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class OnboardingViewModel @Inject constructor(
     private val userFirstLaunchUseCase: UserFirstLaunchUseCase,
-): ViewModel() {
+) : ViewModel() {
     fun updateFirstLaunch() {
         viewModelScope.launch {
             userFirstLaunchUseCase.setFirstLaunchCompleted()

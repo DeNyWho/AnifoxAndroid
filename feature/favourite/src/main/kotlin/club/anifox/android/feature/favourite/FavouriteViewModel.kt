@@ -26,7 +26,8 @@ internal class FavouriteViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(FavouriteUiState())
     val uiState: StateFlow<FavouriteUiState> = _uiState.asStateFlow()
 
-    private val favouriteCache = mutableMapOf<FavouriteTabType, Flow<PagingData<AnimeLightFavourite>>>()
+    private val favouriteCache =
+        mutableMapOf<FavouriteTabType, Flow<PagingData<AnimeLightFavourite>>>()
 
     private val loadingStateMap = MutableStateFlow<Map<FavouriteTabType, Boolean>>(emptyMap())
 

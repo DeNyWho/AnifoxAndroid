@@ -26,29 +26,29 @@ fun CustomTextField(
     trailingIcon: (@Composable () -> Unit)? = null,
     content: (@Composable () -> Unit)? = null
 ) {
-    Surface (
+    Surface(
         modifier = modifier,
         shape = MaterialTheme.shapes.medium,
         color = MaterialTheme.colorScheme.surfaceContainer,
         border = BorderStroke(2.dp, MaterialTheme.colorScheme.onSurfaceVariant),
     ) {
-        Row (
+        Row(
             modifier = Modifier.padding(padding),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if(leadingIcon != null) {
+            if (leadingIcon != null) {
                 leadingIcon()
             }
 
-            Box (
+            Box(
                 modifier = Modifier.weight(1f)
             ) {
-                if(content != null) {
+                if (content != null) {
                     content()
                 }
             }
 
-            if(trailingIcon != null) {
+            if (trailingIcon != null) {
                 trailingIcon()
             }
         }
@@ -57,10 +57,10 @@ fun CustomTextField(
 
 @PreviewLightDark
 @Composable
-private fun CustomTextFieldPreview () {
+private fun CustomTextFieldPreview() {
     DefaultPreview {
         CustomTextField(
-            content = {  },
+            content = { },
             leadingIcon = {
                 Icon(imageVector = Icons.Default.Search, contentDescription = null)
             },

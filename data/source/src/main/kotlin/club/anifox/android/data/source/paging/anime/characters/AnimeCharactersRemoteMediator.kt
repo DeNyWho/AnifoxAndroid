@@ -72,6 +72,7 @@ internal class AnimeCharactersRemoteMediator(
                     lastLoadedPage = loadKey
                     MediatorResult.Success(endOfPaginationReached = characters.isEmpty())
                 }
+
                 is Resource.Error -> MediatorResult.Error(Exception("Failed to load: ${response.error}"))
                 is Resource.Loading -> MediatorResult.Error(Exception("Unexpected loading state"))
             }

@@ -8,7 +8,8 @@ import club.anifox.android.feature.favourite.FavouriteScreen
 
 const val FAVOURITE_ROUTE = "favourite_route"
 
-fun NavController.navigateToFavourite(navOptions: NavOptions) = navigate(FAVOURITE_ROUTE, navOptions)
+fun NavController.navigateToFavourite(navOptions: NavOptions) =
+    navigate(FAVOURITE_ROUTE, navOptions)
 
 fun NavGraphBuilder.favouriteScreen(
     onAnimeClick: (String) -> Unit,

@@ -83,6 +83,7 @@ fun GridComponent(
                     thumbnailWidth = thumbnailWidth,
                 )
             }
+
             contentState.loadState.refresh is LoadState.Loading -> {
                 showCardAnimePortraitShimmer(
                     modifier = itemModifier,
@@ -91,8 +92,8 @@ fun GridComponent(
                     thumbnailWidth = thumbnailWidth,
                 )
             }
-            contentState.loadState.append is LoadState.Error -> {
 
+            contentState.loadState.append is LoadState.Error -> {
             }
         }
     }
@@ -103,7 +104,8 @@ fun GridComponent(
 private fun PreviewGridContent(
     @PreviewParameter(GridComponentProvider::class) param: GridComponentPreviewParam,
 ) {
-    val lazyPagingItems = flowOf(PagingData.from(GlobalParams.DataSetAnimeLight)).collectAsLazyPagingItems()
+    val lazyPagingItems =
+        flowOf(PagingData.from(GlobalParams.DataSetAnimeLight)).collectAsLazyPagingItems()
 
     DefaultPreview(true) {
         GridComponent(

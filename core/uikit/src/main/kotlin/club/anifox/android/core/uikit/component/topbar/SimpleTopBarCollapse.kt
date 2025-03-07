@@ -45,7 +45,7 @@ fun SimpleTopBarCollapse(
     surfaceColor: Color = MaterialTheme.colorScheme.background,
     toolbarScaffoldState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
 ) {
-    Surface (
+    Surface(
         modifier = Modifier.fillMaxWidth(),
         color = surfaceColor,
     ) {
@@ -106,7 +106,7 @@ fun SimpleTopBarCollapse(
                 )
             }
 
-            if(titleAlign == TextAlign.Center) {
+            if (titleAlign == TextAlign.Center) {
                 Spacer(Modifier.size(24.dp))
             }
         }

@@ -4,7 +4,6 @@ import androidx.room.TypeConverter
 import club.anifox.android.domain.model.anime.genre.AnimeGenre
 import club.anifox.android.domain.model.anime.image.AnimeImage
 import club.anifox.android.domain.model.anime.studio.AnimeStudio
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class AnimeConverters {

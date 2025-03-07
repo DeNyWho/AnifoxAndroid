@@ -5,6 +5,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-internal class RegistrationViewModel @Inject constructor(): ViewModel() {
+internal class RegistrationViewModel @Inject constructor() : ViewModel() {
 
 }

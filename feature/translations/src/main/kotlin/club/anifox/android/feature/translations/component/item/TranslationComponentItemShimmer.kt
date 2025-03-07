@@ -73,7 +73,7 @@ internal fun LazyListScope.showTranslationComponentItemShimmer(
     modifier: Modifier = Modifier,
     shimmerInstance: Shimmer,
     count: Int = 4,
-){
+) {
     items(count) {
         TranslationComponentItemShimmer(
             modifier = modifier,
@@ -82,11 +82,11 @@ internal fun LazyListScope.showTranslationComponentItemShimmer(
     }
 }
 
-
 @Preview
 @Composable
 private fun PreviewTranslationComponentItem(
-    @PreviewParameter(TranslationComponentItemProvider::class) param: TranslationComponentItemPreviewParam,
+    @PreviewParameter(TranslationComponentItemProvider::class)
+    param: TranslationComponentItemPreviewParam,
 ) {
     DefaultPreview {
         TranslationComponentItemShimmer(

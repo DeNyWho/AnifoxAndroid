@@ -8,7 +8,7 @@ internal data class CardGenreComponentItemPreviewParam(
     val onItemClick: (AnimeGenre) -> Unit = { },
 )
 
-internal class CardGenreComponentItemProvider:
+internal class CardGenreComponentItemProvider :
     PreviewParameterProvider<CardGenreComponentItemPreviewParam> {
     override val count: Int
         get() = super.count

@@ -20,7 +20,8 @@ object LocalDateTimeSerializer : KSerializer<LocalDateTime> {
         encoder.encodeString(offsetDT.format(dtf))
     }
 
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("LocalDateTime", PrimitiveKind.STRING)
+    override val descriptor: SerialDescriptor =
+        PrimitiveSerialDescriptor("LocalDateTime", PrimitiveKind.STRING)
 
     override fun deserialize(decoder: Decoder): LocalDateTime {
         return ZonedDateTime

@@ -26,7 +26,7 @@ internal data class SearchUIPreviewParam(
     val onRefreshRandomAnimeClick: () -> Unit = { },
 )
 
-internal class SearchUIProvider:
+internal class SearchUIProvider :
     PreviewParameterProvider<SearchUIPreviewParam> {
     override val count: Int
         get() = super.count

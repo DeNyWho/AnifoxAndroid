@@ -13,7 +13,7 @@ internal data class AnimeSearchComponentItemPreviewParam(
     val onClick: (String) -> Unit = { },
 )
 
-internal class AnimeSearchComponentItemProvider:
+internal class AnimeSearchComponentItemProvider :
     PreviewParameterProvider<AnimeSearchComponentItemPreviewParam> {
     override val count: Int
         get() = super.count

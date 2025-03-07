@@ -37,7 +37,7 @@ fun SimpleTopBar(
     surfaceColor: Color = MaterialTheme.colorScheme.background,
     endIcons: List<@Composable () -> Unit> = emptyList(),
 ) {
-    Surface (
+    Surface(
         modifier = Modifier.fillMaxWidth(),
         tonalElevation = tonalElevation,
         shadowElevation = shadowElevation,
@@ -109,7 +109,7 @@ private fun PreviewSimpleTopBar() {
 
     DefaultPreview {
         SimpleTopBar(
-            onBackPressed = {  },
+            onBackPressed = { },
             title = stringResource(R.string.core_uikit_component_preview_top_bar),
             tonalElevation = 4.dp,
             shadowElevation = 4.dp,

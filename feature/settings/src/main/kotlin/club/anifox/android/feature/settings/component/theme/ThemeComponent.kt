@@ -59,7 +59,7 @@ internal fun ThemeComponent(
     }
 
     if (showDialog.value) {
-        ThemeDialog (
+        ThemeDialog(
             setShowDialog = {
                 showDialog.value = it
             },

@@ -16,7 +16,8 @@ internal data class CardVideoLandscapePreviewParam(
     val isTypeVisible: Boolean = true,
 )
 
-internal class CardVideoLandscapeProvider: PreviewParameterProvider<CardVideoLandscapePreviewParam> {
+internal class CardVideoLandscapeProvider :
+    PreviewParameterProvider<CardVideoLandscapePreviewParam> {
     override val values: Sequence<CardVideoLandscapePreviewParam>
         get() = listOf(
             CardVideoLandscapePreviewParam(

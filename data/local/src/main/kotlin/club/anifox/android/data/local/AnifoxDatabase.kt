@@ -49,7 +49,7 @@ import club.anifox.android.data.local.model.anime.search.AnimeSearchHistoryEntit
     exportSchema = true,
 )
 @TypeConverters(LocalDateConverter::class, LocalDateTimeConverter::class, AnimeConverters::class)
-internal abstract class AnifoxDatabase: RoomDatabase() {
+internal abstract class AnifoxDatabase : RoomDatabase() {
     abstract fun animeDao(): AnimeDao
     abstract fun animeImageDao(): AnimeImageDao
     abstract fun animeFavouriteStatusDao(): AnimeFavouriteDao

@@ -37,20 +37,23 @@ internal class CatalogViewModel @Inject constructor(
     private val getAnimeYearsUseCase: GetAnimeYearsUseCase,
     private val getAnimeStudiosUseCase: GetAnimeStudiosUseCase,
     private val getAnimeTranslationsUseCase: GetAnimeTranslationsUseCase,
-): ViewModel() {
+) : ViewModel() {
     private val _uiState = MutableStateFlow(CatalogUiState())
     val uiState: StateFlow<CatalogUiState> = _uiState.asStateFlow()
 
-    private val _animeGenres = MutableStateFlow<StateListWrapper<AnimeGenre>>(StateListWrapper.loading())
+    private val _animeGenres =
+        MutableStateFlow<StateListWrapper<AnimeGenre>>(StateListWrapper.loading())
     val animeGenres = _animeGenres.asStateFlow()
 
     private val _animeYears = MutableStateFlow<StateListWrapper<Int>>(StateListWrapper.loading())
     val animeYears = _animeYears.asStateFlow()
 
-    private val _animeStudios = MutableStateFlow<StateListWrapper<AnimeStudio>>(StateListWrapper.loading())
+    private val _animeStudios =
+        MutableStateFlow<StateListWrapper<AnimeStudio>>(StateListWrapper.loading())
     val animeStudios = _animeStudios.asStateFlow()
 
-    private val _animeTranslations = MutableStateFlow<StateListWrapper<AnimeTranslation>>(StateListWrapper.loading())
+    private val _animeTranslations =
+        MutableStateFlow<StateListWrapper<AnimeTranslation>>(StateListWrapper.loading())
     val animeTranslations = _animeTranslations.asStateFlow()
 
     init {
@@ -109,15 +112,15 @@ internal class CatalogViewModel @Inject constructor(
     ) {
         _uiState.update { currentState ->
             currentState.copy(
-                selectedGenres = if(filterType == FilterType.GENRE) filterParams.genres else currentState.selectedGenres,
-                selectedStatus = if(filterType == FilterType.STATUS) filterParams.status else currentState.selectedStatus,
-                selectedType = if(filterType == FilterType.TYPE) filterParams.type else currentState.selectedType,
-                selectedYears = if(filterType == FilterType.YEARS) filterParams.years else currentState.selectedYears,
-                selectedSeason = if(filterType == FilterType.SEASON) filterParams.season else currentState.selectedSeason,
-                selectedStudios = if(filterType == FilterType.STUDIO) filterParams.studios else currentState.selectedStudios,
-                selectedTranslation = if(filterType == FilterType.TRANSLATION) filterParams.translation else currentState.selectedTranslation,
-                selectedOrder = if(filterType == FilterType.ORDER) filterParams.order else currentState.selectedOrder,
-                selectedSort = if(filterType == FilterType.SORT) filterParams.sort else currentState.selectedSort,
+                selectedGenres = if (filterType == FilterType.GENRE) filterParams.genres else currentState.selectedGenres,
+                selectedStatus = if (filterType == FilterType.STATUS) filterParams.status else currentState.selectedStatus,
+                selectedType = if (filterType == FilterType.TYPE) filterParams.type else currentState.selectedType,
+                selectedYears = if (filterType == FilterType.YEARS) filterParams.years else currentState.selectedYears,
+                selectedSeason = if (filterType == FilterType.SEASON) filterParams.season else currentState.selectedSeason,
+                selectedStudios = if (filterType == FilterType.STUDIO) filterParams.studios else currentState.selectedStudios,
+                selectedTranslation = if (filterType == FilterType.TRANSLATION) filterParams.translation else currentState.selectedTranslation,
+                selectedOrder = if (filterType == FilterType.ORDER) filterParams.order else currentState.selectedOrder,
+                selectedSort = if (filterType == FilterType.SORT) filterParams.sort else currentState.selectedSort,
                 selectedMinimalAge = currentState.selectedMinimalAge,
                 isInitialized = currentState.isInitialized,
                 isLoading = currentState.isLoading,

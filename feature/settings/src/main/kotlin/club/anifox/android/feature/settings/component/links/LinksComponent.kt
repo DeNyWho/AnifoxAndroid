@@ -25,7 +25,7 @@ internal fun LinksComponent(
         style = MaterialTheme.typography.titleLarge,
     )
 
-    Column{
+    Column {
         Column(
             modifier = Modifier
                 .clickable {
