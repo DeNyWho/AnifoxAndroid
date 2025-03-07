@@ -34,6 +34,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import club.anifox.android.core.uikit.component.error.NoSearchResultsError
 import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
+import club.anifox.android.core.uikit.component.topbar.TopBarWithSearch
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.core.uikit.util.rememberLazyGridState
@@ -42,7 +43,6 @@ import club.anifox.android.domain.model.common.device.ScreenType
 import club.anifox.android.feature.episodes.components.item.CardEpisodeGridComponentItem
 import club.anifox.android.feature.episodes.components.item.CardEpisodeGridComponentItemDefaults
 import club.anifox.android.feature.episodes.components.item.showCardEpisodeGridComponentItemShimmer
-import club.anifox.android.feature.episodes.components.top.EpisodesTopBarComponent
 import club.anifox.android.feature.episodes.model.state.EpisodesUiState
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds
@@ -130,9 +130,10 @@ private fun EpisodesUI(
         modifier = Modifier
             .fillMaxSize(),
         topBar = {
-            EpisodesTopBarComponent(
+            TopBarWithSearch(
                 searchQuery = uiState.searchQuery,
                 title = stringResource(R.string.feature_episodes_top_bar_title),
+                placeholder = stringResource(R.string.feature_episodes_top_bar_placeholder),
                 isSearchActive = isSearchActive,
                 focusRequester = focusRequester,
                 endIcons = endIcons,

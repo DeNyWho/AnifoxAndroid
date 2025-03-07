@@ -1,4 +1,4 @@
-package club.anifox.android.feature.episodes.components.top
+package club.anifox.android.core.uikit.component.topbar
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
@@ -29,7 +29,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,12 +36,12 @@ import club.anifox.android.core.uikit.component.icon.AnifoxIconCustomTintVector
 import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
 import club.anifox.android.core.uikit.util.DefaultPreview
 import club.anifox.android.core.uikit.util.clickableWithoutRipple
-import club.anifox.android.feature.episodes.R
 
 @Composable
-internal fun EpisodesTopBarComponent(
+fun TopBarWithSearch(
     searchQuery: String,
     title: String,
+    placeholder: String,
     isSearchActive: Boolean,
     focusRequester: FocusRequester = remember { FocusRequester() },
     endIcons: List<@Composable () -> Unit> = emptyList(),
@@ -104,7 +103,7 @@ internal fun EpisodesTopBarComponent(
                             Box {
                                 if (searchQuery.isEmpty()) {
                                     Text(
-                                        text = stringResource(R.string.feature_episodes_top_bar_placeholder),
+                                        text = placeholder,
                                         style = MaterialTheme.typography.titleMedium,
                                         color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f)
                                     )
@@ -177,14 +176,15 @@ internal fun EpisodesTopBarComponent(
 
 @Composable
 @Preview
-private fun ExampleUsage() {
+private fun PreviewTopBarWithSearch() {
     DefaultPreview {
-        EpisodesTopBarComponent(
-            title = "",
+        TopBarWithSearch(
+            title = "Episodes",
+            placeholder = "search",
             onBackPressed = { },
             endIcons = listOf(),
             onSearchQueryChange = { },
-            onSearchClose = { },
+            onSearchClose = {},
             isSearchActive = true,
             searchQuery = "",
         )
