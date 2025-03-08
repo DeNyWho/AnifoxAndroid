@@ -23,7 +23,10 @@ internal class AnimeEpisodesRemoteMediator(
 ) : RemoteMediator<Int, AnimeCacheEpisodeWithTranslations>() {
 
     private var lastLoadedPage = -1
-    private var currentParams: Params = Params(sort, search)
+    private var currentParams: Params = Params(
+        sort = sort,
+        search = search,
+    )
 
     override suspend fun initialize(): InitializeAction {
         return InitializeAction.LAUNCH_INITIAL_REFRESH
@@ -38,7 +41,10 @@ internal class AnimeEpisodesRemoteMediator(
         loadType: LoadType,
         state: PagingState<Int, AnimeCacheEpisodeWithTranslations>
     ): MediatorResult {
-        val newParams = Params(sort, search)
+        val newParams = Params(
+            sort = sort,
+            search = search,
+        )
 
         if (newParams != currentParams) {
             currentParams = newParams

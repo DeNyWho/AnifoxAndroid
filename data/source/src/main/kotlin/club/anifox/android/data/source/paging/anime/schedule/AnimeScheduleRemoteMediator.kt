@@ -114,8 +114,13 @@ internal class AnimeScheduleRemoteMediator(
                     MediatorResult.Success(endOfPaginationReached = true)
                 }
 
-                is Resource.Error -> MediatorResult.Error(Exception("Failed to load: ${response.error}"))
-                is Resource.Loading -> MediatorResult.Error(Exception("Unexpected loading state"))
+                is Resource.Error -> {
+                    MediatorResult.Error(Exception("Failed to load: ${response.error}"))
+                }
+
+                is Resource.Loading -> {
+                    MediatorResult.Error(Exception("Unexpected loading state"))
+                }
             }
         } catch (e: Exception) {
             return MediatorResult.Error(e) // Return an error if an exception occurs

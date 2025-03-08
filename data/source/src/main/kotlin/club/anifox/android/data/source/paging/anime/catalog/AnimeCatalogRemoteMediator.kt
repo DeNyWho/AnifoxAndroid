@@ -35,18 +35,18 @@ internal class AnimeCatalogRemoteMediator(
 
     private var lastLoadedPage = -1
     private var currentParams: Params = Params(
-        status,
-        genres,
-        searchQuery,
-        season,
-        ratingMpa,
-        minimalAge,
-        type,
-        years,
-        studios,
-        translation,
-        order,
-        sort
+        status = status,
+        genres = genres,
+        searchQuery = searchQuery,
+        season = season,
+        ratingMpa = ratingMpa,
+        minimalAge = minimalAge,
+        type = type,
+        years = years,
+        studios = studios,
+        translation = translation,
+        order = order,
+        sort = sort,
     )
 
     override suspend fun initialize(): InitializeAction {
@@ -73,19 +73,20 @@ internal class AnimeCatalogRemoteMediator(
         state: PagingState<Int, AnimeCacheCatalogEntity>
     ): MediatorResult {
         val newParams = Params(
-            status,
-            genres,
-            searchQuery,
-            season,
-            ratingMpa,
-            minimalAge,
-            type,
-            years,
-            studios,
-            translation,
-            order,
-            sort
+            status = status,
+            genres = genres,
+            searchQuery = searchQuery,
+            season = season,
+            ratingMpa = ratingMpa,
+            minimalAge = minimalAge,
+            type = type,
+            years = years,
+            studios = studios,
+            translation = translation,
+            order = order,
+            sort = sort,
         )
+
         if (newParams != currentParams) {
             currentParams = newParams
             lastLoadedPage = -1

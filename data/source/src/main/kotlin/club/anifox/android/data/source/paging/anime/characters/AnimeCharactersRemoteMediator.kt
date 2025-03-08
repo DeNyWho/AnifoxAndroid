@@ -34,11 +34,21 @@ internal class AnimeCharactersRemoteMediator(
         if (newParams != currentParams) {
             currentParams = newParams
             lastLoadedPage = -1
+            animeCacheCharactersDao.clearAll()
         }
 
         return try {
+            if (newParams != currentParams) {
+                currentParams = newParams
+                return load(LoadType.REFRESH, state)
+            }
+
             val loadKey = when (loadType) {
-                LoadType.REFRESH -> 0
+                LoadType.REFRESH -> {
+                    animeCacheCharactersDao.clearAll()
+                    lastLoadedPage = -1
+                    0
+                }
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> lastLoadedPage + 1
             }
@@ -73,8 +83,13 @@ internal class AnimeCharactersRemoteMediator(
                     MediatorResult.Success(endOfPaginationReached = characters.isEmpty())
                 }
 
-                is Resource.Error -> MediatorResult.Error(Exception("Failed to load: ${response.error}"))
-                is Resource.Loading -> MediatorResult.Error(Exception("Unexpected loading state"))
+                is Resource.Error -> {
+                    MediatorResult.Error(Exception("Failed to load: ${response.error}"))
+                }
+
+                is Resource.Loading -> {
+                    MediatorResult.Error(Exception("Unexpected loading state"))
+                }
             }
         } catch (e: Exception) {
             MediatorResult.Error(e)
