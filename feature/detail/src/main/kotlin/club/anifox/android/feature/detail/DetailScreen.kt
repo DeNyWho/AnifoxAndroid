@@ -75,7 +75,7 @@ internal fun DetailScreen(
     onMoreVideoClick: (String, String) -> Unit,
 //    onCatalogClick: (CatalogFilterParams) -> Unit,
     onCharacterClick: (String) -> Unit,
-    onMoreCharactersClick: (String, String) -> Unit,
+    onMoreCharactersClick: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -109,8 +109,8 @@ internal fun DetailScreen(
             viewModel.openYoutube(youtubeUrl)
         },
         onCharacterClick = onCharacterClick,
-        onMoreCharactersClick = { title ->
-            onMoreCharactersClick.invoke(url, title)
+        onMoreCharactersClick = {
+            onMoreCharactersClick.invoke(url)
         },
         onUpdateFavouriteStatus = { status ->
             viewModel.updateFavouriteStatus(status)

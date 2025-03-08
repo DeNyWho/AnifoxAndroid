@@ -8,10 +8,12 @@ import club.anifox.android.domain.model.anime.characters.AnimeCharactersLight
 import club.anifox.android.domain.usecase.anime.paging.anime.characters.AnimeCharactersPagingUseCase
 import club.anifox.android.feature.characters.model.state.CharactersUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
@@ -26,27 +28,39 @@ internal class CharactersViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(CharactersUiState())
     val uiState: StateFlow<CharactersUiState> = _uiState.asStateFlow()
 
+    @OptIn(FlowPreview::class)
     val charactersResults: Flow<PagingData<AnimeCharactersLight>> = _uiState
+        .debounce(500)
         .filter { it.isInitialized }
-        .distinctUntilChanged()
+        .distinctUntilChanged { old, new -> old.searchQuery == new.searchQuery }
         .flatMapLatest { state ->
-            animeCharactersPagingUseCase(
+            _uiState.update { it.copy(isLoading = false) }
+            animeCharactersPagingUseCase.invoke(
                 url = state.url,
-                role = state.selectedRole,
+                search = state.searchQuery,
             )
         }
         .cachedIn(viewModelScope)
 
-    fun updateFilter(
-        role: String?,
-    ) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                selectedRole = role,
-                url = currentState.url,
-                isInitialized = currentState.isInitialized,
-                isLoading = currentState.isLoading,
-            )
+    fun search(query: String) {
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    searchQuery = query,
+                    isLoading = true,
+                )
+            }
+        }
+    }
+
+    fun clearSearch() {
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    searchQuery = "",
+                    isLoading = true,
+                )
+            }
         }
     }
 
@@ -55,8 +69,9 @@ internal class CharactersViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     url = initialUrl,
-                    selectedRole = null,
+                    searchQuery = "",
                     isInitialized = true,
+                    isLoading = true,
                 )
             }
         }

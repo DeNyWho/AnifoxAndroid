@@ -101,7 +101,7 @@ sealed interface NavigationEvent {
     data class ToVideo(val url: String, val title: String?) : NavigationEvent
     data class ToCatalog(val params: CatalogFilterParams) : NavigationEvent
     data class ToGenres(val genre: AnimeGenre) : NavigationEvent
-    data class ToCharacters(val url: String, val title: String) : NavigationEvent
+    data class ToCharacters(val url: String) : NavigationEvent
 
     data object ToSearch : NavigationEvent
     data object ToSettings : NavigationEvent
@@ -132,7 +132,7 @@ fun AnifoxNavHost(
                 is ToVideo -> navController.navigateToVideo(event.url, event.title)
                 is ToCatalog -> navController.navigateToCatalog(event.params)
                 is ToGenres -> navController.navigateToGenres(event.genre)
-                is ToCharacters -> navController.navigateToCharacters(event.url, event.title)
+                is ToCharacters -> navController.navigateToCharacters(event.url)
                 ToSearch -> navController.navigateToSearch()
                 ToSettings -> navController.navigateToSettings()
                 ToLogin -> navController.navigateToLogin()
@@ -181,14 +181,7 @@ fun AnifoxNavHost(
             onMoreVideoClick = { url, title -> navigationManager.emit(ToVideo(url, title)) },
 //            onCatalogClick = { params -> navigationManager.emit(ToCatalog(params)) },
             onCharacterClick = { characterId -> navigationManager.emit(ToCharacter(characterId)) },
-            onMoreCharactersClick = { url, title ->
-                navigationManager.emit(
-                    ToCharacters(
-                        url,
-                        title
-                    )
-                )
-            }
+            onMoreCharactersClick = { url -> navigationManager.emit(ToCharacters(url)) }
         )
         characterScreen(
             onBackPressed = { navigationManager.emit(Back) },

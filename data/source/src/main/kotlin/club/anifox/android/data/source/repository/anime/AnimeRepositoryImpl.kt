@@ -250,7 +250,7 @@ internal class AnimeRepositoryImpl @Inject constructor(
     override fun getAnimeCharactersPaged(
         limit: Int,
         url: String,
-        role: String?,
+        search: String,
     ): Flow<PagingData<AnimeCharactersLight>> {
         return Pager(
             config = PagingConfig(pageSize = limit),
@@ -259,7 +259,7 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 animeCacheCharactersDao = animeCacheCharactersDao,
                 animeCacheCharactersAvailableRolesDao = animeCacheCharactersAvailableRolesDao,
                 url = url,
-                role = role,
+                search = search,
             ),
             pagingSourceFactory = { animeCacheCharactersDao.pagingSource() }
         ).flow.map { pagingData ->
@@ -446,7 +446,7 @@ internal class AnimeRepositoryImpl @Inject constructor(
                 page = page,
                 limit = limit,
                 url = url,
-                role = null,
+                search = "",
             )) {
                 is Resource.Success -> {
                     val data =

@@ -9,12 +9,12 @@ class AnimeCharactersPagingUseCase(private val animeRepository: AnimeRepository)
     operator fun invoke(
         limit: Int = 24,
         url: String,
-        role: String?,
+        search: String,
     ): Flow<PagingData<AnimeCharactersLight>> {
         return animeRepository.getAnimeCharactersPaged(
             limit = limit,
             url = url,
-            role = role,
+            search = search,
         )
     }
 }

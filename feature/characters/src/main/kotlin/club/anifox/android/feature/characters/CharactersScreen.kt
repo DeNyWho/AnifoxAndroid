@@ -5,18 +5,26 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material.icons.Icons.Outlined
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -27,23 +35,24 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import club.anifox.android.core.uikit.component.card.character.CardCharactersItem
 import club.anifox.android.core.uikit.component.card.character.CardCharactersItemDefaults
-import club.anifox.android.core.uikit.component.grid.GridComponentDefaults
-import club.anifox.android.core.uikit.component.progress.CircularProgress
-import club.anifox.android.core.uikit.component.topbar.SimpleTopBarCollapse
+import club.anifox.android.core.uikit.component.card.character.showCardCharactersItemShimmer
+import club.anifox.android.core.uikit.component.error.NoSearchResultsError
+import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
+import club.anifox.android.core.uikit.component.topbar.TopBarWithSearch
 import club.anifox.android.core.uikit.util.LocalScreenInfo
-import club.anifox.android.core.uikit.util.toolbarShadow
+import club.anifox.android.core.uikit.util.clickableWithoutRipple
+import club.anifox.android.core.uikit.util.rememberLazyGridState
 import club.anifox.android.domain.model.anime.characters.AnimeCharactersLight
 import club.anifox.android.feature.characters.model.state.CharactersUiState
+import com.valentinilk.shimmer.Shimmer
+import com.valentinilk.shimmer.ShimmerBounds
+import com.valentinilk.shimmer.rememberShimmer
 import kotlinx.coroutines.flow.Flow
-import me.onebone.toolbar.CollapsingToolbarScaffold
-import me.onebone.toolbar.ScrollStrategy
-import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
 internal fun CharactersScreen(
     viewModel: CharactersViewModel = hiltViewModel(),
     url: String = "",
-    animeTitle: String? = null,
     onCharacterClick: (String) -> Unit,
     onBackPressed: () -> Unit,
 ) {
@@ -58,12 +67,14 @@ internal fun CharactersScreen(
 
     CharactersUI(
         uiState = uiState,
-        animeTitle = animeTitle,
         charactersResults = charactersResults,
-        updateFilter = { role ->
-            viewModel.updateFilter(role)
-        },
         onCharacterClick = onCharacterClick,
+        onQueryChange = { search ->
+            viewModel.search(search)
+        },
+        onTrailingIconClick = {
+            viewModel.clearSearch()
+        },
         onBackPressed = onBackPressed,
     )
 }
@@ -71,51 +82,66 @@ internal fun CharactersScreen(
 @Composable
 private fun CharactersUI(
     uiState: CharactersUiState,
-    animeTitle: String?,
     charactersResults: Flow<PagingData<AnimeCharactersLight>>,
-    updateFilter: (String?) -> Unit,
     onCharacterClick: (String) -> Unit,
+    onQueryChange: (String) -> Unit,
+    onTrailingIconClick: () -> Unit,
     onBackPressed: () -> Unit,
 ) {
-    val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
-    CollapsingToolbarScaffold(
+    var isSearchActive by rememberSaveable { mutableStateOf(false) }
+    val focusRequester = remember { FocusRequester() }
+
+    val endIcons = listOf<@Composable () -> Unit> {
+        AnifoxIconPrimary(
+            modifier = Modifier
+                .clickableWithoutRipple {
+                    isSearchActive = !isSearchActive
+                }
+                .size(24.dp),
+            imageVector = Outlined.Search,
+            contentDescription = "search"
+        )
+    }
+
+    Scaffold (
         modifier = Modifier
             .fillMaxSize(),
-        state = toolbarScaffoldState,
-        scrollStrategy = ScrollStrategy.EnterAlwaysCollapsed,
-        toolbar = {
-            SimpleTopBarCollapse(
+        topBar = {
+            TopBarWithSearch(
+                searchQuery = uiState.searchQuery,
+                title = stringResource(R.string.feature_characters_top_bar_title),
+                placeholder = stringResource(R.string.feature_characters_top_bar_placeholder),
+                isSearchActive = isSearchActive,
+                focusRequester = focusRequester,
+                endIcons = endIcons,
+                onSearchQueryChange = onQueryChange,
+                onTrailingIconClick = onTrailingIconClick,
+                onSearchClose = {
+                    isSearchActive = false
+                },
                 onBackPressed = onBackPressed,
-                title = if (animeTitle == null) "" else "${stringResource(R.string.feature_characters_top_bar_title)} $animeTitle",
-                toolbarScaffoldState = toolbarScaffoldState,
             )
         },
-        toolbarModifier = Modifier.toolbarShadow(
-            shadowElevation = 4.dp,
-            tonalElevation = 4.dp,
-            shape = RectangleShape,
-        ),
-        body = {
-            CharactersContentUI(
-                uiState = uiState,
-                charactersResults = charactersResults,
-                updateFilter = updateFilter,
-                onCharacterClick = onCharacterClick,
-            )
-        }
-    )
+    ) { padding ->
+        CharactersContentUI(
+            modifier = Modifier.padding(padding),
+            uiState = uiState,
+            charactersResults = charactersResults,
+            onCharacterClick = onCharacterClick,
+        )
+    }
 }
 
 @Composable
 private fun CharactersContentUI(
     modifier: Modifier = Modifier,
+    shimmer: Shimmer = rememberShimmer(ShimmerBounds.View),
     uiState: CharactersUiState,
     charactersResults: Flow<PagingData<AnimeCharactersLight>>,
-    updateFilter: (String?) -> Unit,
     onCharacterClick: (String) -> Unit,
 ) {
-    val lazyGridState = rememberLazyGridState()
     val items = charactersResults.collectAsLazyPagingItems()
+    val lazyGridState = items.rememberLazyGridState()
 
     val screenInfo = LocalScreenInfo.current
     val configuration = LocalConfiguration.current
@@ -133,36 +159,58 @@ private fun CharactersContentUI(
         currentWidth.dp / 8
     }).coerceAtLeast(CardCharactersItemDefaults.Width.Default.times(1.1f))
 
-    if (items.loadState.refresh is LoadState.Loading) {
-        CircularProgress()
-    } else {
-        LazyVerticalGrid(
-            modifier = GridComponentDefaults.Default.fillMaxSize(),
-            columns = GridCells.Adaptive(minSize = minColumnSize),
-            state = lazyGridState,
-            horizontalArrangement = CardCharactersItemDefaults.HorizontalArrangement.Grid,
-            verticalArrangement = CardCharactersItemDefaults.VerticalArrangement.Grid,
-        ) {
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                Spacer(modifier = Modifier.height(CardCharactersItemDefaults.GridItemSpan.Default))
+    Box(
+        modifier = modifier
+            .padding(horizontal = 16.dp)
+            .fillMaxSize(),
+    ) {
+        when {
+            items.loadState.append.endOfPaginationReached && items.itemCount == 0 -> {
+                NoSearchResultsError()
             }
+            else -> {
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(minSize = minColumnSize),
+                    state = lazyGridState,
+                    horizontalArrangement = CardCharactersItemDefaults.HorizontalArrangement.Grid,
+                    verticalArrangement = CardCharactersItemDefaults.VerticalArrangement.Grid,
+                ) {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        Spacer(modifier = Modifier.height(CardCharactersItemDefaults.GridItemSpan.Default))
+                    }
 
-            items(
-                count = items.itemCount,
-                key = items.itemKey { it.id }
-            ) { index ->
-                val character = items[index]
-                if (character != null) {
-                    Box(
-                        modifier = Modifier.width(minColumnSize),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        CardCharactersItem(
-                            data = character,
-                            thumbnailHeight = CardCharactersItemDefaults.Height.Default,
-                            thumbnailWidth = CardCharactersItemDefaults.Width.Default,
-                            onClick = { onCharacterClick.invoke(character.id) }
-                        )
+                    items(
+                        count = items.itemCount,
+                        key = items.itemKey { it.id }
+                    ) { index ->
+                        val character = items[index]
+                        if (character != null) {
+                            Box(
+                                modifier = Modifier.width(minColumnSize),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                CardCharactersItem(
+                                    data = character,
+                                    thumbnailHeight = CardCharactersItemDefaults.Height.Default,
+                                    thumbnailWidth = CardCharactersItemDefaults.Width.Default,
+                                    onClick = { onCharacterClick.invoke(character.id) }
+                                )
+                            }
+                        }
+                    }
+
+                    when {
+                        items.loadState.append is LoadState.Loading || uiState.isLoading || items.loadState.refresh is LoadState.Loading -> {
+                            showCardCharactersItemShimmer(
+                                shimmerInstance = shimmer,
+                                thumbnailHeight = CardCharactersItemDefaults.Height.Default,
+                                thumbnailWidth = CardCharactersItemDefaults.Width.Default,
+                            )
+                        }
+
+                        items.loadState.append is LoadState.Error -> {
+
+                        }
                     }
                 }
             }

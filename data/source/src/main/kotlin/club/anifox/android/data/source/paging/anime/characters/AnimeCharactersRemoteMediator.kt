@@ -18,19 +18,19 @@ internal class AnimeCharactersRemoteMediator(
     private val animeCacheCharactersDao: AnimeCacheCharactersDao,
     private val animeCacheCharactersAvailableRolesDao: AnimeCacheCharactersAvailableRolesDao,
     private val url: String,
-    private val role: String?,
+    private val search: String,
 ) : RemoteMediator<Int, AnimeCacheCharactersEntity>() {
 
     private var lastLoadedPage = -1
-    private var currentParams: Params = Params(role)
+    private var currentParams: Params = Params(search)
 
-    private data class Params(val role: String?)
+    private data class Params(val search: String)
 
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, AnimeCacheCharactersEntity>
     ): MediatorResult {
-        val newParams = Params(role)
+        val newParams = Params(search)
         if (newParams != currentParams) {
             currentParams = newParams
             lastLoadedPage = -1
@@ -47,7 +47,7 @@ internal class AnimeCharactersRemoteMediator(
                 page = loadKey,
                 limit = state.config.pageSize,
                 url = url,
-                role = currentParams.role,
+                search = currentParams.search,
             )
 
             when (response) {

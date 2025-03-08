@@ -105,7 +105,7 @@ interface AnimeRepository {
     fun getAnimeCharactersPaged(
         limit: Int,
         url: String,
-        role: String?
+        search: String,
     ): Flow<PagingData<AnimeCharactersLight>>
 
     fun getAnimeCharacters(

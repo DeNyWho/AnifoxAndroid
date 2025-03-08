@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -70,9 +71,26 @@ fun CardCharactersItemShimmer(
 }
 
 fun LazyListScope.showCardCharactersItemShimmer(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     shimmerInstance: Shimmer,
     count: Int = 12,
+    thumbnailHeight: Dp = CardCharactersItemDefaults.Height.Default,
+    thumbnailWidth: Dp = CardCharactersItemDefaults.Width.Default,
+) {
+    items(count) {
+        CardCharactersItemShimmer(
+            modifier = modifier,
+            shimmerInstance = shimmerInstance,
+            thumbnailHeight = thumbnailHeight,
+            thumbnailWidth = thumbnailWidth,
+        )
+    }
+}
+
+fun LazyGridScope.showCardCharactersItemShimmer(
+    modifier: Modifier = Modifier,
+    shimmerInstance: Shimmer,
+    count: Int = 16,
     thumbnailHeight: Dp = CardCharactersItemDefaults.Height.Default,
     thumbnailWidth: Dp = CardCharactersItemDefaults.Width.Default,
 ) {

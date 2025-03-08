@@ -22,7 +22,7 @@ fun NavGraphBuilder.detailScreen(
     onMoreScreenshotClick: (String, String) -> Unit,
     onMoreVideoClick: (String, String) -> Unit,
     onCharacterClick: (String) -> Unit,
-    onMoreCharactersClick: (String, String) -> Unit,
+    onMoreCharactersClick: (String) -> Unit,
 ) {
     composable(
         "$DETAIL_ROUTE_BASE/url={url}",

@@ -222,7 +222,7 @@ class AnimeService @Inject constructor(private val client: HttpClient) {
         page: Int,
         limit: Int,
         url: String,
-        role: String?,
+        search: String,
     ): Resource<AnimeCharactersWithRolesDTO> {
         val request = HttpRequestBuilder().apply {
             method = HttpMethod.Get
@@ -232,7 +232,7 @@ class AnimeService @Inject constructor(private val client: HttpClient) {
             parameter("page", page)
             parameter("limit", limit)
 
-            if (role != null) parameter("role", role)
+            if (search.isNotEmpty()) parameter("search", search)
         }
 
         return safeApiCall<AnimeCharactersWithRolesDTO>(client, request)
