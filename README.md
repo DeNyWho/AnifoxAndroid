@@ -1,27 +1,24 @@
 # Anifox
 
-Anifox is a mobile application for anime streaming, offering users access to a large catalog of
-anime with features like search, favorites, and notifications for new episodes. This repository
-hosts the **Android version** of Anifox, while other versions and information about the project can
-be found on our official website: [anifox.club](https://anifox.club) or on
-our [github](https://github.com/ANIFOX-CLUB)
+Anifox is a mobile anime viewing app that offers users access to an extensive anime catalog with features such as search, favorites, and more. This repository contains the Android version of Anifox, while other versions and additional information about the project can be found on our official website: [anifox.club](https://anifox.club) or [github](https://github.com/ANIFOX-CLUB)
 
 ## 🔖 Releases
 
-Download the app on github releases or in RuStore.
-
-[<img src="https://cdn.anifox.club/images/github/rustore/ru_store.svg"
+[<img src="https://cdn.anifox.club/images/github/rustore/rustore_logo.svg"
 alt="Download from RuStore"
 height="80">](https://www.rustore.ru/catalog/app/club.anifox.android)
+[<img src="https://cdn.anifox.club/images/github/github/github_logo.svg"
+alt="Download from RuStore"
+height="80">](https://github.com/DeNyWho/AnifoxAndroid/releases)
 
 ## 📱 Features
 
-- Stream popular anime series and movies
-- Browse a comprehensive catalog with details on each anime (description, genres, episode count)
-- Search the anime catalog by title, genre, studio, release year, type, status, translation and
-  season
-- Add anime to favorites for quick access
-- Most screens are adapted for small as well as large devices
+- Watch popular anime series and movies
+- Explore a Comprehensive Anime Catalog
+- Powerful Search and Filtering Options
+- Favorites for Quick Access
+- Optimized for All Devices
+- Available players: Kodik
 
 ## ✨ Future Improvements
 
@@ -29,7 +26,6 @@ height="80">](https://www.rustore.ru/catalog/app/club.anifox.android)
 - User Profile
 - User registration
 - User login
-- Player
 
 ## Requirements
 
@@ -57,7 +53,7 @@ height="80">](https://www.rustore.ru/catalog/app/club.anifox.android)
 ## 🛠️ Contents & Libraries
 
 - MVVM
-- Modularization & Multi Module App Architecture
+- Multi Module App Architecture
 - Clean Architecture
 - Jetpack Compose
 - Hilt
