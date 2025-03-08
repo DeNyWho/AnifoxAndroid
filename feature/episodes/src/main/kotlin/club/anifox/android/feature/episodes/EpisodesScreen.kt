@@ -58,6 +58,7 @@ internal fun EpisodesScreen(
     onEpisodeClick: (String, Boolean?) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val episodesResults = viewModel.episodesResults
 
     LaunchedEffect(Unit) {
         if (!uiState.isInitialized) {
@@ -74,7 +75,7 @@ internal fun EpisodesScreen(
     EpisodesUI(
         onBackPressed = onBackPressed,
         uiState = uiState,
-        episodesResults = viewModel.episodesResults,
+        episodesResults = episodesResults,
         onEpisodeClick = onEpisodeClick,
         onSortUpdate = {
             viewModel.updateSort()

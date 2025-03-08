@@ -20,12 +20,14 @@ import javax.inject.Inject
 internal class TranslationsViewModel @Inject constructor(
     private val translationsCountUseCase: GetAnimeTranslationsCountUseCase,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(TranslationsUiState())
+    private val _uiState: MutableStateFlow<TranslationsUiState> =
+        MutableStateFlow(TranslationsUiState())
     val uiState: StateFlow<TranslationsUiState> = _uiState.asStateFlow()
 
-    private val _animeTranslationsCount =
-        MutableStateFlow<StateListWrapper<AnimeTranslationsCount>>(StateListWrapper.loading())
-    val animeTranslationsCount = _animeTranslationsCount.asStateFlow()
+    private val _animeTranslationsCount: MutableStateFlow<StateListWrapper<AnimeTranslationsCount>> =
+        MutableStateFlow(StateListWrapper.loading())
+    val animeTranslationsCount: StateFlow<StateListWrapper<AnimeTranslationsCount>> =
+        _animeTranslationsCount.asStateFlow()
 
     fun initialize(url: String) {
         viewModelScope.launch {

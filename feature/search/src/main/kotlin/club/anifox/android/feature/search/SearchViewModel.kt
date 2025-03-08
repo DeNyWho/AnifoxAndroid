@@ -35,14 +35,20 @@ internal class SearchViewModel @Inject constructor(
     private val addSearchHistoryUseCase: AddAnimeSearchHistoryUseCase,
     private val deleteSearchHistoryUseCase: DeleteAnimeSearchHistoryUseCase,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(SearchUiState())
-    val uiState: StateFlow<SearchUiState> = _uiState.asStateFlow()
+    private val _uiState: MutableStateFlow<SearchUiState> =
+        MutableStateFlow(SearchUiState())
+    val uiState: StateFlow<SearchUiState> =
+        _uiState.asStateFlow()
 
-    private val _searchHistory = MutableStateFlow<List<String>>(emptyList())
-    val searchHistory = _searchHistory.asStateFlow()
+    private val _searchHistory: MutableStateFlow<List<String>> =
+        MutableStateFlow(emptyList())
+    val searchHistory: StateFlow<List<String>> =
+        _searchHistory.asStateFlow()
 
-    private val _randomAnime = MutableStateFlow(StateListWrapper<AnimeLight>())
-    val randomAnime = _randomAnime.asStateFlow()
+    private val _randomAnime: MutableStateFlow<StateListWrapper<AnimeLight>> =
+        MutableStateFlow(StateListWrapper.loading())
+    val randomAnime: StateFlow<StateListWrapper<AnimeLight>> =
+        _randomAnime.asStateFlow()
 
     @OptIn(FlowPreview::class)
     val searchResults: Flow<PagingData<AnimeLight>> = _uiState

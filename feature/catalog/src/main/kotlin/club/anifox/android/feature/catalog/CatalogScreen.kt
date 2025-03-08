@@ -44,10 +44,10 @@ internal fun CatalogScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val searchResults = viewModel.searchResults
-    val animeYears by viewModel.animeYears.collectAsState()
-    val animeGenres by viewModel.animeGenres.collectAsState()
-    val animeStudios by viewModel.animeStudios.collectAsState()
-    val animeTranslations by viewModel.animeTranslations.collectAsState()
+    val animeYearsState by viewModel.animeYears.collectAsState()
+    val animeGenresState by viewModel.animeGenres.collectAsState()
+    val animeStudiosState by viewModel.animeStudios.collectAsState()
+    val animeTranslationsState by viewModel.animeTranslations.collectAsState()
 
     LaunchedEffect(Unit) {
         if (!uiState.isInitialized) {
@@ -61,10 +61,10 @@ internal fun CatalogScreen(
         uiState = uiState,
         searchResults = searchResults,
         onAnimeClick = onAnimeClick,
-        animeGenres = animeGenres,
-        animeYears = animeYears,
-        animeStudios = animeStudios,
-        animeTranslations = animeTranslations,
+        animeGenres = animeGenresState,
+        animeYears = animeYearsState,
+        animeStudios = animeStudiosState,
+        animeTranslations = animeTranslationsState,
         updateFilter = { filterParams, filterType ->
             viewModel.updateFilter(filterParams, filterType)
         },

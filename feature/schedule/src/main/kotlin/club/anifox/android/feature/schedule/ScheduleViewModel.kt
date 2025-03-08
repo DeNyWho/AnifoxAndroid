@@ -10,6 +10,7 @@ import club.anifox.android.feature.schedule.model.state.ScheduleUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -20,8 +21,10 @@ import javax.inject.Inject
 internal class ScheduleViewModel @Inject constructor(
     private val animeSchedulePagingUseCase: AnimeSchedulePagingUseCase,
 ) : ViewModel() {
-    private val _scheduleUiState = MutableStateFlow(ScheduleUiState())
-    val scheduleUiState = _scheduleUiState.asStateFlow()
+    private val _scheduleUiState: MutableStateFlow<ScheduleUiState> =
+        MutableStateFlow(ScheduleUiState())
+    val scheduleUiState: StateFlow<ScheduleUiState> =
+        _scheduleUiState.asStateFlow()
 
     private fun updateLoadingState(dayOfWeek: WeekDay, isLoading: Boolean) {
         _scheduleUiState.update {

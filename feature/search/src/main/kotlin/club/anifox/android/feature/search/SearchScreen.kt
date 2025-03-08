@@ -54,8 +54,8 @@ internal fun SearchScreen(
     onAnimeClick: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val searchHistory by viewModel.searchHistory.collectAsState()
-    val randomAnime by viewModel.randomAnime.collectAsState()
+    val searchHistoryState by viewModel.searchHistory.collectAsState()
+    val randomAnimeState by viewModel.randomAnime.collectAsState()
     val focusRequester = remember { FocusRequester() }
 
     LaunchedEffect(viewModel) {
@@ -75,8 +75,8 @@ internal fun SearchScreen(
         onBackPressed = onBackPressed,
         uiState = uiState,
         searchResults = viewModel.searchResults,
-        searchHistory = searchHistory,
-        randomAnime = randomAnime,
+        searchHistory = searchHistoryState,
+        randomAnime = randomAnimeState,
         focusRequester = focusRequester,
         onQueryChange = { viewModel.search(it) },
         onTrailingIconClick = {

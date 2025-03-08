@@ -1,7 +1,5 @@
 package club.anifox.android.feature.character
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import club.anifox.android.domain.model.character.full.CharacterFull
@@ -22,12 +20,15 @@ import javax.inject.Inject
 internal class CharacterViewModel @Inject constructor(
     private val getCharacterFullUseCase: GetCharacterFullUseCase,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(CharacterUiState())
-    val uiState: StateFlow<CharacterUiState> = _uiState.asStateFlow()
+    private val _uiState: MutableStateFlow<CharacterUiState> =
+        MutableStateFlow(CharacterUiState())
+    val uiState: StateFlow<CharacterUiState> =
+        _uiState.asStateFlow()
 
-    private val _character: MutableState<StateWrapper<CharacterFull>> =
-        mutableStateOf(StateWrapper.loading())
-    val character: MutableState<StateWrapper<CharacterFull>> = _character
+    private val _character: MutableStateFlow<StateWrapper<CharacterFull>> =
+        MutableStateFlow(StateWrapper.loading())
+    val character: StateFlow<StateWrapper<CharacterFull>> =
+        _character.asStateFlow()
 
     fun initialize(id: String) {
         viewModelScope.launch {

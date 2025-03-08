@@ -200,7 +200,7 @@ private fun CharactersContentUI(
                     }
 
                     when {
-                        items.loadState.append is LoadState.Loading || uiState.isLoading || items.loadState.refresh is LoadState.Loading -> {
+                        items.loadState.append is LoadState.Loading || items.loadState.refresh is LoadState.Loading -> {
                             showCardCharactersItemShimmer(
                                 shimmerInstance = shimmer,
                                 thumbnailHeight = CardCharactersItemDefaults.Height.Default,

@@ -16,7 +16,8 @@ import javax.inject.Inject
 internal class PlayerViewModel @Inject constructor(
     private val playerOrientationSettingsUseCase: PlayerOrientationSettingsUseCase,
 ) : ViewModel() {
-    private val _selectedPlayerOrientation = MutableStateFlow<PlayerOrientation?>(null)
+    private val _selectedPlayerOrientation: MutableStateFlow<PlayerOrientation?> =
+        MutableStateFlow(null)
     val selectedPlayerOrientation: StateFlow<PlayerOrientation?> =
         _selectedPlayerOrientation.asStateFlow()
 

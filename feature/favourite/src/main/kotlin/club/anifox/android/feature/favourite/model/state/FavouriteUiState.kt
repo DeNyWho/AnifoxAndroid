@@ -11,6 +11,5 @@ internal data class FavouriteUiState(
         FavouriteTabType.FAVOURITE
     ) + AnimeFavouriteStatus.entries.map { FavouriteTabType.STATUS(it) },
     val items: Map<FavouriteTabType, List<AnimeLightFavourite>> = emptyMap(),
-    val loading: Boolean = true,
     val error: String? = null,
 )

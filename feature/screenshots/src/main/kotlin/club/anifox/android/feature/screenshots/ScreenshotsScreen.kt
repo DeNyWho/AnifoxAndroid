@@ -50,6 +50,7 @@ internal fun ScreenshotsScreen(
     onBackPressed: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val screenshotsAnimeState by viewModel.screenshotsAnime.collectAsState()
 
     LaunchedEffect(Unit) {
         if (!uiState.isInitialized) {
@@ -58,7 +59,7 @@ internal fun ScreenshotsScreen(
     }
 
     ScreenshotsUI(
-        screenshotAnimeState = viewModel.screenshotsAnime.value,
+        screenshotAnimeState = screenshotsAnimeState,
         onBackPressed = onBackPressed,
         animeTitle = animeTitle,
     )

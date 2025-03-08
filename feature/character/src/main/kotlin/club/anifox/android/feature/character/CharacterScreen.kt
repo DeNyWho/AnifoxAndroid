@@ -46,6 +46,7 @@ internal fun CharacterScreen(
     id: String,
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val characterState by viewModel.character.collectAsState()
 
     LaunchedEffect(Unit) {
         if (!uiState.isInitialized) {
@@ -56,7 +57,7 @@ internal fun CharacterScreen(
     CharacterUI(
         onBackPressed = onBackPressed,
         onAnimeClick = onAnimeClick,
-        characterState = viewModel.character.value,
+        characterState = characterState,
     )
 }
 

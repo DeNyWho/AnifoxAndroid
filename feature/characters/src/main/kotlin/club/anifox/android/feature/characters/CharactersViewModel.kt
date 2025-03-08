@@ -25,16 +25,17 @@ import javax.inject.Inject
 internal class CharactersViewModel @Inject constructor(
     private val animeCharactersPagingUseCase: AnimeCharactersPagingUseCase,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(CharactersUiState())
-    val uiState: StateFlow<CharactersUiState> = _uiState.asStateFlow()
+    private val _uiState: MutableStateFlow<CharactersUiState> =
+        MutableStateFlow(CharactersUiState())
+    val uiState: StateFlow<CharactersUiState> =
+        _uiState.asStateFlow()
 
     @OptIn(FlowPreview::class)
     val charactersResults: Flow<PagingData<AnimeCharactersLight>> = _uiState
-        .debounce(500)
         .filter { it.isInitialized }
+        .debounce(500)
         .distinctUntilChanged { old, new -> old.searchQuery == new.searchQuery }
         .flatMapLatest { state ->
-            _uiState.update { it.copy(isLoading = false) }
             animeCharactersPagingUseCase.invoke(
                 url = state.url,
                 search = state.searchQuery,
@@ -47,7 +48,6 @@ internal class CharactersViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     searchQuery = query,
-                    isLoading = true,
                 )
             }
         }
@@ -58,7 +58,6 @@ internal class CharactersViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     searchQuery = "",
-                    isLoading = true,
                 )
             }
         }
@@ -71,7 +70,6 @@ internal class CharactersViewModel @Inject constructor(
                     url = initialUrl,
                     searchQuery = "",
                     isInitialized = true,
-                    isLoading = true,
                 )
             }
         }

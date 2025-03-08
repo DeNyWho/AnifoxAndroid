@@ -78,6 +78,14 @@ internal fun DetailScreen(
     onMoreCharactersClick: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val detailAnimeState by viewModel.detailAnime.collectAsState()
+    val screenshotAnimeState by viewModel.screenshotsAnime.collectAsState()
+    val videosAnimeState by viewModel.videosAnime.collectAsState()
+    val relationAnimeState by viewModel.relatedAnime.collectAsState()
+    val similarAnimeState by viewModel.similarAnime.collectAsState()
+    val charactersAnimeState by viewModel.charactersAnime.collectAsState()
+    val selectedFavouriteState by viewModel.selectedFavouriteStatus.collectAsState()
+    val isInFavouriteState by viewModel.isInFavourite.collectAsState()
 
     LaunchedEffect(Unit) {
         if (!uiState.isInitialized) {
@@ -87,14 +95,14 @@ internal fun DetailScreen(
 
     DetailUI(
         url = url,
-        detailAnimeState = viewModel.detailAnime.value,
-        screenshotAnimeState = viewModel.screenshotsAnime.value,
-        videosAnimeState = viewModel.videosAnime.value,
-        relationAnimeState = viewModel.relatedAnime.value,
-        similarAnimeState = viewModel.similarAnime.value,
-        charactersAnimeState = viewModel.charactersAnime.value,
-        selectedFavouriteState = viewModel.selectedFavouriteStatus.value,
-        isInFavouriteState = viewModel.isInFavourite.value,
+        detailAnimeState = detailAnimeState,
+        screenshotAnimeState = screenshotAnimeState,
+        videosAnimeState = videosAnimeState,
+        relationAnimeState = relationAnimeState,
+        similarAnimeState = similarAnimeState,
+        charactersAnimeState = charactersAnimeState,
+        selectedFavouriteState = selectedFavouriteState,
+        isInFavouriteState = isInFavouriteState,
         onBackPressed = onBackPressed,
         onWatchClick = onWatchClick,
         onAnimeClick = onAnimeClick,

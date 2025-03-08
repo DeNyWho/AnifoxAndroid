@@ -1,7 +1,5 @@
 package club.anifox.android.feature.video
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import club.anifox.android.core.common.util.deeplink.DeepLink
@@ -25,24 +23,29 @@ internal class VideoViewModel @Inject constructor(
     private val animeVideosUseCase: GetAnimeVideosUseCase,
     private val deepLink: DeepLink,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(VideoUiState())
+    private val _uiState: MutableStateFlow<VideoUiState> =
+        MutableStateFlow(VideoUiState())
     val uiState: StateFlow<VideoUiState> = _uiState.asStateFlow()
 
-    private val _trailerVideos: MutableState<StateListWrapper<AnimeVideosLight>> =
-        mutableStateOf(StateListWrapper())
-    val trailerVideos: MutableState<StateListWrapper<AnimeVideosLight>> = _trailerVideos
+    private val _trailerVideos: MutableStateFlow<StateListWrapper<AnimeVideosLight>> =
+        MutableStateFlow(StateListWrapper())
+    val trailerVideos: StateFlow<StateListWrapper<AnimeVideosLight>> =
+        _trailerVideos.asStateFlow()
 
-    private val _openingVideos: MutableState<StateListWrapper<AnimeVideosLight>> =
-        mutableStateOf(StateListWrapper())
-    val openingVideos: MutableState<StateListWrapper<AnimeVideosLight>> = _openingVideos
+    private val _openingVideos: MutableStateFlow<StateListWrapper<AnimeVideosLight>> =
+        MutableStateFlow(StateListWrapper())
+    val openingVideos: StateFlow<StateListWrapper<AnimeVideosLight>> =
+        _openingVideos.asStateFlow()
 
-    private val _endingVideos: MutableState<StateListWrapper<AnimeVideosLight>> =
-        mutableStateOf(StateListWrapper())
-    val endingVideos: MutableState<StateListWrapper<AnimeVideosLight>> = _endingVideos
+    private val _endingVideos: MutableStateFlow<StateListWrapper<AnimeVideosLight>> =
+        MutableStateFlow(StateListWrapper())
+    val endingVideos: StateFlow<StateListWrapper<AnimeVideosLight>> =
+        _endingVideos.asStateFlow()
 
-    private val _otherVideos: MutableState<StateListWrapper<AnimeVideosLight>> =
-        mutableStateOf(StateListWrapper())
-    val otherVideos: MutableState<StateListWrapper<AnimeVideosLight>> = _otherVideos
+    private val _otherVideos: MutableStateFlow<StateListWrapper<AnimeVideosLight>> =
+        MutableStateFlow(StateListWrapper())
+    val otherVideos: StateFlow<StateListWrapper<AnimeVideosLight>> =
+        _otherVideos.asStateFlow()
 
     fun initialize(url: String, animeTitle: String?) {
         viewModelScope.launch {

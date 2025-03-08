@@ -11,6 +11,7 @@ import club.anifox.android.feature.episodes.model.state.EpisodesUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
@@ -23,8 +24,10 @@ import javax.inject.Inject
 internal class EpisodesViewModel @Inject constructor(
     private val animeEpisodesPagingUseCase: AnimeEpisodesPagingUseCase,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(EpisodesUiState())
-    val uiState = _uiState.asStateFlow()
+    private val _uiState: MutableStateFlow<EpisodesUiState> =
+        MutableStateFlow(EpisodesUiState())
+    val uiState: StateFlow<EpisodesUiState> =
+        _uiState.asStateFlow()
 
     val episodesResults: Flow<PagingData<AnimeEpisodesLight>> = _uiState
         .filter { it.isInitialized }

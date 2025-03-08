@@ -36,8 +36,8 @@ internal fun TranslationsScreen(
     onPlayerClick: (String, Boolean?) -> Unit,
     url: String,
 ) {
-    val animeTranslationsCount by viewModel.animeTranslationsCount.collectAsState()
     val uiState by viewModel.uiState.collectAsState()
+    val animeTranslationsCountState by viewModel.animeTranslationsCount.collectAsState()
 
     LaunchedEffect(Unit) {
         if (!uiState.isInitialized) {
@@ -47,7 +47,7 @@ internal fun TranslationsScreen(
 
     TranslationsUI(
         onBackPressed = onBackPressed,
-        animeTranslationsCount = animeTranslationsCount,
+        animeTranslationsCount = animeTranslationsCountState,
         onTranslationClick = { translationId ->
             onTranslationClick(url, translationId)
         },

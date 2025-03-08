@@ -1,7 +1,5 @@
 package club.anifox.android.feature.screenshots
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import club.anifox.android.domain.state.StateListWrapper
@@ -21,12 +19,15 @@ import javax.inject.Inject
 internal class ScreenshotsViewModel @Inject constructor(
     private val animeScreenshotUseCase: GetAnimeScreenshotUseCase,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(ScreenshotsUiState())
-    val uiState: StateFlow<ScreenshotsUiState> = _uiState.asStateFlow()
+    private val _uiState: MutableStateFlow<ScreenshotsUiState> =
+        MutableStateFlow(ScreenshotsUiState())
+    val uiState: StateFlow<ScreenshotsUiState> =
+        _uiState.asStateFlow()
 
-    private val _screenshotsAnime: MutableState<StateListWrapper<String>> =
-        mutableStateOf(StateListWrapper())
-    val screenshotsAnime: MutableState<StateListWrapper<String>> = _screenshotsAnime
+    private val _screenshotsAnime: MutableStateFlow<StateListWrapper<String>> =
+        MutableStateFlow(StateListWrapper())
+    val screenshotsAnime: StateFlow<StateListWrapper<String>> =
+        _screenshotsAnime.asStateFlow()
 
     fun initialize(url: String) {
         viewModelScope.launch {

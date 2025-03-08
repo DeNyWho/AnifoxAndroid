@@ -39,6 +39,10 @@ internal fun VideoScreen(
     onBackPressed: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val trailerVideoState by viewModel.trailerVideos.collectAsState()
+    val openingVideoState by viewModel.openingVideos.collectAsState()
+    val endingVideoState by viewModel.endingVideos.collectAsState()
+    val otherVideoState by viewModel.otherVideos.collectAsState()
 
     LaunchedEffect(Unit) {
         if (!uiState.isInitialized) {
@@ -48,10 +52,10 @@ internal fun VideoScreen(
 
     VideoUI(
         uiState = uiState,
-        trailerVideoState = viewModel.trailerVideos.value,
-        openingVideoState = viewModel.openingVideos.value,
-        endingVideoState = viewModel.endingVideos.value,
-        otherVideoState = viewModel.otherVideos.value,
+        trailerVideoState = trailerVideoState,
+        openingVideoState = openingVideoState,
+        endingVideoState = endingVideoState,
+        otherVideoState = otherVideoState,
         onBackPressed = onBackPressed,
         onVideoClick = { youtubeUrl ->
             viewModel.openYoutube(youtubeUrl)

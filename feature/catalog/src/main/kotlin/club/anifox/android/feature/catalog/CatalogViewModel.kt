@@ -18,7 +18,6 @@ import club.anifox.android.domain.usecase.anime.paging.anime.catalog.AnimeCatalo
 import club.anifox.android.feature.catalog.model.FilterType
 import club.anifox.android.feature.catalog.model.state.CatalogUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -38,23 +37,30 @@ internal class CatalogViewModel @Inject constructor(
     private val getAnimeStudiosUseCase: GetAnimeStudiosUseCase,
     private val getAnimeTranslationsUseCase: GetAnimeTranslationsUseCase,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(CatalogUiState())
-    val uiState: StateFlow<CatalogUiState> = _uiState.asStateFlow()
+    private val _uiState: MutableStateFlow<CatalogUiState> =
+        MutableStateFlow(CatalogUiState())
+    val uiState: StateFlow<CatalogUiState> =
+        _uiState.asStateFlow()
 
-    private val _animeGenres =
-        MutableStateFlow<StateListWrapper<AnimeGenre>>(StateListWrapper.loading())
-    val animeGenres = _animeGenres.asStateFlow()
+    private val _animeGenres: MutableStateFlow<StateListWrapper<AnimeGenre>> =
+        MutableStateFlow(StateListWrapper.loading())
+    val animeGenres: StateFlow<StateListWrapper<AnimeGenre>> =
+        _animeGenres.asStateFlow()
 
-    private val _animeYears = MutableStateFlow<StateListWrapper<Int>>(StateListWrapper.loading())
-    val animeYears = _animeYears.asStateFlow()
+    private val _animeYears: MutableStateFlow<StateListWrapper<Int>> =
+        MutableStateFlow(StateListWrapper.loading())
+    val animeYears: StateFlow<StateListWrapper<Int>> =
+        _animeYears.asStateFlow()
 
-    private val _animeStudios =
-        MutableStateFlow<StateListWrapper<AnimeStudio>>(StateListWrapper.loading())
-    val animeStudios = _animeStudios.asStateFlow()
+    private val _animeStudios: MutableStateFlow<StateListWrapper<AnimeStudio>> =
+        MutableStateFlow(StateListWrapper.loading())
+    val animeStudios: StateFlow<StateListWrapper<AnimeStudio>> =
+        _animeStudios.asStateFlow()
 
-    private val _animeTranslations =
-        MutableStateFlow<StateListWrapper<AnimeTranslation>>(StateListWrapper.loading())
-    val animeTranslations = _animeTranslations.asStateFlow()
+    private val _animeTranslations: MutableStateFlow<StateListWrapper<AnimeTranslation>> =
+        MutableStateFlow(StateListWrapper.loading())
+    val animeTranslations: StateFlow<StateListWrapper<AnimeTranslation>> =
+        _animeTranslations.asStateFlow()
 
     init {
         loadInitialData()
@@ -62,26 +68,24 @@ internal class CatalogViewModel @Inject constructor(
 
     private fun loadInitialData() {
         viewModelScope.launch {
-            coroutineScope {
-                launch {
-                    getAnimeGenresUseCase.invoke().collect {
-                        _animeGenres.value = it
-                    }
+            launch {
+                getAnimeGenresUseCase.invoke().collect {
+                    _animeGenres.value = it
                 }
-                launch {
-                    getAnimeYearsUseCase.invoke().collect {
-                        _animeYears.value = it
-                    }
+            }
+            launch {
+                getAnimeYearsUseCase.invoke().collect {
+                    _animeYears.value = it
                 }
-                launch {
-                    getAnimeStudiosUseCase.invoke().collect {
-                        _animeStudios.value = it
-                    }
+            }
+            launch {
+                getAnimeStudiosUseCase.invoke().collect {
+                    _animeStudios.value = it
                 }
-                launch {
-                    getAnimeTranslationsUseCase.invoke().collect {
-                        _animeTranslations.value = it
-                    }
+            }
+            launch {
+                getAnimeTranslationsUseCase.invoke().collect {
+                    _animeTranslations.value = it
                 }
             }
         }
@@ -123,7 +127,6 @@ internal class CatalogViewModel @Inject constructor(
                 selectedSort = if (filterType == FilterType.SORT) filterParams.sort else currentState.selectedSort,
                 selectedMinimalAge = currentState.selectedMinimalAge,
                 isInitialized = currentState.isInitialized,
-                isLoading = currentState.isLoading,
             )
         }
     }

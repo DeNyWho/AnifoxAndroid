@@ -1,12 +1,9 @@
 package club.anifox.android.feature.home
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeOrder
-import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeSort
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType.Movie
@@ -15,7 +12,9 @@ import club.anifox.android.domain.state.StateListWrapper
 import club.anifox.android.domain.usecase.anime.GetAnimeGenresUseCase
 import club.anifox.android.domain.usecase.anime.GetAnimeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -27,26 +26,30 @@ internal class HomeViewModel @Inject constructor(
     private val animeUseCase: GetAnimeUseCase,
     private val animeGenresUseCase: GetAnimeGenresUseCase,
 ) : ViewModel() {
+    private val _animeOfSeason: MutableStateFlow<StateListWrapper<AnimeLight>> =
+        MutableStateFlow(StateListWrapper())
+    val animeOfSeason: StateFlow<StateListWrapper<AnimeLight>> =
+        _animeOfSeason.asStateFlow()
 
-    private val _animeOfSeason: MutableState<StateListWrapper<AnimeLight>> =
-        mutableStateOf(StateListWrapper())
-    val animeOfSeason: MutableState<StateListWrapper<AnimeLight>> = _animeOfSeason
+    private val _onPopularAnime: MutableStateFlow<StateListWrapper<AnimeLight>> =
+        MutableStateFlow(StateListWrapper())
+    val onPopularAnime: StateFlow<StateListWrapper<AnimeLight>> =
+        _onPopularAnime.asStateFlow()
 
-    private val _onPopularAnime: MutableState<StateListWrapper<AnimeLight>> =
-        mutableStateOf(StateListWrapper())
-    val onPopularAnime: MutableState<StateListWrapper<AnimeLight>> = _onPopularAnime
+    private val _onUpdatedAnime: MutableStateFlow<StateListWrapper<AnimeLight>> =
+        MutableStateFlow(StateListWrapper())
+    val onUpdatedAnime: StateFlow<StateListWrapper<AnimeLight>> =
+        _onUpdatedAnime.asStateFlow()
 
-    private val _onUpdatedAnime: MutableState<StateListWrapper<AnimeLight>> =
-        mutableStateOf(StateListWrapper())
-    val onUpdatedAnime: MutableState<StateListWrapper<AnimeLight>> = _onUpdatedAnime
+    private val _filmsAnime: MutableStateFlow<StateListWrapper<AnimeLight>> =
+        MutableStateFlow(StateListWrapper())
+    val filmsAnime: StateFlow<StateListWrapper<AnimeLight>> =
+        _filmsAnime.asStateFlow()
 
-    private val _filmsAnime: MutableState<StateListWrapper<AnimeLight>> =
-        mutableStateOf(StateListWrapper())
-    val filmsAnime: MutableState<StateListWrapper<AnimeLight>> = _filmsAnime
-
-    private val _genresAnime: MutableState<StateListWrapper<AnimeGenre>> =
-        mutableStateOf(StateListWrapper())
-    val genresAnime: MutableState<StateListWrapper<AnimeGenre>> = _genresAnime
+    private val _genresAnime: MutableStateFlow<StateListWrapper<AnimeGenre>> =
+        MutableStateFlow(StateListWrapper())
+    val genresAnime: StateFlow<StateListWrapper<AnimeGenre>> =
+        _genresAnime.asStateFlow()
 
     init {
         loadInitialData()
@@ -54,22 +57,20 @@ internal class HomeViewModel @Inject constructor(
 
     private fun loadInitialData() {
         viewModelScope.launch {
-            coroutineScope {
-                launch {
-                    getAnimeOfSeason()
-                }
-                launch {
-                    getPopularAnime()
-                }
-                launch {
-                    getUpdatedAnime()
-                }
-                launch {
-                    getAnimeGenres()
-                }
-                launch {
-                    getFilmsAnime()
-                }
+            launch {
+                getAnimeOfSeason()
+            }
+            launch {
+                getPopularAnime()
+            }
+            launch {
+                getUpdatedAnime()
+            }
+            launch {
+                getAnimeGenres()
+            }
+            launch {
+                getFilmsAnime()
             }
         }
     }
@@ -79,7 +80,6 @@ internal class HomeViewModel @Inject constructor(
             page = DEFAULT_PAGE,
             limit = DEFAULT_LIMIT,
             status = AnimeStatus.Ongoing,
-            season = AnimeSeason.fromMonth(LocalDate.now().month.value),
             years = listOf(LocalDate.now().year),
             order = AnimeOrder.Rating,
             sort = AnimeSort.Desc,

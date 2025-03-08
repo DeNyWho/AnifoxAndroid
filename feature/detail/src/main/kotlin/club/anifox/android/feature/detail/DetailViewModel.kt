@@ -1,7 +1,5 @@
 package club.anifox.android.feature.detail
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import club.anifox.android.core.common.util.deeplink.DeepLink
@@ -50,38 +48,50 @@ internal class DetailViewModel @Inject constructor(
     private val checkAnimeLocalUseCase: CheckAnimeLocalUseCase,
     private val deepLink: DeepLink,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(DetailUiState())
-    val uiState: StateFlow<DetailUiState> = _uiState.asStateFlow()
+    private val _uiState: MutableStateFlow<DetailUiState> =
+        MutableStateFlow(DetailUiState())
+    val uiState: StateFlow<DetailUiState> =
+        _uiState.asStateFlow()
 
-    private val _detailAnime: MutableState<StateWrapper<AnimeDetail>> =
-        mutableStateOf(StateWrapper.loading())
-    val detailAnime: MutableState<StateWrapper<AnimeDetail>> = _detailAnime
+    private val _detailAnime: MutableStateFlow<StateWrapper<AnimeDetail>> =
+        MutableStateFlow(StateWrapper.loading())
+    val detailAnime: StateFlow<StateWrapper<AnimeDetail>> =
+        _detailAnime.asStateFlow()
 
-    private val _similarAnime: MutableState<StateListWrapper<AnimeLight>> =
-        mutableStateOf(StateListWrapper.loading())
-    val similarAnime: MutableState<StateListWrapper<AnimeLight>> = _similarAnime
+    private val _similarAnime: MutableStateFlow<StateListWrapper<AnimeLight>> =
+        MutableStateFlow(StateListWrapper.loading())
+    val similarAnime: StateFlow<StateListWrapper<AnimeLight>> =
+        _similarAnime.asStateFlow()
 
-    private val _relatedAnime: MutableState<StateListWrapper<AnimeRelatedLight>> =
-        mutableStateOf(StateListWrapper.loading())
-    val relatedAnime: MutableState<StateListWrapper<AnimeRelatedLight>> = _relatedAnime
+    private val _relatedAnime: MutableStateFlow<StateListWrapper<AnimeRelatedLight>> =
+        MutableStateFlow(StateListWrapper.loading())
+    val relatedAnime: StateFlow<StateListWrapper<AnimeRelatedLight>> =
+        _relatedAnime.asStateFlow()
 
-    private val _screenshotsAnime: MutableState<StateListWrapper<String>> =
-        mutableStateOf(StateListWrapper.loading())
-    val screenshotsAnime: MutableState<StateListWrapper<String>> = _screenshotsAnime
+    private val _screenshotsAnime: MutableStateFlow<StateListWrapper<String>> =
+        MutableStateFlow(StateListWrapper.loading())
+    val screenshotsAnime: StateFlow<StateListWrapper<String>> =
+        _screenshotsAnime.asStateFlow()
 
-    private val _videosAnime: MutableState<StateListWrapper<AnimeVideosLight>> =
-        mutableStateOf(StateListWrapper.loading())
-    val videosAnime: MutableState<StateListWrapper<AnimeVideosLight>> = _videosAnime
+    private val _videosAnime: MutableStateFlow<StateListWrapper<AnimeVideosLight>> =
+        MutableStateFlow(StateListWrapper.loading())
+    val videosAnime: StateFlow<StateListWrapper<AnimeVideosLight>> =
+        _videosAnime.asStateFlow()
 
-    private val _charactersAnime: MutableState<StateListWrapper<AnimeCharactersLight>> =
-        mutableStateOf(StateListWrapper.loading())
-    val charactersAnime: MutableState<StateListWrapper<AnimeCharactersLight>> = _charactersAnime
+    private val _charactersAnime: MutableStateFlow<StateListWrapper<AnimeCharactersLight>> =
+        MutableStateFlow(StateListWrapper.loading())
+    val charactersAnime: StateFlow<StateListWrapper<AnimeCharactersLight>> =
+        _charactersAnime.asStateFlow()
 
-    private val _selectedFavouriteStatus = mutableStateOf<AnimeFavouriteStatus?>(null)
-    val selectedFavouriteStatus: MutableState<AnimeFavouriteStatus?> = _selectedFavouriteStatus
+    private val _selectedFavouriteStatus: MutableStateFlow<AnimeFavouriteStatus?> =
+        MutableStateFlow(null)
+    val selectedFavouriteStatus: StateFlow<AnimeFavouriteStatus?> =
+        _selectedFavouriteStatus.asStateFlow()
 
-    private val _isInFavourite: MutableState<Boolean> = mutableStateOf(false)
-    val isInFavourite: MutableState<Boolean> = _isInFavourite
+    private val _isInFavourite: MutableStateFlow<Boolean> =
+        MutableStateFlow(false)
+    val isInFavourite: StateFlow<Boolean> =
+        _isInFavourite.asStateFlow()
 
     fun initialize(url: String) {
         viewModelScope.launch {

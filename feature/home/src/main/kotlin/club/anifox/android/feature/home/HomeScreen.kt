@@ -5,6 +5,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -12,7 +14,6 @@ import club.anifox.android.core.uikit.component.slider.SliderComponentDefaults
 import club.anifox.android.core.uikit.component.slider.simple.SliderComponent
 import club.anifox.android.domain.model.anime.AnimeLight
 import club.anifox.android.domain.model.anime.enum.AnimeOrder
-import club.anifox.android.domain.model.anime.enum.AnimeSeason
 import club.anifox.android.domain.model.anime.enum.AnimeSort
 import club.anifox.android.domain.model.anime.enum.AnimeStatus
 import club.anifox.android.domain.model.anime.enum.AnimeType
@@ -36,6 +37,12 @@ internal fun HomeScreen(
     onCatalogClick: (CatalogFilterParams) -> Unit,
     onSettingsClick: () -> Unit,
 ) {
+    val animeOfSeasonState by viewModel.animeOfSeason.collectAsState()
+    val onPopularAnimeState by viewModel.onPopularAnime.collectAsState()
+    val onUpdatedAnimeState by viewModel.onUpdatedAnime.collectAsState()
+    val filmsAnimeState by viewModel.filmsAnime.collectAsState()
+    val genresAnimeState by viewModel.genresAnime.collectAsState()
+
     HomeUI(
         modifier = modifier,
         onAnimeClick = onAnimeClick,
@@ -43,11 +50,11 @@ internal fun HomeScreen(
         onGenresClick = onGenresClick,
         onCatalogClick = onCatalogClick,
         onSettingsClick = onSettingsClick,
-        animeOfSeason = viewModel.animeOfSeason.value,
-        onPopularAnime = viewModel.onPopularAnime.value,
-        onUpdatedAnime = viewModel.onUpdatedAnime.value,
-        filmsAnime = viewModel.filmsAnime.value,
-        genresAnime = viewModel.genresAnime.value,
+        animeOfSeason = animeOfSeasonState,
+        onPopularAnime = onPopularAnimeState,
+        onUpdatedAnime = onUpdatedAnimeState,
+        filmsAnime = filmsAnimeState,
+        genresAnime = genresAnimeState,
     )
 }
 
@@ -126,9 +133,7 @@ private fun HomeContent(
                 onMoreClick = {
                     onCatalogClick(
                         CatalogFilterParams(
-                            genres = null,
                             status = AnimeStatus.Ongoing,
-                            season = AnimeSeason.fromMonth(LocalDate.now().month.value),
                             years = listOf(LocalDate.now().year),
                             order = AnimeOrder.Rating,
                             sort = AnimeSort.Desc,
@@ -138,6 +143,7 @@ private fun HomeContent(
                 isMorePastLimitVisible = true,
             )
         }
+
         item {
             SliderComponent(
                 headerTitle = stringResource(R.string.feature_home_section_header_title_popular),
@@ -156,6 +162,7 @@ private fun HomeContent(
                 isMorePastLimitVisible = true,
             )
         }
+
         item {
             SliderComponent(
                 headerTitle = stringResource(R.string.feature_home_section_header_title_updated),
@@ -166,6 +173,7 @@ private fun HomeContent(
                 onMoreClick = {
                     onCatalogClick(
                         CatalogFilterParams(
+                            status = AnimeStatus.Ongoing,
                             order = AnimeOrder.Update,
                             sort = AnimeSort.Desc,
                         )
@@ -174,6 +182,7 @@ private fun HomeContent(
                 isMorePastLimitVisible = true,
             )
         }
+
         item {
             GenreComponent(
                 headerTitle = stringResource(R.string.feature_home_section_header_title_genres),
@@ -182,6 +191,7 @@ private fun HomeContent(
                 onItemClick = onGenresClick,
             )
         }
+
         item {
             SliderComponent(
                 headerTitle = stringResource(R.string.feature_home_section_header_title_films),

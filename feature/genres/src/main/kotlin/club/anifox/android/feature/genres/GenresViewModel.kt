@@ -24,8 +24,10 @@ import javax.inject.Inject
 internal class GenresViewModel @Inject constructor(
     private val animeGenresPagingUseCase: AnimeGenresPagingUseCase,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(GenreUiState())
-    val uiState: StateFlow<GenreUiState> = _uiState.asStateFlow()
+    private val _uiState: MutableStateFlow<GenreUiState> =
+        MutableStateFlow(GenreUiState())
+    val uiState: StateFlow<GenreUiState> =
+        _uiState.asStateFlow()
 
     val searchResults: Flow<PagingData<AnimeLight>> = _uiState
         .filter { it.isInitialized }

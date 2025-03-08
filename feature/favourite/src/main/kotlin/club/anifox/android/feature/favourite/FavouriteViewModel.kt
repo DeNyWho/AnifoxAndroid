@@ -23,13 +23,16 @@ import javax.inject.Inject
 internal class FavouriteViewModel @Inject constructor(
     private val getFavouriteAnimeUseCase: GetFavouriteAnimeUseCase,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(FavouriteUiState())
-    val uiState: StateFlow<FavouriteUiState> = _uiState.asStateFlow()
+    private val _uiState: MutableStateFlow<FavouriteUiState> =
+        MutableStateFlow(FavouriteUiState())
+    val uiState: StateFlow<FavouriteUiState> =
+        _uiState.asStateFlow()
 
-    private val favouriteCache =
-        mutableMapOf<FavouriteTabType, Flow<PagingData<AnimeLightFavourite>>>()
+    private val favouriteCache: MutableMap<FavouriteTabType, Flow<PagingData<AnimeLightFavourite>>> =
+        mutableMapOf()
 
-    private val loadingStateMap = MutableStateFlow<Map<FavouriteTabType, Boolean>>(emptyMap())
+    private val loadingStateMap: MutableStateFlow<Map<FavouriteTabType, Boolean>> =
+        MutableStateFlow(emptyMap())
 
     init {
         if (_uiState.value.tabs.isEmpty()) {
@@ -73,9 +76,6 @@ internal class FavouriteViewModel @Inject constructor(
             currentState.toMutableMap().apply {
                 this[tab] = isLoading
             }
-        }
-        _uiState.update {
-            it.copy(loading = loadingStateMap.value.values.any { loading -> loading })
         }
     }
 }

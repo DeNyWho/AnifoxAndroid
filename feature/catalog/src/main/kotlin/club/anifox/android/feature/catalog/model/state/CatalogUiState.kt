@@ -20,6 +20,5 @@ internal data class CatalogUiState(
     val selectedMinimalAge: Int? = null,
     val selectedOrder: AnimeOrder? = null,
     val selectedSort: AnimeSort? = null,
-    val isLoading: Boolean = false,
     val isInitialized: Boolean = false,
 )
