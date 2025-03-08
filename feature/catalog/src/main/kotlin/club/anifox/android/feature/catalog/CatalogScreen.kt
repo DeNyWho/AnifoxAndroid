@@ -87,51 +87,6 @@ private fun CatalogUI(
     val items = searchResults.collectAsLazyPagingItems()
     val lazyGridState = items.rememberLazyGridState()
 
-    val previousFilters = remember {
-        mutableStateOf(
-            CatalogFilterParams(
-                genres = uiState.selectedGenres,
-                status = uiState.selectedStatus,
-                type = uiState.selectedType,
-                years = uiState.selectedYears,
-                season = uiState.selectedSeason,
-                studios = uiState.selectedStudios,
-                translation = uiState.selectedTranslation,
-                order = uiState.selectedOrder,
-                sort = uiState.selectedSort,
-            )
-        )
-    }
-
-    LaunchedEffect(
-        uiState.selectedGenres,
-        uiState.selectedStatus,
-        uiState.selectedType,
-        uiState.selectedYears,
-        uiState.selectedSeason,
-        uiState.selectedStudios,
-        uiState.selectedTranslation,
-        uiState.selectedOrder,
-        uiState.selectedSort,
-    ) {
-        val currentFilters = CatalogFilterParams(
-            genres = uiState.selectedGenres,
-            status = uiState.selectedStatus,
-            type = uiState.selectedType,
-            years = uiState.selectedYears,
-            season = uiState.selectedSeason,
-            studios = uiState.selectedStudios,
-            translation = uiState.selectedTranslation,
-            order = uiState.selectedOrder,
-            sort = uiState.selectedSort,
-        )
-
-        if (previousFilters.value != currentFilters) {
-            lazyGridState.scrollToItem(0)
-            previousFilters.value = currentFilters
-        }
-    }
-
     val screenInfo = LocalScreenInfo.current
 
     val (thumbnailWidth, thumbnailHeight) = when (screenInfo.screenType) {

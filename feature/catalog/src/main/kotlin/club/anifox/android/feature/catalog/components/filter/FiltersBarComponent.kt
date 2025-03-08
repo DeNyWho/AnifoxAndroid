@@ -11,6 +11,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -37,6 +38,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -353,37 +355,44 @@ private fun GenresFilterDraw(
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun StudiosFilterDraw(
     animeStudios: StateListWrapper<AnimeStudio>,
     uiState: CatalogUiState,
     updateFilter: (CatalogFilterParams, FilterType) -> Unit,
 ) {
-    var searchQuery by remember { mutableStateOf("") }
+    var searchQuery by rememberSaveable { mutableStateOf("") }
 
-    Column {
-        SearchField(
-            modifier = Modifier
-                .padding(16.dp),
-            placeHolder = stringResource(R.string.feature_catalog_filter_studio_search_placeholder),
-            isEnabled = true,
-            searchQuery = searchQuery,
-            onSearchQueryChanged = { searchQuery = it },
-        )
+    LazyColumn(
+        modifier = Modifier.padding(horizontal = 16.dp),
+    ) {
+        stickyHeader {
+            SearchField(
+                modifier = Modifier.padding(bottom = 8.dp),
+                placeHolder = stringResource(R.string.feature_catalog_filter_studio_search_placeholder),
+                isEnabled = true,
+                searchQuery = searchQuery,
+                onSearchQueryChanged = { searchQuery = it },
+                onTrailingIconClick = { searchQuery = "" },
+            )
+        }
 
         val filteredStudios = animeStudios.data
             .filter { it.name.contains(searchQuery, ignoreCase = true) }
             .sortedByDescending { uiState.selectedStudios?.contains(it) ?: false }
 
-        FilterDraw(
-            items = filteredStudios,
-            selectedItem = null,
-            selectedItems = uiState.selectedStudios,
-            updateFilter = updateFilter,
-            filterType = FilterType.STUDIO,
-            itemToString = { it.name },
-            isMultiSelect = true,
-        )
+        item {
+            FilterDraw(
+                items = filteredStudios,
+                selectedItem = null,
+                selectedItems = uiState.selectedStudios,
+                updateFilter = updateFilter,
+                filterType = FilterType.STUDIO,
+                itemToString = { it.name },
+                isMultiSelect = true,
+            )
+        }
     }
 }
 
