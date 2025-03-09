@@ -8,7 +8,7 @@ Anifox is a mobile anime viewing app that offers users access to an extensive an
 alt="Download from RuStore"
 height="80">](https://www.rustore.ru/catalog/app/club.anifox.android)
 [<img src="https://cdn.anifox.club/images/github/github/github_logo.svg"
-alt="Download from RuStore"
+alt="Download from GITHUB"
 height="80">](https://github.com/DeNyWho/AnifoxAndroid/releases)
 
 ## 📱 Features
