@@ -39,6 +39,7 @@ import club.anifox.android.core.uikit.component.card.character.showCardCharacter
 import club.anifox.android.core.uikit.component.error.NoSearchResultsError
 import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
 import club.anifox.android.core.uikit.component.topbar.TopBarWithSearch
+import club.anifox.android.core.uikit.util.KeyboardManager
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.core.uikit.util.rememberLazyGridState
@@ -125,7 +126,6 @@ private fun CharactersUI(
     ) { padding ->
         CharactersContentUI(
             modifier = Modifier.padding(padding),
-            uiState = uiState,
             charactersResults = charactersResults,
             onCharacterClick = onCharacterClick,
         )
@@ -136,7 +136,6 @@ private fun CharactersUI(
 private fun CharactersContentUI(
     modifier: Modifier = Modifier,
     shimmer: Shimmer = rememberShimmer(ShimmerBounds.View),
-    uiState: CharactersUiState,
     charactersResults: Flow<PagingData<AnimeCharactersLight>>,
     onCharacterClick: (String) -> Unit,
 ) {
@@ -213,6 +212,8 @@ private fun CharactersContentUI(
                         }
                     }
                 }
+
+                KeyboardManager(lazyGridState)
             }
         }
     }

@@ -35,6 +35,7 @@ import androidx.paging.compose.itemKey
 import club.anifox.android.core.uikit.component.error.NoSearchResultsError
 import club.anifox.android.core.uikit.component.icon.AnifoxIconPrimary
 import club.anifox.android.core.uikit.component.topbar.TopBarWithSearch
+import club.anifox.android.core.uikit.util.KeyboardManager
 import club.anifox.android.core.uikit.util.LocalScreenInfo
 import club.anifox.android.core.uikit.util.clickableWithoutRipple
 import club.anifox.android.core.uikit.util.rememberLazyGridState
@@ -215,11 +216,7 @@ private fun EpisodesContentUI(
                 }
 
                 when {
-                    items.loadState.append is LoadState.Loading -> {
-                        showCardEpisodeGridComponentItemShimmer(shimmerInstance)
-                    }
-
-                    items.loadState.refresh is LoadState.Loading -> {
+                    items.loadState.append is LoadState.Loading || items.loadState.refresh is LoadState.Loading -> {
                         showCardEpisodeGridComponentItemShimmer(shimmerInstance)
                     }
 
@@ -227,6 +224,8 @@ private fun EpisodesContentUI(
                     }
                 }
             }
+
+            KeyboardManager(lazyGridState)
         }
     }
 }
