@@ -58,6 +58,7 @@ class AnimeFavouriteRepositoryImpl(
             animeUrl = url,
             addedAt = LocalDateTime.now()
         )
+
         animeFavouriteDao.insertStatusIfAnimeExists(
             animeUrl = url,
             status = favourite.copy(
@@ -73,6 +74,7 @@ class AnimeFavouriteRepositoryImpl(
             animeUrl = url,
             addedAt = LocalDateTime.now()
         )
+
         animeFavouriteDao.insertStatusIfAnimeExists(
             animeUrl = url,
             status = favourite.copy(
@@ -88,6 +90,7 @@ class AnimeFavouriteRepositoryImpl(
             animeUrl = url,
             addedAt = LocalDateTime.now()
         )
+
         animeFavouriteDao.insertStatusIfAnimeExists(
             animeUrl = url,
             status = favourite.copy(

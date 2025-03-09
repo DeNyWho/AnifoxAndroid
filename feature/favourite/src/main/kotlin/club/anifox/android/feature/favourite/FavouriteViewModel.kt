@@ -42,7 +42,7 @@ internal class FavouriteViewModel @Inject constructor(
 
     fun getFavouritesForTab(tab: FavouriteTabType): Flow<PagingData<AnimeLightFavourite>> {
         return favouriteCache.getOrPut(tab) {
-            getFavouriteAnimeUseCase(tab.toAnimeListType())
+            getFavouriteAnimeUseCase.invoke(tab.toAnimeListType())
                 .onStart {
                     updateLoadingState(tab, true)
                 }
@@ -60,7 +60,7 @@ internal class FavouriteViewModel @Inject constructor(
     fun prefetchFavouritesForTab(tab: FavouriteTabType) {
         viewModelScope.launch {
             if (!favouriteCache.containsKey(tab)) {
-                favouriteCache[tab] = getFavouriteAnimeUseCase(tab.toAnimeListType())
+                favouriteCache[tab] = getFavouriteAnimeUseCase.invoke(tab.toAnimeListType())
                     .onStart {
                         updateLoadingState(tab, true)
                     }

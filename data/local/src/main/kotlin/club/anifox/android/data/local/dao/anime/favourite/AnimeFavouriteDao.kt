@@ -36,7 +36,7 @@ interface AnimeFavouriteDao {
         LEFT JOIN anime_favourite af ON a.url = af.animeUrl
         LEFT JOIN anime_images ai ON a.url = ai.animeUrl
         WHERE af.isFavourite = 1
-        ORDER BY af.lastUpdatedAt DESC
+        ORDER BY af.addedAt ASC
     """
     )
     fun getFavouriteAnimePaging(): PagingSource<Int, AnimeLightFavourite>
@@ -62,7 +62,7 @@ interface AnimeFavouriteDao {
         LEFT JOIN anime_favourite af ON a.url = af.animeUrl
         LEFT JOIN anime_images ai ON a.url = ai.animeUrl
         WHERE af.isInHistory = 1
-        ORDER BY af.lastUpdatedAt DESC
+        ORDER BY af.addedAt ASC
     """
     )
     fun getHistoryAnimePaging(): PagingSource<Int, AnimeLightFavourite>
@@ -88,7 +88,7 @@ interface AnimeFavouriteDao {
         LEFT JOIN anime_favourite af ON a.url = af.animeUrl
         LEFT JOIN anime_images ai ON a.url = ai.animeUrl
         WHERE af.watchStatus = :status
-        ORDER BY af.lastUpdatedAt DESC
+        ORDER BY af.addedAt ASC
     """
     )
     fun getAnimeByStatusPaging(status: AnimeFavouriteStatus): PagingSource<Int, AnimeLightFavourite>
