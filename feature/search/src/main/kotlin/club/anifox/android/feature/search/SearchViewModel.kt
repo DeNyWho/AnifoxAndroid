@@ -52,8 +52,15 @@ internal class SearchViewModel @Inject constructor(
 
     @OptIn(FlowPreview::class)
     val searchResults: Flow<PagingData<AnimeLight>> = _uiState
-        .debounce(500)
         .distinctUntilChanged { old, new -> old.query == new.query }
+        .onEach {
+            _uiState.update {
+                it.copy(
+                    isSearching = true,
+                )
+            }
+        }
+        .debounce(500)
         .flatMapLatest { state ->
             if (state.query.isNotEmpty()) {
                 addSearchHistoryUseCase.invoke(state.query)
@@ -66,7 +73,11 @@ internal class SearchViewModel @Inject constructor(
             }
         }
         .onEach {
-            _uiState.update { it.copy(hasSearched = true) }
+            _uiState.update {
+                it.copy(
+                    isSearching = false,
+                )
+            }
         }
         .cachedIn(viewModelScope)
 
@@ -109,7 +120,6 @@ internal class SearchViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     query = query,
-                    hasSearched = false,
                 )
             }
         }
@@ -126,7 +136,6 @@ internal class SearchViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     query = "",
-                    hasSearched = false,
                 )
             }
         }

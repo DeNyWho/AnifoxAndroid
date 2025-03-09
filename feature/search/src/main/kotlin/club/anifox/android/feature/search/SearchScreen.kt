@@ -211,7 +211,7 @@ private fun SearchContent(
                 )
             }
 
-            items.loadState.append.endOfPaginationReached && items.itemCount == 0 -> {
+            items.loadState.append.endOfPaginationReached && items.itemCount == 0 && !uiState.isSearching -> {
                 NoSearchResultsError()
             }
 
@@ -243,15 +243,7 @@ private fun SearchContent(
                     }
 
                     when {
-                        items.loadState.append is LoadState.Loading -> {
-                            showAnimeSearchComponentItemShimmer(
-                                shimmerInstance = shimmer,
-                                thumbnailHeight = thumbnailHeight,
-                                thumbnailWidth = thumbnailWidth,
-                            )
-                        }
-
-                        items.loadState.refresh is LoadState.Loading -> {
+                        items.loadState.append is LoadState.Loading || items.loadState.refresh is LoadState.Loading || uiState.isSearching -> {
                             showAnimeSearchComponentItemShimmer(
                                 shimmerInstance = shimmer,
                                 thumbnailHeight = thumbnailHeight,
@@ -260,6 +252,7 @@ private fun SearchContent(
                         }
 
                         items.loadState.append is LoadState.Error -> {
+
                         }
                     }
                 }
