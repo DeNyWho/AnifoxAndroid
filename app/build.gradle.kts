@@ -26,8 +26,8 @@ android {
 
     defaultConfig {
         applicationId = "club.anifox.android"
-        versionCode = 101
-        versionName = "1.0.0-beta"
+        versionCode = 102
+        versionName = "1.0.0"
 
         vectorDrawables {
             useSupportLibrary = true
