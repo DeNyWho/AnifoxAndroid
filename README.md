@@ -1,13 +1,13 @@
 # Anifox
 
-Anifox is a mobile anime viewing app that offers users access to an extensive anime catalog with features such as search, favorites, and more. This repository contains the Android version of Anifox, while other versions and additional information about the project can be found on our official website: [anifox.club](https://anifox.club) or [github](https://github.com/ANIFOX-CLUB)
+Anifox is a mobile anime viewing app that offers users access to an extensive anime catalog with features such as search, favorites, and more. This repository contains the Android version of Anifox, while other versions and additional information about the project can be found on our official website: [anifox.su](https://anifox.su) or [github](https://github.com/ANIFOX-CLUB)
 
 ## 🔖 Releases
 
-[<img src="https://cdn.anifox.club/images/github/rustore/rustore_logo.svg"
+[<img src="https://cdn.anifox.su/images/github/rustore/rustore_logo.svg"
 alt="Download from RuStore"
 height="80">](https://www.rustore.ru/catalog/app/club.anifox.android)
-[<img src="https://cdn.anifox.club/images/github/github/github_logo.svg"
+[<img src="https://cdn.anifox.su/images/github/github/github_logo.svg"
 alt="Download from GITHUB"
 height="80">](https://github.com/DeNyWho/AnifoxAndroid/releases)
 

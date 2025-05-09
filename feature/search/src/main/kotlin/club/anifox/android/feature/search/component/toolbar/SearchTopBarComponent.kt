@@ -34,7 +34,7 @@ internal fun SearchTopBarComponent(
     searchQuery: String,
     onSearchQueryChanged: (String) -> Unit,
     onTrailingIconClick: () -> Unit,
-    focusRequester: FocusRequester,
+    focusRequester: FocusRequester = remember { FocusRequester() },
 ) {
     var isAnimatingBack by remember { mutableStateOf(false) }
 

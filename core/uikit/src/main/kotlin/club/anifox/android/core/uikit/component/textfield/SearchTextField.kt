@@ -34,7 +34,7 @@ fun SearchField(
     isEnabled: Boolean = true,
     placeHolder: String? = null,
     searchQuery: String = "",
-    focusRequester: FocusRequester = FocusRequester(),
+    focusRequester: FocusRequester = remember { FocusRequester() },
     onSearchQueryChanged: (String) -> Unit = { },
     onTrailingIconClick: () -> Unit = { },
 ) {

@@ -2,8 +2,7 @@ package club.anifox.android.core.common.util.deeplink
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
-import androidx.core.content.ContextCompat.startActivity
+import androidx.core.net.toUri
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -11,45 +10,43 @@ class DeepLink @Inject constructor(
     @ApplicationContext private val context: Context,
 ) {
     fun openYouTubeApp(url: String) {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        val intent = Intent(Intent.ACTION_VIEW, url.toUri())
         intent.setPackage("com.google.android.youtube")
-
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
         intent.resolveActivity(context.packageManager)?.let {
-            startActivity(context, intent, null)
+            context.startActivity(intent)
         } ?: run {
-            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            startActivity(context, webIntent, null)
+            val webIntent = Intent(Intent.ACTION_VIEW, url.toUri())
+            webIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(webIntent)
         }
     }
 
     fun openTelegram(url: String) {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        val intent = Intent(Intent.ACTION_VIEW, url.toUri())
         intent.setPackage("org.telegram.messenger")
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
         intent.resolveActivity(context.packageManager)?.let {
-            startActivity(context, intent, null)
+            context.startActivity(intent)
         } ?: run {
-            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-
+            val webIntent = Intent(Intent.ACTION_VIEW, url.toUri())
             webIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(context, webIntent, null)
+            context.startActivity(webIntent)
         }
     }
 
     fun openWeb(url: String) {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        val intent = Intent(Intent.ACTION_VIEW, url.toUri())
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
         intent.resolveActivity(context.packageManager)?.let {
-            startActivity(context, intent, null)
+            context.startActivity(intent)
         } ?: run {
-            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-
+            val webIntent = Intent(Intent.ACTION_VIEW, url.toUri())
             webIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(context, webIntent, null)
+            context.startActivity(webIntent)
         }
     }
 }
