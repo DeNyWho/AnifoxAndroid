@@ -27,6 +27,10 @@ height="80">](https://github.com/DeNyWho/AnifoxAndroid/releases)
 - User registration
 - User login
 
+## 🏗️ API
+
+The project uses its own [server solution](https://github.com/DeNyWho/AnifoxBackend)
+
 ## Requirements
 
 - **Minimum Android Version**: 8.0 (Oreo)
