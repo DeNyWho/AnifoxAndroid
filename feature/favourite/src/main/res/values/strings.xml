@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="feature_favourite_tab_favourite_title">Избранное</string>
-    <string name="feature_favourite_empty_title">Здесь сейчас ничего нет 🥲</string>
-    <string name="feature_favourite_empty_subtitle">Добавьте аниме в избранное</string>
-    <string name="feature_favourite_empty_hint">и оно обязательно появится тут 😊</string>
-</resources>
