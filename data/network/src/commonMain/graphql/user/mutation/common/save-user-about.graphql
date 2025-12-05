@@ -1,0 +1,5 @@
+mutation SaveUserAbout($html: String!, $json: JSON!, $text: String!) {
+    saveUserAbout(html: $html, json: $json, text: $text) {
+        ...UserAbout
+    }
+}

@@ -1,0 +1,24 @@
+fragment FavoriteAnime on Anime {
+  id
+  url
+  image {
+    medium
+  }
+  title
+}
+
+query FavoriteAnimes($page: Int!, $userId: String!) {
+  favoriteAnimes(page: $page, userId: $userId) {
+    data {
+      count
+      anime {
+        ...FavoriteAnime
+      }
+      animeId
+    }
+    pageInfo {
+      hasNextPage
+      page
+    }
+  }
+}

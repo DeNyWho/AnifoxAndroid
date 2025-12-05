@@ -1,0 +1,39 @@
+fragment EpisodeProgress on EpisodeProgress {
+  id
+  timing
+}
+
+fragment EpisodeTranslation on EpisodeTranslation {
+  id
+  kodikPlayerLink
+  title
+  type
+  translationId
+}
+
+fragment Episode on Episode {
+  id
+  aired
+  title
+  titleEn
+  description
+  duration
+  filler
+  recap
+  number
+  image
+  progress(userId: $userId) {
+    ...EpisodeProgress
+  }
+  translations {
+    ...EpisodeTranslation
+  }
+}
+
+query Episodes($animeUrl: String!, $page: Int!, $limit: Int, $userId: String) {
+  episodes(animeUrl: $animeUrl, page: $page, limit: $limit) {
+    data {
+      ...Episode
+    }
+  }
+}

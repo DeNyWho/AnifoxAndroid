@@ -1,0 +1,13 @@
+mutation SaveLastWatchedEpisode(
+    $animeId: String!
+    $episodeId: String!
+    $translationId: Int!
+) {
+    saveLastWatchedEpisode(
+        animeId: $animeId
+        episodeId: $episodeId
+        translationId: $translationId
+    ) {
+        ...LastWatchedEpisode
+    }
+}

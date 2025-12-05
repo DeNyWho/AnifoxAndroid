@@ -1,0 +1,11 @@
+fragment AnimeGenre on AnimeGenre {
+  id
+  name
+  image
+}
+
+query AnimeGenres {
+  genres {
+    ...AnimeGenre
+  }
+}

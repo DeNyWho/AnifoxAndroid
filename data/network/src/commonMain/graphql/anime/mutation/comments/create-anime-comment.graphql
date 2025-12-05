@@ -1,0 +1,17 @@
+mutation CreateAnimeComment(
+    $animeId: String!
+    $json: String!
+    $text: String!
+    $html: String!
+    $parentCommentId: String
+) {
+    createAnimeComment(
+        animeId: $animeId
+        json: $json
+        text: $text
+        html: $html
+        parentCommentId: $parentCommentId
+    ) {
+        ...AnimeComment
+    }
+}

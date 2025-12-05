@@ -1,0 +1,11 @@
+query SimilarAnimes($animeId: String!, $page: Int, $limit: Int) {
+  similarAnimes(animeId: $animeId, page: $page, limit: $limit) {
+    data {
+      ...AnimeLite
+    }
+    pageInfo {
+      hasNextPage
+      page
+    }
+  }
+}

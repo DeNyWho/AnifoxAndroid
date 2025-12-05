@@ -1,0 +1,13 @@
+fragment LastWatchedEpisode on LastWatchedEpisode {
+  id
+  animeId
+  episodeId
+  translationId
+  userId
+}
+
+query LastWatchedEpisode($animeId: String!, $userId: String!) {
+  lastWatchedEpisode(animeId: $animeId, userId: $userId) {
+    ...LastWatchedEpisode
+  }
+}

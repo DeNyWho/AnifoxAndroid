@@ -1,0 +1,11 @@
+mutation Login($identifier: String!, $password: String!) {
+    login(identifier: $identifier, password: $password) {
+        tokens {
+            accessToken
+            refreshToken
+        }
+        user {
+            ...Viewer
+        }
+    }
+}

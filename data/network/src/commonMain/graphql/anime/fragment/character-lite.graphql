@@ -1,0 +1,9 @@
+fragment CharacterLight on AnimeCharacter {
+  id
+  about
+  name
+  nameEn
+  nameKanji
+  image
+  role
+}

@@ -1,0 +1,6 @@
+mutation ToggleAnimeCommentLike($animeCommentId: String!) {
+    toggleAnimeCommentLike(animeCommentId: $animeCommentId) {
+        animeCommentId
+        userId
+    }
+}

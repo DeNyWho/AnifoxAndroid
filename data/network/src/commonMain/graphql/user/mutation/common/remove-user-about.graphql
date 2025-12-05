@@ -1,0 +1,5 @@
+mutation RemoveUserAbout {
+    removeUserAbout {
+        ...UserAbout
+    }
+}

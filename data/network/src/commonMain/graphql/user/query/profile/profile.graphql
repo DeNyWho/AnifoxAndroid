@@ -1,0 +1,5 @@
+query Profile($login: String!) {
+  profile(login: $login) {
+    ...Viewer
+  }
+}

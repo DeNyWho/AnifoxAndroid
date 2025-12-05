@@ -1,0 +1,3 @@
+query CheckLoginExist($login: String!) {
+  checkLoginExist(login: $login)
+}

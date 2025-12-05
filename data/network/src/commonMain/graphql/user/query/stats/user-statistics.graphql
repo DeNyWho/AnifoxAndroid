@@ -1,0 +1,23 @@
+query UserStatistics($userId: String!, $year: Int!) {
+  userStatistics(userId: $userId) {
+    activity(year: $year) {
+      days {
+        count
+        day
+      }
+    }
+    genresDistribution {
+      percent
+      genre {
+        id
+        name
+      }
+    }
+    total {
+      totalActivity
+      totalWatchedSeconds
+      totalWatchedEpisodes
+      totalWatchedAnimes
+    }
+  }
+}

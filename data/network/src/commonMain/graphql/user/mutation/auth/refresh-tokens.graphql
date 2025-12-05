@@ -1,0 +1,10 @@
+fragment UserTokens on UserTokens {
+    accessToken
+    refreshToken
+}
+
+mutation RefreshTokens($refreshToken: String!) {
+    refreshTokens(refreshToken: $refreshToken) {
+        ...UserTokens
+    }
+}

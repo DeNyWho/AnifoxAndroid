@@ -1,0 +1,12 @@
+mutation ToggleFavoriteAnime($animeUrl: String!) {
+    toggleFavoriteAnime(animeUrl: $animeUrl) {
+        userId
+        animeId
+        anime {
+            id
+        }
+        user {
+            id
+        }
+    }
+}

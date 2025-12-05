@@ -1,0 +1,29 @@
+fragment UserLite on User {
+  id
+  name
+  avatar
+  login
+  role
+  banner
+  createdAt
+  statistics {
+    total {
+      totalActivity
+      totalWatchedAnimes
+      totalWatchedEpisodes
+      totalWatchedSeconds
+    }
+  }
+}
+
+query Users($search: String, $limit: Int, $page: Int) {
+  users(search: $search, limit: $limit, page: $page) {
+    data {
+      ...UserLite
+    }
+    pageInfo {
+      hasNextPage
+      page
+    }
+  }
+}

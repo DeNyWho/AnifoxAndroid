@@ -1,0 +1,11 @@
+query AnimeSchedules {
+  animeSchedules {
+    dayOfWeek
+    nextEpisodeDate
+    previousEpisodeDate
+    animeId
+    anime {
+      ...AnimeLite
+    }
+  }
+}

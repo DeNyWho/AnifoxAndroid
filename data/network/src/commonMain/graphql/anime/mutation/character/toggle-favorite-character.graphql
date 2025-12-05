@@ -1,0 +1,12 @@
+mutation ToggleFavoriteCharacter($characterId: String!) {
+    toggleFavoriteCharacter(characterId: $characterId) {
+        userId
+        user {
+            id
+        }
+        characterId
+        character {
+            id
+        }
+    }
+}

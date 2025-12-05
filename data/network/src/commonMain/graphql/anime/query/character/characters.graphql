@@ -1,0 +1,16 @@
+query Characters(
+  $animeUrl: String!
+  $page: Int!
+  $role: CharacterRole
+  $search: String
+) {
+  characters(animeUrl: $animeUrl, page: $page, role: $role, search: $search) {
+    data {
+      ...CharacterLight
+    }
+    pageInfo {
+      hasNextPage
+      page
+    }
+  }
+}

@@ -1,0 +1,1427 @@
+type Anime {
+  """
+  Color derived from image color
+  """
+  accentColor: String!
+
+  airedOn: DateTime
+
+  animeListEntry(userId: String): AnimeListEntry
+
+  """
+  User comments on anime
+  """
+  comments(limit: Int = 30, page: Int = 0): AnimeCommentConnection!
+
+  createdAt: DateTime!
+
+  description: String
+
+  duration: Float
+
+  """
+  Anime episodes
+  """
+  episodes(limit: Int = 30, page: Int = 0): EpisodeConnection!
+
+  episodesAired: Int!
+
+  episodesCount: Int
+
+  franchise: String
+
+  """
+  Anime genres
+  """
+  genres: [AnimeGenre!]!
+
+  """
+  Anime ID
+  """
+  id: ID!
+
+  image: AnimeImage!
+
+  """
+  Minimal age to view anime
+  """
+  minimalAge: Int!
+
+  """
+  Next episode release date
+  """
+  nextEpisode: DateTime
+
+  """
+  Link for Kodik player iframe
+  """
+  playerLink: String!
+
+  """
+  Средний рейтинг аниме
+  """
+  rating: Float!
+
+  """
+  Кол-во оценок аниме
+  """
+  ratingCount: Int!
+
+  """
+  Age limit for view in MPAA format
+  """
+  ratingMpa: String!
+
+  """
+  Related animes
+  """
+  related(limit: Int = 30, page: Int = 0): AnimeConnection!
+
+  """
+  Anime release date
+  """
+  releasedOn: DateTime!
+
+  screenshots: [String!]!
+
+  season: AnimeSeason!
+
+  """
+  Anime ID on shikimori
+  """
+  shikimoriId: Int!
+
+  """
+  Anime rating on shikimori
+  """
+  shikimoriRating: Float!
+
+  """
+  Anime votes count on shikimori
+  """
+  shikimoriVotes: Int!
+
+  """
+  Similar animes
+  """
+  similar(limit: Int = 30, page: Int = 0): AnimeConnection!
+
+  status: AnimeStatus!
+
+  studios: [AnimeStudio!]!
+
+  """
+  Anime title
+  """
+  title: String!
+
+  titlesEnglish: [String!]!
+
+  titlesJapan: [String!]!
+
+  titlesOther: [String!]!
+
+  titlesSynonyms: [String!]!
+
+  type: AnimeType!
+
+  """
+  Date of last anime update (any data)
+  """
+  updatedAt: DateTime
+
+  """
+  Unique anime url derived from anime title
+  """
+  url: String!
+
+  userRating(userId: String): AnimeRating
+
+  videos: [AnimeVideo!]!
+
+  """
+  Year of release
+  """
+  year: Int!
+}
+
+type AnimeCharacter {
+  about: String
+
+  aboutEn: String
+
+  id: String!
+
+  image: String!
+
+  malId: Int!
+
+  name: String!
+
+  nameEn: String!
+
+  nameKanji: String
+
+  pictures: [String!]!
+
+  role: CharacterRole!
+}
+
+type AnimeComment {
+  anime: Anime!
+
+  animeId: String!
+
+  author: User!
+
+  authorId: String!
+
+  children: [AnimeComment!]!
+
+  createdAt: DateTime!
+
+  dislikes(limit: Int = 30, page: Int = 0): AnimeCommentDislikeConnection!
+
+  html: String!
+
+  id: String!
+
+  json: String!
+
+  likes(limit: Int = 30, page: Int = 0): AnimeCommentLikeConnection!
+
+  parent: AnimeComment
+
+  parentId: String
+
+  text: String!
+
+  verified: Boolean!
+}
+
+type AnimeCommentConnection {
+  data: [AnimeComment!]!
+
+  pageInfo: PageInfo!
+}
+
+type AnimeCommentDislike {
+  animeCommentId: String!
+
+  comment: AnimeComment!
+
+  createdAt: DateTime!
+
+  user: User!
+
+  userId: String!
+}
+
+type AnimeCommentDislikeConnection {
+  data: [AnimeCommentDislike!]!
+
+  pageInfo: PageInfo!
+}
+
+type AnimeCommentLike {
+  animeCommentId: String!
+
+  comment: AnimeComment!
+
+  createdAt: DateTime!
+
+  user: User!
+
+  userId: String!
+}
+
+type AnimeCommentLikeConnection {
+  data: [AnimeCommentLike!]!
+
+  pageInfo: PageInfo!
+}
+
+type AnimeConnection {
+  data: [Anime!]!
+
+  pageInfo: PageInfo!
+}
+
+type AnimeFranchise {
+  animes: [Anime!]!
+
+  banner: String
+
+  description: String
+
+  id: String!
+
+  image: String
+
+  name: String!
+}
+
+type AnimeFranchiseConnection {
+  data: [AnimeFranchise!]!
+
+  pageInfo: PageInfo!
+}
+
+type AnimeGenre {
+  id: String!
+
+  image: String
+
+  name: String!
+}
+
+"""
+Anime image variants
+"""
+type AnimeImage {
+  animeId: ID!
+
+  cover: String
+
+  large: String
+
+  medium: String
+}
+
+type AnimeList {
+  list: [AnimeListEntry!]!
+
+  userId: String!
+}
+
+type AnimeListEntry {
+  anime: Anime!
+
+  animeId: String!
+
+  endedAt: DateTime
+
+  episodesWatched: Int
+
+  id: String!
+
+  rating: AnimeRating
+
+  startedAt: DateTime
+
+  status: AnimeListStatus!
+
+  updatedAt: DateTime!
+
+  user: Anime!
+
+  userId: String!
+}
+
+enum AnimeListStatus {
+  COMPLETED
+
+  DROPPED
+
+  ON_HOLD
+
+  PLAN_TO_WATCH
+
+  WATCHING
+}
+
+enum AnimeOrder {
+  AIRED_ON
+
+  RANDOM
+
+  RATING
+
+  RELEASED_ON
+
+  UPDATED_AT
+}
+
+type AnimeRating {
+  anime: User!
+
+  animeId: String!
+
+  id: ID!
+
+  rating: Int!
+
+  user: User!
+
+  userId: String!
+}
+
+type AnimeRatingDistribution {
+  anime: Anime!
+
+  animeId: String!
+
+  scores: [AnimeRatingDistributionScore!]!
+
+  total: Int!
+}
+
+type AnimeRatingDistributionScore {
+  score: Int!
+
+  votes: Int!
+}
+
+type AnimeSchedule {
+  anime: Anime!
+
+  animeId: String!
+
+  dayOfWeek: DayOfWeek!
+
+  nextEpisodeDate: DateTime!
+
+  previousEpisodeDate: DateTime!
+}
+
+enum AnimeSeason {
+  FALL
+
+  SPRING
+
+  SUMMER
+
+  WINTER
+}
+
+enum AnimeStatus {
+  ANNOUNCED
+
+  COMPLETED
+
+  ONGOING
+}
+
+type AnimeStudio {
+  """
+  Anime studio ID
+  """
+  id: String!
+
+  """
+  Anime studio name
+  """
+  name: String!
+}
+
+enum AnimeType {
+  MOVIE
+
+  MUSIC
+
+  ONA
+
+  OVA
+
+  SPECIAL
+
+  TV
+}
+
+type AnimeVideo {
+  id: ID!
+
+  imageUrl: String
+
+  name: String
+
+  playerUrl: String!
+
+  type: AnimeVideoType!
+
+  url: String!
+}
+
+enum AnimeVideoType {
+  CM
+
+  PV
+
+  TRAILER
+}
+
+type AnimeYears {
+  years: [Int!]!
+}
+
+"""
+The `Boolean` scalar type represents `true` or `false`.
+"""
+scalar Boolean
+
+type Character {
+  about: String
+
+  aboutEn: String
+
+  id: String!
+
+  image: String!
+
+  isFavorite(userId: String): Boolean
+
+  malId: Int!
+
+  name: String!
+
+  nameEn: String!
+
+  nameKanji: String
+
+  participation: [CharacterParticipation!]!
+
+  pictures: [String!]!
+}
+
+type CharacterConnection {
+  data: [AnimeCharacter!]!
+
+  pageInfo: PageInfo!
+}
+
+type CharacterParticipation {
+  anime: Anime!
+
+  animeId: String!
+
+  characterId: String!
+
+  role: CharacterRole!
+}
+
+enum CharacterRole {
+  MAIN
+
+  SUPPORTING
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type DayActivity {
+  count: Int!
+
+  day: DateTime!
+}
+
+enum DayOfWeek {
+  FRIDAY
+
+  MONDAY
+
+  SATURDAY
+
+  SUNDAY
+
+  THURSDAY
+
+  TUESDAY
+
+  WEDNESDAY
+}
+
+type Episode {
+  """
+  Episode air date
+  """
+  aired: DateTime
+
+  animeId: String!
+
+  """
+  Episode description in russian
+  """
+  description: String
+
+  """
+  Episode description in english
+  """
+  descriptionEn: String
+
+  """
+  Episode duration in minutes
+  """
+  duration: Int
+
+  """
+  Episode is filler
+  """
+  filler: Boolean!
+
+  id: String!
+
+  """
+  Episode image
+  """
+  image: String!
+
+  """
+  Episode number in the season
+  """
+  number: Int!
+
+  progress(userId: String): EpisodeProgress
+
+  """
+  Episode is a recap
+  """
+  recap: Boolean!
+
+  """
+  Episode title in russian
+  """
+  title: String
+
+  """
+  Episode title in english
+  """
+  titleEn: String
+
+  """
+  Available translations for episode
+  """
+  translations: [EpisodeTranslation!]!
+}
+
+type EpisodeConnection {
+  data: [Episode!]!
+
+  pageInfo: PageInfo!
+}
+
+type EpisodeHistory {
+  aired: DateTime!
+
+  isUpcoming: Boolean!
+
+  number: Int!
+
+  title: String
+}
+
+enum EpisodeOrder {
+  AIRED
+
+  NUMBER
+}
+
+type EpisodeProgress {
+  animeId: String!
+
+  episodeId: String!
+
+  id: ID!
+
+  """
+  Текущее время просмотра в секундах
+  """
+  timing: Int!
+
+  userId: String!
+}
+
+"""
+Озвучка конкретного эпизода
+"""
+type EpisodeTranslation {
+  id: String!
+
+  """
+  Ссылка на iframe кодика
+  """
+  kodikPlayerLink: String!
+
+  """
+  Название студии озвучки
+  """
+  title: String!
+
+  translationId: Int!
+
+  """
+  Тип студии озвучки
+  """
+  type: TranslationType!
+}
+
+type FavoriteAnime {
+  anime: Anime!
+
+  animeId: String!
+
+  count: Int!
+
+  user: User!
+
+  userId: String!
+}
+
+type FavoriteAnimeConnection {
+  data: [FavoriteAnime!]!
+
+  pageInfo: PageInfo!
+}
+
+type FavoriteCharacter {
+  character: Character!
+
+  characterId: String!
+
+  count: Int!
+
+  user: User!
+
+  userId: String!
+}
+
+type FavoriteCharacterConnection {
+  data: [FavoriteCharacter!]!
+
+  pageInfo: PageInfo!
+}
+
+"""
+The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
+"""
+scalar Float
+
+type Friendship {
+  createdAt: DateTime!
+
+  friend: User!
+
+  """
+  ID друга
+  """
+  friendId: String!
+
+  id: ID!
+
+  """
+  Статус заявки в друзья
+  """
+  status: FriendshipStatus!
+
+  updatedAt: DateTime!
+
+  user: User!
+
+  """
+  ID пользователя, который отправил запрос на дружбу
+  """
+  userId: String!
+}
+
+enum FriendshipStatus {
+  ACCEPTED
+
+  PENDING
+
+  REJECTED
+}
+
+type FriendshipsConnection {
+  data: [Friendship!]!
+
+  pageInfo: PageInfo!
+}
+
+"""
+The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
+"""
+scalar ID
+
+"""
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+"""
+scalar Int
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type LastWatchedEpisode {
+  anime: Anime!
+
+  animeId: String!
+
+  episode: Episode!
+
+  """
+  ID последней просмотренной серии
+  """
+  episodeId: String!
+
+  id: ID!
+
+  """
+  ID выбранной озвучки
+  """
+  translationId: Int!
+
+  user: User!
+
+  userId: String!
+}
+
+type LastWatchedEpisodeConnection {
+  data: [LastWatchedEpisode!]!
+
+  pageInfo: PageInfo!
+}
+
+type Login {
+  tokens: UserTokens!
+
+  user: User!
+}
+
+type Mutation {
+  acceptFriendInvite(friendshipId: ID!): Friendship!
+
+  addFriend("ID пользователя, который получит заявку в друзья" friendId: ID!): Friendship!
+
+  changePassword(currentPassword: String!, newPassword: String!): Boolean!
+
+  confirmPasswordReset(code: String!, email: String!, newPassword: String!): Boolean!
+
+  createAnimeComment(animeId: String!, html: String!, json: String!, "ID комментария, на который пользователь отвечает" parentCommentId: String, text: String!): AnimeComment!
+
+  login(identifier: String!, password: String!): Login!
+
+  refreshTokens(refreshToken: String!): UserTokens!
+
+  rejectFriendInvite(friendshipId: ID!): Friendship!
+
+  removeAnimeComment(id: String!): AnimeComment!
+
+  removeAnimeListEntry(animeUrl: String!): AnimeListEntry!
+
+  removeAnimeRating(animeId: String!): AnimeRating!
+
+  removeFriend(friendshipId: ID!): Friendship!
+
+  removeUserAbout: UserAbout!
+
+  requestPasswordReset(email: String!): Boolean!
+
+  saveAnimeListEntry(animeUrl: String!, endedAt: DateTime, episodesWatched: Int, startedAt: DateTime, status: AnimeListStatus = WATCHING): AnimeListEntry!
+
+  saveAnimeRating("Anime ID for rating" animeId: String!, rating: Int!): AnimeRating!
+
+  saveEpisodeProgress(animeId: String!, episodeId: String!, "Текущее время просмотра в секундах" timing: Int!): EpisodeProgress!
+
+  saveLastWatchedEpisode(animeId: String!, "ID эпизода, который должен быть сохранен" episodeId: String!, "ID озвучки, который должна быть сохранена" translationId: Int!): LastWatchedEpisode!
+
+  saveUser(birthday: DateTime, login: String, name: String): User!
+
+  saveUserAbout(html: String!, json: JSON!, text: String!): UserAbout!
+
+  """
+  Запрос для установки длительности серии через kodik
+  """
+  setEpisodeDuration("Длительность эпизода в минутах" duration: Int!, episodeId: String!): Episode!
+
+  signup(avatar: String, banner: String, birthday: DateTime, email: String!, login: String!, name: String!, password: String!): Signup!
+
+  toggleAnimeCommentDislike(animeCommentId: String!): AnimeCommentDislike!
+
+  toggleAnimeCommentLike(animeCommentId: String!): AnimeCommentLike!
+
+  toggleFavoriteAnime(animeUrl: String!): FavoriteAnime!
+
+  toggleFavoriteCharacter(characterId: String!): FavoriteCharacter!
+
+  updateAnimeComment(commentId: String!, html: String!, json: String!, text: String!, "Поле для редактирования верификации комментария (Доступно только для роли модератор и выше)" verified: Boolean): AnimeComment!
+
+  updateUserLastSeen: User!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+
+  hasPreviousPage: Boolean!
+
+  limit: Int!
+
+  page: Int!
+
+  totalCount: Int!
+
+  totalPages: Int!
+}
+
+type Query {
+  anime(url: String!): Anime!
+
+  animeComment(id: String!): AnimeComment!
+
+  animeCommentDislikes(animeCommentId: String, limit: Int = 30, page: Int = 0): AnimeCommentDislikeConnection!
+
+  animeCommentLikes(animeCommentId: String, limit: Int = 30, page: Int = 0): AnimeCommentLikeConnection!
+
+  animeComments(animeId: String, limit: Int = 30, page: Int = 0, userId: String): AnimeCommentConnection!
+
+  animeFranchise(id: String!): AnimeFranchise!
+
+  animeFranchises(limit: Int = 30, page: Int = 0): AnimeFranchiseConnection!
+
+  animeList("Фильтр по статусу, если ничего не передано - вернет весь список" status: AnimeListStatus, "ID юзера, чей список нужно получить" userId: String!): AnimeList!
+
+  animeRating(animeId: String!, userId: String!): AnimeRating!
+
+  animeRatingDistribution(animeId: String!): AnimeRatingDistribution!
+
+  animeSchedules("Фильтр по дню недели" dayOfWeek: DayOfWeek): [AnimeSchedule!]!
+
+  animeYears: AnimeYears!
+
+  animes(genres: [String!], limit: Int = 30, minimalAge: Int, order: AnimeOrder, page: Int = 0, ratingMpa: RatingMpa, search: String, season: AnimeSeason, sort: SortOrder, status: AnimeStatus, "Filter anime by studios" studios: [String!], translations: [Int!], type: AnimeType, "Filter anime by year of release" years: [Int!]): AnimeConnection!
+
+  character(id: String, malId: Int): Character!
+
+  characters("Filter characters only for provided animeUrl" animeUrl: String, limit: Int = 30, page: Int = 0, "Filter by character role" role: CharacterRole, "Filter by character name" search: String): CharacterConnection!
+
+  checkEmailExist(email: String!): Boolean!
+
+  checkLoginExist(login: String!): Boolean!
+
+  episode(episodeId: String!): Episode!
+
+  episodeProgress(animeId: String!, episodeId: String!, userId: String!): EpisodeProgress!
+
+  episodeTranslations(episodeId: String!): [EpisodeTranslation!]!
+
+  episodes("Выборка эпизодов для конкретного аниме" animeUrl: String!, limit: Int = 30, order: EpisodeOrder = NUMBER, page: Int = 0, sort: SortOrder = ASC): EpisodeConnection!
+
+  episodesHistory(animeUrl: String!): [EpisodeHistory!]!
+
+  favoriteAnimes(limit: Int = 30, page: Int = 0, userId: String!): FavoriteAnimeConnection!
+
+  favoriteCharacters(limit: Int = 30, page: Int = 0, userId: String!): FavoriteCharacterConnection!
+
+  friendships(limit: Int = 30, page: Int = 0, "Поиск по имени друга" search: String, "Фильтр по статусу дружбы" status: FriendshipStatus! = ACCEPTED, "ID пользователя, чьих друзей нужно получить" userId: String!): FriendshipsConnection!
+
+  genre: AnimeGenre!
+
+  genres: [AnimeGenre!]!
+
+  lastWatchedEpisode(animeId: String!, userId: String!): LastWatchedEpisode
+
+  lastWatchedEpisodes(limit: Int = 30, page: Int = 0, userId: String!): LastWatchedEpisodeConnection
+
+  profile(login: String!): User!
+
+  randomAnimes(count: Int = 10): [Anime!]!
+
+  relatedAnimes(animeId: String!, limit: Int = 30, page: Int = 0): RelatedAnimeConnection!
+
+  similarAnimes(animeId: String!, limit: Int = 30, page: Int = 0): AnimeConnection!
+
+  studio(id: String!): AnimeStudio!
+
+  studios: [AnimeStudio!]!
+
+  translations: [Translation!]!
+
+  user(id: String!): User!
+
+  userStatistics(userId: String!): UserStatistics!
+
+  users(limit: Int = 30, page: Int = 0, "Поиск по имени или логину пользователя" search: String): UserConnection!
+
+  viewer: User!
+}
+
+enum RatingMpa {
+  G
+
+  PG
+
+  PG_13
+
+  R
+
+  R_PLUS
+}
+
+type RelatedAnime {
+  anime: Anime!
+
+  type: String!
+}
+
+type RelatedAnimeConnection {
+  data: [RelatedAnime!]!
+
+  pageInfo: PageInfo!
+}
+
+type Signup {
+  tokens: UserTokens!
+
+  user: User!
+}
+
+enum SortOrder {
+  ASC
+
+  DESC
+}
+
+"""
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+"""
+scalar String
+
+type TotalStatistics {
+  totalActivity: Int!
+
+  totalWatchedAnimes: Int!
+
+  totalWatchedEpisodes: Int!
+
+  totalWatchedSeconds: Int!
+}
+
+"""
+Студия озвучки аниме
+"""
+type Translation {
+  """
+  ID Студия озвучки
+  """
+  id: Int!
+
+  """
+  Название студии озвучки
+  """
+  title: String!
+
+  """
+  Тип студии озвучки
+  """
+  type: TranslationType!
+}
+
+enum TranslationType {
+  SUB
+
+  VOICE
+}
+
+type User {
+  about: UserAbout
+
+  animeComments(limit: Int = 30, page: Int = 0): AnimeCommentConnection!
+
+  animeList: AnimeList!
+
+  avatar: String
+
+  banner: String
+
+  birthday: DateTime
+
+  createdAt: DateTime!
+
+  email: String
+
+  favoriteAnimes(limit: Int = 30, page: Int = 0): FavoriteAnimeConnection!
+
+  favoriteCharacters(limit: Int = 30, page: Int = 0): FavoriteCharacterConnection!
+
+  googleId: String
+
+  id: String!
+
+  isOnline: Boolean!
+
+  lastSeen: DateTime!
+
+  login: String!
+
+  name: String!
+
+  role: UserRole!
+
+  statistics: UserStatistics!
+
+  updatedAt: DateTime!
+
+  vkId: String
+}
+
+type UserAbout {
+  html: String!
+
+  id: String!
+
+  json: JSON!
+
+  text: String!
+
+  userId: String!
+}
+
+type UserActivity {
+  days: [DayActivity!]!
+
+  user: User!
+
+  userId: String!
+}
+
+type UserConnection {
+  data: [User!]!
+
+  pageInfo: PageInfo!
+}
+
+type UserGenreDistribution {
+  genre: AnimeGenre!
+
+  percent: Int!
+}
+
+enum UserRole {
+  ADMIN
+
+  DEVELOPER
+
+  MODERATOR
+
+  USER
+}
+
+type UserStatistics {
+  activity(year: Int!): UserActivity!
+
+  genresDistribution: [UserGenreDistribution!]!
+
+  total: TotalStatistics!
+
+  userId: String!
+}
+
+type UserTokens {
+  accessToken: String!
+
+  refreshToken: String!
+}
+
+"""
+A Directive provides a way to describe alternate runtime execution and type validation behavior in a GraphQL document.
+
+In some cases, you need to provide options to alter GraphQL's execution behavior in ways field arguments will not suffice, such as conditionally including or skipping a field. Directives provide this by describing additional information to the executor.
+"""
+type __Directive {
+  name: String!
+
+  description: String
+
+  isRepeatable: Boolean!
+
+  locations: [__DirectiveLocation!]!
+
+  args(includeDeprecated: Boolean = false): [__InputValue!]!
+}
+
+"""
+A Directive can be adjacent to many parts of the GraphQL language, a __DirectiveLocation describes one such possible adjacencies.
+"""
+enum __DirectiveLocation {
+  """
+  Location adjacent to a query operation.
+  """
+  QUERY
+
+  """
+  Location adjacent to a mutation operation.
+  """
+  MUTATION
+
+  """
+  Location adjacent to a subscription operation.
+  """
+  SUBSCRIPTION
+
+  """
+  Location adjacent to a field.
+  """
+  FIELD
+
+  """
+  Location adjacent to a fragment definition.
+  """
+  FRAGMENT_DEFINITION
+
+  """
+  Location adjacent to a fragment spread.
+  """
+  FRAGMENT_SPREAD
+
+  """
+  Location adjacent to an inline fragment.
+  """
+  INLINE_FRAGMENT
+
+  """
+  Location adjacent to a variable definition.
+  """
+  VARIABLE_DEFINITION
+
+  """
+  Location adjacent to a schema definition.
+  """
+  SCHEMA
+
+  """
+  Location adjacent to a scalar definition.
+  """
+  SCALAR
+
+  """
+  Location adjacent to an object type definition.
+  """
+  OBJECT
+
+  """
+  Location adjacent to a field definition.
+  """
+  FIELD_DEFINITION
+
+  """
+  Location adjacent to an argument definition.
+  """
+  ARGUMENT_DEFINITION
+
+  """
+  Location adjacent to an interface definition.
+  """
+  INTERFACE
+
+  """
+  Location adjacent to a union definition.
+  """
+  UNION
+
+  """
+  Location adjacent to an enum definition.
+  """
+  ENUM
+
+  """
+  Location adjacent to an enum value definition.
+  """
+  ENUM_VALUE
+
+  """
+  Location adjacent to an input object type definition.
+  """
+  INPUT_OBJECT
+
+  """
+  Location adjacent to an input object field definition.
+  """
+  INPUT_FIELD_DEFINITION
+}
+
+"""
+One possible value for a given Enum. Enum values are unique values, not a placeholder for a string or numeric value. However an Enum value is returned in a JSON response as a string.
+"""
+type __EnumValue {
+  name: String!
+
+  description: String
+
+  isDeprecated: Boolean!
+
+  deprecationReason: String
+}
+
+"""
+Object and Interface types are described by a list of Fields, each of which has a name, potentially a list of arguments, and a return type.
+"""
+type __Field {
+  name: String!
+
+  description: String
+
+  args(includeDeprecated: Boolean = false): [__InputValue!]!
+
+  type: __Type!
+
+  isDeprecated: Boolean!
+
+  deprecationReason: String
+}
+
+"""
+Arguments provided to Fields or Directives and the input fields of an InputObject are represented as Input Values which describe their type and optionally a default value.
+"""
+type __InputValue {
+  name: String!
+
+  description: String
+
+  type: __Type!
+
+  """
+  A GraphQL-formatted string representing the default value for this input value.
+  """
+  defaultValue: String
+
+  isDeprecated: Boolean!
+
+  deprecationReason: String
+}
+
+"""
+A GraphQL Schema defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, as well as the entry points for query, mutation, and subscription operations.
+"""
+type __Schema {
+  description: String
+
+  """
+  A list of all types supported by this server.
+  """
+  types: [__Type!]!
+
+  """
+  The type that query operations will be rooted at.
+  """
+  queryType: __Type!
+
+  """
+  If this server supports mutation, the type that mutation operations will be rooted at.
+  """
+  mutationType: __Type
+
+  """
+  If this server support subscription, the type that subscription operations will be rooted at.
+  """
+  subscriptionType: __Type
+
+  """
+  A list of all directives supported by this server.
+  """
+  directives: [__Directive!]!
+}
+
+"""
+The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+
+Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
+"""
+type __Type {
+  kind: __TypeKind!
+
+  name: String
+
+  description: String
+
+  specifiedByURL: String
+
+  fields(includeDeprecated: Boolean = false): [__Field!]
+
+  interfaces: [__Type!]
+
+  possibleTypes: [__Type!]
+
+  enumValues(includeDeprecated: Boolean = false): [__EnumValue!]
+
+  inputFields(includeDeprecated: Boolean = false): [__InputValue!]
+
+  ofType: __Type
+
+  isOneOf: Boolean
+}
+
+"""
+An enum describing what kind of type a given `__Type` is.
+"""
+enum __TypeKind {
+  """
+  Indicates this type is a scalar.
+  """
+  SCALAR
+
+  """
+  Indicates this type is an object. `fields` and `interfaces` are valid fields.
+  """
+  OBJECT
+
+  """
+  Indicates this type is an interface. `fields`, `interfaces`, and `possibleTypes` are valid fields.
+  """
+  INTERFACE
+
+  """
+  Indicates this type is a union. `possibleTypes` is a valid field.
+  """
+  UNION
+
+  """
+  Indicates this type is an enum. `enumValues` is a valid field.
+  """
+  ENUM
+
+  """
+  Indicates this type is an input object. `inputFields` is a valid field.
+  """
+  INPUT_OBJECT
+
+  """
+  Indicates this type is a list. `ofType` is a valid field.
+  """
+  LIST
+
+  """
+  Indicates this type is a non-null. `ofType` is a valid field.
+  """
+  NON_NULL
+}
+
+"""
+Marks an element of a GraphQL schema as no longer supported.
+"""
+directive @deprecated ("Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted using the Markdown syntax, as specified by [CommonMark](https://commonmark.org/)." reason: String = "No longer supported") on ARGUMENT_DEFINITION|ENUM_VALUE|FIELD_DEFINITION|INPUT_FIELD_DEFINITION
+
+"""
+Directs the executor to include this field or fragment only when the `if` argument is true.
+"""
+directive @include ("Included when true." if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+"""
+Indicates exactly one field must be supplied and this field must not be `null`.
+"""
+directive @oneOf on INPUT_OBJECT
+
+"""
+Directs the executor to skip this field or fragment when the `if` argument is true.
+"""
+directive @skip ("Skipped when true." if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+"""
+Exposes a URL that specifies the behavior of this scalar.
+"""
+directive @specifiedBy ("The URL that specifies the behavior of this scalar." url: String!) on SCALAR
+
+schema {
+  query: Query
+  mutation: Mutation
+}

@@ -1,0 +1,8 @@
+query EpisodesHistory($animeUrl: String!) {
+  episodesHistory(animeUrl: $animeUrl) {
+    aired
+    number
+    title
+    isUpcoming
+  }
+}

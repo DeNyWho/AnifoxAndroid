@@ -2,6 +2,7 @@
 androidGradlePlugin = "8.13.1"
 androidTools = "31.13.1"
 androidDesugarJdkLibs = "2.1.5"
+apollo = "4.3.3"
 gmsPlugin = "4.4.4"
 firebaseBom = "34.6.0"
 firebaseCrashlyticsPlugin = "3.0.6"
@@ -26,14 +27,14 @@ androidxTracing = "1.3.0"
 androidx-test-ext-junit = "1.3.0"
 room = "2.8.4"
 sqliteBundled = "2.6.2"
-ktorVersion = "3.3.3"
 coil = "3.3.0"
-compose-plugin = "1.8.2"
+compose-plugin = "1.9.3"
 koin = "4.1.1"
 koinAnnotationsVersion = "2.3.1"
 kotlinxCoroutines = "1.10.2"
 kotlinxImmutable = "0.4.0"
 kotlinxSerializationJson = "1.9.0"
+kotlinxDateTime = "0.7.1"
 junitVersion = "4.13.2"
 robolectric = "4.16"
 kotlinInject = "0.8.0"
@@ -92,16 +93,8 @@ androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqliteBundled" }
 
-ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktorVersion" }
-ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktorVersion" }
-ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktorVersion" }
-ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktorVersion" }
-ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktorVersion" }
-ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
-
 coil-kt = { group = "io.coil-kt.coil3", name = "coil", version.ref = "coil" }
 coil-kt-compose = { group = "io.coil-kt.coil3", name = "coil-compose-core", version.ref = "coil" }
-coil-network-ktor = { group = "io.coil-kt.coil3", name = "coil-network-ktor3", version.ref = "coil" }
 coil-svg = { group = "io.coil-kt.coil3", name = "coil-svg", version.ref = "coil" }
 
 koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin" }
@@ -116,6 +109,8 @@ koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin"
 koin-test-junit4 = { group = "io.insert-koin", name = "koin-test-junit4", version.ref = "koin" }
 koin-test-junit5 = { group = "io.insert-koin", name = "koin-test-junit5", version.ref = "koin" }
 
+apollo-graphql = { group = "com.apollographql.apollo", name = "apollo-runtime", version.ref = "apollo" }
+
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -128,6 +123,8 @@ kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-co
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutable" }
+
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime-jvm", version.ref = "kotlinxDateTime"}
 
 junit = { group = "junit", name = "junit", version.ref = "junitVersion" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
@@ -155,6 +152,7 @@ androidx-compose-ui-test = [
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
+apollo-gradlePlugin = { id = "com.apollographql.apollo", version.ref = "apollo" }
 baselineprofile = { id = "androidx.baselineprofile", version.ref = "androidxMacroBenchmark" }
 
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

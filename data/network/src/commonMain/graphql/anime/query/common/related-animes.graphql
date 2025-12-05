@@ -1,0 +1,14 @@
+query RelatedAnimes($animeId: String!, $page: Int, $limit: Int) {
+  relatedAnimes(animeId: $animeId, page: $page, limit: $limit) {
+    data {
+      anime {
+        ...AnimeLite
+      }
+      type
+    }
+    pageInfo {
+      hasNextPage
+      page
+    }
+  }
+}

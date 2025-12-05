@@ -1,0 +1,94 @@
+fragment AnimeComment on AnimeComment {
+  id
+  createdAt
+  text
+  html
+  json
+  animeId
+  likes(limit: 100000, page: 0) {
+    data {
+      userId
+    }
+    pageInfo {
+      totalCount
+    }
+  }
+  dislikes(limit: 100000, page: 0) {
+    data {
+      userId
+    }
+    pageInfo {
+      totalCount
+    }
+  }
+  author {
+    role
+    name
+    avatar
+    login
+  }
+  parent {
+    id
+    author {
+      name
+    }
+  }
+  children {
+    id
+    createdAt
+    text
+    html
+    json
+    animeId
+    likes(limit: 100000, page: 0) {
+      data {
+        userId
+      }
+      pageInfo {
+        totalCount
+      }
+    }
+    dislikes(limit: 100000, page: 0) {
+      data {
+        userId
+      }
+      pageInfo {
+        totalCount
+      }
+    }
+    parent {
+      id
+      author {
+        name
+      }
+    }
+    author {
+      role
+      name
+      avatar
+      login
+    }
+  }
+}
+
+query AnimeComments(
+  $animeId: String!
+  $limit: Int
+  $page: Int
+  $userId: String
+) {
+  animeComments(
+    animeId: $animeId
+    limit: $limit
+    page: $page
+    userId: $userId
+  ) {
+    data {
+      ...AnimeComment
+    }
+    pageInfo {
+      hasNextPage
+      page
+    }
+  }
+}

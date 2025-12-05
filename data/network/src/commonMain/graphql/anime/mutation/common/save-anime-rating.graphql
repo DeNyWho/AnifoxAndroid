@@ -1,0 +1,6 @@
+mutation SaveAnimeRating($animeId: String!, $rating: Int!) {
+    saveAnimeRating(animeId: $animeId, rating: $rating) {
+        id
+        rating
+    }
+}

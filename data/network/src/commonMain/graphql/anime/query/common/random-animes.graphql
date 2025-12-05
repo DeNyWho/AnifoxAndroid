@@ -1,0 +1,6 @@
+query RandomAnimes($count: Int) {
+  randomAnimes(count: $count) {
+    id
+    url
+  }
+}

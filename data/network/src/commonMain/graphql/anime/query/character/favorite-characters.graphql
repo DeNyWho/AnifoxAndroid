@@ -1,0 +1,22 @@
+fragment FavoriteCharacter on Character {
+  id
+  image
+  name
+  isFavorite
+}
+
+query FavoriteCharacters($userId: String!, $limit: Int, $page: Int) {
+  favoriteCharacters(userId: $userId, limit: $limit, page: $page) {
+    data {
+      count
+      character {
+        ...FavoriteCharacter
+      }
+      characterId
+    }
+    pageInfo {
+      hasNextPage
+      page
+    }
+  }
+}

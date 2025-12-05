@@ -1,0 +1,6 @@
+mutation SetEpisodeDuration($episodeId: String!, $duration: Int!) {
+    setEpisodeDuration(episodeId: $episodeId, duration: $duration) {
+        id
+        duration
+    }
+}

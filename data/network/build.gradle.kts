@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.anifox.kmp.library)
-    alias(libs.plugins.jetbrainsCompose)
-    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.apollo.gradlePlugin)
 }
 
 android {
@@ -10,16 +9,29 @@ android {
 
 kotlin {
     sourceSets {
-        androidInstrumentedTest.dependencies {
-            implementation(libs.androidx.compose.ui.test)
-        }
-        androidUnitTest.dependencies {
-            implementation(libs.androidx.compose.ui.test)
-        }
         commonMain.dependencies {
-            implementation(libs.ktor.serialization.kotlinx.json)
-
+            implementation(libs.apollo.graphql)
+            implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.serialization.json)
         }
+    }
+}
+
+apollo {
+    service("anifox") {
+        packageName.set("su.anifox.data.network.graphql")
+
+        packageName.set("su.anifox.graphql")
+        srcDir("src/commonMain/graphql/")
+        schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
+
+        generateKotlinModels.set(true)
+        codegenModels.set("operationBased")
+        generateFragmentImplementations.set(true)
+        useSemanticNaming.set(true)
+        generateOptionalOperationVariables.set(false)
+
+        mapScalar("DateTime", "kotlinx.datetime.Instant")
+        mapScalar("JSON", "kotlinx.serialization.json.JsonElement")
     }
 }

@@ -1,0 +1,5 @@
+mutation acceptFriendInvite($friendshipId: ID!) {
+  acceptFriendInvite(friendshipId: $friendshipId) {
+    ...Friendship
+  }
+}

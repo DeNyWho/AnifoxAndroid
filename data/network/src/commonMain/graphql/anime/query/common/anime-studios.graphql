@@ -1,0 +1,10 @@
+fragment AnimeStudio on AnimeStudio {
+  id
+  name
+}
+
+query AnimeStudios {
+  studios {
+    ...AnimeStudio
+  }
+}

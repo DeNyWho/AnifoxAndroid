@@ -1,0 +1,27 @@
+fragment ContinueWatching on LastWatchedEpisode {
+  id
+  anime {
+    ...AnimeLite
+  }
+  episode {
+    id
+    number
+    duration
+    progress(userId: $userId) {
+      id
+      timing
+    }
+  }
+}
+
+query LastWatchedEpisodes($userId: String!, $limit: Int, $page: Int) {
+  lastWatchedEpisodes(userId: $userId, limit: $limit, page: $page) {
+    data {
+      ...ContinueWatching
+    }
+    pageInfo {
+      hasNextPage
+      page
+    }
+  }
+}

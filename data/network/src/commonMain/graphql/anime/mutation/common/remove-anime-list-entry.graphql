@@ -1,0 +1,5 @@
+mutation RemoveAnimeListEntry($animeUrl: String!) {
+    removeAnimeListEntry(animeUrl: $animeUrl) {
+        id
+    }
+}

@@ -1,0 +1,29 @@
+query Friendships(
+  $userId: String!
+  $status: FriendshipStatus
+  $search: String
+  $limit: Int
+  $page: Int
+) {
+  friendships(
+    userId: $userId
+    status: $status
+    search: $search
+    limit: $limit
+    page: $page
+  ) {
+    data {
+      id
+      createdAt
+      updatedAt
+      status
+      friend {
+        ...UserLite
+      }
+    }
+    pageInfo {
+      hasNextPage
+      page
+    }
+  }
+}

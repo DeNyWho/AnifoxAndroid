@@ -1,0 +1,21 @@
+query Character($characterId: String, $userId: String, $malId: Int) {
+  character(id: $characterId, malId: $malId) {
+    about
+    aboutEn
+    id
+    image
+    malId
+    name
+    nameEn
+    nameKanji
+    pictures
+    participation {
+      anime {
+        ...AnimeLite
+      }
+      role
+      animeId
+    }
+    isFavorite(userId: $userId)
+  }
+}

@@ -1,0 +1,42 @@
+query Animes(
+  $genres: [String!]
+  $limit: Int
+  $minimalAge: Int
+  $order: AnimeOrder
+  $page: Int
+  $ratingMpa: RatingMpa
+  $search: String
+  $season: AnimeSeason
+  $sort: SortOrder
+  $status: AnimeStatus
+  $studios: [String!]
+  $translations: [Int!]
+  $type: AnimeType
+  $years: [Int!]
+) {
+  animes(
+    genres: $genres
+    limit: $limit
+    minimalAge: $minimalAge
+    order: $order
+    page: $page
+    ratingMpa: $ratingMpa
+    search: $search
+    season: $season
+    sort: $sort
+    status: $status
+    studios: $studios
+    translations: $translations
+    type: $type
+    years: $years
+  ) {
+    data {
+      id
+      ...AnimeLite
+    }
+    pageInfo {
+      hasNextPage
+      page
+    }
+  }
+}

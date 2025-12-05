@@ -1,0 +1,24 @@
+fragment UserAbout on UserAbout {
+  id
+  html
+  json
+  text
+}
+
+fragment Viewer on User {
+  name
+  banner
+  role
+  vkId
+  avatar
+  birthday
+  email
+  id
+  googleId
+  login
+  lastSeen
+  isOnline
+  about {
+    ...UserAbout
+  }
+}

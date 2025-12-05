@@ -1,0 +1,17 @@
+mutation SaveEpisodeProgress(
+    $animeId: String!
+    $episodeId: String!
+    $timing: Int!
+) {
+    saveEpisodeProgress(
+        animeId: $animeId
+        episodeId: $episodeId
+        timing: $timing
+    ) {
+        animeId
+        episodeId
+        id
+        userId
+        timing
+    }
+}

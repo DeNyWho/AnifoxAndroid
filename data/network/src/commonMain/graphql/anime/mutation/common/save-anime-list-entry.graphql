@@ -1,0 +1,17 @@
+mutation SaveAnimeListEntry(
+    $animeUrl: String!
+    $endedAt: DateTime
+    $episodesWatched: Int
+    $startedAt: DateTime
+    $status: AnimeListStatus
+) {
+    saveAnimeListEntry(
+        animeUrl: $animeUrl
+        endedAt: $endedAt
+        episodesWatched: $episodesWatched
+        startedAt: $startedAt
+        status: $status
+    ) {
+        ...AnimeListEntry
+    }
+}

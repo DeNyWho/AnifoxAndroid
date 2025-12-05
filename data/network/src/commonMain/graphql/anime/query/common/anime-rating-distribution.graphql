@@ -1,0 +1,10 @@
+query AnimeRatingDistribution($animeId: String!) {
+  animeRatingDistribution(animeId: $animeId) {
+    animeId
+    total
+    scores {
+      votes
+      score
+    }
+  }
+}

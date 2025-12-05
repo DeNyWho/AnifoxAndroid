@@ -1,0 +1,6 @@
+mutation UpdateUserLastSeen {
+    updateUserLastSeen {
+        id
+        lastSeen
+    }
+}
