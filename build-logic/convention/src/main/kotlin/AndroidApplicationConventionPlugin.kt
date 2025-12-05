@@ -14,11 +14,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.android")
                 apply("com.dropbox.dependency-guard")
-                apply("org.convention.detekt.plugin")
-                apply("org.convention.spotless.plugin")
-                apply("org.convention.git.hooks")
-                apply("org.convention.android.application.lint")
-                apply("org.convention.android.application.firebase")
+                apply("su.anifox.android.application.firebase")
             }
 
             extensions.configure<ApplicationExtension> {

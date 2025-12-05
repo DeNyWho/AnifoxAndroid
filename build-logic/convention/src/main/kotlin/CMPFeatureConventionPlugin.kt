@@ -1,4 +1,4 @@
-import org.convention.libs
+import su.anifox.kmp.buildlogic.convention.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -18,12 +18,10 @@ class CMPFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply {
-                apply("org.convention.kmp.library")
-                apply("org.convention.kmp.koin")
+                apply("su.anifox.kmp.library")
+                apply("su.anifox.kmp.koin")
                 apply("org.jetbrains.kotlin.plugin.compose")
                 apply("org.jetbrains.compose")
-                apply("org.convention.detekt.plugin")
-                apply("org.convention.spotless.plugin")
             }
 
             dependencies {

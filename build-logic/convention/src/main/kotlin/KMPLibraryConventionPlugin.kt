@@ -1,12 +1,12 @@
+
 import com.android.build.gradle.LibraryExtension
-import org.convention.configureFlavors
-import org.convention.configureKotlinAndroid
-import org.convention.configureKotlinMultiplatform
-import org.convention.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
+import su.anifox.kmp.buildlogic.convention.configureKotlinAndroid
+import su.anifox.kmp.buildlogic.convention.configureKotlinMultiplatform
+import su.anifox.kmp.buildlogic.convention.libs
 
 /**
  * Plugin that applies the Android library and Kotlin multiplatform plugins and configures them.
@@ -17,7 +17,7 @@ class KMPLibraryConventionPlugin: Plugin<Project> {
             with(pluginManager) {
                 apply("com.android.library")
                 apply("org.jetbrains.kotlin.multiplatform")
-                apply("org.convention.kmp.koin")
+                apply("su.anifox.kmp.koin")
                 apply("org.jetbrains.kotlin.plugin.serialization")
             }
 
@@ -26,7 +26,6 @@ class KMPLibraryConventionPlugin: Plugin<Project> {
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
                 defaultConfig.targetSdk = 36
-                configureFlavors(this)
                 // The resource prefix is derived from the module name,
                 // so resources inside ":core:module1" must be prefixed with "core_module1_"
                 resourcePrefix = path

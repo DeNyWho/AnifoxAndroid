@@ -23,114 +23,34 @@ private val hierarchyTemplate = KotlinHierarchyTemplate {
     common {
         withCompilations { true }
 
-        groupNonAndroid()
-        groupJsCommon()
-        groupNonJsCommon()
-        groupJvmCommon()
-        groupNonJvmCommon()
-        groupNative()
-        groupNonNative()
-        groupJvmJsCommon()
-        groupMobile()
+        groupAndroid()
+        groupIos()
+        groupDesktop()
+        groupMacos()
     }
 }
 
-/**
- * Creates a group of non-Android platforms (JVM, JS, and native).
- */
-private fun KotlinHierarchyBuilder.groupNonAndroid() {
-    group("nonAndroid") {
-        withJvm()
-        groupJsCommon()
-        groupNative()
-    }
-}
-
-/**
- * Creates a group of JavaScript-related platforms (JS and WebAssembly JS).
- */
-private fun KotlinHierarchyBuilder.groupJsCommon() {
-    group("jsCommon") {
-        withJs()
-        withWasmJs()
-    }
-}
-
-/**
- * Creates a group of non-JavaScript platforms (JVM-based and native).
- */
-private fun KotlinHierarchyBuilder.groupNonJsCommon() {
-    group("nonJsCommon") {
-        groupJvmCommon()
-        groupNative()
-    }
-}
-
-/**
- * Creates a group of JVM-based platforms (Android and JVM).
- */
-private fun KotlinHierarchyBuilder.groupJvmCommon() {
-    group("jvmCommon") {
+private fun KotlinHierarchyBuilder.groupAndroid() {
+    group("android") {
         withAndroidTarget()
+    }
+}
+
+private fun KotlinHierarchyBuilder.groupIos() {
+    group("ios") {
+        withIos()
+    }
+}
+
+private fun KotlinHierarchyBuilder.groupDesktop() {
+    group("desktop") {
         withJvm()
     }
 }
 
-/**
- * Creates a group of non-JVM platforms (JavaScript and native).
- */
-private fun KotlinHierarchyBuilder.groupNonJvmCommon() {
-    group("nonJvmCommon") {
-        groupJsCommon()
-        groupNative()
-    }
-}
-
-/**
- * Creates a group of JVM, JS platforms (JavaScript and JVM).
- */
-private fun KotlinHierarchyBuilder.groupJvmJsCommon() {
-    group("jvmJsCommon") {
-        groupJsCommon()
-        withJvm()
-    }
-}
-
-/**
- * Creates a hierarchical group of native platforms with subgroups for Apple platforms.
- */
-private fun KotlinHierarchyBuilder.groupNative() {
-    group("native") {
-        withNative()
-
-        group("apple") {
-            withApple()
-
-            group("ios") {
-                withIos()
-            }
-
-            group("macos") {
-                withMacos()
-            }
-        }
-    }
-}
-
-/**
- * Creates a group of non-native platforms (JavaScript and JVM-based).
- */
-private fun KotlinHierarchyBuilder.groupNonNative() {
-    group("nonNative") {
-        groupJsCommon()
-        groupJvmCommon()
-    }
-}
-
-private fun KotlinHierarchyBuilder.groupMobile() {
-    group("mobile") {
-        withAndroidTarget()
-        withApple()
+private fun KotlinHierarchyBuilder.groupMacos() {
+    group("macos") {
+        withMacos()
     }
 }
 
