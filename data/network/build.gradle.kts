@@ -5,17 +5,11 @@ plugins {
 }
 
 android {
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-    namespace = "su.anifox.core.common"
+    namespace = "su.anifox.data.network"
 }
 
 kotlin {
     sourceSets {
-        androidMain.dependencies {
-            implementation(libs.androidx.core.ktx)
-        }
         androidInstrumentedTest.dependencies {
             implementation(libs.androidx.compose.ui.test)
         }
@@ -23,7 +17,9 @@ kotlin {
             implementation(libs.androidx.compose.ui.test)
         }
         commonMain.dependencies {
-            implementation(compose.runtime)
+            implementation(libs.ktor.serialization.kotlinx.json)
+
+            implementation(libs.kotlinx.serialization.json)
         }
     }
 }

@@ -1,0 +1,110 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "758729fd34524a17c360030b793c1e04",
+    "entities": [
+      {
+        "tableName": "anime",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`url` TEXT NOT NULL, `title` TEXT NOT NULL, `rating` REAL, `ratingMpa` TEXT, `minimalAge` INTEGER NOT NULL, `year` INTEGER NOT NULL, `description` TEXT NOT NULL, `lastWatchedEpisode` INTEGER NOT NULL, `episodes` INTEGER, `episodesAired` INTEGER NOT NULL, `nextEpisode` INTEGER, `releasedOn` INTEGER, `airedOn` INTEGER NOT NULL, `genres` TEXT NOT NULL, `studios` TEXT NOT NULL, PRIMARY KEY(`url`))",
+        "fields": [
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rating",
+            "columnName": "rating",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "ratingMpa",
+            "columnName": "ratingMpa",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "minimalAge",
+            "columnName": "minimalAge",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "year",
+            "columnName": "year",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastWatchedEpisode",
+            "columnName": "lastWatchedEpisode",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "episodes",
+            "columnName": "episodes",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "episodesAired",
+            "columnName": "episodesAired",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nextEpisode",
+            "columnName": "nextEpisode",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "releasedOn",
+            "columnName": "releasedOn",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "airedOn",
+            "columnName": "airedOn",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "genres",
+            "columnName": "genres",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "studios",
+            "columnName": "studios",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "url"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '758729fd34524a17c360030b793c1e04')"
+    ]
+  }
+}

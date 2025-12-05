@@ -55,3 +55,5 @@ check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
     """.trimIndent()
 }
 include(":domain")
+include(":data:local")
+include(":data:network")

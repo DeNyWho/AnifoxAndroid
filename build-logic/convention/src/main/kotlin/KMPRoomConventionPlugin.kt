@@ -37,7 +37,7 @@ class KMPRoomConventionPlugin : Plugin<Project> {
                 ).forEach { platform ->
                     add(platform, libs.findLibrary("androidx.room.compiler").get())
 //                    Kotlin Extensions and Coroutines support for Room
-//                    add(platform, libs.findLibrary("androidx.room.ktx").get())
+                    add(platform, libs.findLibrary("androidx.room.ktx").get())
                 }
             }
         }

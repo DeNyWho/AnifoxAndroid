@@ -11,6 +11,7 @@ ksp = "2.2.21-2.0.4"
 composeJB = "1.9.3"
 androidxComposeBom = "2025.12.00"
 androidxComposeRuntimeTracing = "1.10.0"
+androidxDataStore = "1.2.0"
 composeLifecycle = "2.9.6"
 composeNavigation = "2.9.1"
 androidxActivity = "1.12.1"
@@ -59,6 +60,8 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "androidxBrowser" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtxVersion" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxCoreSplashscreen" }
+androidx-dataStore-core = { group = "androidx.datastore", name = "datastore", version.ref = "androidxDataStore" }
+androidx-dataStore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDataStore" }
 androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "androidxWork" }
 androidx-metrics = { group = "androidx.metrics", name = "metrics-performance", version.ref = "androidxMetrics" }
 androidx-profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "androidxProfileinstaller" }
@@ -90,7 +93,6 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqliteBundled" }
 
 ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktorVersion" }
-ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktorVersion" }
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktorVersion" }
 ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktorVersion" }
 ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktorVersion" }
