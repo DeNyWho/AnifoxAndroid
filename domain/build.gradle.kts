@@ -20,7 +20,9 @@ kotlin {
             implementation(libs.androidx.compose.ui.test)
         }
         commonMain.dependencies {
+            api(libs.kotlinx.datetime)
             api(compose.runtime)
+            api(libs.kotlinx.collections.immutable)
             implementation(libs.kotlinx.serialization.json)
         }
     }

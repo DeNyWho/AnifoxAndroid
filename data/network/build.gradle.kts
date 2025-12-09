@@ -1,15 +1,35 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.anifox.kmp.library)
     alias(libs.plugins.apollo.gradlePlugin)
+    alias(libs.plugins.buildkonfig)
 }
 
 android {
     namespace = "su.anifox.data.network"
 }
 
+buildkonfig {
+    packageName = "su.anifox.data.network"
+
+    val localProps = Properties().apply {
+        rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { load(it) }
+    }
+
+    defaultConfigs {
+        buildConfigField(
+            FieldSpec.Type.STRING, "BASE_URL", "\"${localProps.getProperty("api.baseUrl", "")}\""
+        )
+    }
+}
+
 kotlin {
     sourceSets {
         commonMain.dependencies {
+            implementation(projects.domain)
+
             implementation(libs.apollo.graphql)
             implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.serialization.json)

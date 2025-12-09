@@ -3,6 +3,7 @@ androidGradlePlugin = "8.13.1"
 androidTools = "31.13.1"
 androidDesugarJdkLibs = "2.1.5"
 apollo = "4.3.3"
+buildkonfig = "0.17.1"
 gmsPlugin = "4.4.4"
 firebaseBom = "34.6.0"
 firebaseCrashlyticsPlugin = "3.0.6"
@@ -154,6 +155,7 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 apollo-gradlePlugin = { id = "com.apollographql.apollo", version.ref = "apollo" }
 baselineprofile = { id = "androidx.baselineprofile", version.ref = "androidxMacroBenchmark" }
+buildkonfig = { id = "com.codingfeline.buildkonfig",version.ref = "buildkonfig" }
 
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
