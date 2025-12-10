@@ -3,7 +3,7 @@ package su.anifox.data.network.mappers.common
 import su.anifox.data.network.model.common.AnifoxResponseDto
 import su.anifox.domain.model.common.api.AnifoxPagination
 
-object PaginationMapper {
+internal object PaginationMapper {
     fun <T, R> AnifoxResponseDto<T>.toDomain(
         mapper: (T) -> R
     ): Pair<List<R>, AnifoxPagination> {

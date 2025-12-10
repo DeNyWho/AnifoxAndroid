@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AnimeRatingScoreDto(
+internal data class AnimeRatingScoreDto(
     @SerialName("score")
     val score: Int,
     @SerialName("votes")

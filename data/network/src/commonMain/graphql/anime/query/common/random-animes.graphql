@@ -1,6 +1,17 @@
-query RandomAnimes($count: Int) {
+query RandomAnimes($count: Int = 10) {
   randomAnimes(count: $count) {
     id
     url
+    title
+    image {
+      medium
+    }
+    type
+    status
+    rating
+    year
+    season
+    episodesCount
+    episodesAired
   }
 }

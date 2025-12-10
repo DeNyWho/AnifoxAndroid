@@ -1,0 +1,16 @@
+query AnimeStatistics($url: String!, $animeId: String!) {
+    anime(url: $url) {
+        id
+        shikimoriId
+        shikimoriRating
+        shikimoriVotes
+    }
+    animeRatingDistribution(animeId: $animeId) {
+        animeId
+        total
+        scores {
+            score
+            votes
+        }
+    }
+}

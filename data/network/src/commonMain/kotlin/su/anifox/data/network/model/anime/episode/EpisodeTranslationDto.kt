@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class EpisodeTranslationDto(
+internal data class EpisodeTranslationDto(
     @SerialName("id")
     val id: String,
     @SerialName("translationId")

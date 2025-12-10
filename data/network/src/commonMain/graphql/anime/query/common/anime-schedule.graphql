@@ -1,5 +1,5 @@
-query AnimeSchedules {
-  animeSchedules {
+query AnimeSchedules($dayOfWeek: DayOfWeek!) {
+  animeSchedules(dayOfWeek: $dayOfWeek) {
     dayOfWeek
     nextEpisodeDate
     previousEpisodeDate

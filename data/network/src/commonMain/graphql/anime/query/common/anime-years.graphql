@@ -1,0 +1,5 @@
+query AnimeYears {
+    animeYears {
+        years
+    }
+}

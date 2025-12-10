@@ -6,7 +6,7 @@ import su.anifox.data.network.model.anime.common.AnimeLightDto
 import su.anifox.data.network.model.common.AnifoxResponseDto
 
 @Serializable
-data class AnimeRelationsDto(
+internal data class AnimeRelationsDto(
     @SerialName("franchise")
     val franchise: String? = null,
     @SerialName("related")

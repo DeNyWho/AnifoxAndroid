@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AnifoxPaginationDto(
+internal data class AnifoxPaginationDto(
     @SerialName("hasNextPage")
     val hasNextPage: Boolean,
     @SerialName("hasPreviousPage")

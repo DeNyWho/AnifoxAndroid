@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AnimeMediaDto(
+internal data class AnimeMediaDto(
     @SerialName("screenshots")
     val screenshots: List<String>,
     @SerialName("videos")

@@ -38,7 +38,7 @@ import su.anifox.domain.model.anime.related.AnimeRelations
 import su.anifox.domain.model.anime.related.RelatedAnime
 import su.anifox.domain.model.anime.stats.AnimeStatistics
 
-object AnimeMapper {
+internal object AnimeMapper {
     fun AnimeLightDto.toDomain(): AnimeLight {
         return AnimeLight(
             id = id,

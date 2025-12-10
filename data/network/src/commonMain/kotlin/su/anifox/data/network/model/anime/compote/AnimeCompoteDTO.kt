@@ -6,7 +6,7 @@ import su.anifox.data.network.model.anime.common.AnimeGenreDto
 import su.anifox.data.network.model.anime.common.AnimeStudioDto
 
 @Serializable
-data class AnimeCompoteDTO(
+internal data class AnimeCompoteDTO(
     @SerialName("genres")
     val genres: List<AnimeGenreDto>,
     @SerialName("studios")

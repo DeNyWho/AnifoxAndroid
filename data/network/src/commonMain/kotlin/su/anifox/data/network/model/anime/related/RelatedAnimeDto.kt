@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import su.anifox.data.network.model.anime.common.AnimeLightDto
 
 @Serializable
-data class RelatedAnimeDto(
+internal data class RelatedAnimeDto(
     @SerialName("anime")
     val anime: AnimeLightDto,
     @SerialName("type")

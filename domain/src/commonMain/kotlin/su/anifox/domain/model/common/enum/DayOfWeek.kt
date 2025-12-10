@@ -1,6 +1,6 @@
 package su.anifox.domain.model.common.enum
 
-enum class WeekDay(val russianName: String) {
+enum class DayOfWeek(val russianName: String) {
     MONDAY("Понедельник"),
     TUESDAY("Вторник"),
     WEDNESDAY("Среда"),

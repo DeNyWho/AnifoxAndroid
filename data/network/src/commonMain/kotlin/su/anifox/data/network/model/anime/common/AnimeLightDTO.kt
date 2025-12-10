@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AnimeLightDto(
+internal data class AnimeLightDto(
     @SerialName("id")
     val id: String,
     @SerialName("url")

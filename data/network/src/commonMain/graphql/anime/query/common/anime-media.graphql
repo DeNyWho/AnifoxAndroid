@@ -1,0 +1,14 @@
+query AnimeMedia($url: String!) {
+    anime(url: $url) {
+        id
+        screenshots
+        videos {
+            id
+            name
+            url
+            playerUrl
+            imageUrl
+            type
+        }
+    }
+}

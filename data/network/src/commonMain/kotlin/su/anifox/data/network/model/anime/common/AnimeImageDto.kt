@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AnimeImageDto(
+internal data class AnimeImageDto(
     @SerialName("large")
     val large: String? = null,
     @SerialName("medium")

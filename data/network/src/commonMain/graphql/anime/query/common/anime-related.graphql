@@ -1,0 +1,55 @@
+query AnimeRelations(
+    $url: String!
+    $relatedLimit: Int = 20
+    $relatedPage: Int = 0
+    $similarLimit: Int = 20
+    $similarPage: Int = 0
+) {
+    anime(url: $url) {
+        id
+        franchise
+        related(limit: $relatedLimit, page: $relatedPage) {
+            data {
+                type
+                id
+                url
+                title
+                image {
+                    medium
+                }
+                type
+                status
+                rating
+                year
+                season
+                episodesCount
+                episodesAired
+            }
+            pageInfo {
+                hasNextPage
+                totalCount
+            }
+        }
+        similar(limit: $similarLimit, page: $similarPage) {
+            data {
+                id
+                url
+                title
+                image {
+                    medium
+                }
+                type
+                status
+                rating
+                year
+                season
+                episodesCount
+                episodesAired
+            }
+            pageInfo {
+                hasNextPage
+                totalCount
+            }
+        }
+    }
+}

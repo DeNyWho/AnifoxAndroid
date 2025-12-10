@@ -1,0 +1,14 @@
+query AnimeCompote($url: String!) {
+    anime(url: $url) {
+        id
+        genres {
+            id
+            name
+            image
+        }
+        studios {
+            id
+            name
+        }
+    }
+}

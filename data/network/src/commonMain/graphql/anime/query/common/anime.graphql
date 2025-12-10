@@ -1,62 +1,35 @@
 query Anime($url: String!, $userId: String) {
   anime(url: $url) {
-    accentColor
-    airedOn
-    createdAt
-    description
-    duration
-    episodesAired
-    episodesCount
-    franchise
     id
-    image {
-      medium
-      cover
-      large
-    }
-    studios {
-      id
-      name
-    }
-    genres {
-      id
-      image
-      name
-    }
-    videos {
-      id
-      imageUrl
-      name
-      type
-      playerUrl
-    }
-    minimalAge
-    nextEpisode
-    playerLink
-    ratingMpa
-    releasedOn
-    screenshots
-    season
-    shikimoriId
-    shikimoriRating
-    shikimoriVotes
-    status
+    url
     title
     titlesEnglish
+    titlesJapan
+    titlesOther
+    titlesSynonyms
+    image {
+      large
+      medium
+      cover
+    }
+    type
+    status
     rating
     ratingCount
-    type
-    updatedAt
-    url
+    ratingMpa
+    minimalAge
     year
-    userRating(userId: $userId) {
-      id
-      rating
-      userId
-    }
-    animeListEntry(userId: $userId) {
-      id
-      status
-    }
+    season
+    episodesCount
+    episodesAired
+    duration
+    nextEpisode
+    releasedOn
+    airedOn
+    description
+    accentColor
+    playerLink
+    createdAt
+    updatedAt
   }
 }

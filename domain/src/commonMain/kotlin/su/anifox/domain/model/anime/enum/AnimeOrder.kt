@@ -1,11 +1,11 @@
 package su.anifox.domain.model.anime.enum
 
 enum class AnimeOrder(private val russianName: String) {
-    Update("По дате обновления"),
-    Aired("По дате добавления"),
-    Released("По дате выхода"),
-    Random("Рандом"),
-    Rating("Рейтинг"),
+    UPDATED_AT("По дате обновления"),
+    AIRED_ON("По дате добавления"),
+    RELEASED_ON("По дате выхода"),
+    RANDOM("Рандом"),
+    RATING("Рейтинг"),
     ;
 
     override fun toString(): String {
