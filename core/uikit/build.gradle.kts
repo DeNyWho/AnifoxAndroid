@@ -35,6 +35,9 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
+            implementation(libs.paging.common)
+            implementation(libs.paging.compose)
+            implementation(libs.shimmer.compose)
             implementation(libs.coil.kt.compose)
         }
     }

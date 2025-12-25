@@ -1,11 +1,11 @@
 [versions]
-androidGradlePlugin = "8.13.1"
-androidTools = "31.13.1"
+androidGradlePlugin = "8.13.2"
+androidTools = "31.13.2"
 androidDesugarJdkLibs = "2.1.5"
 apollo = "4.3.3"
 buildkonfig = "0.17.1"
 gmsPlugin = "4.4.4"
-firebaseBom = "34.6.0"
+firebaseBom = "34.7.0"
 firebaseCrashlyticsPlugin = "3.0.6"
 androidxMacroBenchmark = "1.4.1"
 kotlin = "2.2.21"
@@ -16,7 +16,7 @@ androidxComposeRuntimeTracing = "1.10.0"
 androidxDataStore = "1.2.0"
 composeLifecycle = "2.9.6"
 composeNavigation = "2.9.1"
-androidxActivity = "1.12.1"
+androidxActivity = "1.12.2"
 appcompatVersion = "1.7.1"
 coreKtxVersion = "1.17.0"
 androidxCoreSplashscreen = "1.2.0"
@@ -26,8 +26,11 @@ androidxMetrics = "1.0.0"
 androidxProfileinstaller = "1.4.1"
 androidxTracing = "1.3.0"
 androidx-test-ext-junit = "1.3.0"
+decompose = "3.4.0"
 room = "2.8.4"
 sqliteBundled = "2.6.2"
+shimmerCompose = "1.3.3"
+paging = "3.4.0-beta01"
 coil = "3.3.0"
 compose-plugin = "1.9.3"
 koin = "4.1.1"
@@ -83,6 +86,12 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-compose-ui-util = { group = "androidx.compose.ui", name = "ui-util" }
 androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+shimmer-compose = { group = "com.valentinilk.shimmer", name = "compose-shimmer", version.ref = "shimmerCompose" }
+paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "paging" }
+paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
+
+decompose = { group = "com.arkivanov.decompose", name = "decompose", version.ref = "decompose" }
+decompose-compose = { group = "com.arkivanov.decompose", name = "extensions-compose", version.ref = "decompose" }
 
 jetbrains-composeRuntime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "composeJB" }
 jetbrains-lifecycle-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "composeLifecycle" }
